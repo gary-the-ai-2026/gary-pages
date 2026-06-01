@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale Your Business With an AI Team — Proposal for James</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --canvas: #faf9f5;
+    --surface: #ffffff;
+    --surface-alt: #f0eeea;
+    --ink: #141413;
+    --body: #5c5a55;
+    --muted: #94918a;
+    --hairline: #e4e1db;
+    --hairline-soft: #ece9e4;
+    --coral: #cc785c;
+    --coral-hover: #a9583e;
+    --success: #1b8a3d;
+    --warning: #d4a017;
+    --blue: #1a73e8;
+    --amber: #c2680c;
+    --purple: #7c3aed;
+    --radius-card: 20px;
+    --radius-btn: 6px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--body);
+    background: var(--canvas);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+  }
+
+  p { margin-bottom: 16px; font-size: 0.95rem; }
+
+  .kicker {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+
+  section {
+    padding: 80px 0 100px;
+  }
+
+  section + section {
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 120px 0 80px;
+    text-align: center;
+  }
+
+  .hero h1 { margin-bottom: 24px; }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--body);
+    max-width: 580px;
+    margin: 0 auto 16px;
+  }
+
+  .hero .subtitle strong {
+    color: var(--ink);
+  }
+
+  .hero .context {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 32px;
+  }
+
+  /* ── Pain Stat ── */
+  .pain-stat {
+    text-align: center;
+    margin: 32px 0;
+  }
+
+  .pain-stat .number {
+    font-family: var(--font-body);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: var(--coral);
+    line-height: 1;
+  }
+
+  .pain-stat .label {
+    font-size: 0.95rem;
+    color: var(--body);
+    margin-top: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Three Pillars ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 700px) {
+    .pillars { grid-template-columns: 1fr; }
+    .agent-cards { grid-template-columns: 1fr !important; }
+    .pricing-grid { grid-template-columns: 1fr !important; }
+    section { padding: 60px 0; }
+    .hero { padding: 80px 0 60px; }
+  }
+
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 36px 28px;
+    box-shadow: var(--shadow-rest);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pillar::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .pillar.attract::before { background: var(--blue); }
+  .pillar.convert::before { background: var(--coral); }
+  .pillar.operate::before { background: var(--success); }
+
+  .pillar .pillar-icon { font-size: 2.5rem; margin-bottom: 16px; }
+
+  .pillar .pillar-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pillar.attract .pillar-label { color: var(--blue); }
+  .pillar.convert .pillar-label { color: var(--coral); }
+  .pillar.operate .pillar-label { color: var(--success); }
+
+  .pillar h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .pillar p {
+    font-size: 0.85rem;
+    color: var(--body);
+    margin-bottom: 0;
+  }
+
+  /* ── Arrow between pillars ── */
+  .pillar-arrows {
+    display: none;
+  }
+
+  /* ── Agent Cards ── */
+  .agent-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  .agent-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px 28px;
+    box-shadow: var(--shadow-rest);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .agent-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .agent-card .agent-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-name {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .agent-card .agent-role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-does {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-does li {
+    font-size: 0.85rem;
+    color: var(--body);
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .agent-card .agent-does li::before {
+    content: "— ";
+    color: var(--muted);
+  }
+
+  .agent-card .agent-where {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-style: italic;
+    border-top: 1px solid var(--hairline-soft);
+    padding-top: 12px;
+  }
+
+  .agent-card .agent-where span {
+    color: var(--body);
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* ── Asana visual ── */
+  .asana-mock {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 24px 28px;
+    box-shadow: var(--shadow-rest);
+    margin: 40px 0;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-body);
+  }
+
+  .asana-mock .asana-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .asana-mock .asana-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .asana-mock .asana-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .asana-mock .asana-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .asana-mock .asana-body {
+    font-size: 0.88rem;
+    color: var(--body);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .asana-mock .asana-tag {
+    display: inline-block;
+    background: rgba(204,120,92,0.1);
+    color: var(--coral);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 100px;
+    margin-right: 6px;
+  }
+
+  .asana-mock .asana-reply {
+    background: var(--surface-alt);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--body);
+  }
+
+  .asana-mock .asana-reply strong {
+    color: var(--coral);
+    font-weight: 600;
+  }
+
+  /* ── Feedback Loop visual ── */
+  .feedback-loop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 40px 0;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .feedback-loop .loop-node {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 100px;
+    padding: 10px 20px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .feedback-loop .loop-arrow {
+    color: var(--coral);
+    margin: 0 12px;
+    font-size: 1rem;
+  }
+
+  /* ── Stack ── */
+  .stack-box {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+
+  .stack-box .layer { padding: 16px; }
+
+  .stack-box .layer .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .stack-box .layer .name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .stack-box .layer .detail {
+    font-size: 0.82rem;
+    color: var(--body);
+    margin-top: 4px;
+  }
+
+  /* ── Pricing ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 36px 32px;
+    text-align: center;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .pricing-card.featured {
+    border-color: var(--coral);
+    box-shadow: 0 4px 24px rgba(204,120,92,0.10);
+  }
+
+  .pricing-card .price {
+    font-family: var(--font-body);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin: 16px 0 4px;
+  }
+
+  .pricing-card .period {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .pricing-card ul {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+
+  .pricing-card ul li {
+    font-size: 0.88rem;
+    color: var(--body);
+    padding: 6px 0;
+  }
+
+  .pricing-card ul li::before {
+    content: "— ";
+    color: var(--coral);
+  }
+
+  .pricing-card .tag {
+    display: inline-block;
+    background: var(--coral);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Guide section ── */
+  .guide-box {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 40px;
+    margin: 40px 0;
+    text-align: center;
+  }
+
+  .guide-box .guide-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 20px;
+  }
+
+  .guide-box h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  /* ── Notice ── */
+  .notice {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 40px 0;
+    font-size: 0.85rem;
+    color: var(--body);
+    line-height: 1.6;
+  }
+
+  .notice strong { color: var(--ink); }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    padding: 60px 0 100px;
+  }
+
+  .cta-section p {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
+
+  .cta-section .contact {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  /* ── Motion ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ── Workflow flow diagram ── */
+  .workflow-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+    margin: 48px 0;
+    flex-wrap: wrap;
+  }
+
+  .workflow-flow .flow-step {
+    text-align: center;
+    max-width: 180px;
+  }
+
+  .workflow-flow .flow-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 12px;
+    border: 2px solid var(--hairline);
+    background: var(--surface);
+  }
+
+  .workflow-flow .flow-arrow-connector {
+    display: flex;
+    align-items: center;
+    color: var(--coral);
+    font-size: 1.5rem;
+    padding-top: 14px;
+  }
+
+  .workflow-flow .flow-label {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .workflow-flow .flow-detail {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .workflow-flow .flow-human {
+    display: inline-block;
+    background: rgba(204,120,92,0.1);
+    color: var(--coral);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO (Problem) ════════════ -->
+<section class="hero">
+  <p class="kicker">For James</p>
+  <h1>You're a closer.<br>Not an admin.</h1>
+  <p class="subtitle">
+    You built a business that closes open quotes for tradies. That's what you're
+    good at — <strong>selling</strong>. But right now, you're spending most of your
+    day on everything except closing.
+  </p>
+  <p class="subtitle">
+    The follow-ups. The lead sorting. The quoting system. The website. The billing
+    reminders. The "just checking in" emails.
+  </p>
+
+  <div class="pain-stat">
+    <div class="number">80%</div>
+    <div class="label">of your time goes to work that doesn't close deals. Every hour on admin is an hour your competitors are winning the job.</div>
+  </div>
+</section>
+
+<!-- ════════════ AGITATION ════════════ -->
+<section class="reveal">
+  <p class="kicker">The Real Cost</p>
+  <h2>Speed closes deals.<br>Admin kills them.</h2>
+
+  <p style="max-width: 640px;">
+    A tradie puts out a quote request. Three businesses respond. The first one to
+    deliver a sharp, professional quote — with follow-up — wins. Not necessarily the
+    cheapest. The <em>fastest</em>.
+  </p>
+  <p style="max-width: 640px;">
+    If you're buried in admin, you're slow. And in this game, slow is expensive.
+    The math is simple: every hour you spend updating a spreadsheet or chasing an
+    invoice is an hour you're not on the phone closing a deal worth thousands.
+  </p>
+  <p style="max-width: 640px;">
+    You already know this. You feel it every day. The question isn't whether you
+    need help — it's what kind of help actually works.
+  </p>
+</section>
+
+<!-- ════════════ THE THREE ENGINES ════════════ -->
+<section class="reveal">
+  <p class="kicker">The Solution</p>
+  <h2>Three engines.<br>One AI team.</h2>
+
+  <p style="max-width: 640px; margin-bottom: 32px;">
+    Every business that scales does three things well: <strong>attract</strong> new
+    leads, <strong>convert</strong> them into customers, and <strong>operate</strong>
+    — fulfil the work and collect the cash. Your AI team owns each of these workflows,
+    with you in the loop at the moments that actually need a human.
+  </p>
+
+  <div class="pillars">
+    <div class="pillar attract">
+      <div class="pillar-icon">📣</div>
+      <div class="pillar-label">Engine One</div>
+      <h3>Attract</h3>
+      <p>Getting eyeballs. Generating leads. Building a pipeline of tradies who need quotes closed — and know you're the person to call.</p>
+    </div>
+    <div class="pillar convert">
+      <div class="pillar-icon">🤝</div>
+      <div class="pillar-label">Engine Two</div>
+      <h3>Convert</h3>
+      <p>Turning leads into signed jobs. Nurturing, qualifying, scheduling — so when you get on the phone, it's already warm.</p>
+    </div>
+    <div class="pillar operate">
+      <div class="pillar-icon">⚙️</div>
+      <div class="pillar-label">Engine Three</div>
+      <h3>Operate</h3>
+      <p>Fulfilling the work. Invoicing. Following up. Collecting reviews. Everything that happens after the handshake.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MEET THE AI TEAM ════════════ -->
+<section class="reveal">
+  <p class="kicker">Meet Your AI Team</p>
+  <h2>Specialist agents.<br>One infrastructure.<br>They go where you go.</h2>
+
+  <p style="max-width: 640px; margin-bottom: 8px;">
+    These aren't chatbots you open in a browser tab. They live in the tools you
+    already use — email, WhatsApp, Asana. They have their own roles, their own
+    responsibilities, and they report to you.
+  </p>
+
+  <div class="agent-cards">
+    <!-- Marketing Agent -->
+    <div class="agent-card">
+      <div class="agent-avatar" style="background: rgba(26,115,232,0.1); color: var(--blue);">📣</div>
+      <div class="agent-name">Marketing Agent</div>
+      <div class="agent-role" style="color: var(--blue);">Attract Engine</div>
+      <ul class="agent-does">
+        <li>Creates and manages Meta ads</li>
+        <li>Writes blog content & SEO</li>
+        <li>Builds and updates your website</li>
+        <li>Monitors competitor activity</li>
+        <li>Manages ad budgets & performance</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · Asana · Meta Ads</span></div>
+    </div>
+
+    <!-- Sales Agent -->
+    <div class="agent-card">
+      <div class="agent-avatar" style="background: rgba(204,120,92,0.1); color: var(--coral);">🤝</div>
+      <div class="agent-name">Sales Agent</div>
+      <div class="agent-role" style="color: var(--coral);">Convert Engine</div>
+      <ul class="agent-does">
+        <li>Nurtures the lead pipeline</li>
+        <li>Schedules sales calls with you</li>
+        <li>Answers initial questions from tradies</li>
+        <li>Qualifies leads & scores opportunities</li>
+        <li>Follows up on quotes automatically</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · WhatsApp · Asana</span></div>
+    </div>
+
+    <!-- Customer Service Agent -->
+    <div class="agent-card">
+      <div class="agent-avatar" style="background: rgba(27,138,61,0.1); color: var(--success);">💬</div>
+      <div class="agent-name">Customer Service Agent</div>
+      <div class="agent-role" style="color: var(--success);">Operate Engine</div>
+      <ul class="agent-does">
+        <li>Answers post-sale questions</li>
+        <li>Requests reviews after job completion</li>
+        <li>Handles common queries 24/7</li>
+        <li>Escalates only what needs you</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · WhatsApp</span></div>
+    </div>
+
+    <!-- Finance Agent -->
+    <div class="agent-card">
+      <div class="agent-avatar" style="background: rgba(194,104,12,0.1); color: var(--amber);">💰</div>
+      <div class="agent-name">Finance Agent</div>
+      <div class="agent-role" style="color: var(--amber);">Operate Engine</div>
+      <ul class="agent-does">
+        <li>Sends invoices after job completion</li>
+        <li>Manages payment reminders</li>
+        <li>Tracks outstanding accounts</li>
+        <li>Flags late payments for your attention</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · Accounting software</span></div>
+    </div>
+
+    <!-- Analytics Agent -->
+    <div class="agent-card">
+      <div class="agent-avatar" style="background: rgba(124,58,237,0.1); color: var(--purple);">📊</div>
+      <div class="agent-name">Analytics Agent</div>
+      <div class="agent-role" style="color: var(--purple);">All Engines</div>
+      <ul class="agent-does">
+        <li>Live dashboards: leads, MQLs, conversion rates</li>
+        <li>Business health metrics</li>
+        <li>Pipeline visibility & forecasting</li>
+        <li>Surfaces what's working — and what's not</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · Browser dashboard</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ HOW THEY WORK — ASANA EXAMPLE ════════════ -->
+<section class="reveal">
+  <p class="kicker">In Practice</p>
+  <h2>Your team, in action</h2>
+
+  <p style="max-width: 640px; margin-bottom: 24px;">
+    Here's what it looks like day to day. Your agents work asynchronously —
+    handling the busywork, flagging what needs you, and keeping everything moving.
+  </p>
+
+  <!-- Asana mock: Sales Agent qualifies a lead -->
+  <div class="asana-mock">
+    <div class="asana-header">
+      <div class="asana-avatar">SA</div>
+      <div>
+        <div class="asana-title">New lead: Smith & Co Electrical</div>
+        <div class="asana-meta">Sales Agent · 14 minutes ago</div>
+      </div>
+    </div>
+    <div class="asana-body">
+      James, a new lead came in via the website form.<br><br>
+      <strong>Quick summary:</strong><br>
+      — Smith & Co Electrical, 12-person team<br>
+      — Looking for quote-closing service, commercial jobs<br>
+      — ~15 open quotes per month, avg. $8k per job<br>
+      — Mentioned they're using someone else but "not happy with speed"<br><br>
+      I've sent the intro packet, scored this as a <strong>high-value lead</strong>,
+      and the prospect is available <strong>Thursday 2pm or Friday 10am</strong> for a call.
+      Which works for you?
+    </div>
+    <span class="asana-tag">High Priority</span>
+    <span class="asana-tag">Lead Score: 92</span>
+
+    <div class="asana-reply">
+      <strong>James</strong> replied: "Thursday 2pm works. Nice catch on the speed complaint — that's our angle. Send calendar invite."
+    </div>
+  </div>
+
+  <!-- Feedback loop -->
+  <div class="feedback-loop">
+    <div class="loop-node">Agent Acts</div>
+    <span class="loop-arrow">→</span>
+    <div class="loop-node">Human Reviews</div>
+    <span class="loop-arrow">→</span>
+    <div class="loop-node">Human Approves</div>
+    <span class="loop-arrow">→</span>
+    <div class="loop-node">Agent Learns</div>
+  </div>
+
+  <p style="font-size: 0.82rem; color: var(--muted); text-align: center; margin-top: 16px;">
+    Closed-loop feedback cycle. Every correction makes the team smarter. Mistakes happen once.
+  </p>
+</section>
+
+<!-- ════════════ THE GUIDE ════════════ -->
+<section class="reveal">
+  <p class="kicker">The Guide</p>
+  <h2>I set it up.<br>You run your business.</h2>
+
+  <div class="guide-box">
+    <div class="guide-img">🤖</div>
+    <h3>Josh Hancock</h3>
+    <p style="max-width: 500px; margin: 0 auto 16px; font-size: 0.9rem;">
+      I've spent the last four months building and running a production AI agent
+      that operates across 18 platforms, runs 8 autonomous processes, and executes
+      24 packaged skills — while I run marketing for a multi-brand retail group.
+    </p>
+    <p style="max-width: 500px; margin: 0 auto; font-size: 0.85rem; color: var(--muted);">
+      I'm not a consultant who read about AI. I'm the person who built one, lives
+      with one every day, and knows what it takes to make one actually work in a
+      real business. My job here is to get your AI team up and running — then get
+      out of your way.
+    </p>
+  </div>
+
+  <p style="text-align: center; font-size: 0.85rem; color: var(--muted); max-width: 500px; margin: 0 auto;">
+    <strong style="color: var(--ink);">What I handle:</strong> server setup, agent configuration, platform
+    integrations, workflow design, skill development, safety guardrails, ongoing maintenance.<br><br>
+    <strong style="color: var(--ink);">What you handle:</strong> closing deals.
+  </p>
+</section>
+
+<!-- ════════════ HOW IT WORKS ════════════ -->
+<section class="reveal">
+  <p class="kicker">Under the Hood</p>
+  <h2>One system. Multiple roles.</h2>
+
+  <div class="stack-box">
+    <div class="layer">
+      <div class="label">Agent Harness</div>
+      <div class="name">Hermes</div>
+      <div class="detail">Open-source agent framework. 24/7 operation, skill-based architecture, multi-platform messaging.</div>
+    </div>
+    <div class="layer">
+      <div class="label">LLM Engine</div>
+      <div class="name">DeepSeek</div>
+      <div class="detail">High-performance language model. Cost-efficient, production-grade reasoning.</div>
+    </div>
+    <div class="layer">
+      <div class="label">Infrastructure</div>
+      <div class="name">Cloud Server</div>
+      <div class="detail">Secure virtual server. Always on. No laptop required. Works while you sleep.</div>
+    </div>
+    <div class="layer">
+      <div class="label">Interface</div>
+      <div class="name">Your Tools</div>
+      <div class="detail">Email, WhatsApp, Asana — wherever you and your team already work. No new apps.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PRICING ════════════ -->
+<section class="reveal">
+  <p class="kicker">What It Costs</p>
+  <h2>An entire AI team for less than a phone bill.</h2>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="tag">Infrastructure</div>
+      <div class="price">$50<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="period">Secure virtual server</div>
+      <ul>
+        <li>Always-on cloud hosting</li>
+        <li>Your agents run 24/7</li>
+        <li>No laptop or hardware required</li>
+        <li>Auto-backups & monitoring</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="tag">LLM Usage</div>
+      <div class="price">~$20<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="period">Token consumption (estimate)</div>
+      <ul>
+        <li>DeepSeek API access</li>
+        <li>Varies with usage volume</li>
+        <li>~$0.50–$1.00/day typical</li>
+        <li>Pay-as-you-go, no lock-in</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="text-align: center; font-size: 0.85rem; color: var(--muted); margin-top: 8px;">
+    ~$70/mo total running cost. Consulting engagement scoped separately.<br>
+    For context: that's less than most people spend on their mobile plan.
+  </p>
+</section>
+
+<!-- ════════════ CLOSE ════════════ -->
+<section class="reveal cta-section" style="border-top: 1px solid var(--hairline-soft);">
+  <p class="kicker">Next Step</p>
+  <h2>You close deals.<br>Let your team handle the rest.</h2>
+
+  <p style="max-width: 520px; margin: 24px auto;">
+    If the idea of waking up to a qualified lead list, a scheduled call, and an
+    inbox that's already been triaged sounds like the business you actually
+    wanted to build — let's talk.
+  </p>
+
+  <p class="contact" style="margin-top: 32px;">
+    hancockjluke@gmail.com &nbsp;·&nbsp; 0419 836 366
+  </p>
+
+  <p style="font-size: 0.78rem; color: var(--muted); margin-top: 16px;">
+    No hard sell. Just a conversation about what an AI team could look like for your business.
+  </p>
+</section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) el.classList.add('visible');
+    });
+  }, 100);
+</script>
+
+</body>
+</html>
