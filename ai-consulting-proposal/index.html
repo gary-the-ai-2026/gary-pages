@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Own Gary — AI Consulting by Josh Hancock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --canvas: #faf9f5;
+    --surface: #ffffff;
+    --surface-alt: #f0eeea;
+    --ink: #141413;
+    --body: #5c5a55;
+    --muted: #94918a;
+    --hairline: #e4e1db;
+    --hairline-soft: #ece9e4;
+    --coral: #cc785c;
+    --coral-hover: #a9583e;
+    --success: #1b8a3d;
+    --warning: #d4a017;
+    --radius-card: 20px;
+    --radius-btn: 6px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--body);
+    background: var(--canvas);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── Typography ── */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+
+  .kicker {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+
+  .big-number {
+    font-family: var(--font-body);
+    font-size: clamp(2.4rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .big-number-label {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── Sections ── */
+  section {
+    padding: 80px 0 100px;
+  }
+
+  section + section {
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .hero {
+    padding: 120px 0 80px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    margin-bottom: 24px;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--body);
+    max-width: 560px;
+    margin: 0 auto 40px;
+  }
+
+  .hero .byline {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .hero .byline strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ── Cards ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px 28px;
+    box-shadow: var(--shadow-rest);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--coral);
+  }
+
+  .card .icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: var(--body);
+    margin-bottom: 0;
+  }
+
+  /* ── Stat row ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 32px;
+    margin: 40px 0 24px;
+  }
+
+  .stat-row .stat {
+    text-align: center;
+  }
+
+  /* ── Feature list ── */
+  .feature-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px 24px;
+    margin: 32px 0;
+  }
+
+  .feature-list li {
+    font-size: 0.9rem;
+    color: var(--body);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .feature-list li::before {
+    content: "✓ ";
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  /* ── Quote ── */
+  blockquote {
+    margin: 40px 0;
+    padding: 32px 40px;
+    background: rgba(204,120,92,0.05);
+    border: 1px solid rgba(204,120,92,0.15);
+    border-radius: var(--radius-card);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 16px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-style: normal;
+    color: var(--muted);
+  }
+
+  /* ── Pricing cards ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 600px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    section { padding: 60px 0; }
+    .hero { padding: 80px 0 60px; }
+  }
+
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 36px 32px;
+    text-align: center;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .pricing-card.featured {
+    border-color: var(--coral);
+    box-shadow: 0 4px 24px rgba(204,120,92,0.10);
+  }
+
+  .pricing-card .price {
+    font-family: var(--font-body);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin: 16px 0 4px;
+  }
+
+  .pricing-card .period {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .pricing-card ul {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+
+  .pricing-card ul li {
+    font-size: 0.88rem;
+    color: var(--body);
+    padding: 6px 0;
+  }
+
+  .pricing-card ul li::before {
+    content: "— ";
+    color: var(--coral);
+  }
+
+  .pricing-card .tag {
+    display: inline-block;
+    background: var(--coral);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Stack box ── */
+  .stack-box {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+
+  .stack-box .layer {
+    padding: 16px;
+  }
+
+  .stack-box .layer .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .stack-box .layer .name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .stack-box .layer .detail {
+    font-size: 0.82rem;
+    color: var(--body);
+    margin-top: 4px;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    text-align: center;
+    padding: 60px 0 100px;
+  }
+
+  .cta p {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
+
+  .cta .contact {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  /* ── Notice ── */
+  .notice {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 40px 0;
+    font-size: 0.85rem;
+    color: var(--body);
+    line-height: 1.6;
+  }
+
+  .notice strong {
+    color: var(--ink);
+  }
+
+  /* motion */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <p class="kicker">AI Consulting</p>
+  <h1>Your own Gary.<br>Not a demo. Not a pitch deck.<br>A working AI agent.</h1>
+  <p class="subtitle">
+    I didn't bolt AI onto existing processes. I rebuilt workflows around an AI-first
+    operating system. Now I can help you do the same.
+  </p>
+  <p class="byline">
+    <strong>Josh Hancock</strong> &nbsp;·&nbsp; CMO, AFS Group &nbsp;·&nbsp; Built Gary from scratch
+  </p>
+</section>
+
+<!-- ════════════════ TEASER: WHAT THIS IS ════════════════ -->
+<section class="reveal">
+  <p class="kicker">What an AI Agent Can Do</p>
+  <h2>This isn't a chatbot.<br>It's infrastructure.</h2>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="big-number">8</div>
+      <div class="big-number-label">Autonomous Processes</div>
+    </div>
+    <div class="stat">
+      <div class="big-number">18</div>
+      <div class="big-number-label">Connected Platforms</div>
+    </div>
+    <div class="stat">
+      <div class="big-number">24</div>
+      <div class="big-number-label">Packaged Skills</div>
+    </div>
+    <div class="stat">
+      <div class="big-number">24/7</div>
+      <div class="big-number-label">Always Running</div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">📧</div>
+      <h3>Email Triage</h3>
+      <p>Monitors your inbox, categorises by priority, flags what needs your attention. Drafts replies for your approval. Never sends without sign-off.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📅</div>
+      <h3>Calendar & Scheduling</h3>
+      <p>Manages your calendar, prepares daily briefings with weather + schedule, and surfaces conflicts before they happen.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🔗</div>
+      <h3>Platform Integrations</h3>
+      <p>Connects to Gmail, Google Calendar, Asana, Shopify, Discord, Telegram, GitHub, GA4 — and replaces SaaS subscriptions like Zapier.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🧠</div>
+      <h3>Persistent Memory</h3>
+      <p>Learns from every interaction. Corrections persist. Nightly memory consolidation. The agent gets better each time it runs.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📊</div>
+      <h3>Live Dashboards</h3>
+      <p>Builds and deploys real-time reporting dashboards. No spreadsheets. No manual data pulls. Just live data, rendered beautifully.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🛡️</div>
+      <h3>Safety by Design</h3>
+      <p>4-tier trust framework. Draft approval on everything external. Nothing goes out without your explicit sign-off. Full audit trail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ HOW IT WORKS ════════════════ -->
+<section class="reveal">
+  <p class="kicker">The Stack</p>
+  <h2>What powers it</h2>
+
+  <div class="stack-box">
+    <div class="layer">
+      <div class="label">Agent Harness</div>
+      <div class="name">Hermes</div>
+      <div class="detail">Open-source agent framework. 24/7 operation, skill-based architecture, multi-platform messaging.</div>
+    </div>
+    <div class="layer">
+      <div class="label">LLM Engine</div>
+      <div class="name">DeepSeek</div>
+      <div class="detail">High-performance language model. Cost-efficient, capable, production-grade reasoning.</div>
+    </div>
+    <div class="layer">
+      <div class="label">Infrastructure</div>
+      <div class="name">Cloud Server</div>
+      <div class="detail">Secure virtual server. Always on. No laptop required. Works while you sleep.</div>
+    </div>
+    <div class="layer">
+      <div class="label">Interface</div>
+      <div class="name">Your Platforms</div>
+      <div class="detail">Telegram, Discord, email, Google Chat — wherever you already live. No new apps.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROPOSAL / PRICING ════════════════ -->
+<section class="reveal">
+  <p class="kicker">The Proposal</p>
+  <h2>What you get</h2>
+
+  <p style="max-width: 640px; margin-bottom: 32px;">
+    I set up, configure, and build out the workflows. You get an agent that runs on
+    your own infrastructure, connected to your platforms, built around your specific
+    needs. Not a template. Not a SaaS subscription. A custom AI operating system.
+  </p>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="tag">Infrastructure</div>
+      <div class="price">$50<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="period">Secure virtual server</div>
+      <ul>
+        <li>Always-on cloud hosting</li>
+        <li>Your agent runs 24/7</li>
+        <li>No laptop or hardware required</li>
+        <li>Auto-backups &amp; monitoring</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="tag">LLM Usage</div>
+      <div class="price">~$20<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="period">Token consumption (estimate)</div>
+      <ul>
+        <li>DeepSeek API access</li>
+        <li>Varies with usage volume</li>
+        <li>~$0.50–$1.00/day typical</li>
+        <li>Pay-as-you-go, no lock-in</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="font-size: 0.85rem; color: var(--muted); margin-top: 8px; text-align: center;">
+    ~$70/mo total running cost. Comparable to a single SaaS subscription.<br>
+    Consulting engagement scoped separately based on your needs.
+  </p>
+</section>
+
+<!-- ════════════════ WHAT THE AGENT ACTUALLY DOES ════════════════ -->
+<section class="reveal">
+  <p class="kicker">Capabilities</p>
+  <h2>What your agent could handle</h2>
+
+  <ul class="feature-list">
+    <li>Inbox triage &amp; email drafting</li>
+    <li>Calendar management &amp; scheduling</li>
+    <li>Daily briefings (weather + schedule)</li>
+    <li>Weekly planning summaries</li>
+    <li>Task tracking (Asana, Notion, Linear)</li>
+    <li>Document ingestion &amp; summarisation</li>
+    <li>Meeting prep &amp; session notes</li>
+    <li>Creative briefs &amp; content review</li>
+    <li>Brand-compliant design mockups</li>
+    <li>Landing page builds (Shopify, Webflow)</li>
+    <li>Social media performance dashboards</li>
+    <li>Customer intelligence &amp; analytics</li>
+    <li>Competitor monitoring &amp; price tracking</li>
+    <li>Automated reporting (GA4, Meta, Google Ads)</li>
+    <li>EDM template building (HubSpot, Klaviyo)</li>
+    <li>Presentation deck assembly</li>
+  </ul>
+
+  <div class="notice">
+    <strong>Not just work.</strong> The same agent that monitors competitor pricing for
+    your business can watch homewares sales for your partner, remind you about family
+    birthdays, and manage your personal calendar. It fits into your life, not the other way around.
+  </div>
+</section>
+
+<!-- ════════════════ CLOSE ════════════════ -->
+<section class="reveal">
+  <p class="kicker">Why This Matters</p>
+  <h2>Built in production,<br>not in theory.</h2>
+
+  <blockquote>
+    Four months ago I started building an AI agent to help me run marketing.
+    Today it's an operating system that runs across every platform we use, produces
+    real revenue-impacting analysis, and is reshaping our five-year strategy.
+    I built this while doing my day job. Imagine what happens when it becomes the day job.
+    <cite>— Josh Hancock, CMO, AFS Group / Gym and Fitness</cite>
+  </blockquote>
+
+  <div class="cta">
+    <p>
+      If you're curious about what an AI agent could look like for your business —
+      or you just want to see Gary in action — reach out.
+    </p>
+    <p class="contact">
+      hancockjluke@gmail.com &nbsp;·&nbsp; 0419 836 366
+    </p>
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Trigger first visible elements immediately
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) el.classList.add('visible');
+    });
+  }, 100);
+</script>
+
+</body>
+</html>
