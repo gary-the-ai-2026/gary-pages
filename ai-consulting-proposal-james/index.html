@@ -50,6 +50,40 @@
     padding: 0 32px;
   }
 
+  /* ── Hero image ── */
+  .hero-img {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 380px;
+    width: 40%;
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (max-width: 700px) {
+    .hero-img {
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      max-width: 240px;
+      width: 60%;
+      margin: 24px auto 0;
+      display: block;
+    }
+  }
+
+  /* ── Engine icons (replacing emoji) ── */
+  .pillar-icon-img {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    display: block;
+  }
+
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     color: var(--ink);
@@ -102,6 +136,8 @@
   .hero {
     padding: 120px 0 80px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
 
   .hero h1 { margin-bottom: 24px; }
@@ -160,6 +196,8 @@
     .pricing-grid { grid-template-columns: 1fr !important; }
     section { padding: 60px 0; }
     .hero { padding: 80px 0 60px; }
+    .hero h1 { font-size: clamp(1.8rem, 6vw, 2.6rem); }
+    .hero .subtitle { font-size: 0.95rem; }
   }
 
   .pillar {
@@ -649,6 +687,7 @@
 
 <!-- ════════════ HERO (Problem) ════════════ -->
 <section class="hero">
+  <img src="images/hero-abstract.png" alt="" class="hero-img" width="380" height="280" loading="eager">
   <p class="kicker">For James</p>
   <h1>You're a closer.<br>Not an admin.</h1>
   <p class="subtitle">
@@ -723,19 +762,19 @@
 
   <div class="pillars">
     <div class="pillar attract">
-      <div class="pillar-icon">📣</div>
+      <img src="images/icon-attract.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine One</div>
       <h3>Attract</h3>
       <p>Getting eyeballs. Generating leads. Building a pipeline of tradies who need quotes closed — and know you're the person to call.</p>
     </div>
     <div class="pillar convert">
-      <div class="pillar-icon">🤝</div>
+      <img src="images/icon-convert.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine Two</div>
       <h3>Convert</h3>
       <p>Turning leads into signed jobs. Nurturing, qualifying, scheduling — so when you get on the phone, it's already warm.</p>
     </div>
     <div class="pillar operate">
-      <div class="pillar-icon">⚙️</div>
+      <img src="images/icon-operate.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine Three</div>
       <h3>Operate</h3>
       <p>Fulfilling the work. Invoicing. Following up. Collecting reviews. Everything that happens after the handshake.</p>
