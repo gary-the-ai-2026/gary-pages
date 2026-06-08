@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Island Tours — Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --blue: #1a73e8;
+  --green: #1b8a3d;
+  --amber: #c2680c;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--canvas);
+  color: var(--body);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (min-width: 700px) {
+  .container { padding: 0 32px; }
+}
+
+/* Hero */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+}
+.hero .kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero .subtitle {
+  font-size: 1rem;
+  color: var(--body);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+@media (min-width: 700px) {
+  .hero { padding: 100px 0 80px; }
+}
+
+/* Section */
+.section {
+  padding: 60px 0;
+}
+.section-header {
+  margin-bottom: 40px;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+/* Verdict */
+.verdict {
+  background: rgba(204,120,92,0.06);
+  border: 1px solid rgba(204,120,92,0.2);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+  text-align: center;
+  position: relative;
+}
+.verdict-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 12px;
+}
+.verdict h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.verdict .price {
+  font-family: var(--font-body);
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--success);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.verdict .per {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.verdict .reasons {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  max-width: 440px;
+  margin: 0 auto 24px;
+}
+.verdict .reasons li {
+  font-size: 0.88rem;
+  color: var(--body);
+  list-style: none;
+  padding-left: 20px;
+  position: relative;
+}
+.verdict .reasons li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 700px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .cards.three { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-rest);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+@media (min-width: 700px) {
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+  }
+}
+.card.winner { border-color: var(--success); }
+.card.winner .card-winner-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+.card-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.card-subtitle {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.card-price {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.card-price-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+/* Spec rows */
+.specs {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 20px;
+}
+.spec {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.84rem;
+}
+.spec-label { color: var(--body); }
+.spec-value { font-weight: 600; color: var(--ink); text-align: right; }
+.spec-value.good { color: var(--success); }
+.spec-value.warn { color: var(--amber); }
+
+/* Data table */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-rest);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+thead th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+thead th:not(:first-child) { text-align: center; }
+tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+tbody td:first-child {
+  color: var(--body);
+  font-weight: 500;
+}
+tbody td:not(:first-child) {
+  text-align: center;
+  font-weight: 600;
+  color: var(--ink);
+}
+tbody td.win {
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Niche note */
+.niche {
+  margin-top: 32px;
+  padding: 24px 28px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-card);
+  font-size: 0.88rem;
+  color: var(--body);
+}
+.niche strong { color: var(--ink); }
+
+/* CTA */
+.cta {
+  padding: 40px 0 80px;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  background: var(--coral);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: var(--radius-btn);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.btn:hover { background: var(--coral-hover); }
+.btn-note {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 20px 0 40px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="kicker">Cairns · June 2026</div>
+  <h1>Green Island Tours</h1>
+  <p class="subtitle">Which ferry to Green Island? We compared the two operators so you don't have to.</p>
+</section>
+
+<!-- Verdict -->
+<section class="section">
+  <div class="verdict">
+    <div class="verdict-badge">Our Pick</div>
+    <h2>Big Cat · Full Day</h2>
+    <div class="price">$122</div>
+    <div class="per">per adult — same price as half day</div>
+    <ul class="reasons">
+      <li>5½ hours on the island (vs 2¼ on half day, same cost)</li>
+      <li>Glass bottom boat included free (normally $22)</li>
+      <li>Snorkel gear included as free alternative</li>
+      <li>Cheapest option, most island time, no fuel levy</li>
+    </ul>
+  </div>
+</section>
+
+<!-- The Two Options -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Options</div>
+    <div class="section-title">Two ferry operators</div>
+  </div>
+
+  <div class="cards">
+    <!-- Big Cat -->
+    <div class="card winner">
+      <div class="card-winner-tag">★ Best Value</div>
+      <div class="card-name">Big Cat</div>
+      <div class="card-subtitle">Green Island Reef Cruises · 30+ yrs · 4.5★</div>
+      <div class="card-price">$122</div>
+      <div class="card-price-label">Adult return</div>
+      <div class="specs">
+        <div class="spec">
+          <span class="spec-label">Child (4–14)</span>
+          <span class="spec-value">$61</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Family (2A+2C)</span>
+          <span class="spec-value">$305</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Island time</span>
+          <span class="spec-value good">5h 30m</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Glass bottom boat</span>
+          <span class="spec-value good">Free</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Snorkel gear</span>
+          <span class="spec-value good">Free</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Departures</span>
+          <span class="spec-value">9am / 11am</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Great Adventures -->
+    <div class="card">
+      <div class="card-name">Great Adventures</div>
+      <div class="card-subtitle">Green Island Eco · 10am departure</div>
+      <div class="card-price">$127</div>
+      <div class="card-price-label">Adult (Eco Tour)</div>
+      <div class="specs">
+        <div class="spec">
+          <span class="spec-label">Child (4–14)</span>
+          <span class="spec-value">$68</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Family (2A+2C)</span>
+          <span class="spec-value">$329</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Island time</span>
+          <span class="spec-value">~3 hrs</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Glass bottom boat</span>
+          <span class="spec-value good">Included</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Snorkel gear</span>
+          <span class="spec-value">OR glass boat</span>
+        </div>
+        <div class="spec">
+          <span class="spec-label">Departure</span>
+          <span class="spec-value">10am only</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Side-by-side table -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Detail</div>
+    <div class="section-title">Head to head</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Big Cat</th>
+          <th>Great Adventures</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Adult</td>
+          <td class="win">$122</td>
+          <td>$127</td>
+        </tr>
+        <tr>
+          <td>Child</td>
+          <td class="win">$61</td>
+          <td>$68</td>
+        </tr>
+        <tr>
+          <td>Family (2A+2C)</td>
+          <td class="win">$305</td>
+          <td>$329</td>
+        </tr>
+        <tr>
+          <td>Island time</td>
+          <td class="win">5h 30m</td>
+          <td>~3 hrs</td>
+        </tr>
+        <tr>
+          <td>Glass bottom boat</td>
+          <td class="win">Free ✓</td>
+          <td>Free ✓</td>
+        </tr>
+        <tr>
+          <td>Snorkel included</td>
+          <td class="win">Free alternative</td>
+          <td>Eco: OR glass boat</td>
+        </tr>
+        <tr>
+          <td>Departures</td>
+          <td class="win">9am / 11am</td>
+          <td>10am only</td>
+        </tr>
+        <tr>
+          <td>Fuel levy</td>
+          <td class="win">None</td>
+          <td>None</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Half day warning -->
+  <div class="niche">
+    <strong>⚠️ Half day warning:</strong> Big Cat's half day costs the <strong>same $122</strong> but gives you only 2¼ hours — less than half the island time. There's no reason to choose it unless you genuinely can't spare the afternoon.
+  </div>
+</section>
+
+<!-- Third option: Ocean Free -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Also Available</div>
+    <div class="section-title">The niche option</div>
+  </div>
+
+  <div class="niche" style="background: var(--surface); border: 1px solid var(--hairline);">
+    <strong>Ocean Free</strong> — a 63ft sailing schooner with max 25 guests. Premium small-group experience.<br>
+    <span style="color: var(--muted);">Adult $289 · Child $225 · Glass bottom boat $33 extra · 5h trip</span><br><br>
+    Beautiful if you want the sailboat vibe and tiny crowd, but at <strong>more than double the price</strong> it's not competing on value. Book it if the experience matters more than the cost.
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <a href="https://greenisland.com.au" class="btn" target="_blank" rel="noopener">Book Big Cat → greenisland.com.au</a>
+  <span class="btn-note">Prices current at June 2026 · Family = 2 adults + 2 children</span>
+</section>
+
+<footer class="site-footer">
+  Prepared by Gary (Josh's P.A) · greenisland.com.au · greatadventures.com.au · oceanfree.com.au
+</footer>
+
+</div>
+
+</body>
+</html>
