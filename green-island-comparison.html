@@ -331,6 +331,106 @@ tbody td.win {
   color: var(--muted);
 }
 
+/* Timeline */
+.timeline {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-rest);
+}
+.timeline-bar {
+  position: relative;
+  padding-left: 32px;
+  border-left: 2px solid var(--hairline);
+  margin-left: 8px;
+}
+.timeline-stop {
+  position: relative;
+  margin-bottom: 24px;
+}
+.timeline-stop:last-child { margin-bottom: 0; }
+.timeline-stop::before {
+  content: '';
+  position: absolute;
+  left: -39px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--coral);
+  border: 2px solid var(--surface);
+}
+.timeline-stop.ferry::before { background: var(--blue); }
+.timeline-stop.island::before { background: var(--success); }
+.timeline-time {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--coral);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.timeline-stop.ferry .timeline-time { color: var(--blue); }
+.timeline-stop.island .timeline-time { color: var(--success); }
+.timeline-label {
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.timeline-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.timeline-highlight {
+  background: rgba(27,138,61,0.06);
+  border: 1px solid rgba(27,138,61,0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 4px 0 4px -8px;
+}
+.timeline-highlight .timeline-label { color: var(--success); }
+.timeline-options {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 700px) {
+  .timeline-options { grid-template-columns: 1fr 1fr; }
+}
+.timeline-header {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.timeline-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+}
+.timeline-tag.rec { background: rgba(204,120,92,0.1); color: var(--coral); }
+.timeline-tag.alt { background: var(--surface-alt); color: var(--body); }
+
+/* Flexibility note */
+.flexi {
+  margin-top: 28px;
+  padding: 20px 24px;
+  background: rgba(204,120,92,0.04);
+  border-radius: 12px;
+  border-left: 3px solid var(--coral);
+  font-size: 0.84rem;
+  color: var(--body);
+}
+.flexi strong { color: var(--ink); }
+
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
 }
@@ -360,6 +460,101 @@ tbody td.win {
       <li>Snorkel gear included as free alternative</li>
       <li>Cheapest option, most island time, no fuel levy</li>
     </ul>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Your Day</div>
+    <div class="section-title">Big Cat full day timeline</div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-options">
+      <!-- 9am -->
+      <div>
+        <div class="timeline-tag rec">Recommended</div>
+        <div class="timeline-header">9am Departure</div>
+        <div class="timeline-bar">
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">8:30am</div>
+            <div class="timeline-label">Check-in</div>
+            <div class="timeline-sub">Reef Fleet Terminal, 1 Spence St</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">9:00am</div>
+            <div class="timeline-label">Depart Cairns</div>
+            <div class="timeline-sub">45 min crossing · tea &amp; coffee served</div>
+          </div>
+          <div class="timeline-stop island">
+            <div class="timeline-time">9:45am</div>
+            <div class="timeline-label">Arrive Green Island</div>
+            <div class="timeline-sub">Collect snorkel gear or book glass bottom boat slot</div>
+          </div>
+          <div class="timeline-stop island">
+            <div class="timeline-time">9:45am – 4:15pm</div>
+            <div class="timeline-label">Island time</div>
+            <div class="timeline-sub">6½ hrs gate-to-gate · ~5½ hrs usable</div>
+          </div>
+          <div class="timeline-highlight">
+            <div class="timeline-label">What you can fit in</div>
+            <div class="timeline-sub">Glass bottom boat (30m) · Snorkel off the beach · Lunch · Rainforest boardwalk · Croc exhibit · Swim &amp; relax</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">4:15pm</div>
+            <div class="timeline-label">Depart Green Island</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">5:00pm</div>
+            <div class="timeline-label">Arrive Cairns</div>
+            <div class="timeline-sub">Back at Reef Fleet Terminal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11am -->
+      <div>
+        <div class="timeline-tag alt">Sleep-in Option</div>
+        <div class="timeline-header">11am Departure</div>
+        <div class="timeline-bar">
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">10:30am</div>
+            <div class="timeline-label">Check-in</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">11:00am</div>
+            <div class="timeline-label">Depart Cairns</div>
+            <div class="timeline-sub">45 min crossing</div>
+          </div>
+          <div class="timeline-stop island">
+            <div class="timeline-time">11:45am</div>
+            <div class="timeline-label">Arrive Green Island</div>
+          </div>
+          <div class="timeline-stop island">
+            <div class="timeline-time">11:45am – 4:45pm</div>
+            <div class="timeline-label">Island time</div>
+            <div class="timeline-sub">~5 hrs gate-to-gate</div>
+          </div>
+          <div class="timeline-highlight">
+            <div class="timeline-label">What you can fit in</div>
+            <div class="timeline-sub">Glass bottom boat · Snorkel · Lunch · Beach · Boardwalk</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">4:45pm</div>
+            <div class="timeline-label">Depart Green Island</div>
+          </div>
+          <div class="timeline-stop ferry">
+            <div class="timeline-time">5:30pm</div>
+            <div class="timeline-label">Arrive Cairns</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flexi">
+      <strong>Need to bail early?</strong> Book the full day for the inclusions but ask at check-in about taking an earlier return. The half-day boats depart Green Island at <strong>~12:00pm</strong> and <strong>~4:00pm</strong>. Crew will usually let you hop on if there's space — especially with young kids. Not guaranteed on paper, but rarely an issue in practice.
+    </div>
   </div>
 </section>
 
