@@ -7,6 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
 <style>
   :root {
     --canvas: #faf9f5;
@@ -44,7 +55,6 @@
     scroll-behavior: smooth;
   }
 
-  /* ════════════ MOBILE DEFAULTS ════════════ */
   body {
     max-width: 920px;
     margin: 0 auto;
@@ -99,13 +109,30 @@
     border-top: 1px solid var(--hairline-soft);
   }
 
-  /* ── Hero (mobile: stacked) ── */
+  /* ── Hero canvas ── */
+  #hero-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  /* ── Hero ── */
   .hero {
     padding: 80px 0 60px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
+
+  .hero > * { position: relative; z-index: 1; }
 
   .hero h1 { margin-bottom: 24px; }
 
@@ -149,7 +176,7 @@
     margin-right: auto;
   }
 
-  /* ── Three Pillars (mobile: stacked) ── */
+  /* ── Three Pillars ── */
   .pillars {
     display: grid;
     grid-template-columns: 1fr;
@@ -205,9 +232,7 @@
     margin-bottom: 0;
   }
 
-  .pillar-arrows { display: none; }
-
-  /* ── Agent Cards (mobile: stacked) ── */
+  /* ── Agent Cards ── */
   .agent-cards {
     display: grid;
     grid-template-columns: 1fr;
@@ -387,7 +412,7 @@
     box-shadow: var(--shadow-hover);
   }
 
-  /* ── Before/After cards (mobile: stacked) ── */
+  /* ── Before/After cards ── */
   .bab-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -460,7 +485,7 @@
     margin-top: 4px;
   }
 
-  /* ── Pricing (mobile: stacked) ── */
+  /* ── Pricing ── */
   .pricing-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -556,7 +581,7 @@
     margin-bottom: 12px;
   }
 
-  /* ── Social proof metrics (mobile: stacked) ── */
+  /* ── Social proof metrics ── */
   .social-metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -594,22 +619,6 @@
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--muted);
-  }
-
-  /* ── Motion ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion) {
-    .reveal { opacity: 1; transform: none; transition: none; }
   }
 
   /* ── Workflow flow ── */
@@ -685,7 +694,7 @@
     section { padding: 80px 0 100px; }
 
     /* Hero */
-    .hero { padding: 120px 0 80px; }
+    .hero { padding: 120px 0 80px; min-height: 70vh; }
     .hero .subtitle { font-size: 1.1rem; }
 
     /* Pillars: 3 columns */
@@ -774,12 +783,23 @@
     .workflow-flow .flow-icon { width: 56px; height: 56px; font-size: 1.5rem; }
     .workflow-flow .flow-arrow-connector { font-size: 1.5rem; padding-top: 14px; }
   }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    #hero-canvas { display: none; }
+  }
 </style>
 </head>
 <body>
 
 <!-- ════════════ HERO (Problem) ════════════ -->
-<section class="hero">
+<section class="hero" id="hero">
+  <canvas id="hero-canvas"></canvas>
   <p class="kicker">For James</p>
   <h1>You're a closer.<br>Not an admin.</h1>
   <p class="subtitle">
@@ -793,13 +813,13 @@
   </p>
 
   <div class="pain-stat">
-    <div class="number">80%</div>
+    <div class="number" data-count="80" data-suffix="%">80%</div>
     <div class="label">of your time goes to work that doesn't close deals. Every hour on admin is an hour your competitors are winning the job.</div>
   </div>
 </section>
 
 <!-- ════════════ AGITATION ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">The Real Cost</p>
   <h2>Speed closes deals.<br>Admin kills them.</h2>
 
@@ -820,7 +840,7 @@
 </section>
 
 <!-- ════════════ COST OF INACTION ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">The Math</p>
   <h2>What admin is<br>actually costing you.</h2>
 
@@ -830,7 +850,7 @@
   </p>
 
   <div class="pain-stat">
-    <div class="number">$24k–$40k</div>
+    <div class="number" data-count="32000" data-prefix="$" data-comma="true">$24k–$40k</div>
     <div class="label">estimated monthly revenue lost to deals you never get to. At 3–5 missed jobs per month and an $8k average, the maths isn't subtle.</div>
   </div>
 
@@ -841,7 +861,7 @@
 </section>
 
 <!-- ════════════ THE THREE ENGINES ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal" id="three-engines">
   <p class="kicker">The Solution</p>
   <h2>Three engines.<br>One AI team.</h2>
 
@@ -853,19 +873,19 @@
   </p>
 
   <div class="pillars">
-    <div class="pillar attract">
+    <div class="pillar attract gsap-stagger">
       <img src="images/icon-attract.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine One</div>
       <h3>Attract</h3>
       <p>Getting eyeballs. Generating leads. Building a pipeline of tradies who need quotes closed — and know you're the person to call.</p>
     </div>
-    <div class="pillar convert">
+    <div class="pillar convert gsap-stagger">
       <img src="images/icon-convert.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine Two</div>
       <h3>Convert</h3>
       <p>Turning leads into signed jobs. Nurturing, qualifying, scheduling — so when you get on the phone, it's already warm.</p>
     </div>
-    <div class="pillar operate">
+    <div class="pillar operate gsap-stagger">
       <img src="images/icon-operate.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="pillar-label">Engine Three</div>
       <h3>Operate</h3>
@@ -875,7 +895,7 @@
 </section>
 
 <!-- ════════════ MEET THE AI TEAM ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">Meet Your AI Team</p>
   <h2>Specialist agents.<br>One infrastructure.<br>They go where you go.</h2>
 
@@ -887,7 +907,7 @@
 
   <div class="agent-cards">
     <!-- Sales & Marketing Agent -->
-    <div class="agent-card">
+    <div class="agent-card gsap-stagger">
       <img src="images/agent-sales.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="agent-name">Sales & Marketing Agent</div>
       <div class="agent-role" style="color: var(--coral);">Attract & Convert</div>
@@ -900,7 +920,7 @@
     </div>
 
     <!-- Customer Service Agent -->
-    <div class="agent-card">
+    <div class="agent-card gsap-stagger">
       <img src="images/agent-cservice.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="agent-name">Customer Service Agent</div>
       <div class="agent-role" style="color: var(--blue);">Operate Engine</div>
@@ -913,7 +933,7 @@
     </div>
 
     <!-- Finance Agent -->
-    <div class="agent-card">
+    <div class="agent-card gsap-stagger">
       <img src="images/agent-finance.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="agent-name">Finance Agent</div>
       <div class="agent-role" style="color: var(--amber);">Operate Engine</div>
@@ -926,7 +946,7 @@
     </div>
 
     <!-- Analytics Agent -->
-    <div class="agent-card">
+    <div class="agent-card gsap-stagger">
       <img src="images/agent-analytics.png" alt="" class="pillar-icon-img" width="48" height="48" loading="lazy">
       <div class="agent-name">Analytics Agent</div>
       <div class="agent-role" style="color: var(--purple);">All Engines</div>
@@ -941,16 +961,16 @@
 </section>
 
 <!-- ════════════ HOW THEY WORK — ASANA EXAMPLE ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">In Practice</p>
   <h2>Before & After</h2>
 
   <div class="bab-grid">
-    <div style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 28px 24px;">
+    <div class="gsap-stagger" style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 28px 24px;">
       <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px;">Before</p>
       <p style="font-size: 0.88rem; color: var(--body); margin-bottom: 0;">Leads come in via the website. They sit in an inbox. You sort them manually, chase follow-ups from memory, and hope nothing slips through. Every hour on admin is an hour you're not closing.</p>
     </div>
-    <div style="background: rgba(204,120,92,0.06); border: 1px solid var(--coral); border-radius: var(--radius-card); padding: 28px 24px;">
+    <div class="gsap-stagger" style="background: rgba(204,120,92,0.06); border: 1px solid var(--coral); border-radius: var(--radius-card); padding: 28px 24px;">
       <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--coral); margin-bottom: 12px;">After</p>
       <p style="font-size: 0.88rem; color: var(--body); margin-bottom: 0;">A lead hits the website. Your Sales Agent qualifies and scores it within minutes. You get a single message with a summary and two time slots. You pick one. The calendar invite sends itself.</p>
     </div>
@@ -964,8 +984,8 @@
     Here's what that looks like in practice:
   </p>
 
-  <!-- Asana mock: Sales Agent qualifies a lead -->
-  <div class="asana-mock">
+  <!-- Asana mock -->
+  <div class="asana-mock gsap-reveal">
     <div class="asana-header">
       <div class="asana-avatar">SA</div>
       <div>
@@ -992,8 +1012,8 @@
     </div>
   </div>
 
-  <!-- Feedback loop — card-style treatment -->
-  <div style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 24px 28px; margin: 32px 0; text-align: center; max-width: 560px; margin-left: auto; margin-right: auto;">
+  <!-- Feedback loop -->
+  <div style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 24px 28px; margin: 32px 0; text-align: center; max-width: 560px; margin-left: auto; margin-right: auto;" class="gsap-reveal">
     <div class="feedback-loop" style="margin: 0 0 12px 0;">
       <div class="loop-node">Agent Acts</div>
       <span class="loop-arrow">→</span>
@@ -1010,21 +1030,20 @@
 </section>
 
 <!-- ════════════ THE GUIDE ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">The Guide</p>
   <h2>I set it up.<br>You run your business.</h2>
 
-  <!-- Social proof metrics — above bio -->
   <div class="social-metrics" style="margin-bottom: 32px;">
-    <div style="text-align: center;">
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;">4</div>
+    <div style="text-align: center;" class="gsap-stagger">
+      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;" data-count="4">4</div>
       <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">months in production</div>
     </div>
-    <div style="text-align: center;">
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;">18</div>
+    <div style="text-align: center;" class="gsap-stagger">
+      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;" data-count="18">18</div>
       <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">platforms integrated</div>
     </div>
-    <div style="text-align: center;">
+    <div style="text-align: center;" class="gsap-stagger">
       <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;">24/7</div>
       <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">autonomous operation</div>
     </div>
@@ -1054,27 +1073,27 @@
 </section>
 
 <!-- ════════════ HOW IT WORKS ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">Under the Hood</p>
   <h2>One system. Multiple roles.</h2>
 
   <div class="stack-box">
-    <div class="layer">
+    <div class="layer gsap-stagger">
       <div class="label">Agent Harness</div>
       <div class="name">Hermes</div>
       <div class="detail">Open-source agent framework. 24/7 operation, skill-based architecture, multi-platform messaging.</div>
     </div>
-    <div class="layer">
+    <div class="layer gsap-stagger">
       <div class="label">LLM Engine</div>
       <div class="name">DeepSeek</div>
       <div class="detail">High-performance language model. Cost-efficient, production-grade reasoning.</div>
     </div>
-    <div class="layer">
+    <div class="layer gsap-stagger">
       <div class="label">Infrastructure</div>
       <div class="name">Cloud Server</div>
       <div class="detail">Secure virtual server. Always on. No laptop required. Works while you sleep.</div>
     </div>
-    <div class="layer">
+    <div class="layer gsap-stagger">
       <div class="label">Interface</div>
       <div class="name">Your Tools</div>
       <div class="detail">Email, WhatsApp, Asana — wherever you and your team already work. No new apps.</div>
@@ -1083,21 +1102,20 @@
 </section>
 
 <!-- ════════════ PRICING ════════════ -->
-<section class="reveal">
+<section class="gsap-reveal">
   <p class="kicker">What It Costs</p>
 
-  <!-- Value reveal first -->
   <div style="text-align: center; margin: 32px 0 40px;">
     <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 8px;">Total monthly running cost</p>
-    <div style="font-family: var(--font-body); font-size: clamp(2.6rem, 5vw, 3.8rem); font-weight: 900; color: var(--coral); line-height: 1;">~$70<span style="font-size: 1.4rem; font-weight: 500;">/mo</span></div>
+    <div style="font-family: var(--font-body); font-size: clamp(2.6rem, 5vw, 3.8rem); font-weight: 900; color: var(--coral); line-height: 1;" data-count="70" data-prefix="~$" data-suffix="/mo">~$70<span style="font-size: 1.4rem; font-weight: 500;">/mo</span></div>
     <p style="font-size: 1rem; color: var(--ink); font-weight: 600; margin-top: 8px;">That's less than your phone bill. And it works while you sleep.</p>
     <p style="font-size: 0.82rem; color: var(--muted); margin-top: 8px;">Consulting engagement scoped separately.</p>
   </div>
 
   <div class="pricing-grid">
-    <div class="pricing-card">
+    <div class="pricing-card gsap-stagger">
       <div class="tag">Infrastructure</div>
-      <div class="price">$50<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="price" data-count="50" data-prefix="$" data-suffix="/mo">$50<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
       <div class="period">Secure virtual server</div>
       <ul>
         <li>Always-on cloud hosting</li>
@@ -1107,9 +1125,9 @@
       </ul>
     </div>
 
-    <div class="pricing-card featured">
+    <div class="pricing-card featured gsap-stagger">
       <div class="tag">LLM Usage</div>
-      <div class="price">~$20<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="price" data-count="20" data-prefix="~$" data-suffix="/mo">~$20<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
       <div class="period">Token consumption (estimate)</div>
       <ul>
         <li>DeepSeek API access</li>
@@ -1126,7 +1144,7 @@
 </section>
 
 <!-- ════════════ CLOSE ════════════ -->
-<section class="reveal cta-section" style="border-top: 1px solid var(--hairline-soft);">
+<section class="gsap-reveal cta-section" style="border-top: 1px solid var(--hairline-soft);">
   <p class="kicker">Next Step</p>
   <h2>You close deals.<br>Let your team handle the rest.</h2>
 
@@ -1150,20 +1168,248 @@
 </section>
 
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.15 });
+  /* ═══════════════════════════════════════════════════════
+     THREE.JS — HERO PARTICLE FIELD
+     ═══════════════════════════════════════════════════════ */
+  (async function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    const hero = document.getElementById('hero');
+    const canvas = document.getElementById('hero-canvas');
+    if (!hero || !canvas) return;
 
-  setTimeout(() => {
-    document.querySelectorAll('.reveal').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) el.classList.add('visible');
+    try {
+      const THREE = await import('three');
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+      camera.position.z = 30;
+
+      // Create particles — coral & cream tones
+      const particleCount = window.innerWidth < 700 ? 80 : 200;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      const coralColor = new THREE.Color('#cc785c');
+      const creamColor = new THREE.Color('#f0eeea');
+      const inkColor = new THREE.Color('#5c5a55');
+
+      const colorPalette = [coralColor, creamColor, inkColor, coralColor.clone().multiplyScalar(0.7)];
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        // Spread across a wider area
+        positions[i3] = (Math.random() - 0.5) * 50;
+        positions[i3 + 1] = (Math.random() - 0.5) * 40;
+        positions[i3 + 2] = (Math.random() - 0.5) * 20;
+
+        const col = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+        colors[i3] = col.r;
+        colors[i3 + 1] = col.g;
+        colors[i3 + 2] = col.b;
+
+        sizes[i] = Math.random() * 0.15 + 0.03;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      // Circle sprite
+      const spriteCanvas = document.createElement('canvas');
+      spriteCanvas.width = 32;
+      spriteCanvas.height = 32;
+      const ctx = spriteCanvas.getContext('2d');
+      ctx.beginPath();
+      ctx.arc(16, 16, 14, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      const texture = new THREE.CanvasTexture(spriteCanvas);
+      const material = new THREE.PointsMaterial({
+        size: 0.5,
+        map: texture,
+        vertexColors: true,
+        blending: THREE.NormalBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.7,
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      // Mouse tracking for subtle drift
+      let mouseX = 0, mouseY = 0;
+      let targetMouseX = 0, targetMouseY = 0;
+
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        targetMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetMouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      // Resize
+      function resize() {
+        const rect = hero.getBoundingClientRect();
+        renderer.setSize(rect.width, rect.height);
+        camera.aspect = rect.width / Math.max(rect.height, 1);
+        camera.updateProjectionMatrix();
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Animate
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Smooth mouse follow
+        mouseX += (targetMouseX - mouseX) * 0.02;
+        mouseY += (targetMouseY - mouseY) * 0.02;
+
+        particles.rotation.x += 0.0003;
+        particles.rotation.y += 0.0004;
+
+        // Subtle camera drift from mouse
+        camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Lower opacity after initial load
+      setTimeout(() => {
+        canvas.style.opacity = '0.25';
+        canvas.style.transition = 'opacity 2s ease';
+      }, 500);
+
+    } catch (e) {
+      console.warn('Three.js hero particles failed to load, continuing gracefully:', e.message);
+      canvas.style.display = 'none';
+    }
+  })();
+
+  /* ═══════════════════════════════════════════════════════
+     GSAP + SCROLLTRIGGER — REVEALS, STAGGERS, COUNTERS
+     ═══════════════════════════════════════════════════════ */
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Show everything immediately
+      document.querySelectorAll('.gsap-reveal, .gsap-stagger').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
+    // Register ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Section reveals ──
+    document.querySelectorAll('.gsap-reveal').forEach((section) => {
+      gsap.fromTo(section,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
     });
-  }, 100);
+
+    // ── Staggered card reveals ──
+    document.querySelectorAll('.pillars, .agent-cards, .bab-grid, .stack-box, .pricing-grid, .social-metrics').forEach((container) => {
+      const items = container.querySelectorAll('.gsap-stagger');
+      if (items.length === 0) return;
+
+      gsap.fromTo(items,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    // ── Asana mock slide-in ──
+    const asanaMock = document.querySelector('.asana-mock.gsap-reveal');
+    if (asanaMock) {
+      gsap.fromTo(asanaMock,
+        { opacity: 0, x: 30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: asanaMock,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    }
+
+    // ── Number counter animations ──
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      const useComma = el.getAttribute('data-comma') === 'true';
+
+      if (isNaN(target)) return;
+
+      // Store the original display for mobile fallback
+      const originalText = el.textContent;
+
+      gsap.fromTo(el,
+        { innerText: 0 },
+        {
+          innerText: target,
+          duration: 2,
+          ease: 'power2.out',
+          snap: { innerText: 1 },
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
+          onUpdate: function() {
+            const val = Math.round(this.targets()[0].innerText);
+            let display = prefix + (useComma ? val.toLocaleString() : val) + suffix;
+            el.textContent = display;
+            // Restore original HTML structure after GSAP overwrites
+            if (el.querySelector('span')) {
+              el.innerHTML = display;
+            }
+          }
+        }
+      );
+    });
+  })();
 </script>
 
 </body>
