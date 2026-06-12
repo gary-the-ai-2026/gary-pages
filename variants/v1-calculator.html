@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scale Your Business With an AI Team — Proposal for James</title>
+<title>What Admin Is Costing You — Proposal for James</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
@@ -682,126 +682,6 @@
     margin-top: 6px;
   }
 
-  /* ── Q&A question cards ── */
-  .question-card {
-    background: var(--surface);
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-card);
-    padding: 32px 28px;
-    box-shadow: var(--shadow-rest);
-    margin: 24px 0;
-    max-width: 720px;
-  }
-
-  .question-card .q-label {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 8px;
-  }
-
-  .question-card .q-question {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-
-  .question-card .q-answer {
-    font-size: 0.88rem;
-    color: var(--body);
-    line-height: 1.6;
-  }
-
-  .question-card .q-solution {
-    background: rgba(204,120,92,0.05);
-    border-left: 3px solid var(--coral);
-    padding: 14px 18px;
-    margin-top: 16px;
-    font-size: 0.85rem;
-    color: var(--body);
-    border-radius: 0 8px 8px 0;
-  }
-
-  .question-card .q-solution .sol-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 4px;
-  }
-
-  /* ── Audit step cards ── */
-  .audit-step {
-    background: var(--surface);
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-card);
-    padding: 28px 24px;
-    box-shadow: var(--shadow-rest);
-    margin: 24px 0;
-  }
-
-  .audit-step .step-num {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--coral);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .audit-step .step-flow {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--body);
-    background: var(--surface-alt);
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin: 12px 0;
-    line-height: 1.6;
-    border-left: 3px solid var(--hairline);
-  }
-
-  .audit-step .step-fix {
-    background: rgba(27,138,61,0.06);
-    border: 1px solid var(--success);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-top: 12px;
-    font-size: 0.85rem;
-    color: var(--body);
-  }
-
-  .audit-step .step-fix .fix-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--success);
-    margin-bottom: 6px;
-  }
-
-  .audit-step .step-flaw {
-    display: inline-block;
-    background: rgba(204,120,92,0.1);
-    color: var(--coral);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 100px;
-    margin-right: 6px;
-    margin-bottom: 4px;
-  }
-
   /* ════════════ DESKTOP (≥700px) ════════════ */
   @media (min-width: 700px) {
 
@@ -902,15 +782,6 @@
     .workflow-flow .flow-step { max-width: 180px; }
     .workflow-flow .flow-icon { width: 56px; height: 56px; font-size: 1.5rem; }
     .workflow-flow .flow-arrow-connector { font-size: 1.5rem; padding-top: 14px; }
-
-    /* Q&A cards */
-    .question-card { padding: 36px 32px; }
-    .question-card .q-question { font-size: 1.5rem; }
-    .question-card .q-solution { padding: 18px 24px; }
-
-    /* Audit steps */
-    .audit-step { padding: 32px 32px; }
-    .audit-step .step-flow { padding: 16px 20px; }
   }
 
   /* ── Reduced motion ── */
@@ -926,474 +797,237 @@
 </head>
 <body>
 
-<!-- ════════════ SECTION 1: HERO (from V2 Story) ════════════ -->
+<!-- ════════════ HERO: COST OF INACTION ════════════ -->
 <section class="hero" id="hero">
   <canvas id="hero-canvas"></canvas>
-  <p class="kicker">For James</p>
-  <h1>Tuesday, 7:42 AM.<br>A lead comes in.</h1>
+  <p class="kicker">The Calculator</p>
+  <h1>Your admin is costing<br>more than you think.</h1>
   <p class="subtitle">
-    A commercial electrician in Brisbane needs quotes closed. 15 open jobs a month.
-    They found your website. They filled out the contact form. This is a <strong>$120,000/year</strong> account sitting in your inbox — and the clock is now ticking.
-  </p>
-</section>
-
-<!-- ════════════ SECTION 2: THE COST OF NOW (from V2 Story) ════════════ -->
-<section class="gsap-reveal">
-  <p class="kicker">What Happens Now</p>
-  <h2>Here's the lead's journey.<br>Right now, on your watch.</h2>
-
-  <div style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 32px 28px; margin: 24px 0; max-width: 640px;" class="gsap-stagger">
-    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 16px;">THE LEAD'S JOURNEY — CURRENT SYSTEM</div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--surface); border: 1px solid var(--hairline); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--muted); flex-shrink: 0;">7:42</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">Lead submits contact form</p>
-        <p style="font-size: 0.78rem; color: var(--muted); margin-bottom: 0;">Auto-reply: "Thanks, we'll be in touch." The lead waits.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--surface); border: 1px solid var(--hairline); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--muted); flex-shrink: 0;">9:15</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">You check email between calls</p>
-        <p style="font-size: 0.78rem; color: var(--muted); margin-bottom: 0;">New lead spotted. You make a mental note. Back to the phone.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--surface); border: 1px solid var(--hairline); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--muted); flex-shrink: 0;">14:30</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">You finally reply</p>
-        <p style="font-size: 0.78rem; color: var(--muted); margin-bottom: 0;">Quick email: "Love to chat." But your afternoon is packed with admin.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--surface); border: 1px solid var(--hairline); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--muted); flex-shrink: 0;">Wed</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">Lead gets a reply from a competitor</p>
-        <p style="font-size: 0.78rem; color: var(--muted); margin-bottom: 0;">They responded in 23 minutes. With a quote. And a calendar link.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; align-items: flex-start;">
-      <div style="background: rgba(204,120,92,0.15); border: 1px solid var(--coral); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--coral); flex-shrink: 0;">Thu</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--coral);">Lead signs with competitor</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">You follow up Friday. Too late. That's <strong>$8,000</strong> this month you'll never see.</p>
-      </div>
-    </div>
-  </div>
-
-  <p style="max-width: 640px;">
-    Three to five missed deals a month. Average job value: $8,000. That's
-    <strong>$24,000 to $40,000</strong> in revenue evaporating every single month —
-    not from a lack of demand, but from a lack of speed.
+    Every minute you spend on invoicing, follow-ups, lead sorting, and "just checking in" emails
+    is a minute a competitor is on the phone <strong>closing your next deal</strong>.
   </p>
 
   <div class="pain-stat">
-    <div class="number" data-count="32000" data-prefix="$" data-comma="true">$24k–$40k</div>
-    <div class="label">estimated monthly revenue lost to admin delay. Per year, that's up to $480,000 your business never sees.</div>
+    <div class="number" data-count="80" data-suffix="%">80%</div>
+    <div class="label">of your working hours go to admin — not closing. That's 4 out of every 5 hours
+    you're not doing the thing that makes you money.</div>
+  </div>
+</section>
+
+<!-- ════════════ PROBLEM: THE INVOICE YOU NEVER SEE ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">The Invoice You Never See</p>
+  <h2>Here's what admin is<br>billing you every month.</h2>
+
+  <p style="max-width: 640px;">
+    You don't get an invoice for time lost. But if admin sent you one, it would look
+    something like this:
+  </p>
+
+  <!-- Invoice-style breakdown -->
+  <div style="background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 32px 28px; margin: 24px 0; max-width: 560px;" class="gsap-stagger">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--ink);">
+      <span style="font-weight: 700; color: var(--ink); font-size: 0.9rem;">INVOICE: Admin Tax</span>
+      <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted);">Monthly Recurring</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Lead sorting & qualification (manual)</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$6,400</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Follow-up chase & scheduling</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$8,000</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Quote preparation & formatting</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$5,600</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Invoicing & payment chasing</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$4,800</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Website content & social posting</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$3,200</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">Review collection & reputation mgmt</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$2,400</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; border-bottom: 1px solid var(--hairline-soft);">
+      <span style="color: var(--body);">General admin & tool-switching</span>
+      <span style="font-family: var(--font-mono); color: var(--coral); font-weight: 600;">$1,600</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 12px 0 0; margin-top: 8px; border-top: 2px solid var(--coral);">
+      <span style="font-weight: 800; color: var(--ink); font-size: 1rem;">TOTAL MONTHLY COST</span>
+      <span style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--coral);">~$32,000</span>
+    </div>
+    <p style="font-size: 0.72rem; color: var(--muted); margin-top: 12px; text-align: right;">*Estimated at 3-5 missed jobs/mo × $8,000 avg job value</p>
   </div>
 
   <p style="max-width: 640px;">
-    And here's the quiet part: every lost lead tells two or three other tradies about
-    the company that got back to them in 30 minutes. Speed isn't just about closing —
-    it's about reputation.
+    That's not an exaggeration. At 3–5 missed deals per month and an $8k average job,
+    <strong>the math is brutal and precise</strong>. You're not losing to cheaper quotes —
+    you're losing to faster responses.
   </p>
 </section>
 
-<!-- ════════════ SECTION 3: THE SAME TUESDAY, REWIRED (from V2 Story) ════════════ -->
+<!-- ════════════ AGITATION: WHAT THIS ACTUALLY MEANS ════════════ -->
 <section class="gsap-reveal">
-  <p class="kicker">After</p>
-  <h2>Now, same Tuesday.<br>Same 7:42 AM. Different outcome.</h2>
-
-  <div style="background: rgba(204,120,92,0.04); border: 1px solid var(--coral); border-radius: var(--radius-card); padding: 32px 28px; margin: 24px 0; max-width: 640px;" class="gsap-stagger">
-    <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--coral); margin-bottom: 16px;">THE LEAD'S JOURNEY — AI-POWERED</div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--coral); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0;">7:42</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">Lead submits contact form</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">Your Sales Agent captures it instantly.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--coral); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0;">7:44</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">Agent qualifies and scores the lead</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">15 open jobs/month. Commercial focus. Score: 92/100. High-value.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--coral); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0;">7:48</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">You get a single message</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">"James — hot lead. 15 jobs/mo, commercial. Available Thu 2pm or Fri 10am. Which works?"</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
-      <div style="background: var(--coral); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0;">7:50</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--ink);">You reply "Thu 2pm" from your phone</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">Calendar invite sends. Intro packet goes out. Lead is warm and waiting.</p>
-      </div>
-    </div>
-
-    <div style="display: flex; gap: 12px; align-items: flex-start;">
-      <div style="background: var(--success); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0;">Thu</div>
-      <div>
-        <p style="font-size: 0.85rem; margin-bottom: 4px; font-weight: 600; color: var(--success);">You close the deal</p>
-        <p style="font-size: 0.78rem; color: var(--body); margin-bottom: 0;">Lead was nurtured, prepped, and warmed. The competitor never got a look-in.</p>
-      </div>
-    </div>
-  </div>
-
-  <p class="bridge-text">
-    Same Tuesday. Same lead. $8,000 difference. That's what speed does.
-  </p>
-
-  <!-- Asana mock showing the agent message -->
-  <div class="asana-mock gsap-reveal">
-    <div class="asana-header">
-      <div class="asana-avatar">SA</div>
-      <div>
-        <div class="asana-title">New lead: Smith & Co Electrical</div>
-        <div class="asana-meta">Sales Agent · 6 minutes ago</div>
-      </div>
-    </div>
-    <div class="asana-body">
-      James — new lead via website form.<br><br>
-      <strong>Quick summary:</strong><br>
-      — Smith & Co Electrical, 12-person team<br>
-      — Looking for quote-closing, commercial jobs<br>
-      — ~15 open quotes/month, avg. $8k per job<br>
-      — Currently using competitor, "not happy with speed"<br><br>
-      I've sent the intro packet, scored this as <strong>high-value</strong>,
-      and the prospect is available <strong>Thursday 2pm or Friday 10am</strong>.
-      Which works for you?
-    </div>
-    <span class="asana-tag">High Priority</span>
-    <span class="asana-tag">Lead Score: 92</span>
-
-    <div class="asana-reply">
-      <strong>James</strong> replied: "Thursday 2pm works. Nice catch — that's our angle. Send calendar invite."
-    </div>
-  </div>
-
-  <div style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 24px 28px; margin: 32px 0; text-align: center; max-width: 560px; margin-left: auto; margin-right: auto;" class="gsap-reveal">
-    <div class="feedback-loop" style="margin: 0 0 12px 0;">
-      <div class="loop-node">Agent Acts</div>
-      <span class="loop-arrow">→</span>
-      <div class="loop-node">Human Reviews</div>
-      <span class="loop-arrow">→</span>
-      <div class="loop-node">Human Approves</div>
-      <span class="loop-arrow">→</span>
-      <div class="loop-node">Agent Learns</div>
-    </div>
-    <p style="font-size: 0.82rem; color: var(--muted); margin: 0;">
-      Closed-loop feedback. Every correction makes the team smarter. Mistakes happen once.
-    </p>
-  </div>
-</section>
-
-<!-- ════════════ SECTION 4: THE QUESTIONS YOU'VE BEEN ASKING (from V7 Question) ════════════ -->
-<section class="gsap-reveal">
-  <p class="kicker">The Late-Night Questions</p>
-  <h2>The four questions every solo operator asks — answered.</h2>
+  <p class="kicker">What This Actually Means</p>
+  <h2>$32,000 a month.<br>Gone. Every single month.</h2>
 
   <p style="max-width: 640px;">
-    These aren't hypotheticals. These are the questions you've asked yourself —
-    usually when you should be sleeping. Let's answer each one.
+    Stack it up. That's <strong>$384,000 a year</strong> in revenue you're not capturing —
+    not because your service isn't good, not because your pricing is wrong, but because
+    you're one person and admin eats the clock.
   </p>
 
-  <!-- Q1: 2am -->
-  <div class="question-card gsap-stagger">
-    <div class="q-label">Question 1</div>
-    <div class="q-question">"What happens to my leads at 2am?"</div>
-    <div class="q-answer">
-      Right now? They sit in your inbox. A tradie fills in your form at 11pm
-      after a long day on the tools. By 2am, they've had a reply from a
-      competitor who uses automated acknowledgment. By 8am, when you open your
-      laptop, the lead has already formed a first impression — of someone who
-      responded faster than you.
-    </div>
-    <div class="q-solution">
-      <div class="sol-label">The Answer</div>
-      Your sales AI agent doesn't sleep. When that 2am lead comes in, it's
-      acknowledged within minutes — not with a generic auto-reply, but with a
-      personalised message that qualifies their needs and suggests next steps.
-      The lead wakes up to a response. You wake up to a qualified lead summary.
-    </div>
+  <div class="pain-stat">
+    <div class="number" data-count="384000" data-prefix="$" data-comma="true">$384,000</div>
+    <div class="label">estimated annual revenue lost to admin overhead. The number gets bigger every month you don't fix it.</div>
   </div>
 
-  <!-- Q2: cold after three days -->
-  <div class="question-card gsap-stagger">
-    <div class="q-label">Question 2</div>
-    <div class="q-question">"What about the leads that go cold after three days?"</div>
-    <div class="q-answer">
-      They're not bad leads. They're leads that weren't nurtured. A three-day
-      gap in communication drops close probability by 30% or more. By day seven,
-      the lead has mentally moved on — not because they chose someone else, but
-      because the momentum died. You were busy closing the deal in front of you.
-      The one behind you slipped away.
-    </div>
-    <div class="q-solution">
-      <div class="sol-label">The Answer</div>
-      Your sales agent runs a structured follow-up cadence: day 1 thank-you,
-      day 3 value-add, day 7 check-in, day 14 final nudge. Each message is
-      personalised based on the original conversation. You approve before send.
-      No lead goes cold because nobody remembered to follow up.
-    </div>
-  </div>
-
-  <!-- Q3: how much losing -->
-  <div class="question-card gsap-stagger">
-    <div class="q-label">Question 3</div>
-    <div class="q-question">"How much am I actually losing?"</div>
-    <div class="q-answer">
-      You feel it more than you can quantify it. But here's the math: at 3–5
-      missed jobs per month and an $8k average deal, that's $24k–$40k in revenue
-      that was yours to win — if you'd had the capacity to reach it. Over a year,
-      that's $288k–$480k. Not lost to a better closer. Lost to an empty inbox at
-      2am, a follow-up that never went out, a lead that went cold.
-    </div>
-    <div class="q-solution">
-      <div class="sol-label">The Answer</div>
-      $24k–$40k/month in recoverable revenue. Your AI team costs ~$70/month.
-      The ROI isn't a percentage — it's a completely different category.
-      Recover one deal and the system pays for itself for years.
-    </div>
-  </div>
-
-  <!-- Q4: is AI ready -->
-  <div class="question-card gsap-stagger">
-    <div class="q-label">Question 4</div>
-    <div class="q-question">"Is AI actually ready for a real business?"</div>
-    <div class="q-answer">
-      This is the one that stops most people. The fear that AI is a toy — fine
-      for generating images or writing emails, but not trustworthy enough for
-      real business operations. It's a fair question. And the answer depends
-      entirely on how it's set up.
-    </div>
-    <div class="q-solution">
-      <div class="sol-label">The Answer</div>
-      This isn't a chatbot you open in a browser. It's a team of specialist
-      agents running on production infrastructure — the same agent framework
-      (Hermes) and language model (DeepSeek) that have been running 24/7 in
-      production for 4+ months across 18 platforms. It operates with a
-      human-in-the-loop approval model: agents act, you review, agents learn.
-      Mistakes happen once. The system gets smarter every week.
-    </div>
-  </div>
-</section>
-
-<!-- ════════════ SECTION 5: WHERE THE LEAKS ACTUALLY ARE (from V6 Teardown) ════════════ -->
-<section class="gsap-reveal">
-  <p class="kicker">The Audit</p>
-  <h2>Two leaks that are costing you deals right now.</h2>
   <p style="max-width: 640px;">
-    Every business has friction points. These two are the ones that kill the most
-    deals — and they're the easiest to fix with an AI team.
+    A tradie puts out a quote request. Three businesses respond. The first one to deliver
+    a sharp, professional quote — with follow-up — wins. Not the cheapest. The <strong>fastest</strong>.
+    If you're buried in spreadsheets, you're slow. And in this game, slow is the most
+    expensive thing you can be.
+  </p>
+</section>
+
+<!-- ════════════ SOLUTION: THE ALTERNATIVE ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">The Alternative</p>
+  <h2>What if admin cost $70<br>instead of $32,000?</h2>
+
+  <p style="max-width: 640px;">
+    That's the proposition. Not a VA who takes three months to train and still needs
+    babysitting. Not another tool you have to learn. An <strong>AI team</strong> that
+    lives in the tools you already use — email, WhatsApp, Asana — and handles the
+    admin while you close.
   </p>
 
-  <!-- Step 1: Manual Bottleneck -->
-  <div class="audit-step gsap-stagger">
-    <div class="step-num">Leak 1</div>
-    <h3>Manual Bottleneck</h3>
-    <div class="step-flaw">The Flaw</div>
-    <div class="step-flow">
-      Prospect fills in contact form → Data lands in your inbox → Sits there until
-      you check email → You read it, assess it manually → You decide whether to
-      follow up → You reply or call
-    </div>
-    <p style="font-size: 0.85rem; color: var(--body);">
-      <strong>Observed:</strong> This is the first loss point. If you're on a call
-      or it's after hours, the lead waits. Every hour of delay reduces close
-      probability by 7–10%. A lead arriving at 9pm waits until the next morning.
-      By then, a competitor may have already responded.
-    </p>
-    <div class="step-fix">
-      <div class="fix-label">→ AI Fix</div>
-      Sales Agent monitors the inbox 24/7. Within minutes of form submission, it
-      qualifies the lead (industry, team size, quote volume, urgency signals),
-      sends a personalised acknowledgment, and preps a summary for your review.
-      You see it when you're ready — but the lead doesn't wait.
-    </div>
-  </div>
+  <p style="max-width: 640px;">
+    Four specialist agents. One infrastructure. Running 24/7 on a secure cloud server.
+    They don't sleep, don't forget, and don't complain about Mondays.
+  </p>
 
-  <!-- Step 4: Calendar Chaos -->
-  <div class="audit-step gsap-stagger">
-    <div class="step-num">Leak 2</div>
-    <h3>Calendar Chaos</h3>
-    <div class="step-flaw">The Flaw</div>
-    <div class="step-flow">
-      You propose a time → They can't make it → You propose another → They're
-      busy → 3–4 emails later, you find a slot → By now it's next week → The
-      lead has cooled → You show up, they cancel or no-show
-    </div>
-    <p style="font-size: 0.85rem; color: var(--body);">
-      <strong>Observed:</strong> Scheduling friction kills more deals than bad
-      pitches. Every "does Thursday work? No? How about Friday?" email erodes
-      the prospect's perception of your professionalism.
-    </p>
-    <div class="step-fix">
-      <div class="fix-label">→ AI Fix</div>
-      Agent surfaces your available slots (calibrated to your calendar), sends
-      exactly two options, and books the confirmed time instantly. Sends calendar
-      invite with prep notes. Sends a reminder 2 hours before. The scheduling
-      loop collapses from days to minutes.
+  <div class="pricing-grid">
+    <div class="pricing-card featured gsap-stagger" style="grid-column: 1 / -1; max-width: 400px; margin: 0 auto;">
+      <div class="tag">Monthly Running Cost</div>
+      <div class="price" data-count="70" data-prefix="~$" data-suffix="/mo">~$70<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
+      <div class="period">Infrastructure + LLM usage</div>
+      <ul>
+        <li>Always-on cloud server: ~$50/mo</li>
+        <li>DeepSeek API tokens: ~$20/mo</li>
+        <li>No per-seat licensing</li>
+        <li>No lock-in contracts</li>
+      </ul>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 8px;">Consulting engagement scoped separately.</p>
     </div>
   </div>
 </section>
 
-<!-- ════════════ SECTION 6: YOUR AI TEAM ════════════ -->
+<!-- ════════════ THE AI TEAM ════════════ -->
 <section class="gsap-reveal">
-  <p class="kicker">Your AI Team</p>
-  <h2>Four specialists.<br>Every admin minute reclaimed.</h2>
+  <p class="kicker">The AI Team</p>
+  <h2>Four agents.<br>Every admin task covered.</h2>
 
   <p style="max-width: 640px; margin-bottom: 8px;">
-    They don't replace you. They replace the 80% of your day that isn't closing.
-    They live in your email, WhatsApp, and Asana — not in a separate tab you have
-    to remember to check. Each owns a specific slice of the pipeline.
+    These aren't chatbots in a browser tab. They're purpose-built agents that work
+    where you work — qualifying leads, managing follow-ups, sending invoices, and
+    surfacing insights without you touching a dashboard.
   </p>
 
   <div class="agent-cards">
     <div class="agent-card gsap-stagger">
       <div class="agent-avatar" style="background: rgba(204,120,92,0.1); color: var(--coral);">📣</div>
       <div class="agent-name">Sales & Marketing Agent</div>
-      <div class="agent-role" style="color: var(--coral);">Pipeline: Attract & Convert</div>
+      <div class="agent-role" style="color: var(--coral);">Attract & Convert</div>
       <ul class="agent-does">
         <li>Finds and qualifies tradies who need quotes closed</li>
         <li>Manages Meta ads, SEO, and your website</li>
         <li>Schedules sales calls and follows up on quotes automatically</li>
       </ul>
-      <div class="agent-where">Owns: <span>Lead qualification → Scheduling → Follow-up cadence</span></div>
+      <div class="agent-where">Works in: <span>Email · WhatsApp · Asana · Meta Ads</span></div>
     </div>
 
     <div class="agent-card gsap-stagger">
       <div class="agent-avatar" style="background: rgba(26,115,232,0.1); color: var(--blue);">💬</div>
       <div class="agent-name">Customer Service Agent</div>
-      <div class="agent-role" style="color: var(--blue);">Pipeline: Post-Sale</div>
+      <div class="agent-role" style="color: var(--blue);">Operate Engine</div>
       <ul class="agent-does">
         <li>Answers post-sale questions 24/7</li>
         <li>Requests reviews after job completion</li>
         <li>Escalates only what needs you</li>
       </ul>
-      <div class="agent-where">Owns: <span>Post-close support → Review collection → Retention</span></div>
+      <div class="agent-where">Works in: <span>Email · WhatsApp</span></div>
     </div>
 
     <div class="agent-card gsap-stagger">
       <div class="agent-avatar" style="background: rgba(194,104,12,0.1); color: var(--amber);">💰</div>
       <div class="agent-name">Finance Agent</div>
-      <div class="agent-role" style="color: var(--amber);">Pipeline: Invoicing & Collections</div>
+      <div class="agent-role" style="color: var(--amber);">Operate Engine</div>
       <ul class="agent-does">
         <li>Sends invoices and manages payment reminders</li>
         <li>Tracks outstanding accounts</li>
         <li>Flags late payments for your attention</li>
       </ul>
-      <div class="agent-where">Owns: <span>Invoice dispatch → Payment tracking → Collections</span></div>
+      <div class="agent-where">Works in: <span>Email · Accounting software</span></div>
     </div>
 
     <div class="agent-card gsap-stagger">
       <div class="agent-avatar" style="background: rgba(124,58,237,0.1); color: var(--purple);">📊</div>
       <div class="agent-name">Analytics Agent</div>
-      <div class="agent-role" style="color: var(--purple);">Pipeline: Oversight & Forecasting</div>
+      <div class="agent-role" style="color: var(--purple);">All Engines</div>
       <ul class="agent-does">
         <li>Live dashboards: leads, conversion rates, pipeline</li>
         <li>Business health metrics and forecasting</li>
         <li>Surfaces what's working — and what's not</li>
       </ul>
-      <div class="agent-where">Owns: <span>Pipeline visibility → Drop-off detection → Revenue forecasting</span></div>
+      <div class="agent-where">Works in: <span>Email · Browser dashboard</span></div>
+    </div>
+  </div>
+
+  <p class="bridge-text">
+    $32,000/mo lost → $70/mo to fix. The math speaks for itself.
+  </p>
+</section>
+
+<!-- ════════════ UNDER THE HOOD ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">Under the Hood</p>
+  <h2>One system. Multiple roles.</h2>
+
+  <div class="stack-box">
+    <div class="layer gsap-stagger">
+      <div class="label">Agent Harness</div>
+      <div class="name">Hermes</div>
+      <div class="detail">Open-source agent framework. 24/7 operation, skill-based architecture, multi-platform messaging.</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">LLM Engine</div>
+      <div class="name">DeepSeek</div>
+      <div class="detail">High-performance language model. Cost-efficient, production-grade reasoning.</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">Infrastructure</div>
+      <div class="name">Cloud Server</div>
+      <div class="detail">Secure virtual server. Always on. No laptop required. Works while you sleep.</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">Interface</div>
+      <div class="name">Your Tools</div>
+      <div class="detail">Email, WhatsApp, Asana — wherever you and your team already work. No new apps.</div>
     </div>
   </div>
 </section>
 
-<!-- ════════════ SECTION 7: THE ECONOMICS (from V3 Investor) ════════════ -->
+<!-- ════════════ THE GUIDE ════════════ -->
 <section class="gsap-reveal">
-  <p class="kicker">The Economics</p>
-  <h2>One extra deal a month<br>covers 9 years of this.</h2>
-
-  <p style="max-width: 640px;">
-    You're not deciding whether to buy software. You're deciding whether to keep
-    leaving $24k–$40k a month on the table — or plug the leak for ~$70. The math
-    doesn't get simpler than that.
-  </p>
-
-  <div class="bab-grid" style="max-width: 720px; margin: 32px auto;">
-    <div class="gsap-stagger" style="background: var(--surface-alt); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 28px 24px; text-align: center;">
-      <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px;">Monthly Cost</p>
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;">~$70</div>
-      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 8px;">Infrastructure + LLM usage. Less than your phone bill.</p>
-    </div>
-    <div class="gsap-stagger" style="background: rgba(27,138,61,0.06); border: 1px solid var(--success); border-radius: var(--radius-card); padding: 28px 24px; text-align: center;">
-      <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--success); margin-bottom: 12px;">Monthly Recovery</p>
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--success); line-height: 1;">~$32,000</div>
-      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 8px;">Even 1 extra deal closed pays for 9+ years of running costs.</p>
-    </div>
-  </div>
-
-  <div style="text-align: center; margin: 32px 0 40px;">
-    <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 8px;">Total monthly running cost</p>
-    <div style="font-family: var(--font-body); font-size: clamp(2.6rem, 5vw, 3.8rem); font-weight: 900; color: var(--coral); line-height: 1;" data-count="70" data-prefix="~$" data-suffix="/mo">~$70<span style="font-size: 1.4rem; font-weight: 500;">/mo</span></div>
-    <p style="font-size: 1rem; color: var(--ink); font-weight: 600; margin-top: 8px;">That's less than your phone bill. And it works while you sleep.</p>
-    <p style="font-size: 0.82rem; color: var(--muted); margin-top: 8px;">Consulting engagement scoped separately.</p>
-  </div>
-
-  <div class="pricing-grid">
-    <div class="pricing-card gsap-stagger">
-      <div class="tag">Infrastructure</div>
-      <div class="price" data-count="50" data-prefix="$" data-suffix="/mo">$50<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
-      <div class="period">Secure virtual server</div>
-      <ul>
-        <li>Always-on cloud hosting</li>
-        <li>Your agents run 24/7</li>
-        <li>No laptop or hardware required</li>
-        <li>Auto-backups & monitoring</li>
-      </ul>
-    </div>
-
-    <div class="pricing-card featured gsap-stagger">
-      <div class="tag">LLM Usage</div>
-      <div class="price" data-count="20" data-prefix="~$" data-suffix="/mo">~$20<span style="font-size: 1.2rem; font-weight: 500;">/mo</span></div>
-      <div class="period">Token consumption (estimate)</div>
-      <ul>
-        <li>DeepSeek API access</li>
-        <li>Varies with usage volume</li>
-        <li>~$0.50–$1.00/day typical</li>
-        <li>Pay-as-you-go, no lock-in</li>
-      </ul>
-    </div>
-  </div>
-
-  <p style="text-align: center; font-size: 0.82rem; color: var(--muted); margin-top: 16px;">
-    Pay-as-you-go. No lock-in. No upfront infrastructure costs. Just a team that works.
-  </p>
-</section>
-
-<!-- ════════════ SECTION 8: WHO BUILDS THIS ════════════ -->
-<section class="gsap-reveal">
-  <p class="kicker">Who Builds This</p>
-  <h2>Someone who's already<br>living with an AI team.</h2>
-
-  <div class="social-metrics" style="margin-bottom: 32px;">
-    <div style="text-align: center;" class="gsap-stagger">
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;" data-count="4">4</div>
-      <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">months in production</div>
-    </div>
-    <div style="text-align: center;" class="gsap-stagger">
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;" data-count="18">18</div>
-      <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">platforms integrated</div>
-    </div>
-    <div style="text-align: center;" class="gsap-stagger">
-      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral); line-height: 1;">24/7</div>
-      <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">autonomous operation</div>
-    </div>
-  </div>
+  <p class="kicker">The Guide</p>
+  <h2>I set it up.<br>You run your business.</h2>
 
   <div class="guide-box">
     <div class="guide-img">🤖</div>
@@ -1401,37 +1035,12 @@
     <p style="max-width: 500px; margin: 0 auto 16px; font-size: 0.9rem;">
       I've spent four months building and running a production AI agent that operates
       across 18 platforms, runs 8 autonomous processes, and executes 24 packaged skills —
-      while I run marketing for a multi-brand retail group. I know what breaks, what
-      works, and what's just hype.
+      while I run marketing for a multi-brand retail group.
     </p>
     <p style="max-width: 500px; margin: 0 auto; font-size: 0.85rem; color: var(--muted);">
-      My job here is simple: get your AI team running inside your actual workflow.
-      Then step back and let you close.
+      I'm not a consultant who read about AI. I'm the person who built one. My job here
+      is to get your AI team up and running — then get out of your way.
     </p>
-  </div>
-
-  <!-- Stack -->
-  <div class="stack-box">
-    <div class="layer gsap-stagger">
-      <div class="label">Agent Harness</div>
-      <div class="name">Hermes</div>
-      <div class="detail">Open-source framework. 24/7 operation, skill-based architecture.</div>
-    </div>
-    <div class="layer gsap-stagger">
-      <div class="label">LLM Engine</div>
-      <div class="name">DeepSeek</div>
-      <div class="detail">High-performance, cost-efficient, production-grade reasoning.</div>
-    </div>
-    <div class="layer gsap-stagger">
-      <div class="label">Infrastructure</div>
-      <div class="name">Cloud Server</div>
-      <div class="detail">Secure, always-on. No laptop needed. Works while you sleep.</div>
-    </div>
-    <div class="layer gsap-stagger">
-      <div class="label">Interface</div>
-      <div class="name">Your Tools</div>
-      <div class="detail">Email, WhatsApp, Asana. Nothing new to learn.</div>
-    </div>
   </div>
 
   <p style="text-align: center; font-size: 0.85rem; color: var(--muted); max-width: 500px; margin: 0 auto;">
@@ -1441,14 +1050,15 @@
   </p>
 </section>
 
-<!-- ════════════ SECTION 9: CTA (from V2 Story) ════════════ -->
+<!-- ════════════ CLOSE ════════════ -->
 <section class="gsap-reveal cta-section" style="border-top: 1px solid var(--hairline-soft);">
-  <p class="kicker">This Week</p>
-  <h2>Next Tuesday,<br>a lead comes in at 7:42 AM.</h2>
+  <p class="kicker">The Bottom Line</p>
+  <h2>Every month you wait<br>costs ~$32,000.</h2>
 
   <p style="max-width: 520px; margin: 24px auto;">
-    The only question is: who gets to them first? You, with a team that works while
-    you sleep — or a competitor who's already got their reply queued up?
+    The solution costs ~$70/mo to run. It works while you sleep. It never forgets a
+    follow-up, never misfiles a lead, and never takes a day off. Let's get it running
+    while the setup window is open.
   </p>
 
   <p class="contact" style="margin-top: 32px;">
@@ -1460,7 +1070,7 @@
   </p>
 
   <p style="font-size: 0.78rem; color: var(--muted); margin-top: 16px;">
-    No hard sell. Just a conversation about what your Tuesdays could look like.
+    No hard sell. Just a conversation about what it looks like when admin stops costing you money.
   </p>
 </section>
 

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Close. AI Handles the Rest. — Proposal for James</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<style>
+  :root {
+    --canvas: #faf9f5;
+    --surface: #ffffff;
+    --surface-alt: #f0eeea;
+    --ink: #141413;
+    --body: #5c5a55;
+    --muted: #94918a;
+    --hairline: #e4e1db;
+    --hairline-soft: #ece9e4;
+    --coral: #cc785c;
+    --coral-hover: #a9583e;
+    --success: #1b8a3d;
+    --warning: #d4a017;
+    --blue: #1a73e8;
+    --amber: #c2680c;
+    --purple: #7c3aed;
+    --radius-card: 20px;
+    --radius-btn: 6px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--body);
+    background: var(--canvas);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+  }
+
+  p { margin-bottom: 16px; font-size: 0.95rem; }
+
+  .kicker {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+  section + section {
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  /* ── Hero canvas ── */
+  #hero-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero h1 { margin-bottom: 24px; }
+
+  .hero .subtitle {
+    font-size: 0.95rem;
+    color: var(--body);
+    max-width: 580px;
+    margin: 0 auto 16px;
+  }
+
+  .hero .subtitle strong { color: var(--ink); }
+
+  /* ── Engine icons ── */
+  .pillar-icon-img {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    display: block;
+  }
+
+  /* ── Pain Stat ── */
+  .pain-stat {
+    text-align: center;
+    margin: 32px 0;
+  }
+
+  .pain-stat .number {
+    font-family: var(--font-body);
+    font-size: clamp(2.6rem, 8vw, 4.5rem);
+    font-weight: 900;
+    color: var(--coral);
+    line-height: 1;
+  }
+
+  .pain-stat .label {
+    font-size: 0.9rem;
+    color: var(--body);
+    margin-top: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Three Pillars ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px 24px;
+    box-shadow: var(--shadow-rest);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pillar::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .pillar.attract::before { background: var(--blue); }
+  .pillar.convert::before { background: var(--coral); }
+  .pillar.operate::before { background: var(--success); }
+
+  .pillar .pillar-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pillar.attract .pillar-label { color: var(--blue); }
+  .pillar.convert .pillar-label { color: var(--coral); }
+  .pillar.operate .pillar-label { color: var(--success); }
+
+  .pillar h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .pillar p {
+    font-size: 0.85rem;
+    color: var(--body);
+    margin-bottom: 0;
+  }
+
+  /* ── Agent Cards ── */
+  .agent-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  .agent-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .agent-card .agent-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-name {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .agent-card .agent-role {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-does {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+
+  .agent-card .agent-does li {
+    font-size: 0.85rem;
+    color: var(--body);
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .agent-card .agent-does li::before {
+    content: "— ";
+    color: var(--muted);
+  }
+
+  .agent-card .agent-where {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-style: italic;
+    border-top: 1px solid var(--hairline-soft);
+    padding-top: 12px;
+  }
+
+  .agent-card .agent-where span {
+    color: var(--body);
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  /* ── Asana mock ── */
+  .asana-mock {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 20px 20px;
+    box-shadow: var(--shadow-rest);
+    margin: 32px 0;
+    font-family: var(--font-body);
+  }
+
+  .asana-mock .asana-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .asana-mock .asana-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .asana-mock .asana-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .asana-mock .asana-meta {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .asana-mock .asana-body {
+    font-size: 0.85rem;
+    color: var(--body);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .asana-mock .asana-tag {
+    display: inline-block;
+    background: rgba(204,120,92,0.1);
+    color: var(--coral);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+
+  .asana-mock .asana-reply {
+    background: var(--surface-alt);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--body);
+  }
+
+  .asana-mock .asana-reply strong {
+    color: var(--coral);
+    font-weight: 600;
+  }
+
+  /* ── Bridge text ── */
+  .bridge-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--coral);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  /* ── Portfolio link ── */
+  .portfolio-link {
+    display: inline-block;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 16px 24px;
+    color: var(--coral);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .portfolio-link:hover {
+    border-color: var(--coral);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* ── Before/After cards ── */
+  .bab-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  /* ── Feedback Loop ── */
+  .feedback-loop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 32px 0;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .feedback-loop .loop-node {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 100px;
+    padding: 8px 14px;
+    color: var(--ink);
+    font-weight: 600;
+    margin: 4px 0;
+  }
+
+  .feedback-loop .loop-arrow {
+    color: var(--coral);
+    margin: 0 8px;
+    font-size: 0.9rem;
+  }
+
+  /* ── Stack ── */
+  .stack-box {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .stack-box .layer { padding: 12px; }
+
+  .stack-box .layer .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .stack-box .layer .name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .stack-box .layer .detail {
+    font-size: 0.82rem;
+    color: var(--body);
+    margin-top: 4px;
+  }
+
+  /* ── Pricing ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .pricing-card.featured {
+    border-color: var(--coral);
+    box-shadow: 0 4px 24px rgba(204,120,92,0.10);
+  }
+
+  .pricing-card .price {
+    font-family: var(--font-body);
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin: 12px 0 4px;
+  }
+
+  .pricing-card .period {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .pricing-card ul {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .pricing-card ul li {
+    font-size: 0.85rem;
+    color: var(--body);
+    padding: 5px 0;
+  }
+
+  .pricing-card ul li::before {
+    content: "— ";
+    color: var(--coral);
+  }
+
+  .pricing-card .tag {
+    display: inline-block;
+    background: var(--coral);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Guide section ── */
+  .guide-box {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 32px 24px;
+    margin: 32px 0;
+    text-align: center;
+  }
+
+  .guide-box .guide-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 16px;
+  }
+
+  .guide-box h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  /* ── Social proof metrics ── */
+  .social-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── Notice ── */
+  .notice {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-size: 0.85rem;
+    color: var(--body);
+    line-height: 1.6;
+  }
+
+  .notice strong { color: var(--ink); }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    padding: 60px 0 80px;
+  }
+
+  .cta-section p {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .cta-section .contact {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* ── Workflow flow ── */
+  .workflow-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .workflow-flow .flow-step {
+    text-align: center;
+    max-width: 160px;
+  }
+
+  .workflow-flow .flow-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 10px;
+    border: 2px solid var(--hairline);
+    background: var(--surface);
+  }
+
+  .workflow-flow .flow-arrow-connector {
+    display: flex;
+    align-items: center;
+    color: var(--coral);
+    font-size: 1.3rem;
+    padding-top: 12px;
+  }
+
+  .workflow-flow .flow-label {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .workflow-flow .flow-detail {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .workflow-flow .flow-human {
+    display: inline-block;
+    background: rgba(204,120,92,0.1);
+    color: var(--coral);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-top: 6px;
+  }
+
+  /* ════════════ DESKTOP (≥700px) ════════════ */
+  @media (min-width: 700px) {
+
+    body { padding: 0 32px; }
+
+    h1 { font-size: clamp(2.6rem, 5vw, 3.8rem); }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.25rem; }
+
+    section { padding: 80px 0 100px; }
+
+    /* Hero */
+    .hero { padding: 120px 0 80px; min-height: 70vh; }
+    .hero .subtitle { font-size: 1.1rem; }
+
+    /* Pillars: 3 columns */
+    .pillars {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .pillar { padding: 36px 28px; }
+    .pillar h3 { font-size: 1.5rem; }
+    .pillar .pillar-label { font-size: 0.72rem; }
+
+    /* Agent cards: auto-fit grid */
+    .agent-cards {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .agent-card {
+      padding: 32px 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .agent-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Asana: wider */
+    .asana-mock {
+      padding: 24px 28px;
+      margin: 40px auto;
+      max-width: 560px;
+    }
+
+    .asana-mock .asana-body { font-size: 0.88rem; }
+    .asana-mock .asana-tag { font-size: 0.72rem; padding: 2px 10px; }
+
+    /* Before/After: side by side */
+    .bab-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 32px 0;
+      max-width: 720px;
+    }
+
+    /* Feedback loop */
+    .feedback-loop { font-size: 0.78rem; }
+    .feedback-loop .loop-node { padding: 10px 20px; }
+    .feedback-loop .loop-arrow { margin: 0 12px; font-size: 1rem; }
+
+    /* Stack: 4 columns */
+    .stack-box {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      padding: 32px;
+      margin: 40px 0;
+    }
+    .stack-box .layer .name { font-size: 1.5rem; }
+
+    /* Pricing: 2 columns */
+    .pricing-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .pricing-card { padding: 36px 32px; }
+    .pricing-card .price { font-size: 3rem; }
+    .pricing-card ul li { font-size: 0.88rem; }
+
+    /* Guide */
+    .guide-box { padding: 40px; margin: 40px 0; }
+    .guide-box .guide-img { width: 72px; height: 72px; font-size: 1.8rem; }
+    .guide-box h3 { font-size: 1.6rem; }
+
+    /* CTA */
+    .cta-section { padding: 60px 0 100px; }
+    .cta-section p { font-size: 1.05rem; }
+
+    /* Workflow */
+    .workflow-flow { gap: 16px; margin: 48px 0; }
+    .workflow-flow .flow-step { max-width: 180px; }
+    .workflow-flow .flow-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+    .workflow-flow .flow-arrow-connector { font-size: 1.5rem; padding-top: 14px; }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    #hero-canvas { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="hero" id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <h1>You close.<br>AI handles the rest.</h1>
+  <p class="subtitle">James, you built a quote-closing business. You're good at it. But 80% of your time goes to admin — leads, follow-ups, invoicing, scheduling — instead of closing. Let's fix that.</p>
+
+  <div class="pain-stat">
+    <div class="number" data-count="80" data-suffix="%">80%</div>
+    <div class="label">of your time is admin. That's ~$32,000/month in deals you never get to.</div>
+  </div>
+</section>
+
+<!-- ════════════ THE PROBLEM ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">The Problem</p>
+  <h2>A lead comes in.<br>You're buried in admin.<br>Someone else closes them.</h2>
+  <p style="max-width: 560px;">Speed closes deals in this game. Not price. Not quality. Speed. If a competitor responds in 30 minutes and you respond in 4 hours, you lose. Every time. And at 3–5 missed jobs a month at $8k average, that's $24k–$40k gone.</p>
+</section>
+
+<!-- ════════════ THE SOLUTION ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">The Solution</p>
+  <h2>Four AI agents.<br>Every admin task.<br>Done.</h2>
+
+  <div class="agent-cards">
+    <div class="agent-card gsap-stagger">
+      <div class="agent-avatar" style="background: rgba(204,120,92,0.1); color: var(--coral);">📣</div>
+      <div class="agent-name">Sales & Marketing</div>
+      <div class="agent-role" style="color: var(--coral);">Leads, ads, follow-ups</div>
+      <ul class="agent-does">
+        <li>Qualifies leads. Schedules calls. Follows up.</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · WhatsApp · Asana</span></div>
+    </div>
+    <div class="agent-card gsap-stagger">
+      <div class="agent-avatar" style="background: rgba(26,115,232,0.1); color: var(--blue);">💬</div>
+      <div class="agent-name">Customer Service</div>
+      <div class="agent-role" style="color: var(--blue);">Support, reviews</div>
+      <ul class="agent-does">
+        <li>Answers questions. Collects reviews. 24/7.</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · WhatsApp</span></div>
+    </div>
+    <div class="agent-card gsap-stagger">
+      <div class="agent-avatar" style="background: rgba(194,104,12,0.1); color: var(--amber);">💰</div>
+      <div class="agent-name">Finance</div>
+      <div class="agent-role" style="color: var(--amber);">Invoicing, payments</div>
+      <ul class="agent-does">
+        <li>Sends invoices. Chases payments. Flags issues.</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · Accounting</span></div>
+    </div>
+    <div class="agent-card gsap-stagger">
+      <div class="agent-avatar" style="background: rgba(124,58,237,0.1); color: var(--purple);">📊</div>
+      <div class="agent-name">Analytics</div>
+      <div class="agent-role" style="color: var(--purple);">Dashboards, insights</div>
+      <ul class="agent-does">
+        <li>Pipeline. Conversion rates. What's working.</li>
+      </ul>
+      <div class="agent-where">Works in: <span>Email · Dashboard</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ THE COST ════════════ -->
+<section class="gsap-reveal">
+  <p class="kicker">The Cost</p>
+  <h2>~$70/month.<br>Less than your phone bill.</h2>
+
+  <p style="max-width: 560px;">Four agents. Cloud server. DeepSeek LLM. 24/7 operation. They work while you sleep. They never forget a follow-up. They never misfile a lead.</p>
+
+  <div class="bab-grid" style="max-width: 640px; margin: 32px auto;">
+    <div class="gsap-stagger" style="background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: 24px 20px; text-align: center;">
+      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--coral);">~$70<span style="font-size: 1rem;">/mo</span></div>
+      <div style="font-size: 0.78rem; color: var(--muted);">Running cost. Pay-as-you-go. No lock-in.</div>
+    </div>
+    <div class="gsap-stagger" style="background: rgba(27,138,61,0.06); border: 1px solid var(--success); border-radius: var(--radius-card); padding: 24px 20px; text-align: center;">
+      <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 900; color: var(--success);">~$32k<span style="font-size: 1rem;">/mo</span></div>
+      <div style="font-size: 0.78rem; color: var(--muted);">Revenue recovered. One deal covers 9+ years.</div>
+    </div>
+  </div>
+
+  <div class="stack-box">
+    <div class="layer gsap-stagger">
+      <div class="label">Harness</div>
+      <div class="name">Hermes</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">Engine</div>
+      <div class="name">DeepSeek</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">Infra</div>
+      <div class="name">Cloud</div>
+    </div>
+    <div class="layer gsap-stagger">
+      <div class="label">Interface</div>
+      <div class="name">Your Tools</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CLOSE ════════════ -->
+<section class="gsap-reveal cta-section" style="border-top: 1px solid var(--hairline-soft);">
+  <p class="kicker">Let's Talk</p>
+  <h2>You close deals.<br>AI handles the rest.</h2>
+
+  <p style="max-width: 520px; margin: 24px auto;">
+    Josh Hancock set this up. Four months running a production AI agent across 18 platforms. Not theory — lived experience. I configure it. You run your business.
+  </p>
+
+  <p class="contact" style="margin-top: 32px;">
+    hancockjluke@gmail.com &nbsp;·&nbsp; 0419 836 366
+  </p>
+
+  <p style="margin-top: 24px;">
+    <a href="https://gary-afs.github.io/afs-pages/garys-portfolio/" target="_blank" class="portfolio-link">See how I've been using AI →</a>
+  </p>
+</section>
+
+<script>
+  /* ═══════════════════════════════════════════════════════
+     THREE.JS — HERO PARTICLE FIELD
+     ═══════════════════════════════════════════════════════ */
+  (async function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const hero = document.getElementById('hero');
+    const canvas = document.getElementById('hero-canvas');
+    if (!hero || !canvas) return;
+
+    try {
+      const THREE = await import('three');
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+      camera.position.z = 30;
+
+      // Create particles — coral & cream tones
+      const particleCount = window.innerWidth < 700 ? 80 : 200;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      const coralColor = new THREE.Color('#cc785c');
+      const creamColor = new THREE.Color('#f0eeea');
+      const inkColor = new THREE.Color('#5c5a55');
+
+      const colorPalette = [coralColor, creamColor, inkColor, coralColor.clone().multiplyScalar(0.7)];
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        // Spread across a wider area
+        positions[i3] = (Math.random() - 0.5) * 50;
+        positions[i3 + 1] = (Math.random() - 0.5) * 40;
+        positions[i3 + 2] = (Math.random() - 0.5) * 20;
+
+        const col = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+        colors[i3] = col.r;
+        colors[i3 + 1] = col.g;
+        colors[i3 + 2] = col.b;
+
+        sizes[i] = Math.random() * 0.15 + 0.03;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      // Circle sprite
+      const spriteCanvas = document.createElement('canvas');
+      spriteCanvas.width = 32;
+      spriteCanvas.height = 32;
+      const ctx = spriteCanvas.getContext('2d');
+      ctx.beginPath();
+      ctx.arc(16, 16, 14, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      const texture = new THREE.CanvasTexture(spriteCanvas);
+      const material = new THREE.PointsMaterial({
+        size: 0.5,
+        map: texture,
+        vertexColors: true,
+        blending: THREE.NormalBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.7,
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      // Mouse tracking for subtle drift
+      let mouseX = 0, mouseY = 0;
+      let targetMouseX = 0, targetMouseY = 0;
+
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        targetMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetMouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      });
+
+      // Resize
+      function resize() {
+        const rect = hero.getBoundingClientRect();
+        renderer.setSize(rect.width, rect.height);
+        camera.aspect = rect.width / Math.max(rect.height, 1);
+        camera.updateProjectionMatrix();
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Animate
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Smooth mouse follow
+        mouseX += (targetMouseX - mouseX) * 0.02;
+        mouseY += (targetMouseY - mouseY) * 0.02;
+
+        particles.rotation.x += 0.0003;
+        particles.rotation.y += 0.0004;
+
+        // Subtle camera drift from mouse
+        camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Lower opacity after initial load
+      setTimeout(() => {
+        canvas.style.opacity = '0.25';
+        canvas.style.transition = 'opacity 2s ease';
+      }, 500);
+
+    } catch (e) {
+      console.warn('Three.js hero particles failed to load, continuing gracefully:', e.message);
+      canvas.style.display = 'none';
+    }
+  })();
+
+  /* ═══════════════════════════════════════════════════════
+     GSAP + SCROLLTRIGGER — REVEALS, STAGGERS, COUNTERS
+     ═══════════════════════════════════════════════════════ */
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Show everything immediately
+      document.querySelectorAll('.gsap-reveal, .gsap-stagger').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
+    // Register ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Section reveals ──
+    document.querySelectorAll('.gsap-reveal').forEach((section) => {
+      gsap.fromTo(section,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    // ── Staggered card reveals ──
+    document.querySelectorAll('.pillars, .agent-cards, .bab-grid, .stack-box, .pricing-grid, .social-metrics').forEach((container) => {
+      const items = container.querySelectorAll('.gsap-stagger');
+      if (items.length === 0) return;
+
+      gsap.fromTo(items,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    // ── Asana mock slide-in ──
+    const asanaMock = document.querySelector('.asana-mock.gsap-reveal');
+    if (asanaMock) {
+      gsap.fromTo(asanaMock,
+        { opacity: 0, x: 30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: asanaMock,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    }
+
+    // ── Number counter animations ──
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      const useComma = el.getAttribute('data-comma') === 'true';
+
+      if (isNaN(target)) return;
+
+      // Store the original display for mobile fallback
+      const originalText = el.textContent;
+
+      gsap.fromTo(el,
+        { innerText: 0 },
+        {
+          innerText: target,
+          duration: 2,
+          ease: 'power2.out',
+          snap: { innerText: 1 },
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
+          onUpdate: function() {
+            const val = Math.round(this.targets()[0].innerText);
+            let display = prefix + (useComma ? val.toLocaleString() : val) + suffix;
+            el.textContent = display;
+            // Restore original HTML structure after GSAP overwrites
+            if (el.querySelector('span')) {
+              el.innerHTML = display;
+            }
+          }
+        }
+      );
+    });
+  })();
+</script>
+
+</body>
+</html>
