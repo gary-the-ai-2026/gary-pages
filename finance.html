@@ -311,7 +311,8 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
     <h3>Money In</h3>
     <div class="chart-wrap"><canvas id="incomeChart"></canvas></div>
     <div class="chart-note" style="margin-top:16px;font-size:0.78rem;color:var(--muted);text-align:center;">
-      Actual bank deposits · excludes super, tax refunds &amp; dividends
+      Actual deposits this month: <strong style="color:var(--ink);" id="incomeActual">—</strong><br>
+      Monthly run rate: <strong style="color:var(--ink);" id="incomeRunRate">—</strong>
     </div>
   </div>
   <div class="chart-card gsap-reveal" id="loanCard">
@@ -575,6 +576,10 @@ function buildIncomeChart(pd) {
   if (!pd.income) return;
   const ctx = document.getElementById('incomeChart').getContext('2d');
   const sources = pd.income.sources;
+  document.getElementById('incomeActual').textContent = '$' + pd.income.total.toLocaleString();
+  if (pd.income.monthlyEquivalent) {
+    document.getElementById('incomeRunRate').textContent = '~$' + pd.income.monthlyEquivalent.toLocaleString() + ' (excl. super, tax refunds & dividends)';
+  }
   charts.income = new Chart(ctx, {
     type: 'bar',
     data: {
