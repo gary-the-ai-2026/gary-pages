@@ -279,6 +279,24 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   </div>
 </section>
 
+<!-- ═══ INCOME & LOAN ROW ═══ -->
+<div class="charts-row">
+  <div class="chart-card gsap-reveal">
+    <h3>Money In</h3>
+    <div class="chart-wrap"><canvas id="incomeChart"></canvas></div>
+  </div>
+  <div class="chart-card gsap-reveal" id="loanCard">
+    <h3>Loan — Interest vs Principal</h3>
+    <div id="loanPlaceholder" style="text-align:center;padding:48px 0;color:var(--muted);font-size:0.88rem;">
+      Awaiting BoS home loan statement<br>
+      <span style="font-size:0.75rem;">Send statement PDF to populate</span>
+    </div>
+    <div id="loanData" style="display:none;">
+      <div class="chart-wrap"><canvas id="loanChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ CHARTS ROW ═══ -->
 <div class="charts-row">
   <div class="chart-card gsap-reveal">
@@ -436,6 +454,99 @@ new Chart(expenseCtx, {
     }
   }
 });
+
+// --- Income Horizontal Bar Chart ---
+(function buildIncomeChart() {
+  if (!DATA.income) return;
+  const ctx = document.getElementById('incomeChart').getContext('2d');
+  const sources = DATA.income.sources;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sources.map(s => s.name),
+      datasets: [{
+        data: sources.map(s => s.amount),
+        backgroundColor: sources.map(s => s.color),
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => '  $' + ctx.raw.toLocaleString() + '  '
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: v => '$' + (v/1000).toFixed(0) + 'K',
+            font: { family: 'JetBrains Mono', size: 11 },
+            color: '#5c5a55'
+          },
+          grid: { color: '#ece9e4' }
+        },
+        y: {
+          ticks: {
+            font: { family: 'Inter', size: 11 },
+            color: '#5c5a55'
+          },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+})();
+
+// --- Loan Breakdown Chart (populated when data available) ---
+(function buildLoanChart() {
+  if (!DATA.loanBreakdown || DATA.loanBreakdown.paidPrincipal === null) return;
+  document.getElementById('loanPlaceholder').style.display = 'none';
+  document.getElementById('loanData').style.display = 'block';
+  const ctx = document.getElementById('loanChart').getContext('2d');
+  const lb = DATA.loanBreakdown;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Principal', 'Interest'],
+      datasets: [{
+        data: [lb.paidPrincipal, lb.paidInterest],
+        backgroundColor: ['#1b8a3d', '#cc785c'],
+        borderColor: '#ffffff',
+        borderWidth: 3,
+        hoverBorderWidth: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      cutout: '55%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 14,
+            usePointStyle: true,
+            pointStyleWidth: 8,
+            font: { family: 'Inter', size: 12 },
+            color: '#5c5a55'
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => '  $' + ctx.raw.toLocaleString() + '  '
+          }
+        }
+      }
+    }
+  });
+})();
 
 // ═══════════════════════════════════════════
 // TABLE

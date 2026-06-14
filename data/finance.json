@@ -1,17 +1,36 @@
 {
   "updated": "2026-06-14",
   "snapshots": [
-    {"date": "2026-05-10", "savings": 112358, "loan": -859999, "redraw": 112358},
-    {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711}
+    {"date": "2026-05-10", "savings": 112358, "loan": -859999, "redraw": 112358, "nab": null},
+    {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711, "nab": 769}
   ],
+  "income": {
+    "period": "16 May – 14 Jun 2026",
+    "monthlyAvg": 18130,
+    "sources": [
+      {"name": "Josh Salary", "amount": 9267, "frequency": "fortnightly ×2", "color": "#cc785c"},
+      {"name": "Amy AccessPay", "amount": 2049, "frequency": "fortnightly ×2", "color": "#d1896f"},
+      {"name": "Tax Refunds", "amount": 1380, "frequency": "annualised monthly", "color": "#d89d87"},
+      {"name": "Dividends", "amount": 100, "frequency": "monthly avg", "color": "#dfb1a0"},
+      {"name": "Interest", "amount": 3, "frequency": "monthly", "color": "#e6c5b9"},
+      {"name": "Other", "amount": 502, "frequency": "irregular", "color": "#edd9d2"}
+    ]
+  },
+  "loanBreakdown": {
+    "period": "Awaiting BoS home loan statement",
+    "interestRate": 6.04,
+    "paidPrincipal": null,
+    "paidInterest": null,
+    "note": "Send BoS home loan statement PDF to populate"
+  },
   "expenseCategories": [
     {"name": "Travel", "amount": 2326, "color": "#cc785c"},
-    {"name": "Insurance & Bills", "amount": 1540, "color": "#d4957a"},
-    {"name": "Utilities", "amount": 1465, "color": "#dcab98"},
-    {"name": "Shopping", "amount": 1512, "color": "#e3c2b6"},
-    {"name": "Groceries", "amount": 2200, "color": "#ebd9d4"},
-    {"name": "Eating Out", "amount": 850, "color": "#f2e8e5"},
-    {"name": "Subscriptions", "amount": 450, "color": "#f7f0ee"},
+    {"name": "Insurance & Bills", "amount": 1540, "color": "#d1896f"},
+    {"name": "Utilities", "amount": 1465, "color": "#d89d87"},
+    {"name": "Shopping", "amount": 1512, "color": "#dfb1a0"},
+    {"name": "Groceries", "amount": 2200, "color": "#e6c5b9"},
+    {"name": "Eating Out", "amount": 850, "color": "#edd9d2"},
+    {"name": "Subscriptions", "amount": 450, "color": "#f2e8e5"},
     {"name": "Other", "amount": 1100, "color": "#e4e1db"}
   ],
   "currentPosition": {
