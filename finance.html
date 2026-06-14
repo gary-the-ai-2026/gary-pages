@@ -338,6 +338,8 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   <div class="chart-card gsap-reveal">
     <h3>Where It Went</h3>
     <div class="chart-wrap"><canvas id="expenseChart"></canvas></div>
+    <div id="expenseTally" style="margin-top:12px;text-align:center;font-family:var(--font-mono);font-size:0.85rem;color:var(--ink);font-weight:500;"></div>
+    <div style="margin-top:8px;text-align:center;font-size:0.72rem;color:var(--muted);">Tap legend labels to toggle · tally shows selected total</div>
   </div>
 </div>
 
@@ -494,24 +496,79 @@ function buildSavingsChart() {
 function buildExpenseChart(pd) {
   const ctx = document.getElementById('expenseChart').getContext('2d');
   const cats = pd.expenseCategories;
+  const allData = cats.map(e => e.amount);
+  const allColors = cats.map(e => e.color);
+  const allLabels = cats.map(e => e.name);
+  const allLoan = cats.map(e => e.loan || false);
+  const totalAll = allData.reduce((a,b) => a+b, 0);
+
+  // Track which slices are enabled (all start enabled)
+  let enabled = cats.map(() => true);
+
+  function getVisibleData() {
+    const d = [], c = [], l = [];
+    cats.forEach((cat, i) => { if (enabled[i]) { d.push(cat.amount); c.push(cat.color); l.push(cat.name); } });
+    return { data: d, colors: c, labels: l };
+  }
+
+  function updateTally() {
+    let tally = 0;
+    cats.forEach((cat, i) => { if (enabled[i]) tally += cat.amount; });
+    document.getElementById('expenseTally').textContent = 'Selected: $' + tally.toLocaleString() + ' / $' + totalAll.toLocaleString();
+  }
+
+  const v = getVisibleData();
   charts.expense = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: cats.map(e => e.name),
+      labels: allLabels,
       datasets: [{
-        data: cats.map(e => e.amount),
-        backgroundColor: cats.map(e => e.color),
+        data: allData,
+        backgroundColor: allColors,
         borderColor: '#ffffff', borderWidth: 2, hoverBorderWidth: 3
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: true, cutout: '60%',
       plugins: {
-        legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, pointStyleWidth: 8, font: { family: 'Inter', size: 11 }, color: '#5c5a55' } },
-        tooltip: { callbacks: { label: ctx => '  $' + ctx.raw.toLocaleString() + '  ' } }
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 14, usePointStyle: true, pointStyleWidth: 8,
+            font: { family: 'Inter', size: 11 }, color: '#5c5a55',
+            generateLabels: function(chart) {
+              const meta = chart.getDatasetMeta(0);
+              return cats.map((cat, i) => ({
+                text: cat.name,
+                fillStyle: cat.color,
+                strokeStyle: cat.color,
+                lineWidth: enabled[i] ? 1 : 0,
+                hidden: !enabled[i],
+                index: i,
+                fontColor: enabled[i] ? '#5c5a55' : '#c4c0ba',
+                textDecoration: enabled[i] ? '' : 'line-through'
+              }));
+            }
+          },
+          onClick: function(e, legendItem, legend) {
+            const i = legendItem.index;
+            enabled[i] = !enabled[i];
+            const chart = legend.chart;
+            const meta = chart.getDatasetMeta(0);
+            meta.data[i].hidden = !enabled[i];
+            chart.update();
+            updateTally();
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => '  $' + ctx.raw.toLocaleString() + '  '
+          }
+        }
       }
     }
   });
+  updateTally();
 }
 
 function buildIncomeChart(pd) {
