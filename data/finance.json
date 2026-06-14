@@ -6,14 +6,15 @@
   ],
   "income": {
     "period": "16 May – 14 Jun 2026",
-    "monthlyAvg": 18130,
+    "totalObserved": 12174,
+    "annualEstimate": 217560,
+    "note": "Actual bank deposits only. Excludes super ($18,981/yr), annual tax refunds ($16,560/yr), and dividends ($1,200/yr) which don't hit transaction accounts monthly.",
     "sources": [
-      {"name": "Josh Salary", "amount": 9267, "frequency": "fortnightly ×2", "color": "#cc785c"},
-      {"name": "Amy AccessPay", "amount": 2049, "frequency": "fortnightly ×2", "color": "#d1896f"},
-      {"name": "Tax Refunds", "amount": 1380, "frequency": "annualised monthly", "color": "#d89d87"},
-      {"name": "Dividends", "amount": 100, "frequency": "monthly avg", "color": "#dfb1a0"},
-      {"name": "Interest", "amount": 3, "frequency": "monthly", "color": "#e6c5b9"},
-      {"name": "Other", "amount": 502, "frequency": "irregular", "color": "#edd9d2"}
+      {"name": "Josh Salary (×2)", "amount": 9267, "detail": "$4,633/fortnight", "color": "#cc785c"},
+      {"name": "Amy AccessPay (×2)", "amount": 2049, "detail": "$1,025/fortnight", "color": "#d1896f"},
+      {"name": "Amy Base Pay (Randle & Taylor)", "amount": 500, "detail": "monthly", "color": "#d89d87"},
+      {"name": "Interest", "amount": 3, "detail": "NAB savings", "color": "#dfb1a0"},
+      {"name": "Refunds & Other", "amount": 355, "detail": "SA Water etc.", "color": "#e6c5b9"}
     ]
   },
   "loanBreakdown": {
@@ -21,6 +22,9 @@
     "interestRate": 6.04,
     "paidPrincipal": 6709,
     "paidInterest": 8153,
+    "monthlyRepayment": 5046,
+    "monthlyInterest": 3780,
+    "monthlyPrincipal": 1460,
     "openedAmount": 860000,
     "currentBalance": 751443,
     "largeDeposit": 120000,
