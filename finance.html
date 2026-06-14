@@ -276,8 +276,10 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   <div class="big-number" id="heroTotal">$105,391</div>
   <div class="delta down" id="heroDelta">↓ $6,967 since May</div>
   <div class="updated">Last updated 14 June 2026 · Next check 28 June</div>
-  <div class="period-selector" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;" id="periodBtns"></div>
 </section>
+
+<!-- ═══ PERIOD SELECTOR ═══ -->
+<div style="text-align:center;padding:0 0 40px;" id="periodBtns"></div>
 
 <!-- ═══ SNAPSHOT CARDS ═══ -->
 <section class="snapshot-grid gsap-stagger">
@@ -393,6 +395,10 @@ fetch('data/finance.json')
 function buildPeriodSelector() {
   const container = document.getElementById('periodBtns');
   container.innerHTML = '';
+  container.style.display = 'flex';
+  container.style.flexWrap = 'wrap';
+  container.style.gap = '8px';
+  container.style.justifyContent = 'center';
   Object.entries(DATA.periods).forEach(([key, p]) => {
     const btn = document.createElement('button');
     btn.className = 'period-btn' + (key === currentPeriod ? ' active' : '');
