@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hancock Savings Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #d4a017;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+  --space-section: 100px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ── */
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0 64px;
+  text-align: center;
+}
+.hero-kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.hero .big-number {
+  font-family: var(--font-body);
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin: 24px 0 8px;
+}
+.hero .delta {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.hero .delta.down { color: var(--danger); }
+.hero .delta.up { color: var(--success); }
+.hero .updated {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ── Snapshot Cards ── */
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: var(--space-section);
+}
+.snap-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-rest);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.snap-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--coral);
+}
+.snap-card .label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.snap-card .value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.snap-card .sub {
+  font-size: 0.78rem;
+  color: var(--body);
+  margin-top: 4px;
+}
+
+/* ── Section Headers ── */
+.section-header {
+  margin-bottom: 40px;
+}
+.section-header .kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 8px;
+}
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* ── Chart Cards ── */
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 32px;
+  box-shadow: var(--shadow-rest);
+  margin-bottom: 40px;
+}
+.chart-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.chart-wrap {
+  position: relative;
+  width: 100%;
+}
+.chart-wrap canvas { width: 100% !important; }
+
+/* ── Table ── */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-rest);
+  margin-bottom: var(--space-section);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead { background: var(--surface-alt); }
+th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 16px 24px;
+}
+td {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink);
+  padding: 14px 24px;
+  border-top: 1px solid var(--hairline-soft);
+}
+td.delta-neg { color: var(--danger); }
+td.delta-pos { color: var(--success); }
+tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 48px 0 64px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.footer a { color: var(--coral); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* ── Two-col chart layout ── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 699px) {
+  .container { padding: 0 20px; }
+  .hero { padding: 60px 0 48px; }
+  .snapshot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .charts-row { grid-template-columns: 1fr; }
+  .chart-card { padding: 24px; }
+  th, td { padding: 12px 16px; }
+  :root { --space-section: 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero gsap-reveal">
+  <div class="hero-kicker">Hancock Family</div>
+  <h1>Savings Dashboard</h1>
+  <div class="big-number" id="heroTotal">$105,391</div>
+  <div class="delta down" id="heroDelta">↓ $6,967 since May</div>
+  <div class="updated">Last updated 14 June 2026 · Next check 28 June</div>
+</section>
+
+<!-- ═══ SNAPSHOT CARDS ═══ -->
+<section class="snapshot-grid gsap-stagger">
+  <div class="snap-card">
+    <div class="label">Cash Tracked</div>
+    <div class="value" id="cardCash">$105,391</div>
+    <div class="sub">NAB + BoS Redraw</div>
+  </div>
+  <div class="snap-card">
+    <div class="label">Home Loan</div>
+    <div class="value" id="cardLoan" style="color:var(--danger)">-$751,443</div>
+    <div class="sub">6.04% p.a. · BoS</div>
+  </div>
+  <div class="snap-card">
+    <div class="label">Redraw Available</div>
+    <div class="value" id="cardRedraw">$104,711</div>
+    <div class="sub">Primary savings vehicle</div>
+  </div>
+  <div class="snap-card">
+    <div class="label">Net Worth</div>
+    <div class="value" style="color:var(--success)">$783,347</div>
+    <div class="sub">Inc. home equity</div>
+  </div>
+</section>
+
+<!-- ═══ CHARTS ROW ═══ -->
+<div class="charts-row">
+  <div class="chart-card gsap-reveal">
+    <h3>Savings Trend</h3>
+    <div class="chart-wrap"><canvas id="savingsChart"></canvas></div>
+  </div>
+  <div class="chart-card gsap-reveal">
+    <h3>Where It Went</h3>
+    <div class="chart-wrap"><canvas id="expenseChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ═══ FORTNIGHTLY TABLE ═══ -->
+<section class="gsap-reveal">
+  <div class="section-header">
+    <div class="kicker">Tracker</div>
+    <h2>Fortnightly Snapshots</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>NAB</th>
+          <th>Redraw</th>
+          <th>Total Savings</th>
+          <th>Δ</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="snapshotTable">
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  Updated automatically by Gary · <a href="https://github.com/gary-the-ai-2026/gary-pages">gary-pages</a>
+</div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA — updated by Gary each fortnight
+// ═══════════════════════════════════════════
+const DATA = {
+  "updated": "2026-06-14",
+  "snapshots": [
+    {"date": "2026-05-10", "savings": 112358, "loan": -859999, "redraw": 112358, "nab": null},
+    {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711, "nab": 769}
+  ],
+  "expenseCategories": [
+    {"name": "Travel", "amount": 2326, "color": "#cc785c"},
+    {"name": "Insurance & Bills", "amount": 1540, "color": "#d1896f"},
+    {"name": "Utilities", "amount": 1465, "color": "#d89d87"},
+    {"name": "Shopping", "amount": 1512, "color": "#dfb1a0"},
+    {"name": "Groceries", "amount": 2200, "color": "#e6c5b9"},
+    {"name": "Eating Out", "amount": 850, "color": "#edd9d2"},
+    {"name": "Subscriptions", "amount": 450, "color": "#f2e8e5"},
+    {"name": "Other", "amount": 1100, "color": "#e4e1db"}
+  ]
+};
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+
+// --- Savings Line Chart ---
+const savingsCtx = document.getElementById('savingsChart').getContext('2d');
+const snapshots = DATA.snapshots;
+new Chart(savingsCtx, {
+  type: 'line',
+  data: {
+    labels: snapshots.map(s => s.date),
+    datasets: [{
+      label: 'Tracked Savings',
+      data: snapshots.map(s => s.savings),
+      borderColor: '#cc785c',
+      backgroundColor: 'rgba(204,120,92,0.06)',
+      fill: true,
+      tension: 0.3,
+      pointBackgroundColor: '#cc785c',
+      pointRadius: 6,
+      pointHoverRadius: 8,
+      borderWidth: 2.5
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => '$' + ctx.raw.toLocaleString()
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        ticks: {
+          callback: v => '$' + (v/1000).toFixed(0) + 'K',
+          font: { family: 'JetBrains Mono', size: 11 },
+          color: '#5c5a55'
+        },
+        grid: { color: '#ece9e4' }
+      },
+      x: {
+        ticks: { font: { family: 'Inter', size: 11 }, color: '#5c5a55' },
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// --- Expense Donut Chart ---
+const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+new Chart(expenseCtx, {
+  type: 'doughnut',
+  data: {
+    labels: DATA.expenseCategories.map(e => e.name),
+    datasets: [{
+      data: DATA.expenseCategories.map(e => e.amount),
+      backgroundColor: DATA.expenseCategories.map(e => e.color),
+      borderColor: '#ffffff',
+      borderWidth: 2,
+      hoverBorderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '60%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 14,
+          usePointStyle: true,
+          pointStyleWidth: 8,
+          font: { family: 'Inter', size: 11 },
+          color: '#5c5a55'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => '  $' + ctx.raw.toLocaleString() + '  '
+        }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════
+// TABLE
+// ═══════════════════════════════════════════
+(function buildTable() {
+  const tbody = document.getElementById('snapshotTable');
+  const snaps = DATA.snapshots;
+  let prev = null;
+  snaps.forEach(s => {
+    const tr = document.createElement('tr');
+    const delta = prev ? s.savings - prev.savings : null;
+    const deltaClass = delta === null ? '' : (delta >= 0 ? 'delta-pos' : 'delta-neg');
+    const deltaStr = delta === null ? '—' : (delta >= 0 ? '↑ $' + delta.toLocaleString() : '↓ $' + Math.abs(delta).toLocaleString());
+
+    tr.innerHTML = `
+      <td><strong>${s.date}</strong></td>
+      <td>${s.nab !== null ? '$' + s.nab.toLocaleString() : '—'}</td>
+      <td>$${s.redraw.toLocaleString()}</td>
+      <td><strong>$${s.savings.toLocaleString()}</strong></td>
+      <td class="${deltaClass}">${deltaStr}</td>
+      <td style="font-family:var(--font-body);font-size:0.82rem;color:var(--body)">${s.date === '2026-05-10' ? 'Baseline' : 'Cairns trip + lumpy bills'}</td>
+    `;
+    tbody.appendChild(tr);
+    prev = s;
+  });
+})();
+
+// ═══════════════════════════════════════════
+// GSAP ANIMATION
+// ═══════════════════════════════════════════
+gsap.registerPlugin(ScrollTrigger);
+
+document.querySelectorAll('.gsap-reveal').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 40 },
+    {
+      opacity: 1, y: 0,
+      duration: 0.9,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+document.querySelectorAll('.gsap-stagger .snap-card').forEach((card, i) => {
+  gsap.fromTo(card,
+    { opacity: 0, y: 32 },
+    {
+      opacity: 1, y: 0,
+      duration: 0.6,
+      delay: i * 0.1,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: card.parentElement, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+</script>
+</body>
+</html>
