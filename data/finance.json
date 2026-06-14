@@ -5,58 +5,69 @@
     "2026-05": {
       "label": "May 2026",
       "income": {
-        "total": 10990,
+        "total": 6543,
+        "note": "Actual cash deposits — 1 Josh pay + 1 Amy AccessPay. Second pay landed 2 Jun.",
         "sources": [
-          {"name": "Josh Salary (×2)", "amount": 4658, "detail": "$4,658 on 19 May", "color": "#cc785c"},
+          {"name": "Josh Salary (1 pay)", "amount": 4658, "detail": "$4,658 on 19 May", "color": "#cc785c"},
           {"name": "Amy AccessPay", "amount": 1025, "detail": "$1,025 on 21 May", "color": "#d1896f"},
           {"name": "Amy Base Pay", "amount": 500, "detail": "Randle & Taylor", "color": "#d89d87"},
-          {"name": "Refunds & Other", "amount": 355, "detail": "SA Water etc.", "color": "#dfb1a0"},
-          {"name": "Interest", "amount": 3, "detail": "NAB savings", "color": "#e6c5b9"}
+          {"name": "Refunds & Other", "amount": 357, "detail": "SA Water + interest", "color": "#dfb1a0"}
         ]
       },
       "expenseCategories": [
-        {"name": "Groceries", "amount": 1800, "color": "#cc785c"},
-        {"name": "Insurance & Bills", "amount": 900, "color": "#d1896f"},
-        {"name": "Shopping", "amount": 750, "color": "#d89d87"},
-        {"name": "Utilities", "amount": 700, "color": "#dfb1a0"},
-        {"name": "Eating Out", "amount": 450, "color": "#e6c5b9"},
-        {"name": "Travel", "amount": 0, "color": "#edd9d2"},
-        {"name": "Subscriptions", "amount": 250, "color": "#f2e8e5"},
-        {"name": "Other", "amount": 600, "color": "#e4e1db"}
+        {"name": "Subscriptions", "amount": 3063, "color": "#cc785c"},
+        {"name": "Shopping", "amount": 2231, "color": "#d1896f"},
+        {"name": "Transport", "amount": 1794, "color": "#d89d87"},
+        {"name": "Groceries", "amount": 1721, "color": "#dfb1a0"},
+        {"name": "Insurance", "amount": 1323, "color": "#e6c5b9"},
+        {"name": "Health", "amount": 948, "color": "#edd9d2"},
+        {"name": "Bills & Fees", "amount": 851, "color": "#f2e8e5"},
+        {"name": "Travel", "amount": 737, "color": "#e4e1db"},
+        {"name": "Kids", "amount": 401, "color": "#d4957a"},
+        {"name": "Eating Out", "amount": 288, "color": "#dcab98"},
+        {"name": "Utilities", "amount": 443, "color": "#ebd9d4"},
+        {"name": "Other", "amount": 331, "color": "#f0eeea"}
       ],
       "snapshot": {"savings": 112358, "loan": -859999, "redraw": null},
       "loanBreakdown": {
         "paidPrincipal": 5582,
         "paidInterest": 4571,
-        "monthlyRepayment": null
+        "monthlyRepayment": null,
+        "note": "April interest was high ($4,571) — $120K house proceeds didn't land until 24 Apr so full $860K accrued interest most of the month"
       }
     },
     "2026-06": {
       "label": "June 2026",
       "income": {
-        "total": 9413,
+        "total": 10398,
+        "note": "Actual cash deposits 1–14 Jun. Second half of month not yet landed.",
         "sources": [
-          {"name": "Josh Salary (×2)", "amount": 9217, "detail": "$4,608 on 2 Jun · $4,609 est 16 Jun", "color": "#cc785c"},
+          {"name": "Josh Salary (1 pay so far)", "amount": 4608, "detail": "$4,608 on 2 Jun · next ~17 Jun", "color": "#cc785c"},
           {"name": "Amy AccessPay", "amount": 1025, "detail": "$1,025 on 4 Jun", "color": "#d1896f"},
-          {"name": "Amy Base Pay", "amount": 500, "detail": "Randle & Taylor (est.)", "color": "#d89d87"},
-          {"name": "Interest", "amount": 3, "detail": "NAB savings", "color": "#dfb1a0"}
+          {"name": "Amy Base Pay (est.)", "amount": 500, "detail": "Randle & Taylor", "color": "#d89d87"},
+          {"name": "Other", "amount": 503, "detail": "Transfers in + interest", "color": "#dfb1a0"}
         ]
       },
       "expenseCategories": [
         {"name": "Travel", "amount": 2326, "color": "#cc785c"},
-        {"name": "Groceries", "amount": 1600, "color": "#d1896f"},
-        {"name": "Utilities", "amount": 765, "color": "#d89d87"},
-        {"name": "Shopping", "amount": 762, "color": "#dfb1a0"},
-        {"name": "Insurance & Bills", "amount": 640, "color": "#e6c5b9"},
+        {"name": "Shopping", "amount": 762, "color": "#d1896f"},
+        {"name": "Groceries", "amount": 750, "color": "#d89d87"},
+        {"name": "Utilities", "amount": 765, "color": "#dfb1a0"},
+        {"name": "Insurance", "amount": 640, "color": "#e6c5b9"},
         {"name": "Eating Out", "amount": 400, "color": "#edd9d2"},
-        {"name": "Subscriptions", "amount": 200, "color": "#f2e8e5"},
-        {"name": "Other", "amount": 500, "color": "#e4e1db"}
+        {"name": "Health", "amount": 300, "color": "#f2e8e5"},
+        {"name": "Subscriptions", "amount": 250, "color": "#e4e1db"},
+        {"name": "Kids", "amount": 150, "color": "#d4957a"},
+        {"name": "Transport", "amount": 200, "color": "#dcab98"},
+        {"name": "Bills & Fees", "amount": 100, "color": "#ebd9d4"},
+        {"name": "Other", "amount": 150, "color": "#f0eeea"}
       ],
       "snapshot": {"savings": 105391, "loan": -751443, "redraw": 104711},
       "loanBreakdown": {
         "paidPrincipal": 1127,
         "paidInterest": 3581,
-        "monthlyRepayment": 5046
+        "monthlyRepayment": 5046,
+        "note": "Interest lower than April ($3,581 vs $4,571) — $120K house proceeds now reducing balance. Run rate: ~$3,780/mo interest at current balance."
       }
     }
   },
@@ -77,7 +88,7 @@
     }
   },
   "currentPosition": {
-    "nabTransaction": 681,
+    "nabSavings": 681,
     "nabSpending": 88,
     "bosRedraw": 104711,
     "bosEveryday": 1234,
