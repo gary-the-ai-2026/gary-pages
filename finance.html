@@ -350,26 +350,15 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
 
 <script>
 // ═══════════════════════════════════════════
-// DATA — updated by Gary each fortnight
+// DATA — loaded from data/finance.json
 // ═══════════════════════════════════════════
-const DATA = {
-  "updated": "2026-06-14",
-  "snapshots": [
-    {"date": "2026-05-10", "savings": 112358, "loan": -859999, "redraw": 112358, "nab": null},
-    {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711, "nab": 769}
-  ],
-  "expenseCategories": [
-    {"name": "Travel", "amount": 2326, "color": "#cc785c"},
-    {"name": "Insurance & Bills", "amount": 1540, "color": "#d1896f"},
-    {"name": "Utilities", "amount": 1465, "color": "#d89d87"},
-    {"name": "Shopping", "amount": 1512, "color": "#dfb1a0"},
-    {"name": "Groceries", "amount": 2200, "color": "#e6c5b9"},
-    {"name": "Eating Out", "amount": 850, "color": "#edd9d2"},
-    {"name": "Subscriptions", "amount": 450, "color": "#f2e8e5"},
-    {"name": "Other", "amount": 1100, "color": "#e4e1db"}
-  ]
-};
+let DATA = {};
+fetch('data/finance.json')
+  .then(r => r.json())
+  .then(d => { DATA = d; initAll(); })
+  .catch(e => console.error('Data load failed:', e));
 
+function initAll() {
 // ═══════════════════════════════════════════
 // CHARTS
 // ═══════════════════════════════════════════
@@ -609,6 +598,8 @@ document.querySelectorAll('.gsap-stagger .snap-card').forEach((card, i) => {
     }
   );
 });
+
+} // end initAll
 </script>
 </body>
 </html>
