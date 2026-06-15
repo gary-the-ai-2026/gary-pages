@@ -108,8 +108,15 @@ body {
 /* Table */
 .table-section { margin-bottom: 48px; }
 .table-section h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; }
-.comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); overflow: hidden; font-size: 0.82rem; }
-.comparison-table th, .comparison-table td { padding: 12px 14px; text-align: left; }
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+  border: 1px solid var(--hairline);
+}
+.comparison-table { width: 100%; min-width: 780px; border-collapse: separate; border-spacing: 0; background: var(--surface); font-size: 0.82rem; }
+.comparison-table th, .comparison-table td { padding: 12px 14px; text-align: left; white-space: nowrap; }
+.comparison-table th:first-child, .comparison-table td:first-child { white-space: normal; min-width: 180px; }
 .comparison-table th { background: var(--surface-alt); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--body); }
 .comparison-table th:first-child { min-width: 180px; }
 .comparison-table td { border-top: 1px solid var(--hairline-soft); }
@@ -160,6 +167,7 @@ body {
       <li><span class="label">Auto mop detach</span><span class="value">✅</span></li>
       <li><span class="label">Height</span><span class="value mono">7.98 cm</span></li>
       <li><span class="label">Threshold</span><span class="value">4 cm AdaptiLift</span></li>
+      <li><span class="label">Smart home/API</span><span class="value" style="color:var(--success)">HA local · miIO · Siri</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$1,788</span><span class="rrp">$2,799</span>
@@ -185,6 +193,7 @@ body {
       <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
       <li><span class="label">Height</span><span class="value mono">~10 cm</span></li>
       <li><span class="label">Threshold</span><span class="value">~2 cm</span></li>
+      <li><span class="label">Smart home/API</span><span class="value" style="color:var(--amber)">Cloud only · basic voice</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$1,799</span><span class="rrp">$1,799</span>
@@ -209,6 +218,7 @@ body {
       <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
       <li><span class="label">Height</span><span class="value mono">~9.8 cm</span></li>
       <li><span class="label">Threshold</span><span class="value">~2 cm</span></li>
+      <li><span class="label">Smart home/API</span><span class="value" style="color:var(--success)">HA local · miIO · Siri</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$1,374</span><span class="rrp">$2,499</span>
@@ -234,6 +244,7 @@ body {
       <li><span class="label">Auto mop detach</span><span class="value">❌</span></li>
       <li><span class="label">Height</span><span class="value mono">~10.5 cm</span></li>
       <li><span class="label">Threshold</span><span class="value">~2.2 cm</span></li>
+      <li><span class="label">Smart home/API</span><span class="value" style="color:var(--amber)">HA via miIO · limited</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$988</span><span class="rrp">$1,799</span>
@@ -259,6 +270,7 @@ body {
       <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
       <li><span class="label">Height</span><span class="value mono">7.98 cm</span></li>
       <li><span class="label">Threshold</span><span class="value">4 cm AdaptiLift</span></li>
+      <li><span class="label">Smart home/API</span><span class="value" style="color:var(--success)">HA local · miIO · Siri</span></li>
     </ul>
     <div class="pricing">
       <span class="current over">$2,899</span>
@@ -274,6 +286,7 @@ body {
 <!-- Comparison Table -->
 <div class="table-section">
   <h2>Side-by-Side</h2>
+  <div class="table-wrap">
   <table class="comparison-table">
     <thead>
       <tr><th>Feature</th><th>Edge 2 Pro ★</th><th>Eufy E25</th><th>Curv 2 Flow</th><th>Dreame L40 VE</th><th>Saros 10R</th></tr>
@@ -288,8 +301,10 @@ body {
       <tr><td class="label-col">Height</td><td class="winner">7.98 cm</td><td>~10 cm</td><td>~9.8 cm</td><td>~10.5 cm</td><td class="winner">7.98 cm</td></tr>
       <tr><td class="label-col">Threshold</td><td class="winner">4 cm AdaptiLift</td><td>~2 cm</td><td>~2 cm</td><td>~2.2 cm</td><td class="winner">4 cm AdaptiLift</td></tr>
       <tr><td class="label-col">Price</td><td class="winner">$1,788</td><td>$1,799</td><td class="winner">$1,374</td><td>$988</td><td class="over">$2,899 ✗</td></tr>
+      <tr><td class="label-col">Smart Home / API</td><td class="winner">HA local · miIO · Siri</td><td>Cloud only · basic voice</td><td class="winner">HA local · miIO · Siri</td><td>HA via miIO · limited</td><td class="winner">HA local · miIO · Siri</td></tr>
     </tbody>
   </table>
+  </div>
 </div>
 
 <!-- Sources -->
