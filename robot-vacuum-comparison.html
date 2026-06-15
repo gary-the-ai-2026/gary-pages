@@ -24,11 +24,12 @@
   --blue: #1a73e8;
   --green: #1b8a3d;
   --amber: #c2680c;
+  --purple: #7c3aed;
+  --grey: #6b7280;
   --radius: 12px;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -39,270 +40,90 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.hero { padding: 64px 0 48px; text-align: center; }
+.hero h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.1; margin-bottom: 12px; }
+.hero .subtitle { font-size: 1.1rem; color: var(--body); max-width: 560px; margin: 0 auto; }
+.hero .date { font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
 
-.hero {
-  padding: 64px 0 48px;
-  text-align: center;
-}
-.hero h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.4rem, 5vw, 3.4rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--ink);
-  margin-bottom: 12px;
-}
-.hero .subtitle {
-  font-size: 1.1rem;
-  color: var(--body);
-  max-width: 560px;
-  margin: 0 auto;
-}
-.hero .date {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-top: 8px;
-}
-
-/* Verdict */
 .verdict {
-  background: var(--surface);
-  border: 2px solid var(--coral);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin-bottom: 48px;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  box-shadow: var(--shadow);
+  background: var(--surface); border: 2px solid var(--coral); border-radius: var(--radius);
+  padding: 28px 32px; margin-bottom: 48px; box-shadow: var(--shadow);
 }
-.verdict-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--coral);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 4px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-  margin-bottom: 8px;
-}
-.verdict h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.6rem;
-  font-weight: 900;
-  line-height: 1.2;
-  margin-bottom: 6px;
-}
+.verdict-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--coral); color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 6px; margin-bottom: 8px; }
+.verdict h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; font-weight: 900; line-height: 1.2; margin-bottom: 6px; }
 .verdict p { color: var(--body); font-size: 0.95rem; }
 .verdict .price { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.15rem; color: var(--ink); }
 .verdict .was { text-decoration: line-through; color: var(--muted); font-size: 0.9rem; margin-left: 4px; }
 
-/* Cards */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 48px;
-}
-@media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+/* 5-column cards */
+.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 48px; }
+@media (max-width: 1100px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px) { .cards { grid-template-columns: 1fr; } }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  box-shadow: var(--shadow);
-  transition: box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius);
+  padding: 20px 16px; box-shadow: var(--shadow); transition: box-shadow 0.2s ease;
+  display: flex; flex-direction: column; font-size: 0.85rem;
 }
 .card:hover { box-shadow: var(--shadow-hover); }
 .card.top-pick { border-color: var(--coral); border-width: 2px; }
+.card.premium { border-style: dashed; border-color: var(--muted); }
 
-.card-color {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
+.card-color { width: 100%; height: 5px; border-radius: 3px; margin-bottom: 14px; }
 .card-color.blue { background: var(--blue); }
 .card-color.green { background: var(--green); }
 .card-color.amber { background: var(--amber); }
+.card-color.purple { background: var(--purple); }
+.card-color.grey { background: var(--grey); }
 
-.card h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 900;
-  line-height: 1.2;
-  margin-bottom: 4px;
-}
-.card .tagline {
-  font-size: 0.85rem;
-  color: var(--body);
-  margin-bottom: 16px;
-  min-height: 2.4em;
-}
+.card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 900; line-height: 1.2; margin-bottom: 2px; }
+.card .tagline { font-size: 0.78rem; color: var(--body); margin-bottom: 12px; min-height: 2.2em; }
 .card .image-placeholder {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--surface-alt);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  margin-bottom: 20px;
-  overflow: hidden;
+  width: 100%; aspect-ratio: 1/1; background: var(--surface-alt); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 14px; overflow: hidden;
 }
-.card .image-placeholder img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.card .specs {
-  list-style: none;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-  flex: 1;
-}
-.card .specs li {
-  padding: 6px 0;
-  border-bottom: 1px solid var(--hairline-soft);
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
+.card .image-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+.card .specs { list-style: none; font-size: 0.8rem; margin-bottom: 14px; flex: 1; }
+.card .specs li { padding: 4px 0; border-bottom: 1px solid var(--hairline-soft); display: flex; justify-content: space-between; gap: 8px; }
 .card .specs li:last-child { border-bottom: none; }
 .card .specs .label { color: var(--body); }
 .card .specs .value { font-weight: 600; text-align: right; }
-.card .specs .value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+.card .specs .value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
 
-.card .pricing {
-  border-top: 1px solid var(--hairline);
-  padding-top: 16px;
-  margin-bottom: 16px;
-}
-.card .pricing .current {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--ink);
-}
-.card .pricing .rrp { font-size: 0.85rem; color: var(--muted); text-decoration: line-through; margin-left: 6px; }
-.card .pricing .saving { font-size: 0.8rem; color: var(--success); font-weight: 600; margin-top: 2px; }
-.card .pricing .retailer { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+.card .pricing { border-top: 1px solid var(--hairline); padding-top: 12px; margin-bottom: 12px; }
+.card .pricing .current { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+.card .pricing .rrp { font-size: 0.78rem; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
+.card .pricing .saving { font-size: 0.75rem; color: var(--success); font-weight: 600; margin-top: 1px; }
+.card .pricing .retailer { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
 
-.card .buy-btn {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-.card .buy-btn.primary {
-  background: var(--coral);
-  color: #fff;
-}
+.card .buy-btn { display: block; text-align: center; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s ease; }
+.card .buy-btn.primary { background: var(--coral); color: #fff; }
 .card .buy-btn.primary:hover { background: var(--coral-hover); }
-.card .buy-btn.secondary {
-  background: var(--surface-alt);
-  color: var(--ink);
-}
+.card .buy-btn.secondary { background: var(--surface-alt); color: var(--ink); }
 .card .buy-btn.secondary:hover { background: var(--hairline); }
-
-.card .caveat {
-  font-size: 0.8rem;
-  color: var(--warning);
-  margin-top: 12px;
-  padding: 10px;
-  background: #fdf6ed;
-  border-radius: 6px;
-  line-height: 1.4;
-}
+.card .caveat { font-size: 0.73rem; color: var(--warning); margin-top: 10px; padding: 8px; background: #fdf6ed; border-radius: 6px; line-height: 1.4; }
 
 /* Table */
 .table-section { margin-bottom: 48px; }
-.table-section h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.8rem;
-  font-weight: 900;
-  margin-bottom: 20px;
-}
-.comparison-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  overflow: hidden;
-  font-size: 0.9rem;
-}
-.comparison-table th, .comparison-table td {
-  padding: 14px 20px;
-  text-align: left;
-}
-.comparison-table th {
-  background: var(--surface-alt);
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--body);
-}
-.comparison-table th:first-child { min-width: 200px; }
+.table-section h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; }
+.comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); overflow: hidden; font-size: 0.82rem; }
+.comparison-table th, .comparison-table td { padding: 12px 14px; text-align: left; }
+.comparison-table th { background: var(--surface-alt); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--body); }
+.comparison-table th:first-child { min-width: 180px; }
 .comparison-table td { border-top: 1px solid var(--hairline-soft); }
 .comparison-table tr:first-child td { border-top: none; }
 .comparison-table .winner { color: var(--success); font-weight: 600; }
 .comparison-table .label-col { font-weight: 600; color: var(--ink); }
+.comparison-table .over { color: var(--muted); }
 
-/* Budget note */
-.budget-note {
-  background: var(--surface-alt);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  padding: 20px 24px;
-  margin-bottom: 48px;
-  font-size: 0.9rem;
-  color: var(--body);
-}
-.budget-note strong { color: var(--ink); }
+.sources { margin-bottom: 64px; padding: 24px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); }
+.sources h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
+.sources ul { list-style: none; font-size: 0.82rem; color: var(--body); }
+.sources li { padding: 2px 0; }
 
-/* Sources */
-.sources {
-  margin-bottom: 64px;
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-}
-.sources h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.4rem;
-  font-weight: 900;
-  margin-bottom: 12px;
-}
-.sources ul { list-style: none; font-size: 0.85rem; color: var(--body); }
-.sources li { padding: 3px 0; }
-.sources li a { color: var(--coral); text-decoration: none; }
-.sources li a:hover { text-decoration: underline; }
-
-.footer {
-  text-align: center;
-  padding: 32px 0 48px;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
+.footer { text-align: center; padding: 32px 0 48px; color: var(--muted); font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -310,182 +131,163 @@ body {
 
 <section class="hero">
   <h1>Robot Vacuum Comparison</h1>
-  <p class="subtitle">Three robot vacuum + mop combos ranked by obstacle avoidance — built for tiles-to-carpet homes with small kids and Lego</p>
+  <p class="subtitle">Five robot vacuum + mop combos ranked by obstacle avoidance — built for tiles-to-carpet homes with small kids and Lego</p>
   <p class="date">Researched 15 June 2026 · Australian pricing (AUD) · EOFY sale prices</p>
 </section>
 
 <!-- Verdict -->
 <div class="verdict">
-  <div>
-    <span class="verdict-badge">Our Pick</span>
-    <h2>Roborock Qrevo Edge 2 Pro</h2>
-    <p>The best obstacle avoidance you can buy within a $2,000 budget. Uses the same VertiBeam lateral obstacle avoidance as the flagship Saros 10R — but at <span class="price">$1,788</span><span class="was">$2,799</span>. With 25,000Pa suction, 100°C hot water mop washing, and the same 7.98cm ultra-slim chassis, it's the strongest all-rounder for a family with kids.</p>
-  </div>
+  <span class="verdict-badge">Our Pick</span>
+  <h2>Roborock Qrevo Edge 2 Pro — $1,788</h2>
+  <p>Same VertiBeam obstacle avoidance as the flagship Saros 10R, at nearly half the price. Best OA you can buy within a $2,000 budget. 25,000Pa suction, 100°C hot water mop washing, 7.98cm ultra-slim chassis, and auto mop detachment for carpet-only runs.</p>
 </div>
 
 <!-- Cards -->
 <div class="cards">
+
   <!-- Edge 2 Pro -->
   <div class="card top-pick">
     <div class="card-color blue"></div>
-    <h3>Roborock Qrevo Edge 2 Pro</h3>
-    <p class="tagline">Best obstacle avoidance in budget</p>
-    <div class="image-placeholder">
-      <img src="images/edge-2-pro.png" alt="Roborock Qrevo Edge 2 Pro" onerror="this.style.display='none'">
-    </div>
+    <h3>Edge 2 Pro</h3>
+    <p class="tagline">★ Best OA in budget</p>
+    <div class="image-placeholder"><img src="images/edge-2-pro.png" alt="Roborock Qrevo Edge 2 Pro" onerror="this.style.display='none'"></div>
     <ul class="specs">
       <li><span class="label">Obstacle avoidance</span><span class="value" style="color:var(--success)">VertiBeam + Reactive AI</span></li>
-      <li><span class="label">OA system</span><span class="value">Same as Saros 10R</span></li>
+      <li><span class="label">OA benchmark</span><span class="value">Same as Saros 10R</span></li>
       <li><span class="label">Suction</span><span class="value mono">25,000 Pa</span></li>
-      <li><span class="label">Navigation</span><span class="value">RetractSense + LiDAR</span></li>
+      <li><span class="label">Mop system</span><span class="value">Dual spinning 12N</span></li>
+      <li><span class="label">Hot mop wash</span><span class="value">100°C</span></li>
+      <li><span class="label">Auto mop detach</span><span class="value">✅</span></li>
       <li><span class="label">Height</span><span class="value mono">7.98 cm</span></li>
-      <li><span class="label">Mop style</span><span class="value">Dual spinning 12N + 200RPM</span></li>
-      <li><span class="label">Mop wash (dock)</span><span class="value">100°C hot water</span></li>
-      <li><span class="label">Warranty</span><span class="value">2 years</span></li>
+      <li><span class="label">Threshold</span><span class="value">4 cm AdaptiLift</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$1,788</span><span class="rrp">$2,799</span>
       <div class="saving">Save $1,011 (36%)</div>
-      <div class="retailer">JB Hi-Fi · EOFY sale</div>
+      <div class="retailer">JB Hi-Fi · EOFY</div>
     </div>
     <a href="https://www.jbhifi.com.au/products/roborock-edge-2-pro-vacuum-cleaner" target="_blank" rel="nofollow" class="buy-btn primary">Buy at JB Hi-Fi →</a>
-    <div class="caveat">⚠ Same VertiBeam OA as the Saros 10R. But Vacuum Wars hasn't tested this exact model yet — OA score is inferred from shared hardware, not independently measured.</div>
+    <div class="caveat">⚠ OA score inferred from shared VertiBeam hardware. Not yet independently lab-tested at VacuumWars.</div>
   </div>
 
-  <!-- Qrevo Curv 2 Flow -->
+  <!-- Eufy E25 -->
   <div class="card">
     <div class="card-color green"></div>
-    <h3>Roborock Qrevo Curv 2 Flow</h3>
-    <p class="tagline">Best value + roller mop</p>
-    <div class="image-placeholder">
-      <img src="images/qrevo-curv-2-flow.png" alt="Roborock Qrevo Curv 2 Flow" onerror="this.style.display='none'">
+    <h3>Eufy Omni E25</h3>
+    <p class="tagline">Strong OA + roller mop</p>
+    <div class="image-placeholder"><img src="images/eufy-e25.png" alt="Eufy Omni E25" onerror="this.style.display='none'"></div>
+    <ul class="specs">
+      <li><span class="label">Obstacle avoidance</span><span class="value" style="color:var(--success)">21/24 (VacuumWars)</span></li>
+      <li><span class="label">OA system</span><span class="value">AI + 3D ToF sensor</span></li>
+      <li><span class="label">Suction</span><span class="value mono">20,000 Pa</span></li>
+      <li><span class="label">Mop system</span><span class="value">HydroJet roller</span></li>
+      <li><span class="label">Hot mop wash</span><span class="value">Hot air dry (ambient wash)</span></li>
+      <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
+      <li><span class="label">Height</span><span class="value mono">~10 cm</span></li>
+      <li><span class="label">Threshold</span><span class="value">~2 cm</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current">$1,799</span><span class="rrp">$1,799</span>
+      <div class="retailer">JB Hi-Fi</div>
     </div>
+    <a href="https://www.jbhifi.com.au/products/eufy-e25-omni-robotic-vacuum" target="_blank" rel="nofollow" class="buy-btn primary">Buy at JB Hi-Fi →</a>
+    <div class="caveat">⚠ 10cm berth around obstacles = some missed edges. Reddit: OA "inconsistent" vs Roborock. No hot water mop wash.</div>
+  </div>
+
+  <!-- Curv 2 Flow -->
+  <div class="card">
+    <div class="card-color amber"></div>
+    <h3>Qrevo Curv 2 Flow</h3>
+    <p class="tagline">Best value</p>
+    <div class="image-placeholder"><img src="images/qrevo-curv-2-flow.png" alt="Qrevo Curv 2 Flow" onerror="this.style.display='none'"></div>
     <ul class="specs">
       <li><span class="label">Obstacle avoidance</span><span class="value" style="color:var(--amber)">Reactive AI 2.0</span></li>
-      <li><span class="label">OA system</span><span class="value">3D structured light + RGB</span></li>
+      <li><span class="label">OA system</span><span class="value">3D light + RGB</span></li>
       <li><span class="label">Suction</span><span class="value mono">20,000 Pa</span></li>
-      <li><span class="label">Navigation</span><span class="value">LiDAR + RGB camera</span></li>
+      <li><span class="label">Mop system</span><span class="value">Roller (self-cleaning)</span></li>
+      <li><span class="label">Hot mop wash</span><span class="value">75°C</span></li>
+      <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
       <li><span class="label">Height</span><span class="value mono">~9.8 cm</span></li>
-      <li><span class="label">Mop style</span><span class="value">Roller (self-cleaning)</span></li>
-      <li><span class="label">Mop wash (dock)</span><span class="value">75°C hot water</span></li>
-      <li><span class="label">Warranty</span><span class="value">2 years</span></li>
+      <li><span class="label">Threshold</span><span class="value">~2 cm</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$1,374</span><span class="rrp">$2,499</span>
       <div class="saving">Save $1,125 (45%)</div>
-      <div class="retailer">JB Hi-Fi · EOFY sale</div>
+      <div class="retailer">JB Hi-Fi · EOFY</div>
     </div>
     <a href="https://www.jbhifi.com.au/products/roborock-qrevo-curv-2-flow-robotic-vacuum-cleaner" target="_blank" rel="nofollow" class="buy-btn primary">Buy at JB Hi-Fi →</a>
-    <div class="caveat">⚠ "Small object avoidance still needs work" — Gizmodo. Great roller mop but Lego-level OA is weaker than VertiBeam models.</div>
+    <div class="caveat">⚠ "Small object avoidance still needs work" — Gizmodo. Great value but Lego OA is weaker than VertiBeam models.</div>
   </div>
 
-  <!-- Dreame L40 Ultra VE -->
+  <!-- Dreame L40 VE -->
   <div class="card">
-    <div class="card-color amber"></div>
+    <div class="card-color purple"></div>
     <h3>Dreame L40 Ultra VE</h3>
-    <p class="tagline">Budget pick if OA isn't critical</p>
-    <div class="image-placeholder">
-      <img src="images/dreame-l40-ve.jpg" alt="Dreame L40 Ultra VE" onerror="this.style.display='none'">
-    </div>
+    <p class="tagline">Budget pick</p>
+    <div class="image-placeholder"><img src="images/dreame-l40-ve.jpg" alt="Dreame L40 Ultra VE" onerror="this.style.display='none'"></div>
     <ul class="specs">
       <li><span class="label">Obstacle avoidance</span><span class="value" style="color:var(--warning)">Single 3D laser</span></li>
       <li><span class="label">OA system</span><span class="value">Downgraded (VE trim)</span></li>
       <li><span class="label">Suction</span><span class="value mono">25,000 Pa</span></li>
-      <li><span class="label">Navigation</span><span class="value">LiDAR + 3D light</span></li>
+      <li><span class="label">Mop system</span><span class="value">Duo rotating pads</span></li>
+      <li><span class="label">Hot mop wash</span><span class="value">❌ Cold only</span></li>
+      <li><span class="label">Auto mop detach</span><span class="value">❌</span></li>
       <li><span class="label">Height</span><span class="value mono">~10.5 cm</span></li>
-      <li><span class="label">Mop style</span><span class="value">Duo rotating pads</span></li>
-      <li><span class="label">Mop wash (dock)</span><span class="value">Cold water only</span></li>
-      <li><span class="label">Warranty</span><span class="value">3 years</span></li>
+      <li><span class="label">Threshold</span><span class="value">~2.2 cm</span></li>
     </ul>
     <div class="pricing">
       <span class="current">$988</span><span class="rrp">$1,799</span>
       <div class="saving">Save $811 (45%)</div>
-      <div class="retailer">JB Hi-Fi · EOFY sale</div>
+      <div class="retailer">JB Hi-Fi · EOFY</div>
     </div>
     <a href="https://www.jbhifi.com.au/products/dreame-l40-ultra-ve-robot-vacuum-cleaner" target="_blank" rel="nofollow" class="buy-btn primary">Buy at JB Hi-Fi →</a>
-    <div class="caveat">⚠ "VE" = stripped features: single laser OA, no hot water mop washing. Best only if you'll pre-clear toys before every run.</div>
+    <div class="caveat">⚠ VE = stripped OA + no hot water. Only if you'll pre-clear toys before every run. 3-year warranty.</div>
   </div>
-</div>
 
-<!-- Budget note -->
-<div class="budget-note">
-  <strong>What about the Saros 10R?</strong> It scored a perfect 24/24 at Vacuum Wars — the best obstacle avoidance ever tested. But at <strong>$2,899</strong> (and sold out at the only discounter), it's $899 over budget. If it drops below $2,000 in a future sale, it would reclaim the top spot. For now, the Edge 2 Pro uses the same VertiBeam OA tech at nearly half the price.
+  <!-- Saros 10R (premium ref) -->
+  <div class="card premium">
+    <div class="card-color grey"></div>
+    <h3>Saros 10R</h3>
+    <p class="tagline">Premium benchmark</p>
+    <div class="image-placeholder"><img src="images/saros-10r.jpg" alt="Roborock Saros 10R" onerror="this.style.display='none'"></div>
+    <ul class="specs">
+      <li><span class="label">Obstacle avoidance</span><span class="value" style="color:var(--success)">24/24 (Perfect)</span></li>
+      <li><span class="label">OA system</span><span class="value">VertiBeam + Reactive AI 3.0</span></li>
+      <li><span class="label">Suction</span><span class="value mono">22,000 Pa</span></li>
+      <li><span class="label">Mop system</span><span class="value">VibraRise 4.0</span></li>
+      <li><span class="label">Hot mop wash</span><span class="value">✅ Hot water</span></li>
+      <li><span class="label">Auto mop detach</span><span class="value">Auto-lift</span></li>
+      <li><span class="label">Height</span><span class="value mono">7.98 cm</span></li>
+      <li><span class="label">Threshold</span><span class="value">4 cm AdaptiLift</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current over">$2,899</span>
+      <div class="saving" style="color:var(--warning)">Over budget (+$899)</div>
+      <div class="retailer">Tech Sales Online · sold out</div>
+    </div>
+    <a href="https://techsalesonline.com.au/products/roborock-saros-10r-robot-vacuum-black" target="_blank" rel="nofollow" class="buy-btn secondary">View at Tech Sales →</a>
+    <div class="caveat">💰 Best OA ever tested. Would be the pick at $1,998 (prior OzBargain). At $2,899 it's a reference point.</div>
+  </div>
+
 </div>
 
 <!-- Comparison Table -->
 <div class="table-section">
-  <h2>Side-by-Side Specs</h2>
+  <h2>Side-by-Side</h2>
   <table class="comparison-table">
     <thead>
-      <tr><th>Feature</th><th>Edge 2 Pro</th><th>Qrevo Curv 2 Flow</th><th>Dreame L40 Ultra VE</th></tr>
+      <tr><th>Feature</th><th>Edge 2 Pro ★</th><th>Eufy E25</th><th>Curv 2 Flow</th><th>Dreame L40 VE</th><th>Saros 10R</th></tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="label-col">Obstacle Avoidance</td>
-        <td class="winner">VertiBeam + Reactive AI</td>
-        <td>Reactive AI 2.0 (3D light + RGB)</td>
-        <td>Single 3D structured light</td>
-      </tr>
-      <tr>
-        <td class="label-col">OA shared with</td>
-        <td class="winner">Saros 10R (same VertiBeam)</td>
-        <td>Qrevo Edge (previous gen)</td>
-        <td>None (VE trimmed)</td>
-      </tr>
-      <tr>
-        <td class="label-col">Suction Power</td>
-        <td class="winner">25,000 Pa</td>
-        <td>20,000 Pa</td>
-        <td class="winner">25,000 Pa</td>
-      </tr>
-      <tr>
-        <td class="label-col">Mop System</td>
-        <td>Dual spinning 12N + 200RPM</td>
-        <td class="winner">Roller mop (self-cleaning)</td>
-        <td>Duo rotating pads + side reach</td>
-      </tr>
-      <tr>
-        <td class="label-col">Hot Water Mop Wash</td>
-        <td class="winner">100°C</td>
-        <td>75°C</td>
-        <td>❌ Cold only</td>
-      </tr>
-      <tr>
-        <td class="label-col">Auto Mop Detach</td>
-        <td class="winner">✅ Detaches at dock</td>
-        <td>Roller auto-lifts</td>
-        <td>❌</td>
-      </tr>
-      <tr>
-        <td class="label-col">Robot Height</td>
-        <td class="winner">7.98 cm (ultra-slim)</td>
-        <td>~9.8 cm</td>
-        <td>~10.5 cm</td>
-      </tr>
-      <tr>
-        <td class="label-col">Threshold Crossing</td>
-        <td class="winner">4 cm (AdaptiLift)</td>
-        <td>2 cm</td>
-        <td>2.2 cm</td>
-      </tr>
-      <tr>
-        <td class="label-col">Price (current)</td>
-        <td>$1,788</td>
-        <td class="winner">$1,374</td>
-        <td>$988</td>
-      </tr>
-      <tr>
-        <td class="label-col">RRP</td>
-        <td>$2,799</td>
-        <td>$2,499</td>
-        <td>$1,799</td>
-      </tr>
-      <tr>
-        <td class="label-col">EOFY Saving</td>
-        <td>$1,011 (36%)</td>
-        <td class="winner">$1,125 (45%)</td>
-        <td>$811 (45%)</td>
-      </tr>
+      <tr><td class="label-col">Obstacle Avoidance</td><td class="winner">VertiBeam + Reactive AI</td><td>21/24 VacuumWars</td><td>Reactive AI 2.0</td><td>Single 3D laser</td><td class="winner">24/24 VacuumWars</td></tr>
+      <tr><td class="label-col">OA shared with</td><td class="winner">Saros 10R</td><td>—</td><td>Qrevo Edge (prev gen)</td><td>—</td><td class="winner">Edge 2 Pro</td></tr>
+      <tr><td class="label-col">Suction</td><td class="winner">25,000 Pa</td><td>20,000 Pa</td><td>20,000 Pa</td><td class="winner">25,000 Pa</td><td>22,000 Pa</td></tr>
+      <tr><td class="label-col">Mop System</td><td>Dual spinning 12N</td><td class="winner">HydroJet roller</td><td class="winner">Roller (self-cleaning)</td><td>Duo rotating pads</td><td>VibraRise vibrating</td></tr>
+      <tr><td class="label-col">Hot Mop Wash</td><td class="winner">100°C</td><td>Ambient + hot air dry</td><td>75°C</td><td>❌ Cold only</td><td>✅ Hot water</td></tr>
+      <tr><td class="label-col">Auto Mop Detach</td><td class="winner">✅ Detaches at dock</td><td>Auto-lift</td><td>Auto-lift</td><td>❌</td><td>Auto-lift</td></tr>
+      <tr><td class="label-col">Height</td><td class="winner">7.98 cm</td><td>~10 cm</td><td>~9.8 cm</td><td>~10.5 cm</td><td class="winner">7.98 cm</td></tr>
+      <tr><td class="label-col">Threshold</td><td class="winner">4 cm AdaptiLift</td><td>~2 cm</td><td>~2 cm</td><td>~2.2 cm</td><td class="winner">4 cm AdaptiLift</td></tr>
+      <tr><td class="label-col">Price</td><td class="winner">$1,788</td><td>$1,799</td><td class="winner">$1,374</td><td>$988</td><td class="over">$2,899 ✗</td></tr>
     </tbody>
   </table>
 </div>
@@ -494,20 +296,18 @@ body {
 <div class="sources">
   <h2>Sources</h2>
   <ul>
-    <li><strong>Roborock Australia</strong> — Qrevo Edge 2 Pro product page: VertiBeam OA, 25,000Pa, 100°C dock, 7.98cm</li>
-    <li><strong>Vacuum Wars</strong> — Mid-2025 Awards: Saros 10R Best Obstacle Avoidance (24/24, VertiBeam system)</li>
-    <li><strong>Gizmodo</strong> — Qrevo Curv 2 Flow review: "Small object avoidance still needs work"</li>
-    <li><strong>Reddit r/RobotVacuums</strong> — Community consensus on obstacle avoidance + kids' toys (multiple threads, 2025-2026)</li>
+    <li><strong>Vacuum Wars</strong> — Mid-2025 Awards: Saros 10R Best Obstacle Avoidance (24/24). E25 tested at 21/24.</li>
+    <li><strong>Roborock Australia</strong> — Edge 2 Pro product page: VertiBeam OA, 25,000Pa, 100°C dock, 7.98cm</li>
+    <li><strong>CNET</strong> — "Eufy E25 stands out as one of the better obstacle-avoidance systems" (5/6 objects evaded)</li>
+    <li><strong>Gizmodo</strong> — Qrevo Curv 2 Flow: "Small object avoidance still needs work"</li>
+    <li><strong>Reddit r/RobotVacuums, r/Roborock</strong> — Community consensus on OA reliability by brand</li>
+    <li><strong>RedditRecs / RoboRatings</strong> — Eufy OA "can be inconsistent compared to Roborock or Dreame"</li>
     <li><strong>JB Hi-Fi</strong> — Live Australian pricing (15 June 2026, EOFY sale)</li>
-    <li><strong>Tech Sales Online</strong> — Saros 10R pricing: $2,899, sold out</li>
-    <li><strong>Digital Reviews</strong> — Qrevo Edge 2 Pro launch: VertiBeam Reactive AI, 100°C hot water mop wash</li>
-    <li><strong>Dreame Australia / JB Hi-Fi</strong> — L40 Ultra VE specs: single 3D laser, cold water mop wash</li>
+    <li><strong>Tech Sales Online</strong> — Saros 10R: $2,899, sold out</li>
   </ul>
 </div>
 
-<div class="footer">
-  <p>Researched by Gary (Josh's P.A) · Hancock Family · June 2026</p>
-</div>
+<div class="footer"><p>Researched by Gary (Josh's P.A) · Hancock Family · June 2026</p></div>
 
 </div>
 </body>
