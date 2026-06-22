@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Comparison — 119 Princes Road, Mitcham</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--canvas);
+  color: var(--body);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 700px) { .container { padding: 0 32px; } }
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+}
+.hero .kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero .subtitle {
+  font-size: 1rem;
+  color: var(--body);
+  max-width: 520px;
+  margin: 0 auto;
+}
+@media (min-width: 700px) {
+  .hero { padding: 100px 0 80px; }
+}
+
+/* ── Section ── */
+.section { padding: 60px 0; }
+.section-header { margin-bottom: 40px; }
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+/* ── Metric Cards ── */
+.metric-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 700px) {
+  .metric-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .metric-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+}
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-rest);
+}
+.metric-card .label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.metric-card .value {
+  font-family: var(--font-body);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.metric-card .value .unit { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+.metric-card .note { font-size: 0.82rem; color: var(--body); }
+
+/* ── Cards ── */
+.cards { display: grid; gap: 24px; }
+@media (min-width: 700px) {
+  .cards.cols-2 { grid-template-columns: 1fr 1fr; }
+  .cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-rest);
+}
+.card.winner { border-color: var(--success); }
+.card.highlight { border-color: var(--coral); }
+.card.warn { border-color: var(--warning); }
+.card .card-winner-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+.card .card-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.card .card-tag.green { background: rgba(27,138,61,0.1); color: var(--success); }
+.card .card-tag.coral { background: rgba(204,120,92,0.1); color: var(--coral); }
+.card .card-tag.amber { background: rgba(194,104,12,0.1); color: var(--warning); }
+
+.card-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.card-price {
+  font-family: var(--font-body);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.card-price-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+/* ── Spec rows ── */
+.specs {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 20px;
+}
+.spec { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.84rem; }
+.spec-label { color: var(--body); }
+.spec-value { font-weight: 600; color: var(--ink); text-align: right; }
+
+/* ── Tables ── */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-rest);
+  margin-top: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+.table-wrap:first-child { margin-top: 0; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--hairline);
+  white-space: nowrap;
+}
+thead th:last-child, thead th.edge { text-align: right; }
+tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+tbody tr.break td { border-bottom: 2px solid var(--hairline); }
+tbody tr.highlight-row { background: rgba(204,120,92,0.04); }
+tbody td:last-child { text-align: right; }
+tbody td.win { color: var(--success); font-weight: 700; }
+tbody td.warn-text { color: var(--danger); font-weight: 600; }
+tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
+
+/* ── Bar Chart (usage profile) ── */
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.bar-row .hour { width: 28px; text-align: right; color: var(--muted); flex-shrink: 0; }
+.bar-row .bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--hairline-soft);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-row .bar-fill {
+  height: 100%;
+  background: var(--body);
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.bar-row .bar-fill.peak { background: var(--danger); }
+.bar-row .bar-fill.sponge { background: var(--warning); }
+.bar-row .kwh { width: 52px; text-align: right; color: var(--body); flex-shrink: 0; font-weight: 500; }
+.bar-row .kwh.strong { color: var(--ink); font-weight: 600; }
+
+.legend { display: flex; gap: 20px; margin-top: 12px; font-size: 0.75rem; color: var(--body); flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.legend .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.legend .swatch.peak { background: var(--danger); }
+.legend .swatch.sponge { background: var(--warning); }
+.legend .swatch.off { background: var(--muted); }
+
+/* ── Horizontal bar (day/night split) ── */
+.hbar-track {
+  height: 8px;
+  background: var(--hairline-soft);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  overflow: hidden;
+}
+.hbar-fill { height: 100%; border-radius: 4px; }
+.hbar-fill.yellow { background: var(--warning); }
+.hbar-fill.coral { background: var(--coral); }
+
+/* ── Verdict box ── */
+.verdict {
+  background: rgba(204,120,92,0.06);
+  border: 1px solid rgba(204,120,92,0.2);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+}
+@media (min-width: 700px) { .verdict { padding: 40px 36px; } }
+.verdict-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 12px;
+}
+.verdict h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.verdict .price {
+  font-family: var(--font-body);
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--success);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.verdict ol {
+  padding-left: 1.5rem;
+  line-height: 1.8;
+  max-width: 680px;
+  margin: 20px auto 0;
+}
+.verdict ol li { margin-bottom: 12px; }
+.verdict ul { padding-left: 1.5rem; line-height: 1.8; margin-top: 16px; }
+.verdict .neg-notes { margin-top: 24px; padding: 20px 24px; background: var(--surface-alt); border-radius: 12px; }
+
+/* ── Insight / note box ── */
+.insight {
+  background: var(--surface-alt);
+  border-radius: var(--radius-card);
+  padding: 24px 28px;
+  font-size: 0.88rem;
+  color: var(--body);
+  margin-top: 20px;
+  line-height: 1.7;
+}
+.insight strong { color: var(--ink); }
+.insight.warn { border-left: 3px solid var(--warning); }
+.insight.good { border-left: 3px solid var(--success); }
+
+/* ── Visual break-even ── */
+.breakeven-viz {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 2.2;
+  padding: 1rem 0;
+}
+.breakeven-viz .year { color: var(--muted); margin-right: 4px; }
+.breakeven-viz .neg { color: var(--danger); }
+.breakeven-viz .pos { color: var(--success); }
+.breakeven-viz .tagline { color: var(--coral); font-weight: 600; padding-left: 16px; }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 20px 0 40px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ── Responsive table fixes ── */
+@media (max-width: 699px) {
+  .table-scroll { margin: 0 -20px; padding: 0 20px; }
+  thead th, tbody td { padding: 12px 12px; font-size: 0.78rem; }
+  .breakeven-viz { font-size: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="kicker">119 Princes Road · Mitcham</div>
+  <h1>Solar Comparison</h1>
+  <p class="subtitle">Glow vs NRG Solar — three quotes, two providers, one recommendation. Prepared 22 June 2026.</p>
+</section>
+
+<!-- ═══ Current Usage ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Your Baseline</div>
+    <div class="section-title">Current Usage Profile</div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Based on 6 days of Amber smart meter data (Jun 16–21). Winter baseline — no pool pump or air conditioning running.</p>
+
+  <div class="metric-grid cols-3">
+    <div class="metric-card">
+      <div class="label">Avg Daily Usage</div>
+      <div class="value">17.2 <span class="unit">kWh</span></div>
+      <div class="note">~6,300 kWh/yr at current rate</div>
+    </div>
+    <div class="metric-card">
+      <div class="label">Avg Daily Cost</div>
+      <div class="value" style="font-family:var(--font-mono);">$5.38</div>
+      <div class="note">~$1,960/yr energy only</div>
+    </div>
+    <div class="metric-card">
+      <div class="label">Peak Power Draw</div>
+      <div class="value">5.4 <span class="unit">kW</span></div>
+      <div class="note" style="color:var(--danger);">Spike to 8.9 kW seen</div>
+    </div>
+  </div>
+
+  <!-- Hourly pattern -->
+  <div class="table-wrap" style="margin-top:24px;">
+    <div style="padding:24px 24px 16px;">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Hourly Usage Pattern (winter baseline)</div>
+      <div class="bar-row"><span class="hour">00:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">01:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">02:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">03:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">04:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">05:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
+      <div class="bar-row"><span class="hour">06:00</span><span class="bar-track"><span class="bar-fill" style="width:10%;"></span></span><span class="kwh">0.2</span></div>
+      <div class="bar-row"><span class="hour">07:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:43%;"></span></span><span class="kwh strong">1.0</span></div>
+      <div class="bar-row"><span class="hour">08:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:60%;"></span></span><span class="kwh strong">1.4</span></div>
+      <div class="bar-row"><span class="hour">09:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">10:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">11:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:26%;"></span></span><span class="kwh">0.6</span></div>
+      <div class="bar-row"><span class="hour">12:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:52%;"></span></span><span class="kwh strong">1.2</span></div>
+      <div class="bar-row"><span class="hour">13:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:60%;"></span></span><span class="kwh strong">1.4</span></div>
+      <div class="bar-row"><span class="hour">14:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:65%;"></span></span><span class="kwh strong">1.5</span></div>
+      <div class="bar-row"><span class="hour">15:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:32%;"></span></span><span class="kwh">0.7</span></div>
+      <div class="bar-row"><span class="hour">16:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">17:00</span><span class="bar-track"><span class="bar-fill" style="width:38%;"></span></span><span class="kwh">0.9</span></div>
+      <div class="bar-row"><span class="hour">18:00</span><span class="bar-track"><span class="bar-fill peak" style="width:100%;"></span></span><span class="kwh strong" style="color:var(--danger);">2.3</span></div>
+      <div class="bar-row"><span class="hour">19:00</span><span class="bar-track"><span class="bar-fill peak" style="width:69%;"></span></span><span class="kwh strong" style="color:var(--danger);">1.6</span></div>
+      <div class="bar-row"><span class="hour">20:00</span><span class="bar-track"><span class="bar-fill" style="width:26%;"></span></span><span class="kwh">0.6</span></div>
+      <div class="bar-row"><span class="hour">21:00</span><span class="bar-track"><span class="bar-fill" style="width:21%;"></span></span><span class="kwh">0.5</span></div>
+      <div class="bar-row"><span class="hour">22:00</span><span class="bar-track"><span class="bar-fill" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">23:00</span><span class="bar-track"><span class="bar-fill" style="width:10%;"></span></span><span class="kwh">0.2</span></div>
+      <div class="legend">
+        <span><span class="swatch peak"></span> Peak tariff</span>
+        <span><span class="swatch sponge"></span> Solar Sponge</span>
+        <span><span class="swatch off"></span> Off-Peak</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day/Night split -->
+  <div class="cards cols-2" style="margin-top:20px;">
+    <div class="card">
+      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Daytime (6am–6pm)</div>
+      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">61.1<span style="font-size:1rem;font-weight:500;color:var(--muted);">%</span></div>
+      <div style="font-size:0.84rem;color:var(--body);">10.5 kWh/day · $2.27/day</div>
+      <div class="hbar-track"><div class="hbar-fill yellow" style="width:61.1%;"></div></div>
+    </div>
+    <div class="card">
+      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Nighttime (6pm–6am)</div>
+      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">38.9<span style="font-size:1rem;font-weight:500;color:var(--muted);">%</span></div>
+      <div style="font-size:0.84rem;color:var(--body);">6.7 kWh/day · $3.11/day</div>
+      <div style="font-size:0.8rem;color:var(--danger);margin-top:4px;">Costs MORE despite lower usage (peak pricing)</div>
+      <div class="hbar-track"><div class="hbar-fill coral" style="width:38.9%;"></div></div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Key insight:</strong> 36% of usage (solar sponge window, 10am–3pm) is perfectly aligned with solar generation. A battery is critical to shift the 39% nighttime load away from peak prices (5–8pm often hits 40–60c/kWh on Amber).<br><br>
+    <strong>Summer projection:</strong> NRG estimates ~25kWh/day with pool + AC + sauna. Adding pool pump (3–5 kWh/day), AC (5–10 kWh/day), and sauna (1–3 kWh/session) puts the real summer figure around 25–30 kWh/day. Annual bills on Amber likely $4,000–$6,000 without solar.
+  </div>
+</section>
+
+<!-- ═══ Three Quotes ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Options</div>
+    <div class="section-title">Three Quotes Compared</div>
+  </div>
+
+  <div class="cards cols-3">
+    <!-- Glow Option 1 -->
+    <div class="card">
+      <div class="card-name">Glow Option 1</div>
+      <div class="card-price">$18,378</div>
+      <div class="card-price-label">after rebates, inc. GST</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">14.25 kW</span></div>
+        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">Jinko Tiger Neo</span></div>
+        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value">GoodWe 9.99kW</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">GoodWe 24 kWh</span></div>
+        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value">3yr 10mo</span></div>
+      </div>
+    </div>
+
+    <!-- Glow Option 2 -->
+    <div class="card">
+      <div class="card-name">Glow Option 2</div>
+      <div class="card-price">$20,884</div>
+      <div class="card-price-label">after rebates, inc. GST</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">14.25 kW</span></div>
+        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">Jinko Tiger Neo</span></div>
+        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value">GoodWe 9.99kW</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">GoodWe 33.2 kWh</span></div>
+        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value" style="color:var(--muted);">Not specified</span></div>
+      </div>
+    </div>
+
+    <!-- NRG -->
+    <div class="card winner">
+      <div class="card-winner-tag">Premium Pick</div>
+      <div class="card-name">NRG Solar</div>
+      <div class="card-price">$27,220</div>
+      <div class="card-price-label">after STCs, inc. GST</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">19.38 kW</span></div>
+        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">Trina Vertex S+</span></div>
+        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value">Sigenergy 15kW</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">Sigenergy 36 kWh</span></div>
+        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value">~4.2 years</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Equipment Comparison ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Deep Dive</div>
+    <div class="section-title">Equipment Quality Comparison</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th></th><th>Glow (GoodWe/Jinko)</th><th>NRG (Sigenergy/Trina)</th><th style="text-align:right;">Edge</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Panel brand</strong></td><td>Jinko — Tier 1, #1 by volume</td><td>Trina — Tier 1, #2-3 globally</td><td>≈ Tie</td></tr>
+        <tr><td><strong>Panel tech</strong></td><td>N-Type, mono-facial</td><td>N-Type i-TOPCon, bifacial dual-glass</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Panel warranty</strong></td><td>25yr product / 30yr performance</td><td>25yr product / 30yr performance</td><td>≈ Tie</td></tr>
+        <tr><td><strong>Panel durability</strong></td><td>Standard glass-foil backsheet</td><td>Dual-glass (better humidity/fire resistance)</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Inverter capacity</strong></td><td>9.99 kW</td><td>15 kW (3-phase native)</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Inverter brand</strong></td><td>GoodWe — established budget/mid</td><td>Sigenergy — premium, 5-in-1</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Amber SmartShift</strong></td><td>Compatible (API-based)</td><td>Fully compatible, designed for dynamic pricing</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Blackout protection</strong></td><td>Partial (needs extra hardware)</td><td>Built-in, configurable circuits</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Battery scalability</strong></td><td>Fixed stack (24/33 kWh)</td><td>Modular (8.76kWh blocks, up to 48kWh)</td><td class="win">NRG</td></tr>
+        <tr><td><strong>EV charger ready</strong></td><td>No</td><td>Built-in (5-in-1 integration)</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Mounting</strong></td><td>Standard</td><td>Schletter Black Proline (German, 25yr)</td><td class="win">NRG</td></tr>
+        <tr><td><strong>Installation support</strong></td><td>GoodWe Australia established</td><td>Sigenergy newer to AU but growing fast</td><td class="warn-text">Glow</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROI Modelling ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Numbers</div>
+    <div class="section-title">ROI Modelling</div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Two scenarios: conservative current usage, and realistic fully-loaded with pool + AC + sauna.</p>
+
+  <div class="cards cols-2">
+    <!-- Scenario A -->
+    <div class="card">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Scenario A — Conservative</div>
+      <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">6,300 kWh/yr · ~$2,330/yr bill</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th></th><th>Glow 1</th><th>Glow 2</th><th>NRG</th></tr></thead>
+        <tbody>
+          <tr><td>Solar gen</td><td>19,700</td><td>19,700</td><td>27,600</td></tr>
+          <tr><td>Self-cons</td><td>~3,800</td><td>~4,100</td><td>~4,500</td></tr>
+          <tr><td>Grid export</td><td>~15,900</td><td>~15,600</td><td>~23,100</td></tr>
+          <tr><td>Savings/yr</td><td>~$1,200</td><td>~$1,350</td><td>~$1,600</td></tr>
+          <tr class="break"><td><strong>Payback</strong></td><td><strong>~15.3 yr</strong></td><td><strong>~15.5 yr</strong></td><td><strong>~17.0 yr</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="font-size:0.8rem;color:var(--warning);margin-top:12px;">All systems massively oversized for current usage. Payback unappealing.</div>
+    </div>
+
+    <!-- Scenario B -->
+    <div class="card highlight">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;">Scenario B — Realistic</div>
+      <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">~10,000 kWh/yr · ~$5,000/yr bill</div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th></th><th>Glow 1</th><th>Glow 2</th><th>NRG</th></tr></thead>
+        <tbody>
+          <tr><td>Self-cons</td><td>~6,500</td><td>~7,200</td><td>~8,500</td></tr>
+          <tr><td>Grid avoided</td><td>65%</td><td>72%</td><td>85%</td></tr>
+          <tr><td>Savings/yr</td><td>~$3,500</td><td>~$3,900</td><td>~$4,800</td></tr>
+          <tr><td>Export</td><td>~$400</td><td>~$350</td><td>~$500</td></tr>
+          <tr><td><strong>Total/yr</strong></td><td><strong>~$3,900</strong></td><td><strong>~$4,250</strong></td><td><strong>~$5,300</strong></td></tr>
+          <tr class="break"><td><strong>Payback</strong></td><td><strong>~4.7 yr</strong></td><td><strong>~4.9 yr</strong></td><td><strong>~5.1 yr</strong></td></tr>
+          <tr><td>10yr return</td><td>+$20,622</td><td>+$21,616</td><td class="win">+$25,780</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Modelling assumptions:</strong> Amber general ~30c/kWh avg, peak 40–55c/kWh, solar sponge ~15c/kWh, off-peak ~8c/kWh. Feed-in ~4–6c/kWh avg. Battery round-trip 90%. Fixed charges excluded.
+  </div>
+</section>
+
+<!-- ═══ Financial Forecast: Head to Head ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Head to Head</div>
+    <div class="section-title">Financial Forecast — Glow Opt 2 vs NRG</div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--body);margin-bottom:24px;">The question: <strong>is NRG's $6,336 premium worth it?</strong> Below: year-by-year cash flows, break-even, and the hidden value a simple payback misses.</p>
+
+  <!-- Key metric cards -->
+  <div class="cards cols-2">
+    <div class="card">
+      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Glow Option 2</div>
+      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">$20,884</div>
+      <div style="font-size:0.82rem;color:var(--body);">14.25 kW · GoodWe 9.99kW · 33.2kWh battery</div>
+    </div>
+    <div class="card winner">
+      <div class="card-winner-tag">Recommended</div>
+      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">NRG Solar</div>
+      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">$27,220</div>
+      <div style="font-size:0.82rem;color:var(--body);">19.38 kW · Sigenergy 15kW · 36kWh battery</div>
+      <div style="font-size:0.8rem;color:var(--warning);margin-top:4px;">+$6,336 premium</div>
+    </div>
+  </div>
+
+  <!-- Annual Savings -->
+  <div class="table-wrap">
+    <div style="padding:20px 24px 8px;">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Annual Savings Breakdown</div>
+      <div style="font-size:0.82rem;color:var(--body);margin-bottom:12px;">~9,000 kWh/yr household · Amber blended ~30c/kWh · Feed-in ~5c/kWh</div>
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Revenue Stream</th><th>Glow Opt 2</th><th>NRG Solar</th><th style="text-align:right;">Edge</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Self-consumption</strong></td><td>$2,160/yr</td><td>$2,550/yr</td><td class="win">NRG +$390</td></tr>
+        <tr><td><strong>Peak avoidance (5–9pm)</strong></td><td>$1,200/yr</td><td>$1,650/yr</td><td class="win">NRG +$450</td></tr>
+        <tr><td><strong>Export revenue</strong></td><td>$500/yr</td><td>$990/yr</td><td class="win">NRG +$490</td></tr>
+        <tr class="break"><td><strong>Total Annual Savings</strong></td><td><strong>$3,860/yr</strong></td><td><strong>$5,190/yr</strong></td><td class="win">NRG +$1,330/yr</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
+      <strong>Key driver:</strong> NRG's 36% larger solar array + SmartShift-optimised battery export generates ~$1,000/yr more. The 15kW inverter also means zero clipping — GoodWe's 9.99kW will throttle on high-production days.
+    </div>
+  </div>
+
+  <!-- 10-Year Cash Flow -->
+  <div class="table-wrap">
+    <div style="padding:20px 24px 8px;">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">10-Year Cash Flow Comparison</div>
+      <div style="font-size:0.82rem;color:var(--body);">NRG's higher savings overtake the upfront premium in Year 5.</div>
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Year</th><th>Glow Net Position</th><th>NRG Net Position</th><th>Delta</th><th style="text-align:right;">NRG Ahead?</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td class="mono">−$20,884</td><td class="mono">−$27,220</td><td class="warn-text">−$6,336</td><td>—</td></tr>
+        <tr><td>1</td><td class="mono">−$17,024</td><td class="mono">−$22,030</td><td class="warn-text">−$5,006</td><td>—</td></tr>
+        <tr><td>2</td><td class="mono">−$13,164</td><td class="mono">−$16,840</td><td class="warn-text">−$3,676</td><td>—</td></tr>
+        <tr><td>3</td><td class="mono">−$9,304</td><td class="mono">−$11,650</td><td class="warn-text">−$2,346</td><td>—</td></tr>
+        <tr><td>4</td><td class="mono">−$5,444</td><td class="mono">−$6,460</td><td class="warn-text">−$1,016</td><td>—</td></tr>
+        <tr class="highlight-row"><td><strong>5</strong></td><td class="mono"><strong>−$1,584</strong></td><td class="mono"><strong>−$1,270</strong></td><td class="win"><strong>+$314</strong></td><td><span style="color:var(--success);font-weight:600;font-size:0.72rem;">BREAK-EVEN</span></td></tr>
+        <tr><td>6</td><td class="mono">+$2,276</td><td class="mono">+$3,920</td><td class="win">+$1,644</td><td class="win">✓</td></tr>
+        <tr><td>7</td><td class="mono">+$6,136</td><td class="mono">+$9,110</td><td class="win">+$2,974</td><td class="win">✓</td></tr>
+        <tr><td>8</td><td class="mono">+$9,996</td><td class="mono">+$14,300</td><td class="win">+$4,304</td><td class="win">✓</td></tr>
+        <tr><td>9</td><td class="mono">+$13,856</td><td class="mono">+$19,490</td><td class="win">+$5,634</td><td class="win">✓</td></tr>
+        <tr class="break"><td><strong>10</strong></td><td class="mono"><strong>+$17,716</strong></td><td class="mono"><strong>+$24,680</strong></td><td class="win"><strong>+$6,964</strong></td><td class="win">✓</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--success);">
+      <strong>Year 10:</strong> NRG is $6,964 ahead — and the gap widens every year.<br>
+      <strong>Year 15:</strong> NRG ≈ $11,600 ahead.<br>
+      <strong>Year 20:</strong> NRG ≈ $16,400 ahead. The premium pays for itself twice over.
+    </div>
+  </div>
+
+  <!-- Break-Even Visual -->
+  <div class="table-wrap">
+    <div style="padding:20px 24px 8px;">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Cumulative Net Position</div>
+    </div>
+    <div style="padding:0 24px 20px;">
+      <div class="breakeven-viz">
+        <span class="year">Yr 0</span> Glow <span class="neg">−$20,884</span><br>
+        <span style="margin-left:8px;">NRG</span> <span class="neg">−$27,220</span><br><br>
+        <span class="year">Yr 5</span> Glow <span class="neg">−$1,584</span><br>
+        <span style="margin-left:8px;">NRG</span> <span class="neg">−$1,270</span> <span class="tagline">← NRG PULLS AHEAD</span><br><br>
+        <span class="year">Yr 10</span> Glow <span class="pos">+$17,716</span><br>
+        <span style="margin-left:8px;">NRG</span> <span class="pos">+$24,680</span> <span class="tagline">← $6,964 gap</span><br><br>
+        <span class="year">Yr 15</span> Glow <span class="pos">+$37,000</span><br>
+        <span style="margin-left:8px;">NRG</span> <span class="pos">+$48,600</span><br><br>
+        <span class="year">Yr 20</span> Glow <span class="pos">+$55,000</span><br>
+        <span style="margin-left:8px;">NRG</span> <span class="pos">+$71,400</span> <span class="tagline">← +$16,400</span>
+      </div>
+      <div style="font-size:0.82rem;color:var(--body);">NRG's advantage grows by ~$330/yr after Year 10 (lower degradation, no inverter replacement, SmartShift compounding).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Peak Avoidance ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Advantage</div>
+    <div class="section-title">Where NRG Wins — Peak Avoidance</div>
+  </div>
+
+  <div class="table-wrap">
+    <div style="padding:20px 24px 8px;">
+      <div style="font-size:0.88rem;color:var(--body);">Your Amber smart meter data (Jun 16–21) reveals the core financial case:</div>
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Metric</th><th>Your Data</th><th>With Glow 33.2kWh</th><th>With NRG 36kWh</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nighttime usage (6pm–6am)</strong></td><td>38.9% of kWh</td><td>—</td><td>—</td></tr>
+        <tr><td><strong>Nighttime COST share</strong></td><td class="warn-text">58% of bill</td><td>—</td><td>—</td></tr>
+        <tr><td><strong>Peak window (5–9pm) kWh</strong></td><td>~4.5 kWh/day</td><td>Covered by battery</td><td>Covered by battery</td></tr>
+        <tr><td><strong>Peak window cost avoided</strong></td><td>—</td><td>~$900/yr</td><td class="win">~$1,300/yr</td></tr>
+        <tr><td><strong>Price spike days (&gt;50c/kWh)</strong></td><td>—</td><td>Partial protection</td><td class="win">Full SmartShift</td></tr>
+        <tr><td><strong>Summer peak (pool+AC)</strong></td><td>Est. 8–12 kWh</td><td>May exhaust battery</td><td class="win">36kWh rides through</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
+      <strong>Why 36kWh matters:</strong> On a summer evening with pool pump, AC, and dinner cooking, 5–9pm draw could hit 8–12 kWh. Glow's 33.2kWh battery (~30kWh usable) would be depleted by morning. NRG's 36kWh gives a critical buffer — and SmartShift auto-discharges during price spikes for additional revenue that GoodWe can't match.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Hidden Value ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Long View</div>
+    <div class="section-title">Beyond Year 10 — The Hidden Value</div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--body);margin-bottom:20px;">Simple payback misses three things that make NRG cheaper in the long run:</p>
+
+  <div class="table-wrap">
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Factor</th><th>Glow</th><th>NRG</th><th style="text-align:right;">Impact</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Panel degradation</strong></td><td>~0.55%/yr</td><td>~0.40%/yr (dual-glass)</td><td>NRG produces 3.3% more by Yr 20</td></tr>
+        <tr><td><strong>Inverter lifespan</strong></td><td>10yr typical</td><td>10yr (Sigenergy likely exceeds)</td><td>Glow replacement ~$2,000</td></tr>
+        <tr><td><strong>Battery degradation</strong></td><td>~2%/yr</td><td>~1.5%/yr (newer chemistry)</td><td>NRG retains 5% more by Yr 10</td></tr>
+        <tr><td><strong>Inverter upsize needed</strong></td><td>~$2,000–3,000</td><td>None (15kW won't clip)</td><td>Glow may need upgrade if load grows</td></tr>
+        <tr><td><strong>Amber optimisation</strong></td><td>Third-party fees</td><td>Native (no ongoing cost)</td><td>~$50–100/yr saved</td></tr>
+        <tr><td><strong>Blackout protection</strong></td><td>Extra hardware needed</td><td>Built-in</td><td class="win">$500–1,000 saved</td></tr>
+        <tr><td><strong>EV charger integration</strong></td><td>Separate install</td><td>Built-in (5-in-1)</td><td class="win">$1,000–2,000 saved</td></tr>
+        <tr class="break"><td><strong>Total hidden value</strong></td><td></td><td></td><td class="win"><strong>~$4,000–7,500</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--success);">
+      <strong>The real comparison:</strong> NRG costs $6,336 more upfront but delivers $6,964 more in savings by Year 10 <em>plus</em> $4,000–7,500 in avoided costs. Net: NRG is $10,000–14,000 better over 10 years.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Inverter Risk ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Risk Alert</div>
+    <div class="section-title">The Glow Inverter Bottleneck</div>
+  </div>
+
+  <div class="card warn">
+    <p style="font-size:0.9rem;margin-bottom:16px;">GoodWe's 9.99kW inverter is the single biggest risk in the Glow quote:</p>
+    <ul style="padding-left:1.5rem;line-height:2;font-size:0.88rem;color:var(--body);">
+      <li><strong>Winter already hits 5–9 kW peak draw</strong> without pool, AC, or sauna — that's 50–90% of capacity on a mild day.</li>
+      <li><strong>Summer pool pump</strong> (+1.5–2 kW) + <strong>AC</strong> (+3–5 kW) + <strong>sauna</strong> (+3–6 kW) + baseline = <strong>8.5–15 kW total</strong>.</li>
+      <li>If load exceeds 9.99 kW, the inverter <em>can't supply all of it</em> — you import from grid at peak prices even with a full battery.</li>
+      <li>At 50c/kWh, importing 2 kW for 4 hours on 30 summer days = <strong>$120/yr</strong> in avoidable grid costs — conservative.</li>
+      <li><strong>Worst case:</strong> 38°C February day. Pool + AC + sauna + oven = 14 kW draw. GoodWe clips at 9.99 kW. That one day costs <strong>$8–12</strong> NRG avoids entirely.</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--warning);margin-top:16px;"><strong>Over 10 summers,</strong> the inverter bottleneck alone costs $1,500–2,500 in unnecessary grid imports — invisible in the initial quote.</p>
+  </div>
+</section>
+
+<!-- ═══ Amber SmartShift ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Strategy</div>
+    <div class="section-title">Amber SmartShift — Why It Changes Everything</div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:0;">
+    <div style="padding:20px 24px 8px;">
+      <p style="font-size:0.9rem;color:var(--body);">With Amber's dynamic wholesale pricing, the <strong>battery is more important than the solar panels</strong> for saving money:</p>
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Without battery</th><th>With battery + SmartShift</th></tr></thead>
+      <tbody>
+        <tr><td>Solar covers daytime use only</td><td>Solar covers daytime + <strong>charges battery</strong></td></tr>
+        <tr><td>Export surplus at 4–6c/kWh</td><td>Store surplus, <strong>discharge during peak (40–60c+)</strong></td></tr>
+        <tr><td>Peak window: pay 40–60c/kWh</td><td>Peak window: <strong>zero grid import</strong></td></tr>
+        <tr><td>Price spikes: no protection</td><td><strong>Auto-discharge during spikes</strong> (even earn credits)</td></tr>
+        <tr><td>Nighttime: import at off-peak</td><td>Nighttime: import at <strong>cheapest time + battery top-up</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
+      NRG's Sigenergy has native Amber SmartShift. GoodWe needs third-party software (ChargeHQ/Home Assistant). The Sigenergy 15kW inverter is specifically sized for your pool + sauna + AC concurrent load — GoodWe's 9.99kW could hit its limit on a hot summer day.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Recommendation ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Call</div>
+    <div class="section-title">Recommendation</div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-badge">Our Pick</div>
+    <h2>NRG Solar — $27,220</h2>
+    <div class="price">Negotiate to $25,500–26,000</div>
+    <p style="text-align:center;font-size:0.9rem;color:var(--body);max-width:540px;margin:8px auto 24px;">The premium is justified. Here's the logic:</p>
+    <ol>
+      <li><strong>Inverter capacity is non-negotiable.</strong> Your peak draw already hits 5–9 kW in winter without pool or AC. On a February afternoon with everything running, you'll exceed GoodWe's 9.99kW. The Sigenergy 15kW gives you headroom.</li>
+      <li><strong>Battery size matters on Amber.</strong> 36kWh Sigenergy means you ride through the entire 5–9pm peak without touching the grid. At 40–60c/kWh, that's $6–9/day saved during summer.</li>
+      <li><strong>Dual-glass panels for a forever home.</strong> Trina's bifacial dual-glass panels have better humidity/fire resistance and lower degradation than Jinko's standard backsheet.</li>
+      <li><strong>Future-proofed.</strong> Built-in EV charger integration, blackout protection, and modular battery expansion. You're not locked into today's config.</li>
+      <li><strong>The price gap isn't as big as it looks.</strong> NRG is $6,336 more but you get 36% more solar, a 15kW vs 10kW inverter, dual-glass panels, and native Amber integration. That's easily $6K of value.</li>
+    </ol>
+
+    <div class="neg-notes">
+      <p style="font-size:0.88rem;color:var(--body);"><strong>Negotiation levers:</strong></p>
+      <ul>
+        <li>Ask NRG to confirm 10yr workmanship warranty (Glow offers it)</li>
+        <li>Request cash/upfront payment discount (typically 3–5%)</li>
+        <li>Ask about EOFY pricing — quote mentions $1,666.20 in EOFY discounts</li>
+        <li>Target price: <strong>$25,500–$26,000</strong></li>
+      </ul>
+      <p style="font-size:0.88rem;color:var(--body);margin-top:16px;"><strong>If budget is truly tight:</strong> Glow Option 2 ($20,884) is the best value from that provider. The 33.2kWh battery is adequate. But you'll likely regret the 9.99kW inverter cap within 2 years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer class="site-footer">
+  <p>Data: Amber API (6 days actual usage, Jun 16–21 2026) · NRG Pylon proposal · Glow OpenSolar quote · SolarQuotes reviews · 22 June 2026</p>
+  <p style="margin-top:4px;">Not financial advice. Payback estimates are modelled projections. Actual savings depend on usage, Amber pricing, and weather.</p>
+  <p style="margin-top:16px;font-family:var(--font-display);font-size:1rem;color:var(--coral);">Gary (Josh's P.A)</p>
+</footer>
+
+</div>
+</body>
+</html>
