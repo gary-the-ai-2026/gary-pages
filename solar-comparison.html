@@ -250,19 +250,21 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 .bar-row .hour { width: 28px; text-align: right; color: var(--muted); flex-shrink: 0; }
 .bar-row .bar-track {
   flex: 1;
-  height: 6px;
-  background: var(--hairline-soft);
-  border-radius: 3px;
+  height: 8px;
+  background: var(--hairline);
+  border-radius: 4px;
   overflow: hidden;
 }
 .bar-row .bar-fill {
   height: 100%;
   background: var(--body);
-  border-radius: 3px;
+  border-radius: 4px;
   transition: background 0.2s;
+  min-width: 2px;
 }
 .bar-row .bar-fill.peak { background: var(--danger); }
 .bar-row .bar-fill.sponge { background: var(--warning); }
+.bar-row .bar-fill.morning { background: var(--coral); }
 .bar-row .kwh { width: 52px; text-align: right; color: var(--body); flex-shrink: 0; font-weight: 500; }
 .bar-row .kwh.strong { color: var(--ink); font-weight: 600; }
 
@@ -271,6 +273,7 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 .legend .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 .legend .swatch.peak { background: var(--danger); }
 .legend .swatch.sponge { background: var(--warning); }
+.legend .swatch.morning { background: var(--coral); }
 .legend .swatch.off { background: var(--muted); }
 
 /* ── Horizontal bar (day/night split) ── */
@@ -381,7 +384,7 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 <section class="hero">
   <div class="kicker">119 Princes Road · Mitcham</div>
   <h1>Solar Comparison</h1>
-  <p class="subtitle">Glow vs NRG Solar — three quotes, two providers, one recommendation. Prepared 22 June 2026.</p>
+  <p class="subtitle">Glow vs NRG Solar — two quotes, head-to-head. Prepared 22 June 2026.</p>
 </section>
 
 <!-- ═══ Current Usage ═══ -->
@@ -422,26 +425,27 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
       <div class="bar-row"><span class="hour">04:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
       <div class="bar-row"><span class="hour">05:00</span><span class="bar-track"><span class="bar-fill" style="width:6%;"></span></span><span class="kwh">0.1</span></div>
       <div class="bar-row"><span class="hour">06:00</span><span class="bar-track"><span class="bar-fill" style="width:10%;"></span></span><span class="kwh">0.2</span></div>
-      <div class="bar-row"><span class="hour">07:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:43%;"></span></span><span class="kwh strong">1.0</span></div>
-      <div class="bar-row"><span class="hour">08:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:60%;"></span></span><span class="kwh strong">1.4</span></div>
-      <div class="bar-row"><span class="hour">09:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">07:00</span><span class="bar-track"><span class="bar-fill morning" style="width:43%;"></span></span><span class="kwh strong">1.0</span></div>
+      <div class="bar-row"><span class="hour">08:00</span><span class="bar-track"><span class="bar-fill morning" style="width:60%;"></span></span><span class="kwh strong">1.4</span></div>
+      <div class="bar-row"><span class="hour">09:00</span><span class="bar-track"><span class="bar-fill morning" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
       <div class="bar-row"><span class="hour">10:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
       <div class="bar-row"><span class="hour">11:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:26%;"></span></span><span class="kwh">0.6</span></div>
       <div class="bar-row"><span class="hour">12:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:52%;"></span></span><span class="kwh strong">1.2</span></div>
       <div class="bar-row"><span class="hour">13:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:60%;"></span></span><span class="kwh strong">1.4</span></div>
       <div class="bar-row"><span class="hour">14:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:65%;"></span></span><span class="kwh strong">1.5</span></div>
       <div class="bar-row"><span class="hour">15:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:32%;"></span></span><span class="kwh">0.7</span></div>
-      <div class="bar-row"><span class="hour">16:00</span><span class="bar-track"><span class="bar-fill sponge" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
-      <div class="bar-row"><span class="hour">17:00</span><span class="bar-track"><span class="bar-fill" style="width:38%;"></span></span><span class="kwh">0.9</span></div>
+      <div class="bar-row"><span class="hour">16:00</span><span class="bar-track"><span class="bar-fill" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
+      <div class="bar-row"><span class="hour">17:00</span><span class="bar-track"><span class="bar-fill peak" style="width:38%;"></span></span><span class="kwh">0.9</span></div>
       <div class="bar-row"><span class="hour">18:00</span><span class="bar-track"><span class="bar-fill peak" style="width:100%;"></span></span><span class="kwh strong" style="color:var(--danger);">2.3</span></div>
       <div class="bar-row"><span class="hour">19:00</span><span class="bar-track"><span class="bar-fill peak" style="width:69%;"></span></span><span class="kwh strong" style="color:var(--danger);">1.6</span></div>
-      <div class="bar-row"><span class="hour">20:00</span><span class="bar-track"><span class="bar-fill" style="width:26%;"></span></span><span class="kwh">0.6</span></div>
+      <div class="bar-row"><span class="hour">20:00</span><span class="bar-track"><span class="bar-fill peak" style="width:26%;"></span></span><span class="kwh">0.6</span></div>
       <div class="bar-row"><span class="hour">21:00</span><span class="bar-track"><span class="bar-fill" style="width:21%;"></span></span><span class="kwh">0.5</span></div>
       <div class="bar-row"><span class="hour">22:00</span><span class="bar-track"><span class="bar-fill" style="width:16%;"></span></span><span class="kwh">0.4</span></div>
       <div class="bar-row"><span class="hour">23:00</span><span class="bar-track"><span class="bar-fill" style="width:10%;"></span></span><span class="kwh">0.2</span></div>
       <div class="legend">
-        <span><span class="swatch peak"></span> Peak tariff</span>
-        <span><span class="swatch sponge"></span> Solar Sponge</span>
+        <span><span class="swatch peak"></span> Peak tariff (5–9pm)</span>
+        <span><span class="swatch sponge"></span> Solar Sponge (10am–3pm)</span>
+        <span><span class="swatch morning"></span> Morning peak (7–9am)</span>
         <span><span class="swatch off"></span> Off-Peak</span>
       </div>
     </div>
@@ -474,24 +478,10 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 <section class="section">
   <div class="section-header">
     <div class="section-label">The Options</div>
-    <div class="section-title">Three Quotes Compared</div>
+    <div class="section-title">Two Quotes Compared</div>
   </div>
 
-  <div class="cards cols-3">
-    <!-- Glow Option 1 -->
-    <div class="card">
-      <div class="card-name">Glow Option 1</div>
-      <div class="card-price">$18,378</div>
-      <div class="card-price-label">after rebates, inc. GST</div>
-      <div class="specs">
-        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">14.25 kW</span></div>
-        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">Jinko Tiger Neo</span></div>
-        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value">GoodWe 9.99kW</span></div>
-        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">GoodWe 24 kWh</span></div>
-        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value">3yr 10mo</span></div>
-      </div>
-    </div>
-
+  <div class="cards cols-2">
     <!-- Glow Option 2 -->
     <div class="card">
       <div class="card-name">Glow Option 2</div>
@@ -569,13 +559,13 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
       <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">6,300 kWh/yr · ~$2,330/yr bill</div>
       <div class="table-scroll">
       <table>
-        <thead><tr><th></th><th>Glow 1</th><th>Glow 2</th><th>NRG</th></tr></thead>
+        <thead><tr><th></th><th>Glow Opt 2</th><th>NRG</th></tr></thead>
         <tbody>
-          <tr><td>Solar gen</td><td>19,700</td><td>19,700</td><td>27,600</td></tr>
-          <tr><td>Self-cons</td><td>~3,800</td><td>~4,100</td><td>~4,500</td></tr>
-          <tr><td>Grid export</td><td>~15,900</td><td>~15,600</td><td>~23,100</td></tr>
-          <tr><td>Savings/yr</td><td>~$1,200</td><td>~$1,350</td><td>~$1,600</td></tr>
-          <tr class="break"><td><strong>Payback</strong></td><td><strong>~15.3 yr</strong></td><td><strong>~15.5 yr</strong></td><td><strong>~17.0 yr</strong></td></tr>
+          <tr><td>Solar gen</td><td>19,700</td><td>27,600</td></tr>
+          <tr><td>Self-cons</td><td>~4,100</td><td>~4,500</td></tr>
+          <tr><td>Grid export</td><td>~15,600</td><td>~23,100</td></tr>
+          <tr><td>Savings/yr</td><td>~$1,350</td><td>~$1,600</td></tr>
+          <tr class="break"><td><strong>Payback</strong></td><td><strong>~15.5 yr</strong></td><td><strong>~17.0 yr</strong></td></tr>
         </tbody>
       </table>
       </div>
@@ -588,15 +578,15 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
       <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">~10,000 kWh/yr · ~$5,000/yr bill</div>
       <div class="table-scroll">
       <table>
-        <thead><tr><th></th><th>Glow 1</th><th>Glow 2</th><th>NRG</th></tr></thead>
+        <thead><tr><th></th><th>Glow Opt 2</th><th>NRG</th></tr></thead>
         <tbody>
-          <tr><td>Self-cons</td><td>~6,500</td><td>~7,200</td><td>~8,500</td></tr>
-          <tr><td>Grid avoided</td><td>65%</td><td>72%</td><td>85%</td></tr>
-          <tr><td>Savings/yr</td><td>~$3,500</td><td>~$3,900</td><td>~$4,800</td></tr>
-          <tr><td>Export</td><td>~$400</td><td>~$350</td><td>~$500</td></tr>
-          <tr><td><strong>Total/yr</strong></td><td><strong>~$3,900</strong></td><td><strong>~$4,250</strong></td><td><strong>~$5,300</strong></td></tr>
-          <tr class="break"><td><strong>Payback</strong></td><td><strong>~4.7 yr</strong></td><td><strong>~4.9 yr</strong></td><td><strong>~5.1 yr</strong></td></tr>
-          <tr><td>10yr return</td><td>+$20,622</td><td>+$21,616</td><td class="win">+$25,780</td></tr>
+          <tr><td>Self-cons</td><td>~7,200</td><td>~8,500</td></tr>
+          <tr><td>Grid avoided</td><td>72%</td><td>85%</td></tr>
+          <tr><td>Savings/yr</td><td>~$3,900</td><td>~$4,800</td></tr>
+          <tr><td>Export</td><td>~$350</td><td>~$500</td></tr>
+          <tr><td><strong>Total/yr</strong></td><td><strong>~$4,250</strong></td><td><strong>~$5,300</strong></td></tr>
+          <tr class="break"><td><strong>Payback</strong></td><td><strong>~4.9 yr</strong></td><td><strong>~5.1 yr</strong></td></tr>
+          <tr><td>10yr return</td><td>+$21,616</td><td class="win">+$25,780</td></tr>
         </tbody>
       </table>
       </div>
