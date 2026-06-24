@@ -204,10 +204,10 @@ new Chart('liverChart',{type:'bar',data:{labels:L4,datasets:[
 new Chart('hbChart',{type:'line',data:{labels:L8,datasets:[{label:'Hb',data:[133,117,132,129,137,126,119,129],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:100,max:160,title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(119,160,'Ref')]});
 
 // WCC
-new Chart('wccChart',{type:'line',data:{labels:L8,datasets:[{label:'WCC',data:[6.5,9.5,6.5,4.9,7.4,6.7,7.1,6.5],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.coral}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3,max:12,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+new Chart('wccChart',{type:'line',data:{labels:L8,datasets:[{label:'WCC',data:[6.5,9.5,6.5,4.9,7.4,6.7,7.1,6.5],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.coral}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3,max:12,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // RBC
-new Chart('rbcChart',{type:'line',data:{labels:L8,datasets:[{label:'RBC',data:[4.4,3.8,4.3,4.2,4.44,4.0,3.9,4.21],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3.5,max:5.5,title:{display:true,text:'×10¹²/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+new Chart('rbcChart',{type:'line',data:{labels:L8,datasets:[{label:'RBC',data:[4.4,3.8,4.3,4.2,4.44,4.0,3.9,4.21],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3.5,max:5.5,title:{display:true,text:'×10¹²/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // HCT
 new Chart('hctChart',{type:'line',data:{labels:L8,datasets:[{label:'HCT',data:[0.41,0.37,0.40,0.40,0.40,0.38,0.37,0.40],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.3,max:0.5,title:{display:true,text:'L/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(0.35,0.48,'Ref')]});
@@ -216,54 +216,54 @@ new Chart('hctChart',{type:'line',data:{labels:L8,datasets:[{label:'HCT',data:[0
 new Chart('ironChart',{type:'line',data:{labels:L5i,datasets:[
 {label:'Ferritin (μg/L)',data:[91,51,77,49,57],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
 {label:'Iron (μmol/L)',data:[13,17,17.2,9.6,17.6],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.04)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.blue,yAxisID:'y1'},
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Ferritin (μg/L)'},min:20,max:110,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Iron (μmol/L)'},min:5,max:30,grid:{display:false}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Ferritin (μg/L)'},min:20,max:110,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Iron (μmol/L)'},min:5,max:30,grid:{display:false}},x:{grid:{display:false}}}}});
 
 // Lipids
 new Chart('lipidChart',{type:'bar',data:{labels:L4,datasets:[
 {label:'Total Chol',data:[4.6,4.7,4.6,5.2],backgroundColor:C.muted,borderRadius:4},
 {label:'HDL',data:[null,2.4,2.7,3.1],backgroundColor:C.success,borderRadius:4},
 {label:'LDL',data:[null,2.0,1.6,1.9],backgroundColor:C.blue,borderRadius:4}
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Trig
-new Chart('trigChart',{type:'line',data:{labels:L4,datasets:[{label:'Triglycerides',data:[1.2,0.6,0.7,0.5],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+new Chart('trigChart',{type:'line',data:{labels:L4,datasets:[{label:'Triglycerides',data:[1.2,0.6,0.7,0.5],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Kidney
 new Chart('kidneyChart',{type:'line',data:{labels:L4,datasets:[
 {label:'Creatinine (μmol/L)',data:[66,77,74,72],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
 {label:'eGFR',data:[90,77,90,90],borderColor:C.success,tension:.3,pointRadius:5,pointBackgroundColor:C.success,yAxisID:'y1'},
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Creat (μmol/L)'},min:50,max:90,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'eGFR'},min:60,max:110,grid:{display:false}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Creat (μmol/L)'},min:50,max:90,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'eGFR'},min:60,max:110,grid:{display:false}},x:{grid:{display:false}}}}});
 
 // Protein
 new Chart('proteinChart',{type:'line',data:{labels:L4,datasets:[
 {label:'Total Protein',data:[65,65,66,70],borderColor:C.ink,tension:.3,pointRadius:5,pointBackgroundColor:C.ink},
 {label:'Albumin',data:[40,41,40,38],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral},
 {label:'Globulin',data:[25,24,26,32],borderColor:C.warning,tension:.3,pointRadius:5,pointBackgroundColor:C.warning},
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Phosphate
-new Chart('phosChart',{type:'line',data:{labels:L4,datasets:[{label:'Phosphate',data:[0.96,1.43,1.00,1.52],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.5,max:2,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+new Chart('phosChart',{type:'line',data:{labels:L4,datasets:[{label:'Phosphate',data:[0.96,1.43,1.00,1.52],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.5,max:2,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Electrolytes
 new Chart('lytesChart',{type:'line',data:{labels:L4,datasets:[
 {label:'Sodium',data:[140,141,140,140],borderColor:C.ink,tension:0,pointRadius:4,pointBackgroundColor:C.ink},
 {label:'Potassium',data:[3.8,4.2,4.2,4.2],borderColor:C.coral,tension:0,pointRadius:4,pointBackgroundColor:C.coral},
 {label:'Chloride',data:[108,107,108,102],borderColor:C.muted,tension:0,pointRadius:4,pointBackgroundColor:C.muted}
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Calcium
 new Chart('caChart',{type:'line',data:{labels:L4,datasets:[
 {label:'Calcium',data:[2.30,2.29,2.32,2.39],borderColor:C.coral,tension:.3,pointRadius:4,pointBackgroundColor:C.coral},
 {label:'Albumin',data:[40,41,40,38],borderColor:C.blue,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L / g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L / g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Urine
 new Chart('urineChart',{type:'bar',data:{labels:['Nov 2024','Jun 2026'],datasets:[
 {label:'Urine Albumin (mg/L)',data:[31.1,0.06],backgroundColor:[C.danger,C.success],borderRadius:4}
-]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'mg/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'mg/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // PTH
-new Chart('pthChart',{type:'bar',data:{labels:['Sep 2025','Feb 2026','Jun 2026'],datasets:[{label:'PTH',data:[6.2,2.3,5.5],backgroundColor:[C.coral,C.muted,C.coral],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:10,title:{display:true,text:'pmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+new Chart('pthChart',{type:'bar',data:{labels:['Sep 2025','Feb 2026','Jun 2026'],datasets:[{label:'PTH',data:[6.2,2.3,5.5],backgroundColor:[C.coral,C.muted,C.coral],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:10,title:{display:true,text:'pmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 </script>
 </body>
 </html>
