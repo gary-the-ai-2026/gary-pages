@@ -8,124 +8,73 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --canvas: #faf9f5;
-    --surface: #ffffff;
-    --surface-alt: #f0eeea;
-    --ink: #141413;
-    --body: #5c5a55;
-    --muted: #94918a;
-    --hairline: #e4e1db;
-    --hairline-soft: #ece9e4;
-    --coral: #cc785c;
-    --coral-hover: #a9583e;
-    --success: #1b8a3d;
-    --warning: #c2680c;
-    --danger: #c0392b;
+    --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
+    --ink: #141413; --body: #5c5a55; --muted: #94918a;
+    --hairline: #e4e1db; --hairline-soft: #ece9e4;
+    --coral: #cc785c; --coral-hover: #a9583e;
+    --success: #1b8a3d; --warning: #c2680c; --danger: #c0392b;
     --radius-card: 20px;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: var(--font-body);
-    background: var(--canvas);
-    color: var(--body);
-    line-height: 1.6;
-  }
-  .container { max-width: 920px; margin: 0 auto; padding: 2rem 1.5rem; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-body);background:var(--canvas);color:var(--body);line-height:1.6}
+  .container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
 
-  /* Hero */
-  .hero { text-align: center; padding: 3rem 0 2rem; }
-  .kicker {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--coral); margin-bottom: 0.75rem;
-  }
-  .hero h1 {
-    font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 900; color: var(--ink); line-height: 1.15; margin-bottom: 0.5rem;
-  }
-  .hero .subtitle { font-size: 1.05rem; color: var(--muted); max-width: 540px; margin: 0 auto; }
+  .hero{text-align:center;padding:3rem 0 2rem}
+  .kicker{font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--coral);margin-bottom:0.75rem}
+  .hero h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--ink);line-height:1.15;margin-bottom:0.5rem}
+  .hero .subtitle{font-size:1.05rem;color:var(--muted);max-width:560px;margin:0 auto}
 
-  /* Section */
-  .section { margin: 2.5rem 0; }
-  .section-header { margin-bottom: 1.25rem; }
-  .section-label {
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--coral); margin-bottom: 0.25rem;
-  }
-  .section-title {
-    font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--ink);
-  }
+  .section{margin:2.5rem 0}
+  .section-header{margin-bottom:1.25rem}
+  .section-label{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:0.25rem}
+  .section-title{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--ink)}
 
-  /* Cards */
-  .cards { display: grid; gap: 1.25rem; }
-  .cols-2 { grid-template-columns: 1fr; }
-  .cols-3 { grid-template-columns: 1fr; }
-  @media (min-width: 700px) {
-    .cols-2 { grid-template-columns: 1fr 1fr; }
-    .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  }
-  .card {
-    background: var(--surface); border-radius: var(--radius-card);
-    padding: 1.5rem; border: 1px solid var(--hairline);
-    box-shadow: var(--shadow-rest);
-  }
-  .card h3 {
-    font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
-    color: var(--ink); margin-bottom: 0.75rem;
-  }
-  .card .value {
-    font-family: var(--font-mono); font-size: 2rem; font-weight: 500; color: var(--ink);
-  }
-  .card .label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
-  .card .trend { font-size: 0.85rem; margin-top: 0.5rem; font-weight: 600; }
-  .trend-up { color: var(--success); }
-  .trend-down { color: var(--danger); }
-  .trend-warn { color: var(--warning); }
+  .cards{display:grid;gap:1.25rem}
+  .cols-2{grid-template-columns:1fr}.cols-3{grid-template-columns:1fr}.cols-4{grid-template-columns:1fr 1fr}
+  @media(min-width:700px){.cols-2{grid-template-columns:1fr 1fr}.cols-3{grid-template-columns:1fr 1fr 1fr}.cols-4{grid-template-columns:1fr 1fr 1fr 1fr}}
+  @media(min-width:500px) and (max-width:699px){.cols-4{grid-template-columns:1fr 1fr}}
 
-  /* Chart card */
-  .chart-card {
-    background: var(--surface); border-radius: var(--radius-card);
-    padding: 1.5rem; border: 1px solid var(--hairline);
-    box-shadow: var(--shadow-rest);
-  }
-  .chart-card h3 {
-    font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
-    color: var(--ink); margin-bottom: 0.25rem;
-  }
-  .chart-card .chart-note {
-    font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;
-  }
-  .chart-wrap { position: relative; width: 100%; }
-  .chart-wrap canvas { width: 100% !important; }
+  .card{background:var(--surface);border-radius:var(--radius-card);padding:1.5rem;border:1px solid var(--hairline);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .card h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:0.75rem}
+  .card .value{font-family:var(--font-mono);font-size:2rem;font-weight:500;color:var(--ink)}
+  .card .label{font-size:0.8rem;color:var(--muted);margin-top:0.25rem}
+  .card .trend{font-size:0.85rem;margin-top:0.5rem;font-weight:600}
+  .trend-up{color:var(--success)}.trend-down{color:var(--danger)}.trend-warn{color:var(--warning)}.trend-stable{color:var(--muted)}
 
-  /* Verdict / commentary */
-  .commentary {
-    background: var(--surface-alt); border-radius: var(--radius-card);
-    padding: 1.25rem 1.5rem; margin-top: 1rem; border-left: 3px solid var(--coral);
-  }
-  .commentary h4 {
-    font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem;
-  }
-  .commentary p { font-size: 0.9rem; color: var(--body); line-height: 1.55; }
+  .chart-card{background:var(--surface);border-radius:var(--radius-card);padding:1.5rem;border:1px solid var(--hairline);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:0.25rem}
+  .chart-card .chart-note{font-size:0.8rem;color:var(--muted);margin-bottom:1rem}
+  .chart-wrap{position:relative;width:100%}
+  .chart-wrap canvas{width:100%!important}
 
-  /* Status pill */
-  .status-pill {
-    display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
-    text-transform: uppercase; padding: 0.25em 0.7em; border-radius: 999px;
-  }
-  .status-high { background: #fde8e8; color: var(--danger); }
-  .status-low { background: #fef3c7; color: var(--warning); }
-  .status-normal { background: #d1fae5; color: var(--success); }
-  .status-improving { background: #dbeafe; color: #1e40af; }
+  .commentary{background:var(--surface-alt);border-radius:var(--radius-card);padding:1.25rem 1.5rem;margin-top:1rem;border-left:3px solid var(--coral)}
+  .commentary h4{font-size:0.85rem;font-weight:700;color:var(--ink);margin-bottom:0.4rem}
+  .commentary p{font-size:0.9rem;color:var(--body);line-height:1.55}
+  .commentary.warn{border-left-color:var(--warning)}
+  .commentary.good{border-left-color:var(--success)}
 
-  /* Footer */
-  .footer {
-    text-align: center; padding: 2rem 0 1rem; font-size: 0.8rem; color: var(--muted);
-    border-top: 1px solid var(--hairline); margin-top: 3rem;
-  }
-  .footer a { color: var(--coral); text-decoration: none; }
+  .status-pill{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.25em 0.7em;border-radius:999px}
+  .status-high{background:#fde8e8;color:var(--danger)}
+  .status-low{background:#fef3c7;color:var(--warning)}
+  .status-normal{background:#d1fae5;color:var(--success)}
+  .status-improving{background:#dbeafe;color:#1e40af}
+
+  .meta{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;font-size:0.85rem;color:var(--muted)}
+  .meta span{font-weight:600;color:var(--body)}
+
+  .footer{text-align:center;padding:2rem 0 1rem;font-size:0.8rem;color:var(--muted);border-top:1px solid var(--hairline);margin-top:3rem}
+  .footer a{color:var(--coral);text-decoration:none}
+
+  /* Table for urine / single-point data */
+  .data-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  .data-table th{text-align:left;font-weight:600;color:var(--ink);padding:0.5rem 0.75rem;border-bottom:1px solid var(--hairline);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em}
+  .data-table td{padding:0.5rem 0.75rem;border-bottom:1px solid var(--hairline-soft);font-family:var(--font-mono);font-size:0.85rem}
+  .data-table .flag-high{color:var(--danger);font-weight:600}
+  .data-table .flag-low{color:var(--warning);font-weight:600}
+  .data-table .flag-normal{color:var(--success)}
 </style>
 </head>
 <body>
@@ -133,428 +82,424 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="kicker">Health Monitoring</div>
-    <h1>Amy Hancock — Blood Results</h1>
-    <p class="subtitle">Tracking key biomarkers over time. Most recent draw: 23 June 2026 (Clinicalabs, Prof Toby Coates).</p>
+    <div class="kicker">Health Monitoring · Amy Hancock</div>
+    <h1>Blood Results Dashboard</h1>
+    <p class="subtitle">Complete pathology record across four timepoints: Jun 2022, Apr 2025, Feb 2026, Jun 2026. Most recent draw: 23 June 2026.</p>
+    <div class="meta">
+      <span>Lab: Clinicalabs</span><span>Doctor: Prof Toby Coates</span><span>DOB: 05/11/1994</span>
+    </div>
   </section>
 
-  <!-- Summary Cards -->
+  <!-- At a Glance -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">At a Glance</div>
-      <div class="section-title">Key Indicators — June 2026</div>
-    </div>
-    <div class="cards cols-3">
+    <div class="section-header"><div class="section-label">At a Glance</div><div class="section-title">Key Indicators — June 2026</div></div>
+    <div class="cards cols-4">
       <div class="card">
         <h3>Platelets</h3>
-        <div class="value">113</div>
-        <div class="label">×10⁹/L (ref: 150–450)</div>
-        <div class="trend trend-up">↑ +15 from Feb (was 98)</div>
-        <span class="status-pill status-low" style="margin-top:0.5rem;display:inline-block;">Low</span>
+        <div class="value">113</div><div class="label">×10⁹/L (ref: 150–450)</div>
+        <div class="trend trend-up">↑ +15 from Feb</div>
+        <span class="status-pill status-low" style="margin-top:0.5rem;display:inline-block">Low</span>
       </div>
       <div class="card">
         <h3>ALT</h3>
-        <div class="value">112</div>
-        <div class="label">U/L (ref: 5–35)</div>
-        <div class="trend trend-down">↑ +40 from Feb (was 72)</div>
-        <span class="status-pill status-high" style="margin-top:0.5rem;display:inline-block;">High</span>
+        <div class="value">112</div><div class="label">U/L (ref: 5–35)</div>
+        <div class="trend trend-down">↑ +40 from Feb</div>
+        <span class="status-pill status-high" style="margin-top:0.5rem;display:inline-block">High</span>
       </div>
       <div class="card">
-        <h3>HDL Cholesterol</h3>
-        <div class="value">3.1</div>
-        <div class="label">mmol/L (ref: >1.1)</div>
-        <div class="trend trend-up">↑ +0.4 from Feb</div>
-        <span class="status-pill status-normal" style="margin-top:0.5rem;display:inline-block;">Cardioprotective</span>
+        <h3>HDL</h3>
+        <div class="value">3.1</div><div class="label">mmol/L (ref: >1.1)</div>
+        <div class="trend trend-up">↑ from 2.7</div>
+        <span class="status-pill status-normal" style="margin-top:0.5rem;display:inline-block">Cardioprotective</span>
+      </div>
+      <div class="card">
+        <h3>eGFR</h3>
+        <div class="value">&gt;90</div><div class="label">mL/min (ref: >59)</div>
+        <div class="trend trend-stable">Stable</div>
+        <span class="status-pill status-normal" style="margin-top:0.5rem;display:inline-block">Excellent</span>
       </div>
     </div>
   </section>
 
-  <!-- Liver Function -->
+  <!-- ─── LIVER ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Liver Panel</div>
-      <div class="section-title">Liver Enzymes</div>
-    </div>
+    <div class="section-header"><div class="section-label">Liver Panel</div><div class="section-title">Liver Enzymes</div></div>
     <div class="chart-card">
-      <h3>ALT, AST, GGT &amp; Alkaline Phosphatase</h3>
-      <div class="chart-note">Feb vs Jun 2026 comparison. All four markers above reference range. ALT showed the sharpest increase.</div>
+      <h3>ALT · AST · GGT · Alkaline Phosphatase</h3>
+      <div class="chart-note">Feb vs Jun 2026. All four above reference range; ALT shows sharpest increase.</div>
       <div class="chart-wrap"><canvas id="liverChart"></canvas></div>
-      <div class="commentary">
-        <h4>Commentary</h4>
-        <p>All four liver enzymes remain elevated and <strong>worsened between February and June 2026</strong>. ALT jumped from 72 → 112 U/L (3.2× upper limit), the most significant change. GGT remains at 4.4× the upper limit. The haematology report now explicitly notes findings are <em>"consistent with liver disease."</em> This aligns with prior gut dysbiosis markers and warrants continued monitoring under Prof Coates and Kirstie Lawton.</p>
-      </div>
+    </div>
+    <div class="chart-card" style="margin-top:1.25rem">
+      <h3>Bilirubin &amp; LDH</h3>
+      <div class="chart-note">Liver-related markers — both within normal range.</div>
+      <div class="chart-wrap"><canvas id="biliLdhChart"></canvas></div>
+    </div>
+    <div class="commentary warn">
+      <h4>Liver Commentary</h4>
+      <p>All four liver enzymes <strong>worsened between February and June 2026</strong>. ALT jumped from 72 → 112 U/L (3.2× upper limit), the steepest change. GGT remains at 4.4× the upper limit. The haematology report states findings are <em>"consistent with liver disease."</em> Bilirubin and LDH remain normal, suggesting compensated hepatic function. This aligns with prior gut dysbiosis markers and warrants continued monitoring under Prof Coates and Kirstie Lawton.</p>
     </div>
   </section>
 
-  <!-- Platelets -->
+  <!-- ─── HAEMATOLOGY ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Haematology</div>
-      <div class="section-title">Platelet Count</div>
-    </div>
-    <div class="chart-card">
-      <h3>Platelets Over Time</h3>
-      <div class="chart-note">Three timepoints: Apr 2025, Feb 2026, Jun 2026. Reference range shaded.</div>
-      <div class="chart-wrap"><canvas id="plateletChart"></canvas></div>
-      <div class="commentary">
-        <h4>Commentary</h4>
-        <p>Platelets have been persistently below the reference range (150–450 ×10⁹/L) across all three measurements. However, the trend is <strong>encouraging</strong>: 111 → 98 → 113. The Jun 2026 count of 113 is the highest in this series. The haematology comment describes this as "mid thrombocytopenia" that "persists." Large platelets were noted in February, suggesting bone marrow compensation. The Apr 2025 count of 111 (from the Clinicalabs prior-results column) and Feb 2026 count of 98 (ClinPath) show different labs, but the Jun 2026 result from Clinicalabs at 113 suggests genuine improvement.</p>
+    <div class="section-header"><div class="section-label">Haematology</div><div class="section-title">Platelets &amp; Full Blood Count</div></div>
+
+    <div class="cards cols-2">
+      <div class="chart-card">
+        <h3>Platelet Count</h3>
+        <div class="chart-note">Apr 2025 → Feb 2026 → Jun 2026. Reference range: 150–450.</div>
+        <div class="chart-wrap"><canvas id="plateletChart"></canvas></div>
       </div>
+      <div class="chart-card">
+        <h3>Haemoglobin</h3>
+        <div class="chart-note">Apr 2025 → Feb 2026 → Jun 2026. Reference: 115–165.</div>
+        <div class="chart-wrap"><canvas id="hbChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="cards cols-2" style="margin-top:1.25rem">
+      <div class="chart-card">
+        <h3>Red Cell Count</h3>
+        <div class="chart-note">Apr 2025 → Feb 2026 → Jun 2026. Reference: 3.80–5.50.</div>
+        <div class="chart-wrap"><canvas id="rbcChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>White Cell Count</h3>
+        <div class="chart-note">Apr 2025 → Feb 2026 → Jun 2026. Reference: 4.0–11.0.</div>
+        <div class="chart-wrap"><canvas id="wccChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-card" style="margin-top:1.25rem">
+      <h3>Red Cell Indices</h3>
+      <div class="chart-note">MCV, MCH, MCHC, RDW, Haematocrit — all within normal ranges across all timepoints.</div>
+      <div class="chart-wrap"><canvas id="rciChart"></canvas></div>
+    </div>
+
+    <div class="chart-card" style="margin-top:1.25rem">
+      <h3>White Cell Differential</h3>
+      <div class="chart-note">Neutrophils, Lymphocytes, Monocytes, Eosinophils, Basophils — stacked breakdown. Jun 2026 vs Apr 2025.</div>
+      <div class="chart-wrap"><canvas id="diffChart"></canvas></div>
+    </div>
+
+    <div class="commentary" style="margin-top:1.25rem">
+      <h4>Haematology Commentary</h4>
+      <p>Platelets improved from 98 (Feb) to 113 (Jun) but remain below range. The haematology comment describes <em>"mid thrombocytopenia"</em> that <em>"persists — consistent with liver disease."</em> Haemoglobin recovered from a borderline 119 to a healthy 129. Red cell count improved (3.9 → 4.21). White cell differential shows a slight left-shift: neutrophils dropped from 4.67 to 4.0 while eosinophils rose (0.39 → 0.5). The elevated eosinophils may relate to allergic/atopic tendencies. Red cell indices (MCV, MCH, MCHC, RDW) are all stable and normal. Overall the FBC shows <strong>broad improvement</strong> since February.</p>
     </div>
   </section>
 
-  <!-- Iron Studies -->
+  <!-- ─── IRON ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Iron Panel</div>
-      <div class="section-title">Iron Studies</div>
-    </div>
+    <div class="section-header"><div class="section-label">Iron Panel</div><div class="section-title">Iron Studies</div></div>
     <div class="chart-card">
-      <h3>Ferritin &amp; Iron Saturation</h3>
+      <h3>Serum Iron, Ferritin &amp; Transferrin Saturation</h3>
       <div class="chart-note">Four timepoints: Jun 2022, Apr 2025, Feb 2026, Jun 2026.</div>
       <div class="chart-wrap"><canvas id="ironChart"></canvas></div>
-      <div class="commentary">
-        <h4>Commentary</h4>
-        <p>Ferritin declined from 91 μg/L (Jun 2022) to a low of 49 (Feb 2026) but has since <strong>recovered to 57</strong> (Jun 2026). All values remain within the normal range (30–200). Iron saturation has been stable at 25–27% since Apr 2025. Serum iron is now at its highest recorded level (17.6 μmol/L). Iron status is not currently a concern.</p>
-      </div>
+    </div>
+    <div class="chart-card" style="margin-top:1.25rem">
+      <h3>Transferrin</h3>
+      <div class="chart-note">Reference: 2.10–3.80 g/L. Stable across all timepoints.</div>
+      <div class="chart-wrap"><canvas id="tfChart"></canvas></div>
+    </div>
+    <div class="commentary good">
+      <h4>Iron Commentary</h4>
+      <p>Iron status is <strong>not a current concern</strong>. Serum iron at 17.6 μmol/L is the highest recorded value. Ferritin declined from 91 (2022) to a trough of 49 (Feb 2026) but has since recovered to 57. All values remain within normal ranges. Transferrin is stable. The temporary dip in ferritin may reflect menstrual losses or dietary changes and has self-corrected.</p>
     </div>
   </section>
 
-  <!-- Lipids -->
+  <!-- ─── LIPIDS ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Lipids</div>
-      <div class="section-title">Cholesterol Profile</div>
-    </div>
-    <div class="charts cols-2" style="display:grid;gap:1.25rem;">
+    <div class="section-header"><div class="section-label">Lipids</div><div class="section-title">Cholesterol Profile</div></div>
+    <div class="cards cols-2">
       <div class="chart-card">
-        <h3>HDL &amp; LDL Cholesterol</h3>
-        <div class="chart-note">Feb vs Jun 2026</div>
-        <div class="chart-wrap"><canvas id="hdlLdlChart"></canvas></div>
+        <h3>Total, HDL &amp; LDL Cholesterol</h3>
+        <div class="chart-note">Feb 2026 vs Jun 2026. Apr 2025: Total Chol 5.3.</div>
+        <div class="chart-wrap"><canvas id="lipidChart"></canvas></div>
       </div>
       <div class="chart-card">
         <h3>Triglycerides</h3>
-        <div class="chart-note">Apr 2025, Feb 2026, Jun 2026</div>
+        <div class="chart-note">Apr 2025 → Feb 2026 → Jun 2026. Reference: <2.1.</div>
         <div class="chart-wrap"><canvas id="trigChart"></canvas></div>
       </div>
     </div>
-    <div class="commentary" style="margin-top:1.25rem;">
-      <h4>Commentary</h4>
-      <p>Amy's lipid profile is <strong>excellent</strong>. HDL cholesterol at 3.1 mmol/L is in the cardioprotective range — significantly above the desirable >1.1 threshold. LDL remains low at 1.9. Triglycerides dropped from 1.3 (Apr 2025) to 0.5 (Jun 2026). Total cholesterol is stable at 5.2. The Chol/HDL ratio of 1.7 is very favourable. By standard risk-assessment metrics, this lipid panel would be considered low-risk.</p>
+    <div class="cards cols-2" style="margin-top:1.25rem">
+      <div class="chart-card">
+        <h3>Non-HDL Cholesterol</h3>
+        <div class="chart-note">Feb vs Jun 2026. Reference: <4.1.</div>
+        <div class="chart-wrap"><canvas id="nonhdlChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Risk Ratios</h3>
+        <div class="chart-note">Chol/HDL and LDL/HDL ratios. Lower is better.</div>
+        <div class="chart-wrap"><canvas id="ratioChart"></canvas></div>
+      </div>
+    </div>
+    <div class="commentary good" style="margin-top:1.25rem">
+      <h4>Lipid Commentary</h4>
+      <p>Lipid profile is <strong>excellent</strong>. HDL at 3.1 mmol/L is strongly cardioprotective — well above the >1.1 threshold and even above the >2.2 "high HDL" classification. LDL is low (1.9). Triglycerides dropped sharply from 1.3 to 0.5. Total cholesterol stable at 5.2 — below the 5.6 threshold. The Chol/HDL ratio of 1.7 is very favourable. Non-HDL cholesterol at 2.1 is well within range. By any standard risk-assessment framework, this lipid panel indicates low cardiovascular risk.</p>
     </div>
   </section>
 
-  <!-- Kidney & Electrolytes -->
+  <!-- ─── KIDNEY ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Kidney Function</div>
-      <div class="section-title">Renal Panel &amp; Electrolytes</div>
-    </div>
+    <div class="section-header"><div class="section-label">Kidney Function</div><div class="section-title">Renal Panel</div></div>
     <div class="cards cols-2">
       <div class="chart-card">
         <h3>eGFR &amp; Creatinine</h3>
-        <div class="chart-note">Feb vs Jun 2026</div>
+        <div class="chart-note">Feb vs Jun 2026. eGFR reference: >59.</div>
         <div class="chart-wrap"><canvas id="kidneyChart"></canvas></div>
       </div>
       <div class="chart-card">
-        <h3>Electrolytes</h3>
-        <div class="chart-note">Feb vs Jun 2026 — all within normal range</div>
+        <h3>Urea &amp; Urate</h3>
+        <div class="chart-note">Feb vs Jun 2026. Both within normal range.</div>
+        <div class="chart-wrap"><canvas id="ureaChart"></canvas></div>
+      </div>
+    </div>
+    <div class="commentary good" style="margin-top:1.25rem">
+      <h4>Renal Commentary</h4>
+      <p>Kidney function is <strong>excellent and stable</strong>. eGFR consistently >90 mL/min, creatinine stable at 72–74 μmol/L. Urine protein is undetectable (<0.06 g/L). Urea and urate are normal. This is a crucial monitoring axis for RVCL and these results are reassuring. The slightly low urine creatinine (2.7 mmol/L) is likely dilutional and not clinically significant in isolation.</p>
+    </div>
+  </section>
+
+  <!-- ─── ELECTROLYTES ─── -->
+  <section class="section">
+    <div class="section-header"><div class="section-label">Chemistry</div><div class="section-title">Electrolytes &amp; Minerals</div></div>
+    <div class="cards cols-2">
+      <div class="chart-card">
+        <h3>Sodium, Potassium &amp; Chloride</h3>
+        <div class="chart-note">Feb vs Jun 2026. All stable within normal ranges.</div>
         <div class="chart-wrap"><canvas id="lytesChart"></canvas></div>
       </div>
+      <div class="chart-card">
+        <h3>Bicarbonate</h3>
+        <div class="chart-note">Feb vs Jun 2026. Reference: 22–32 mmol/L.</div>
+        <div class="chart-wrap"><canvas id="bicarbChart"></canvas></div>
+      </div>
     </div>
-    <div class="commentary" style="margin-top:1.25rem;">
-      <h4>Commentary</h4>
-      <p>Kidney function remains <strong>excellent</strong> — eGFR consistently >90 mL/min, creatinine stable at 72–74 μmol/L. Urine protein is undetectable (<0.06 g/L). This is a crucial monitoring point for RVCL, and these results are reassuring. Electrolytes are all normal and stable. The only new renal finding is slightly low urine creatinine (2.7 mmol/L, ref 3.0–16.0) — likely dilutional and not clinically significant in isolation.</p>
+    <div class="cards cols-2" style="margin-top:1.25rem">
+      <div class="chart-card">
+        <h3>Calcium &amp; Adjusted Calcium</h3>
+        <div class="chart-note">Feb vs Jun 2026. Reference: 2.10–2.60.</div>
+        <div class="chart-wrap"><canvas id="calciumChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Phosphate <span class="status-pill status-high" style="margin-left:0.5rem">New — High</span></h3>
+        <div class="chart-note">Feb vs Jun 2026. Reference: 0.75–1.50. New elevation in June.</div>
+        <div class="chart-wrap"><canvas id="phosChart"></canvas></div>
+      </div>
+    </div>
+    <div class="commentary warn" style="margin-top:1.25rem">
+      <h4>Electrolytes &amp; Minerals Commentary</h4>
+      <p>Sodium, potassium, chloride, and bicarbonate are all <strong>normal and stable</strong>. Calcium is normal. The notable change is <strong>phosphate: 1.00 → 1.52</strong>, crossing above the reference range (0.75–1.50) for the first time. Mild hyperphosphatemia can occur with reduced kidney function, but given Amy's excellent eGFR, this is more likely dietary or related to liver metabolism changes. Worth monitoring on the next draw.</p>
     </div>
   </section>
 
-  <!-- Full Blood Count -->
+  <!-- ─── PROTEIN PANEL ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Haematology</div>
-      <div class="section-title">Full Blood Count Trends</div>
-    </div>
+    <div class="section-header"><div class="section-label">Chemistry</div><div class="section-title">Protein Panel</div></div>
     <div class="chart-card">
-      <h3>Haemoglobin, WCC &amp; RBC</h3>
-      <div class="chart-note">Apr 2025, Feb 2026, Jun 2026</div>
-      <div class="chart-wrap"><canvas id="fbcChart"></canvas></div>
+      <h3>Total Protein, Albumin &amp; Globulin</h3>
+      <div class="chart-note">Feb vs Jun 2026. Total protein normalised; globulin increased.</div>
+      <div class="chart-wrap"><canvas id="proteinChart"></canvas></div>
       <div class="commentary">
-        <h4>Commentary</h4>
-        <p>Haemoglobin improved from a borderline 119 g/L (Feb) to a solid 129 (Jun). White cell count is stable and normal (6.5). Red cell count also improved (3.9 → 4.21). Overall the FBC shows <strong>broad improvement</strong> across all three measures since February. The only persistent abnormality is the platelet count (see separate chart above).</p>
+        <h4>Protein Commentary</h4>
+        <p>Total protein <strong>normalised from 66 → 70 g/L</strong> (was below range in Feb). Albumin dipped slightly (40 → 38) but remains within normal range. Globulin increased from 26 → 32 g/L — this is the largest shift in the protein panel. Elevated globulin can reflect immune activation, inflammation, or hepatic response. Given the concurrent liver marker elevations, this warrants noting but is not independently diagnostic.</p>
       </div>
     </div>
   </section>
 
-  <!-- PTH -->
+  <!-- ─── PTH + GLUCOSE ─── -->
   <section class="section">
-    <div class="section-header">
-      <div class="section-label">Endocrinology</div>
-      <div class="section-title">Parathyroid Hormone</div>
-    </div>
-    <div class="chart-card">
-      <h3>PTH</h3>
-      <div class="chart-note">Feb vs Jun 2026</div>
-      <div class="chart-wrap"><canvas id="pthChart"></canvas></div>
-      <div class="commentary">
-        <h4>Commentary</h4>
-        <p>PTH rose from 2.3 to 5.5 pmol/L — both within the normal range (2.0–8.5). Calcium and albumin remain stable and normal. This increase is within expected variation and not clinically concerning. Note: the reference range changed between labs (1.5–7.5 ClinPath vs 2.0–8.5 Clinicalabs), reflecting different assays.</p>
+    <div class="section-header"><div class="section-label">Endocrinology</div><div class="section-title">PTH &amp; Glucose</div></div>
+    <div class="cards cols-2">
+      <div class="chart-card">
+        <h3>Parathyroid Hormone</h3>
+        <div class="chart-note">Feb vs Jun 2026. Reference: 1.5–7.5 (ClinPath) / 2.0–8.5 (Clinicalabs).</div>
+        <div class="chart-wrap"><canvas id="pthChart"></canvas></div>
       </div>
+      <div class="chart-card">
+        <h3>Fasting Glucose</h3>
+        <div class="chart-note">Feb 2026 only. Reference: 3.6–5.4 mmol/L.</div>
+        <div class="chart-wrap"><canvas id="glucoseChart"></canvas></div>
+      </div>
+    </div>
+    <div class="commentary" style="margin-top:1.25rem">
+      <h4>Endocrinology Commentary</h4>
+      <p>PTH rose from 2.3 to 5.5 pmol/L — both within normal range. Note the reference range differs between labs (ClinPath 1.5–7.5 vs Clinicalabs 2.0–8.5), reflecting different assays. Calcium and albumin are stable, so this PTH shift is within expected variation. Fasting glucose was 4.8 mmol/L in February — well within the normal range. Not repeated in the June panel.</p>
+    </div>
+  </section>
+
+  <!-- ─── URINE ─── -->
+  <section class="section">
+    <div class="section-header"><div class="section-label">Urinalysis</div><div class="section-title">Urine Chemistry</div></div>
+    <div class="chart-card">
+      <h3>Urine Results — June 2026</h3>
+      <div class="chart-note">Single timepoint. Specimen: urine. Lab REF: 26-44647838-URP-0.</div>
+      <table class="data-table">
+        <thead><tr><th>Test</th><th>Result</th><th>Reference</th><th>Flag</th></tr></thead>
+        <tbody>
+          <tr><td>Protein</td><td>&lt;0.06 g/L</td><td>&lt;0.16</td><td><span class="flag-normal">Normal</span></td></tr>
+          <tr><td>Creatinine</td><td>2.7 mmol/L</td><td>3.0–16.0</td><td><span class="flag-low">Low</span></td></tr>
+          <tr><td>Prot/Creat Ratio</td><td>Not valid*</td><td>&lt;21 ng/mmol</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem">*Protein/creatinine ratio not valid when urine protein falls below assay range.</p>
+    </div>
+    <div class="commentary good" style="margin-top:1rem">
+      <h4>Urine Commentary</h4>
+      <p>Urine protein is <strong>undetectable</strong> — a key reassuring finding for RVCL monitoring (no proteinuria). Urine creatinine is slightly low at 2.7 mmol/L (ref 3.0–16.0) — likely dilutional. The protein/creatinine ratio cannot be calculated because protein is below the assay's detection limit, which is itself a positive sign. No prior urine results available for trend comparison.</p>
+    </div>
+  </section>
+
+  <!-- ─── MPV ─── -->
+  <section class="section">
+    <div class="section-header"><div class="section-label">Haematology</div><div class="section-title">Mean Platelet Volume</div></div>
+    <div class="chart-card">
+      <h3>MPV</h3>
+      <div class="chart-note">Apr 2025 vs Jun 2026. Reference: 8.9–12.6 fL. Normal in both draws.</div>
+      <div class="chart-wrap"><canvas id="mpvChart"></canvas></div>
+    </div>
+    <div class="commentary">
+      <h4>MPV Commentary</h4>
+      <p>MPV is stable at the upper end of normal (12.0 → 12.1 fL). Normal MPV with thrombocytopenia suggests <strong>adequate bone marrow response</strong> — the marrow is producing platelets of normal size. This is consistent with the February finding of "large platelets present" and supports a picture of peripheral consumption or sequestration rather than marrow failure.</p>
     </div>
   </section>
 
   <!-- Footer -->
   <div class="footer">
-    <p>Data sourced from ClinPath (Feb 2026) and Clinicalabs (Jun 2026) via My Health Record. Prior comparisons from Apr 2025 and Jun 2022 as reported on lab result sheets. Last updated: 24 June 2026 · <a href="https://gary-the-ai-2026.github.io/gary-pages/">Gary Pages</a></p>
+    <p>Data sourced from ClinPath (Feb 2026) and Clinicalabs (Jun 2026) via My Health Record. Prior comparisons from Apr 2025 and Jun 2022 as reported on lab result sheets. Reference ranges may vary between laboratories. Last updated: 24 June 2026 · <a href="https://gary-the-ai-2026.github.io/gary-pages/">Gary Pages</a></p>
   </div>
 
 </div>
 
 <script>
-// Shared chart defaults
 Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
-Chart.defaults.font.size = 11;
+Chart.defaults.font.size = 10;
 Chart.defaults.color = '#5c5a55';
 Chart.defaults.plugins.tooltip.backgroundColor = '#141413';
-Chart.defaults.plugins.tooltip.titleFont = { family: "'Inter', sans-serif", size: 12, weight: '600' };
-Chart.defaults.plugins.tooltip.bodyFont = { family: "'JetBrains Mono', monospace", size: 11 };
+Chart.defaults.plugins.tooltip.titleFont = {family:"'Inter',sans-serif",size:12,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont = {family:"'JetBrains Mono',monospace",size:10};
 
-const coral = '#cc785c';
-const success = '#1b8a3d';
-const danger = '#c0392b';
-const warning = '#c2680c';
-const muted = '#94918a';
-const ink = '#141413';
-const hairline = '#e4e1db';
+const C={coral:'#cc785c',success:'#1b8a3d',danger:'#c0392b',warning:'#c2680c',muted:'#94918a',ink:'#141413',hairline:'#e4e1db',blue:'#3b82f6',purple:'#8b5cf6',teal:'#0d9488',pink:'#ec4899'};
 
-function refBand(plugin, chart, low, high, label) {
-  const { ctx, scales: { x, y } } = chart;
-  const yLow = y.getPixelForValue(low);
-  const yHigh = y.getPixelForValue(high);
-  ctx.save();
-  ctx.fillStyle = 'rgba(148,145,138,0.08)';
-  ctx.fillRect(x.left, yHigh, x.right - x.left, yLow - yHigh);
-  if (label) {
-    ctx.fillStyle = muted;
-    ctx.font = '10px Inter, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(label, x.right - 6, yHigh + 14);
-  }
-  ctx.restore();
+function refBandPlugin(low,high,label){
+  return {id:'ref'+low,afterDraw(chart){
+    const {ctx,scales:{x,y}}=chart;
+    const yl=y.getPixelForValue(low),yh=y.getPixelForValue(high);
+    ctx.save();ctx.fillStyle='rgba(148,145,138,0.07)';
+    ctx.fillRect(x.left,yh,x.right-x.left,yl-yh);
+    if(label){ctx.fillStyle=C.muted;ctx.font='9px Inter,sans-serif';ctx.textAlign='right';ctx.fillText(label,x.right-4,yh+12)}
+    ctx.restore();
+  }};
 }
 
-// ── Liver Chart ──
-new Chart(document.getElementById('liverChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'ALT', data: [72,112], backgroundColor: danger, borderRadius: 4 },
-      { label: 'AST', data: [62,66], backgroundColor: warning, borderRadius: 4 },
-      { label: 'GGT', data: [147,155], backgroundColor: coral, borderRadius: 4 },
-      { label: 'Alk Phos', data: [218,223], backgroundColor: muted, borderRadius: 4 },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
-    },
-    scales: {
-      y: { title: { display: true, text: 'U/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+// ── LIVER ──
+new Chart('liverChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'ALT',data:[72,112],backgroundColor:C.danger,borderRadius:4},
+  {label:'AST',data:[62,66],backgroundColor:C.warning,borderRadius:4},
+  {label:'GGT',data:[147,155],backgroundColor:C.coral,borderRadius:4},
+  {label:'Alk Phos',data:[218,223],backgroundColor:C.muted,borderRadius:4},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{title:{display:true,text:'U/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
-// ── Platelet Chart ──
-new Chart(document.getElementById('plateletChart'), {
-  type: 'line',
-  data: {
-    labels: ['Apr 2025','Feb 2026','Jun 2026'],
-    datasets: [{
-      label: 'Platelets',
-      data: [111, 98, 113],
-      borderColor: warning,
-      backgroundColor: 'rgba(194,104,12,0.1)',
-      fill: true,
-      tension: 0.3,
-      pointRadius: 5,
-      pointBackgroundColor: warning,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      annotation: {
-        annotations: {
-          refLow: { type: 'line', yMin: 150, yMax: 150, borderColor: hairline, borderDash: [6,3], borderWidth: 1, label: { display: true, content: 'Lower ref (150)', position: 'end' } }
-        }
-      }
-    },
-    scales: {
-      y: { min: 80, max: 170, title: { display: true, text: '×10⁹/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  },
-  plugins: [{
-    id: 'refBand',
-    afterDraw(chart) { refBand(this, chart, 150, 450, 'Ref: 150–450'); }
-  }]
-});
+new Chart('biliLdhChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Bilirubin (μmol/L)',data:[5,7],backgroundColor:C.coral,borderRadius:4,yAxisID:'y'},
+  {label:'LDH (U/L)',data:[185,171],backgroundColor:C.muted,borderRadius:4,yAxisID:'y1'},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{position:'left',title:{display:true,text:'Bilirubin (μmol/L)'},grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'LDH (U/L)'},grid:{display:false}},x:{grid:{display:false}}}}});
 
-// ── Iron Chart ──
-new Chart(document.getElementById('ironChart'), {
-  type: 'line',
-  data: {
-    labels: ['Jun 2022','Apr 2025','Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'Ferritin (μg/L)', data: [91,51,49,57], borderColor: coral, backgroundColor: 'rgba(204,120,92,0.08)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: coral, yAxisID: 'y' },
-      { label: 'Saturation (%)', data: [25,27,17,27], borderColor: success, backgroundColor: 'rgba(27,138,61,0.06)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: success, yAxisID: 'y1' },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
-    scales: {
-      y: { type: 'linear', position: 'left', title: { display: true, text: 'Ferritin (μg/L)' }, min: 20, max: 110, grid: { color: hairline } },
-      y1: { type: 'linear', position: 'right', title: { display: true, text: 'Saturation (%)' }, min: 0, max: 50, grid: { display: false } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+// ── HAEMATOLOGY ──
+new Chart('plateletChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'Platelets',data:[111,98,113],borderColor:C.warning,backgroundColor:'rgba(194,104,12,0.08)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.warning}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:80,max:170,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(150,450,'Ref: 150–450')]});
 
-// ── HDL / LDL Chart ──
-new Chart(document.getElementById('hdlLdlChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'HDL', data: [2.7,3.1], backgroundColor: success, borderRadius: 4 },
-      { label: 'LDL', data: [1.6,1.9], backgroundColor: muted, borderRadius: 4 },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
-    scales: {
-      y: { title: { display: true, text: 'mmol/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+new Chart('hbChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'Haemoglobin',data:[137,119,129],borderColor:C.danger,backgroundColor:'rgba(192,57,43,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:100,max:160,title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(115,165,'Ref: 115–165')]});
 
-// ── Triglycerides Chart ──
-new Chart(document.getElementById('trigChart'), {
-  type: 'line',
-  data: {
-    labels: ['Apr 2025','Feb 2026','Jun 2026'],
-    datasets: [{
-      label: 'Triglycerides',
-      data: [1.3,0.7,0.5],
-      borderColor: success,
-      backgroundColor: 'rgba(27,138,61,0.08)',
-      fill: true,
-      tension: 0.3,
-      pointRadius: 5,
-      pointBackgroundColor: success,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { min: 0, max: 2.5, title: { display: true, text: 'mmol/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+new Chart('rbcChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'RBC',data:[4.44,3.9,4.21],borderColor:C.success,backgroundColor:'rgba(27,138,61,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3.5,max:5.8,title:{display:true,text:'×10¹²/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
-// ── Kidney Chart ──
-new Chart(document.getElementById('kidneyChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'Creatinine (μmol/L)', data: [74,72], backgroundColor: coral, borderRadius: 4, yAxisID: 'y' },
-      { label: 'eGFR', data: [90,90], backgroundColor: success, borderRadius: 4, yAxisID: 'y1' },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
-    scales: {
-      y: { type: 'linear', position: 'left', title: { display: true, text: 'Creatinine (μmol/L)' }, min: 40, max: 100, grid: { color: hairline } },
-      y1: { type: 'linear', position: 'right', title: { display: true, text: 'eGFR (mL/min)' }, min: 0, max: 120, grid: { display: false } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+new Chart('wccChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'WCC',data:[7.4,7.1,6.5],borderColor:C.coral,backgroundColor:'rgba(204,120,92,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.coral}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3,max:12,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
-// ── Electrolytes Chart ──
-new Chart(document.getElementById('lytesChart'), {
-  type: 'line',
-  data: {
-    labels: ['Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'Sodium', data: [140,140], borderColor: ink, tension: 0, pointRadius: 5, pointBackgroundColor: ink },
-      { label: 'Potassium', data: [4.2,4.2], borderColor: coral, tension: 0, pointRadius: 5, pointBackgroundColor: coral },
-      { label: 'Chloride', data: [108,102], borderColor: muted, tension: 0, pointRadius: 5, pointBackgroundColor: muted },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
-    scales: {
-      y: { title: { display: true, text: 'mmol/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+// Red Cell Indices (MCV, MCH, MCHC, RDW, HCT) — normalized view
+new Chart('rciChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[
+  {label:'MCV (fL)',data:[91,95,95],borderColor:C.ink,tension:0.3,pointRadius:4,pointBackgroundColor:C.ink},
+  {label:'MCH (pg)',data:[30.9,30.7,30.6],borderColor:C.coral,tension:0.3,pointRadius:4,pointBackgroundColor:C.coral},
+  {label:'MCHC (g/L)',data:[339,324,323],borderColor:C.warning,tension:0.3,pointRadius:4,pointBackgroundColor:C.warning},
+  {label:'HCT (L/L ×100)',data:[40,37,40],borderColor:C.success,tension:0.3,pointRadius:4,pointBackgroundColor:C.success},
+  {label:'RDW (%)',data:[13.2,14.3,13.2],borderColor:C.muted,tension:0.3,pointRadius:4,pointBackgroundColor:C.muted,borderDash:[5,3]},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{title:{display:true,text:'Value'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
-// ── FBC Chart ──
-new Chart(document.getElementById('fbcChart'), {
-  type: 'line',
-  data: {
-    labels: ['Apr 2025','Feb 2026','Jun 2026'],
-    datasets: [
-      { label: 'Haemoglobin (g/L)', data: [137,119,129], borderColor: danger, backgroundColor: 'rgba(192,57,43,0.06)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: danger, yAxisID: 'y' },
-      { label: 'WCC (×10⁹/L)', data: [7.4,7.1,6.5], borderColor: coral, backgroundColor: 'rgba(204,120,92,0.06)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: coral, yAxisID: 'y1' },
-      { label: 'RBC (×10¹²/L)', data: [4.44,3.9,4.21], borderColor: success, backgroundColor: 'rgba(27,138,61,0.06)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: success, yAxisID: 'y2' },
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
-    scales: {
-      y: { type: 'linear', position: 'left', title: { display: true, text: 'Hb (g/L)' }, min: 100, max: 160, grid: { color: hairline } },
-      y1: { type: 'linear', position: 'right', title: { display: true, text: 'WCC (×10⁹/L)' }, min: 3, max: 12, grid: { display: false } },
-      y2: { type: 'linear', position: 'right', title: { display: true, text: 'RBC (×10¹²/L)' }, min: 3, max: 6, grid: { display: false } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+// White Cell Differential — stacked bar
+new Chart('diffChart',{type:'bar',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[
+  {label:'Neutrophils',data:[4.9,4.67,4.0],backgroundColor:C.blue},
+  {label:'Lymphocytes',data:[1.9,1.49,1.6],backgroundColor:C.success},
+  {label:'Monocytes',data:[0.4,0.53,0.4],backgroundColor:C.warning},
+  {label:'Eosinophils',data:[0.2,0.39,0.5],backgroundColor:C.coral},
+  {label:'Basophils',data:[0.1,0.04,0.1],backgroundColor:C.muted},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}}}}});
 
-// ── PTH Chart ──
-new Chart(document.getElementById('pthChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Feb 2026','Jun 2026'],
-    datasets: [{
-      label: 'PTH (pmol/L)',
-      data: [2.3,5.5],
-      backgroundColor: [muted, coral],
-      borderRadius: 4,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { min: 0, max: 10, title: { display: true, text: 'pmol/L' }, grid: { color: hairline } },
-      x: { grid: { display: false } }
-    }
-  }
-});
+// ── IRON ──
+new Chart('ironChart',{type:'line',data:{labels:['Jun 2022','Apr 2025','Feb 2026','Jun 2026'],datasets:[
+  {label:'Ferritin (μg/L)',data:[91,51,49,57],borderColor:C.coral,backgroundColor:'rgba(204,120,92,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
+  {label:'Iron (μmol/L)',data:[13,17,9.6,17.6],borderColor:C.blue,backgroundColor:'rgba(59,130,246,0.04)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.blue,yAxisID:'y'},
+  {label:'Saturation (%)',data:[25,27,17,27],borderColor:C.success,backgroundColor:'rgba(27,138,61,0.04)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.success,yAxisID:'y1'},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{position:'left',title:{display:true,text:'Ferritin / Iron'},grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Saturation (%)'},min:0,max:50,grid:{display:false}},x:{grid:{display:false}}}}});
+
+new Chart('tfChart',{type:'line',data:{labels:['Jun 2022','Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'Transferrin',data:[2.12,2.55,2.5,2.57],borderColor:C.purple,backgroundColor:'rgba(139,92,246,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.purple}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:1.8,max:4,title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(2.10,3.80,'Ref: 2.10–3.80')]});
+
+// ── LIPIDS ──
+new Chart('lipidChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Total Chol',data:[4.6,5.2],backgroundColor:C.muted,borderRadius:4},
+  {label:'HDL',data:[2.7,3.1],backgroundColor:C.success,borderRadius:4},
+  {label:'LDL',data:[1.6,1.9],backgroundColor:C.blue,borderRadius:4},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+new Chart('trigChart',{type:'line',data:{labels:['Apr 2025','Feb 2026','Jun 2026'],datasets:[{label:'Triglycerides',data:[1.3,0.7,0.5],borderColor:C.success,backgroundColor:'rgba(27,138,61,0.06)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+new Chart('nonhdlChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[{label:'Non-HDL Chol',data:[1.9,2.1],backgroundColor:C.coral,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:4.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+new Chart('ratioChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Chol/HDL',data:[1.7,1.7],backgroundColor:C.coral,borderRadius:4},
+  {label:'LDL/HDL',data:[null,0.6],backgroundColor:C.muted,borderRadius:4},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{min:0,max:3,title:{display:true,text:'Ratio'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+// ── KIDNEY ──
+new Chart('kidneyChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Creatinine (μmol/L)',data:[74,72],backgroundColor:C.coral,borderRadius:4,yAxisID:'y'},
+  {label:'eGFR',data:[90,90],backgroundColor:C.success,borderRadius:4,yAxisID:'y1'},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{position:'left',title:{display:true,text:'Creatinine (μmol/L)'},min:40,max:100,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'eGFR (mL/min)'},min:0,max:120,grid:{display:false}},x:{grid:{display:false}}}}});
+
+new Chart('ureaChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Urea (mmol/L)',data:[6.6,6.8],backgroundColor:C.muted,borderRadius:4,yAxisID:'y'},
+  {label:'Urate (mmol/L ×100)',data:[32,34],backgroundColor:C.teal,borderRadius:4,yAxisID:'y1'},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{position:'left',title:{display:true,text:'Urea (mmol/L)'},grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Urate ×100'},grid:{display:false}},x:{grid:{display:false}}}}});
+
+// ── ELECTROLYTES ──
+new Chart('lytesChart',{type:'line',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Sodium',data:[140,140],borderColor:C.ink,tension:0,pointRadius:5,pointBackgroundColor:C.ink},
+  {label:'Potassium',data:[4.2,4.2],borderColor:C.coral,tension:0,pointRadius:5,pointBackgroundColor:C.coral},
+  {label:'Chloride',data:[108,102],borderColor:C.muted,tension:0,pointRadius:5,pointBackgroundColor:C.muted},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+new Chart('bicarbChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[{label:'Bicarbonate',data:[26,27],backgroundColor:C.teal,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:18,max:35,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+// ── CALCIUM & PHOSPHATE ──
+new Chart('calciumChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Calcium',data:[2.32,2.39],backgroundColor:C.coral,borderRadius:4},
+  {label:'Adj Calcium',data:[2.32,2.42],backgroundColor:C.muted,borderRadius:4},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{min:1.8,max:3,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+new Chart('phosChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[{label:'Phosphate',data:[1.00,1.52],backgroundColor:[C.muted,C.danger],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+// ── PROTEIN ──
+new Chart('proteinChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[
+  {label:'Total Protein',data:[66,70],backgroundColor:C.ink,borderRadius:4},
+  {label:'Albumin',data:[40,38],backgroundColor:C.coral,borderRadius:4},
+  {label:'Globulin',data:[26,32],backgroundColor:C.warning,borderRadius:4},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},scales:{y:{title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+
+// ── PTH & GLUCOSE ──
+new Chart('pthChart',{type:'bar',data:{labels:['Feb 2026','Jun 2026'],datasets:[{label:'PTH',data:[2.3,5.5],backgroundColor:[C.muted,C.coral],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:10,title:{display:true,text:'pmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+
+new Chart('glucoseChart',{type:'bar',data:{labels:['Feb 2026'],datasets:[{label:'Glucose',data:[4.8],backgroundColor:C.success,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:8,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}});
+
+// ── MPV ──
+new Chart('mpvChart',{type:'bar',data:{labels:['Apr 2025','Jun 2026'],datasets:[{label:'MPV',data:[12.0,12.1],backgroundColor:C.blue,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:8,max:14,title:{display:true,text:'fL'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(8.9,12.6,'Ref: 8.9–12.6')]);
 </script>
 </body>
 </html>
