@@ -1,6 +1,6 @@
 {
-  "updated": "2026-06-14",
-  "currentPeriod": "2026-06",
+  "updated": "2026-07-15",
+  "currentPeriod": "2026-07",
   "periods": {
     "2026-05": {
       "label": "May 2026",
@@ -75,32 +75,71 @@
         "monthlyRepayment": 5046,
         "note": "Interest lower than April ($3,581 vs $4,571) — $120K house proceeds now reducing balance. Run rate: ~$3,780/mo interest at current balance."
       }
+    },
+    "2026-07": {
+      "label": "July 2026",
+      "income": {
+        "total": 7066,
+        "monthlyEquivalent": 12700,
+        "note": "Partial month (1–15 Jul). 2 Josh pays expected by month end.",
+        "sources": [
+          {"name": "Josh Salary (est. 1 pay)", "amount": 4633, "detail": "~$4,633 est. mid-Jul", "color": "#cc785c"},
+          {"name": "Amy AccessPay (est.)", "amount": 1025, "detail": "~$1,025/fortnight", "color": "#d1896f"},
+          {"name": "Amy Base Pay (est.)", "amount": 500, "detail": "Randle & Taylor", "color": "#d89d87"},
+          {"name": "Car Sale Proceeds", "amount": 23500, "detail": "David + Dave — not regular income", "color": "#e6c5b9", "oneOff": true},
+          {"name": "Other", "amount": 908, "detail": "Amy saver transfer + other", "color": "#dfb1a0"}
+        ]
+      },
+      "expenseCategories": [
+        {"name": "Groceries", "amount": 1693, "color": "#cc785c"},
+        {"name": "Shopping", "amount": 2129, "color": "#d1896f"},
+        {"name": "Travel", "amount": 1587, "color": "#d89d87"},
+        {"name": "Insurance", "amount": 800, "color": "#dfb1a0"},
+        {"name": "Health", "amount": 673, "color": "#e6c5b9"},
+        {"name": "Utilities", "amount": 669, "color": "#edd9d2"},
+        {"name": "Bills & Fees", "amount": 830, "color": "#f2e8e5"},
+        {"name": "Transport", "amount": 441, "color": "#e4e1db"},
+        {"name": "Kids", "amount": 385, "color": "#d4957a"},
+        {"name": "Eating Out", "amount": 341, "color": "#dcab98"},
+        {"name": "Subscriptions", "amount": 100, "color": "#ebd9d4"},
+        {"name": "Car Purchase", "amount": 50000, "color": "#c0392b", "oneOff": true},
+        {"name": "Loan: Interest (est.)", "amount": 3900, "color": "#1a7a4c", "loan": true},
+        {"name": "Loan: Principal (est.)", "amount": 1260, "color": "#2ecc71", "loan": true}
+      ],
+      "snapshot": {"savings": 79379, "loan": -781554, "redraw": 73711},
+      "loanBreakdown": {
+        "paidPrincipal": 1260,
+        "paidInterest": 3900,
+        "monthlyRepayment": 5160,
+        "note": "Mid-month snapshot. BoS recalibrated repayment to $2,381.63/fn after redraw. Car bought $50k / sold $23.5k. Repayment up from $5,046 to ~$5,160/mo."
+      }
     }
   },
   "allTime": {
     "snapshots": [
       {"date": "2026-05-10", "savings": 112358, "loan": -859999, "redraw": 112358, "nab": null},
-      {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711, "nab": 769}
+      {"date": "2026-06-14", "savings": 105391, "loan": -751443, "redraw": 104711, "nab": 769},
+      {"date": "2026-07-15", "savings": 79379, "loan": -781554, "redraw": 73711, "nab": 5668}
     ],
     "loanBreakdown": {
-      "period": "27 Mar – 14 Jun 2026",
+      "period": "27 Mar – 15 Jul 2026",
       "interestRate": 6.04,
-      "paidPrincipal": 6709,
-      "paidInterest": 8153,
+      "paidPrincipal": 7969,
+      "paidInterest": 12053,
       "openedAmount": 860000,
-      "currentBalance": 751443,
+      "currentBalance": 781554,
       "largeDeposit": 120000,
       "largeDepositLabel": "House sale proceeds"
     }
   },
   "currentPosition": {
-    "nabSavings": 681,
-    "nabSpending": 88,
-    "bosRedraw": 104711,
+    "nabSavings": 4401,
+    "nabSpending": 1267,
+    "bosRedraw": 73711,
     "bosEveryday": 1234,
-    "totalTracked": 105391,
-    "homeLoan": -751443,
+    "totalTracked": 79379,
+    "homeLoan": -781554,
     "interestRate": 6.04,
-    "netWorth": 783347
+    "netWorth": 768413
   }
 }
