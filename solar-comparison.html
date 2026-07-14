@@ -247,23 +247,23 @@ tbody td.warn-text { color: var(--danger); font-weight: 600; }
     <div class="section-title">What You're Paying Now</div>
   </div>
 
-  <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Based on 6 days of Amber smart meter data (Jul 8–14, 2026). Winter baseline — no pool pump or air conditioning running.</p>
+  <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Based on 27 days of Amber smart meter data (Jun 16 – Jul 13, 2026). Winter baseline — no pool pump or air conditioning running. 4-week average smooths out weekly swings (15–21 kWh/day range).</p>
 
   <div class="metric-grid cols-4">
     <div class="metric-card">
       <div class="label">Avg Daily Usage</div>
-      <div class="value">20.6 <span class="unit">kWh</span></div>
-      <div class="note">~7,500 kWh/yr (winter baseline)</div>
+      <div class="value">18.0 <span class="unit">kWh</span></div>
+      <div class="note">~6,600 kWh/yr (winter baseline)</div>
     </div>
     <div class="metric-card">
       <div class="label">Avg Daily Cost</div>
-      <div class="value" style="font-family:var(--font-mono);">$6.91</div>
-      <div class="note">~$2,522/yr energy only</div>
+      <div class="value" style="font-family:var(--font-mono);">$6.26</div>
+      <div class="note">~$2,285/yr energy only</div>
     </div>
     <div class="metric-card">
       <div class="label">Blended Rate</div>
-      <div class="value" style="font-family:var(--font-mono);">33.6<span class="unit">c/kWh</span></div>
-      <div class="note">Actual Amber, 6-day weighted avg</div>
+      <div class="value" style="font-family:var(--font-mono);">34.7<span class="unit">c/kWh</span></div>
+      <div class="note">Actual Amber, 4-week weighted avg</div>
     </div>
     <div class="metric-card">
       <div class="label">Peak Window (5–9pm)</div>
@@ -344,8 +344,8 @@ tbody td.warn-text { color: var(--danger); font-weight: 600; }
       <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">How the Savings Work</div>
       <div style="font-size:0.88rem;color:var(--body);line-height:1.8;">
         <strong style="color:var(--success);">① Self-consumption</strong><br>
-        <span style="color:var(--muted);">Solar powers your daytime usage directly. Avoids importing at the blended rate (33.6c/kWh).</span><br>
-        <span style="font-family:var(--font-mono);font-size:0.82rem;">7,200 kWh × 33.6c = <strong>$2,419/yr</strong></span><br><br>
+        <span style="color:var(--muted);">Solar powers your daytime usage directly. Avoids importing at the blended rate (34.7c/kWh).</span><br>
+        <span style="font-family:var(--font-mono);font-size:0.82rem;">7,200 kWh × 34.7c = <strong>$2,498/yr</strong></span><br><br>
 
         <strong style="color:var(--coral);">② Peak avoidance</strong><br>
         <span style="color:var(--muted);">Battery stores cheap solar and discharges during 5–9pm peak. Avoids importing at 54c/kWh.</span><br>
@@ -356,7 +356,7 @@ tbody td.warn-text { color: var(--danger); font-weight: 600; }
         <span style="font-family:var(--font-mono);font-size:0.82rem;">10,500 kWh × 5c = <strong>$525/yr</strong></span><br><br>
 
         <div style="border-top:1px solid var(--hairline);padding-top:12px;font-family:var(--font-mono);font-size:1rem;color:var(--success);">
-          <strong>Gross savings: $4,294/yr</strong>
+          <strong>Gross savings: $4,373/yr</strong>
         </div>
       </div>
     </div>
@@ -450,21 +450,70 @@ tbody td.warn-text { color: var(--danger); font-weight: 600; }
           <span class="number pos">+$19,491</span>
         </div>
         <div class="timeline-row">
+          <span class="year-badge" style="background:rgba(194,104,12,0.1);color:var(--warning);">YR 12</span>
+          <span class="milestone"><strong>Inverter replacement (~$2,500).</strong> GoodWe warranty expires at 10yr. Budget for replacement now — but cumulative position already covers it 10× over.</span>
+          <span class="number pos">+$25,579</span>
+        </div>
+        <div class="timeline-row">
           <span class="year-badge">YR 15</span>
-          <span class="milestone">System has returned over 2× the original investment</span>
-          <span class="number pos">+$40,961</span>
+          <span class="milestone">2× return achieved — even after inverter replacement</span>
+          <span class="number pos">+$38,461</span>
         </div>
         <div class="timeline-row">
           <span class="year-badge">YR 20</span>
-          <span class="milestone"><strong>$62K+ net benefit over system lifetime</strong></span>
-          <span class="number pos">+$62,431</span>
+          <span class="milestone"><strong>$60K net benefit — 3.1× return</strong> after all costs including inverter</span>
+          <span class="number pos">+$59,931</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="insight good">
-    <strong>Effective payback: 5.4 years.</strong> If you ignored offset cost, the simple payback would be 4.5 years ($19,460 ÷ $4,294). The offset interest adds about 11 months. But by Year 6, the system is fully paid off and every dollar after that is profit. Over 20 years, a $19,460 investment returns <strong>$62,431 — a 3.2× return</strong>, completely tax-free.
+    <strong>Effective payback: 5.4 years.</strong> If you ignored offset cost, the simple payback would be 4.5 years ($19,460 ÷ $4,373). The offset interest adds about 11 months. By Year 6, the system is fully paid off. Over 20 years, a $19,460 investment returns <strong>$59,931 — a 3.1× return</strong>, completely tax-free, even after the Year 12 inverter replacement.
+  </div>
+</section>
+
+<!-- ═══ Future Costs ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Future Costs</div>
+    <div class="section-title">What You'll Need to Replace — and When</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Component</th><th>Warranty</th><th>Expected Life</th><th>Replacement Cost</th><th>When</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Inverter</strong> (GoodWe 20kW)</td>
+          <td>10 years</td>
+          <td>10–15 years</td>
+          <td class="warn-text"><strong>~$2,500</strong></td>
+          <td><strong>Year 10–15</strong> — budget Year 12</td>
+        </tr>
+        <tr>
+          <td><strong>Battery</strong> (GoodWe 32kWh)</td>
+          <td>10 years</td>
+          <td>15–20 years</td>
+          <td>~$8,000–12,000</td>
+          <td>Year 15–20 — only if capacity feels tight</td>
+        </tr>
+        <tr>
+          <td><strong>Panels</strong> (Jinko 475W N-Type)</td>
+          <td>25yr product / 30yr performance</td>
+          <td>25–30+ years</td>
+          <td>Not needed</td>
+          <td>Beyond your horizon</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
+      <strong>The inverter is the only certain cost.</strong> At ~$2,500 in Year 12, it reduces the cumulative position by about $2,500 — from ~$28K to ~$25.6K. The system is so far ahead by that point it barely registers.<br><br>
+      <strong>The battery degrades, it doesn't die.</strong> At ~2%/yr, a 32kWh battery still holds ~21kWh at Year 20 — more than enough to cover the 6.9 kWh winter peak window. Summer might push it, but by Year 15–20 battery prices will be far lower if you want a refresh.<br><br>
+      <strong>Panels are set-and-forget.</strong> 87% output at Year 25. You'll likely sell the house before panels need attention.
+    </div>
   </div>
 </section>
 
@@ -530,9 +579,9 @@ tbody td.warn-text { color: var(--danger); font-weight: 600; }
 
 <!-- ═══ Footer ═══ -->
 <footer class="site-footer">
-  <p>Data: Amber API (6 days actual usage, Jul 8–14 2026) · OpenSolar Glow quote #9416550 · BankSA offset rate 6.04% · Prepared 14 July 2026</p>
+  <p>Data: Amber API (27 days actual usage, Jun 16 – Jul 13 2026) · OpenSolar Glow quote #9416550 · BankSA offset rate 6.04% · Prepared 14 July 2026</p>
   <p style="margin-top:4px;">Not financial advice. Payback estimates are modelled projections. Actual savings depend on usage, Amber pricing, weather, and interest rate movements.</p>
-  <p style="margin-top:4px;">Assumptions: 10,000 kWh/yr realistic usage · Blended 33.6c/kWh · Peak 54.0c/kWh · Feed-in 5c/kWh · No tariff inflation · No degradation (except where noted) · Fixed supply charges excluded</p>
+  <p style="margin-top:4px;">Assumptions: 10,000 kWh/yr realistic usage · Blended 34.7c/kWh · Peak 54.0c/kWh · Feed-in 5c/kWh · Inverter replacement $2,500 at Year 12 · Battery degradation 2%/yr · Fixed supply charges excluded</p>
   <p style="margin-top:16px;font-family:var(--font-display);font-size:1rem;color:var(--coral);">Gary (Josh's P.A)</p>
 </footer>
 
