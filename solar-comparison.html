@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar Comparison — 119 Princes Road, Mitcham</title>
+<title>Solar Investment — Glow 14.25kW · 119 Princes Road, Mitcham</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,12 +23,10 @@
   --warning: #c2680c;
   --danger: #c0392b;
   --radius-card: 20px;
-  --radius-btn: 6px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
   --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,87 +44,54 @@ body {
 @media (min-width: 700px) { .container { padding: 0 32px; } }
 
 /* ── Hero ── */
-.hero {
-  padding: 80px 0 60px;
-  text-align: center;
-}
+.hero { padding: 80px 0 60px; text-align: center; }
 .hero .kicker {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--coral);
-  margin-bottom: 16px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 16px;
 }
 .hero h1 {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 6vw, 3.2rem);
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1.1;
-  margin-bottom: 16px;
+  font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 16px;
 }
 .hero .subtitle {
-  font-size: 1rem;
-  color: var(--body);
-  max-width: 520px;
-  margin: 0 auto;
+  font-size: 1rem; color: var(--body); max-width: 600px; margin: 0 auto;
 }
-@media (min-width: 700px) {
-  .hero { padding: 100px 0 80px; }
-}
+@media (min-width: 700px) { .hero { padding: 100px 0 80px; } }
 
 /* ── Section ── */
 .section { padding: 60px 0; }
 .section-header { margin-bottom: 40px; }
 .section-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--coral);
-  margin-bottom: 8px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 8px;
 }
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 4vw, 2.4rem);
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1.15;
+  font-weight: 900; color: var(--ink); line-height: 1.15;
 }
 
 /* ── Metric Cards ── */
-.metric-grid {
-  display: grid;
-  gap: 16px;
-}
+.metric-grid { display: grid; gap: 16px; }
 @media (min-width: 700px) {
-  .metric-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
   .metric-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .metric-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
   .metric-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
 }
 .metric-card {
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-card);
-  padding: 28px 24px;
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 28px 24px;
   box-shadow: var(--shadow-rest);
 }
 .metric-card .label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
 }
 .metric-card .value {
   font-family: var(--font-body);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1.1;
-  margin-bottom: 8px;
+  font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 8px;
 }
 .metric-card .value .unit { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
 .metric-card .note { font-size: 0.82rem; color: var(--body); }
@@ -135,98 +100,54 @@ body {
 .cards { display: grid; gap: 24px; }
 @media (min-width: 700px) {
   .cards.cols-2 { grid-template-columns: 1fr 1fr; }
-  .cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
 }
 .card {
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-card);
-  padding: 28px 24px;
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 32px 28px;
   box-shadow: var(--shadow-rest);
 }
 .card.winner { border-color: var(--success); }
-.card.highlight { border-color: var(--coral); }
-.card.warn { border-color: var(--warning); }
 .card .card-winner-tag {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--success);
-  margin-bottom: 12px;
+  display: inline-block; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--success); margin-bottom: 12px;
 }
-.card .card-tag {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 100px;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-.card .card-tag.green { background: rgba(27,138,61,0.1); color: var(--success); }
-.card .card-tag.coral { background: rgba(204,120,92,0.1); color: var(--coral); }
-.card .card-tag.amber { background: rgba(194,104,12,0.1); color: var(--warning); }
-
 .card-name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--ink);
-  margin-bottom: 4px;
+  font-family: var(--font-display); font-size: 1.6rem;
+  font-weight: 900; color: var(--ink); margin-bottom: 4px;
 }
 .card-price {
-  font-family: var(--font-body);
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--ink);
-  margin-bottom: 2px;
+  font-family: var(--font-body); font-size: 2.4rem;
+  font-weight: 900; color: var(--ink); margin-bottom: 2px;
 }
 .card-price-label {
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-bottom: 20px;
+  font-size: 0.78rem; color: var(--muted); margin-bottom: 24px;
 }
 
 /* ── Spec rows ── */
 .specs {
-  display: grid;
-  gap: 10px;
-  border-top: 1px solid var(--hairline-soft);
-  padding-top: 20px;
+  display: grid; gap: 10px;
+  border-top: 1px solid var(--hairline-soft); padding-top: 20px;
 }
-.spec { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.84rem; }
+.spec { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.86rem; }
 .spec-label { color: var(--body); }
 .spec-value { font-weight: 600; color: var(--ink); text-align: right; }
 
 /* ── Tables ── */
 .table-wrap {
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  box-shadow: var(--shadow-rest);
-  margin-top: 20px;
-  -webkit-overflow-scrolling: touch;
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); overflow: hidden;
+  box-shadow: var(--shadow-rest); margin-top: 20px;
 }
 .table-wrap:first-child { margin-top: 0; }
 .table-scroll { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
 thead th {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: left;
-  padding: 18px 20px 12px;
-  border-bottom: 1px solid var(--hairline);
-  white-space: nowrap;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); text-align: left;
+  padding: 18px 20px 12px; border-bottom: 1px solid var(--hairline); white-space: nowrap;
 }
-thead th:last-child, thead th.edge { text-align: right; }
+thead th:last-child { text-align: right; }
 tbody td {
   padding: 14px 20px;
   border-bottom: 1px solid var(--hairline-soft);
@@ -234,33 +155,22 @@ tbody td {
 tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
 tbody tr.break td { border-bottom: 2px solid var(--hairline); }
 tbody tr.highlight-row { background: rgba(204,120,92,0.04); }
-tbody td:last-child { text-align: right; }
+tbody td:last-child, tbody td.num { text-align: right; font-family: var(--font-mono); font-size: 0.82rem; }
 tbody td.win { color: var(--success); font-weight: 700; }
 tbody td.warn-text { color: var(--danger); font-weight: 600; }
-tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 
-/* ── Bar Chart (usage profile) ── */
+/* ── Bar Chart ── */
 .bar-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 2px 0;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  display: flex; align-items: center; gap: 8px; padding: 2px 0;
+  font-family: var(--font-mono); font-size: 0.75rem;
 }
 .bar-row .hour { width: 28px; text-align: right; color: var(--muted); flex-shrink: 0; }
 .bar-row .bar-track {
-  flex: 1;
-  height: 8px;
-  background: var(--hairline);
-  border-radius: 4px;
-  overflow: hidden;
+  flex: 1; height: 8px; background: var(--hairline);
+  border-radius: 4px; overflow: hidden;
 }
 .bar-row .bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: background 0.2s;
-  min-width: 2px;
+  height: 100%; border-radius: 4px; min-width: 2px;
 }
 .bar-row .kwh { width: 52px; text-align: right; color: var(--body); flex-shrink: 0; font-weight: 500; }
 .bar-row .kwh.strong { color: var(--ink); font-weight: 600; }
@@ -273,113 +183,47 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 .legend .swatch.morning { background: var(--coral); }
 .legend .swatch.off { background: var(--muted); }
 
-/* ── Horizontal bar ── */
-.hbar-track {
-  height: 8px;
-  background: var(--hairline-soft);
-  border-radius: 4px;
-  margin: 0.5rem 0;
-  overflow: hidden;
-}
-.hbar-fill { height: 100%; border-radius: 4px; }
-.hbar-fill.yellow { background: var(--warning); }
-.hbar-fill.coral { background: var(--coral); }
-
-/* ── Verdict box ── */
-.verdict {
-  background: rgba(204,120,92,0.06);
-  border: 1px solid rgba(204,120,92,0.2);
-  border-radius: var(--radius-card);
-  padding: 32px 28px;
-}
-@media (min-width: 700px) { .verdict { padding: 40px 36px; } }
-.verdict-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--coral);
-  margin-bottom: 12px;
-}
-.verdict h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
-  font-weight: 900;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-.verdict .price {
-  font-family: var(--font-body);
-  font-size: 2.4rem;
-  font-weight: 900;
-  color: var(--success);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.verdict ol {
-  padding-left: 1.5rem;
-  line-height: 1.8;
-  max-width: 680px;
-  margin: 20px auto 0;
-}
-.verdict ol li { margin-bottom: 12px; }
-.verdict ul { padding-left: 1.5rem; line-height: 1.8; margin-top: 16px; }
-.verdict .neg-notes { margin-top: 24px; padding: 20px 24px; background: var(--surface-alt); border-radius: 12px; }
-
 /* ── Insight box ── */
 .insight {
-  background: var(--surface-alt);
-  border-radius: var(--radius-card);
-  padding: 24px 28px;
-  font-size: 0.88rem;
-  color: var(--body);
-  margin-top: 20px;
-  line-height: 1.7;
+  background: var(--surface-alt); border-radius: var(--radius-card);
+  padding: 24px 28px; font-size: 0.88rem; color: var(--body);
+  margin-top: 20px; line-height: 1.7;
 }
 .insight strong { color: var(--ink); }
-.insight.warn { border-left: 3px solid var(--warning); }
 .insight.good { border-left: 3px solid var(--success); }
 
-/* ── Visual break-even ── */
-.breakeven-viz {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  line-height: 2.2;
-  padding: 1rem 0;
+/* ── Milestone timeline ── */
+.timeline { margin-top: 20px; }
+.timeline-row {
+  display: flex; align-items: center; gap: 16px; padding: 10px 0;
+  font-family: var(--font-mono); font-size: 0.85rem;
 }
-.breakeven-viz .year { color: var(--muted); margin-right: 4px; }
-.breakeven-viz .neg { color: var(--danger); }
-.breakeven-viz .pos { color: var(--success); }
-.breakeven-viz .tagline { color: var(--coral); font-weight: 600; padding-left: 16px; }
-
-/* ── Badge ── */
-.badge-new {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 100px;
-  vertical-align: middle;
-  margin-left: 8px;
+.timeline-row .year-badge {
+  width: 56px; flex-shrink: 0; text-align: center;
+  font-weight: 700; font-size: 0.72rem; letter-spacing: 2px;
+  padding: 4px 8px; border-radius: 100px;
+  background: var(--surface-alt); color: var(--muted);
 }
+.timeline-row .year-badge.breakeven { background: rgba(27,138,61,0.1); color: var(--success); }
+.timeline-row .year-badge.now { background: rgba(204,120,92,0.1); color: var(--coral); }
+.timeline-row .milestone { color: var(--body); }
+.timeline-row .milestone strong { color: var(--ink); }
+.timeline-row .number { margin-left: auto; font-weight: 900; text-align: right; min-width: 120px; }
+.timeline-row .number.neg { color: var(--danger); }
+.timeline-row .number.pos { color: var(--success); }
 
 /* ── Footer ── */
 .site-footer {
-  text-align: center;
-  padding: 20px 0 40px;
-  font-size: 0.78rem;
-  color: var(--muted);
+  text-align: center; padding: 20px 0 40px;
+  font-size: 0.78rem; color: var(--muted);
 }
 
 @media (max-width: 699px) {
   .table-scroll { margin: 0 -20px; padding: 0 20px; }
   thead th, tbody td { padding: 12px 12px; font-size: 0.78rem; }
-  .breakeven-viz { font-size: 0.75rem; }
+  .timeline-row { font-size: 0.75rem; }
+  .timeline-row .number { min-width: 100px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
@@ -392,15 +236,15 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
 <!-- ═══ Hero ═══ -->
 <section class="hero">
   <div class="kicker">119 Princes Road · Mitcham</div>
-  <h1>Solar Comparison</h1>
-  <p class="subtitle">Glow vs NRG Solar — updated with actual Amber rates and mortgage offset cost. Prepared 22 June 2026 · Updated 14 July 2026.</p>
+  <h1>Solar Investment</h1>
+  <p class="subtitle">Glow 14.25kW system — when does it pay for itself? Based on actual Amber smart meter data and mortgage offset cost.</p>
 </section>
 
 <!-- ═══ Current Usage ═══ -->
 <section class="section">
   <div class="section-header">
     <div class="section-label">Your Baseline</div>
-    <div class="section-title">Current Usage Profile <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">UPDATED</span></div>
+    <div class="section-title">What You're Paying Now</div>
   </div>
 
   <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Based on 6 days of Amber smart meter data (Jul 8–14, 2026). Winter baseline — no pool pump or air conditioning running.</p>
@@ -465,397 +309,230 @@ tbody td.mono { font-family: var(--font-mono); font-size: 0.82rem; }
     </div>
   </div>
 
-  <!-- Day/Night split -->
-  <div class="cards cols-2" style="margin-top:20px;">
-    <div class="card">
-      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Daytime (6am–6pm)</div>
-      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">65.8<span style="font-size:1rem;font-weight:500;color:var(--muted);">%</span></div>
-      <div style="font-size:0.84rem;color:var(--body);">13.5 kWh/day · $3.27/day</div>
-      <div class="hbar-track"><div class="hbar-fill yellow" style="width:65.8%;"></div></div>
-    </div>
-    <div class="card">
-      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Nighttime (6pm–6am)</div>
-      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">34.2<span style="font-size:1rem;font-weight:500;color:var(--muted);">%</span></div>
-      <div style="font-size:0.84rem;color:var(--body);">7.0 kWh/day · $3.64/day</div>
-      <div style="font-size:0.8rem;color:var(--danger);margin-top:4px;">Costs MORE despite lower usage (peak pricing)</div>
-      <div class="hbar-track"><div class="hbar-fill coral" style="width:34.2%;"></div></div>
-    </div>
-  </div>
-
   <div class="insight">
-    <strong>Key insight:</strong> 34% of usage (nighttime) = <strong>53% of your bill</strong>. The 5–9pm peak window alone consumes 6.9 kWh/day at an average 54c/kWh — with the 7pm hour spiking to 89.7c. A battery sized to cover this window delivers disproportionate savings.<br><br>
-    <strong>Summer projection:</strong> With pool pump (3–5 kWh/day), AC (5–10 kWh/day), and sauna (1–3 kWh/session), summer usage likely hits 25–35 kWh/day. Annual bills on Amber projected at $4,000–$6,000 without solar.
+    <strong>Why solar + battery works here:</strong> 34% of your usage happens at night — but it's <strong>53% of your bill</strong>. The 5–9pm peak window alone consumes 6.9 kWh/day at an average 54c/kWh, with 7pm spiking to 89.7c/kWh. Solar generates during cheap daytime hours (16.8c/kWh solar sponge). A battery shifts that cheap energy to the expensive peak — a <strong>3.2× value multiplier</strong>. That's the entire business case.<br><br>
+    <strong>Summer projection:</strong> With pool pump, AC, and sauna, daily usage likely hits 25–35 kWh. Annual bills on Amber projected at $4,000–$6,000 without solar.
   </div>
 </section>
 
-<!-- ═══ Rate Reference ═══ -->
+<!-- ═══ The System ═══ -->
 <section class="section">
   <div class="section-header">
-    <div class="section-label">Key Assumptions</div>
-    <div class="section-title">Actual Amber Rates <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">NEW</span></div>
-  </div>
-
-  <div class="table-wrap">
-    <div class="table-scroll">
-    <table>
-      <thead><tr><th>Tariff Period</th><th>Rate (c/kWh)</th><th>% of Usage</th><th>% of Cost</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Peak (5–9pm weekdays)</strong></td><td class="warn-text">54.0</td><td>33.4%</td><td>53.7%</td><td>7pm averages 89.7c — brutal</td></tr>
-        <tr><td><strong>Solar Sponge (10am–3pm)</strong></td><td>16.8</td><td>39.1%</td><td>19.6%</td><td>Perfectly aligned with solar gen</td></tr>
-        <tr><td><strong>Off-Peak (10pm–6am)</strong></td><td>22.7</td><td>5.6%</td><td>3.8%</td><td>Cheapest grid import window</td></tr>
-        <tr><td><strong>Morning (7–9am)</strong></td><td>33.4</td><td>12.6%</td><td>12.5%</td><td>Moderate pricing</td></tr>
-        <tr><td><strong>Shoulder (3–5pm, 9–10pm)</strong></td><td>34.5</td><td>9.3%</td><td>10.4%</td><td>Transition hours</td></tr>
-        <tr class="break"><td><strong>Blended Average</strong></td><td><strong>33.6</strong></td><td>100%</td><td>100%</td><td>6-day weighted avg, Jul 8–14</td></tr>
-      </tbody>
-    </table>
-    </div>
-    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
-      <strong>Feed-in tariff:</strong> ~5c/kWh (Amber spot rate during solar hours, typically 4–7c). Export revenue is marginal — the real value is in self-consumption and peak avoidance.<br>
-      <strong>Previous page assumed:</strong> Blended 30c/kWh, peak 40–60c. Actuals are higher on blended (+12%) and the peak window is tighter and more predictable.
-    </div>
-  </div>
-</section>
-
-<!-- ═══ The Options ═══ -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-label">The Options</div>
-    <div class="section-title">Two Quotes Compared</div>
+    <div class="section-label">The System</div>
+    <div class="section-title">Glow — 14.25kW Solar + 32kWh Battery</div>
   </div>
 
   <div class="cards cols-2">
-    <!-- Glow Option 2 -->
     <div class="card winner">
-      <div class="card-winner-tag">Our Pick</div>
-      <div class="card-name">Glow Option 2 <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">CONFIRMED</span></div>
+      <div class="card-winner-tag">Confirmed Quote</div>
+      <div class="card-name">Glow Option 2</div>
       <div class="card-price">$19,460</div>
-      <div class="card-price-label">inc. GST · 3-phase · OpenSolar quote</div>
+      <div class="card-price-label">inc. GST · 3-phase · OpenSolar #9416550</div>
       <div class="specs">
-        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">14.25 kW</span></div>
-        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">30× Jinko 475W N-Type</span></div>
-        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value" style="color:var(--success);">GoodWe 20kW (3-phase)</span></div>
-        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">GoodWe 32 kWh</span></div>
-        <div class="spec"><span class="spec-label">Annual gen</span><span class="spec-value">20,206 kWh</span></div>
-        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value" style="color:var(--success);">~5.4 yr (with offset cost)</span></div>
+        <div class="spec"><span class="spec-label">Solar array</span><span class="spec-value">14.25 kW (30× Jinko 475W N-Type)</span></div>
+        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value" style="color:var(--success);">GoodWe GW20K-ETA-G20 · 20kW 3-phase</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">GoodWe ESA Series · 32 kWh (4× 8.3kWh)</span></div>
+        <div class="spec"><span class="spec-label">Annual generation</span><span class="spec-value">20,206 kWh (OpenSolar estimate)</span></div>
+        <div class="spec"><span class="spec-label">Daily generation</span><span class="spec-value">55.4 kWh/day avg</span></div>
+        <div class="spec"><span class="spec-label">Warranty</span><span class="spec-value">25yr panels · 10yr battery · 10yr workmanship</span></div>
+        <div class="spec"><span class="spec-label">Installer</span><span class="spec-value">Glow HCE · SA-based since 1997</span></div>
+        <div class="spec"><span class="spec-label">Sales rep</span><span class="spec-value">Lincoln Charles · lincoln.charles@glowhce.com.au</span></div>
       </div>
     </div>
 
-    <!-- NRG -->
     <div class="card">
-      <div class="card-name">NRG Solar</div>
-      <div class="card-price">$27,220</div>
-      <div class="card-price-label">after STCs, inc. GST</div>
-      <div class="specs">
-        <div class="spec"><span class="spec-label">Solar</span><span class="spec-value">19.38 kW</span></div>
-        <div class="spec"><span class="spec-label">Panels</span><span class="spec-value">Trina Vertex S+ bifacial</span></div>
-        <div class="spec"><span class="spec-label">Inverter</span><span class="spec-value">Sigenergy 15kW</span></div>
-        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">Sigenergy 36 kWh</span></div>
-        <div class="spec"><span class="spec-label">Annual gen</span><span class="spec-value">~27,600 kWh</span></div>
-        <div class="spec"><span class="spec-label">Payback</span><span class="spec-value">~6.4 yr (with offset cost)</span></div>
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">How the Savings Work</div>
+      <div style="font-size:0.88rem;color:var(--body);line-height:1.8;">
+        <strong style="color:var(--success);">① Self-consumption</strong><br>
+        <span style="color:var(--muted);">Solar powers your daytime usage directly. Avoids importing at the blended rate (33.6c/kWh).</span><br>
+        <span style="font-family:var(--font-mono);font-size:0.82rem;">7,200 kWh × 33.6c = <strong>$2,419/yr</strong></span><br><br>
+
+        <strong style="color:var(--coral);">② Peak avoidance</strong><br>
+        <span style="color:var(--muted);">Battery stores cheap solar and discharges during 5–9pm peak. Avoids importing at 54c/kWh.</span><br>
+        <span style="font-family:var(--font-mono);font-size:0.82rem;">2,500 kWh × 54.0c = <strong>$1,350/yr</strong></span><br><br>
+
+        <strong style="color:var(--warning);">③ Export revenue</strong><br>
+        <span style="color:var(--muted);">Surplus solar sold to grid at Amber spot rate (~5c/kWh).</span><br>
+        <span style="font-family:var(--font-mono);font-size:0.82rem;">10,500 kWh × 5c = <strong>$525/yr</strong></span><br><br>
+
+        <div style="border-top:1px solid var(--hairline);padding-top:12px;font-family:var(--font-mono);font-size:1rem;color:var(--success);">
+          <strong>Gross savings: $4,294/yr</strong>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ Equipment Comparison ═══ -->
+<!-- ═══ Offset Cost ═══ -->
 <section class="section">
   <div class="section-header">
-    <div class="section-label">Deep Dive</div>
-    <div class="section-title">Equipment Quality Comparison</div>
+    <div class="section-label">The Real Cost</div>
+    <div class="section-title">Mortgage Offset — The Hidden Factor</div>
   </div>
 
-  <div class="table-wrap">
-    <div class="table-scroll">
-    <table>
-      <thead><tr><th></th><th>Glow (GoodWe/Jinko)</th><th>NRG (Sigenergy/Trina)</th><th style="text-align:right;">Edge</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Panel brand</strong></td><td>Jinko — Tier 1, #1 by volume</td><td>Trina — Tier 1, #2-3 globally</td><td>≈ Tie</td></tr>
-        <tr><td><strong>Panel tech</strong></td><td>N-Type, mono-facial</td><td>N-Type i-TOPCon, bifacial dual-glass</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Panel warranty</strong></td><td>25yr product / 30yr performance</td><td>25yr product / 30yr performance</td><td>≈ Tie</td></tr>
-        <tr><td><strong>Panel durability</strong></td><td>Standard glass-foil backsheet</td><td>Dual-glass (better humidity/fire resistance)</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Inverter capacity</strong></td><td>20 kW (3-phase)</td><td>15 kW (3-phase native)</td><td class="win">Glow</td></tr>
-        <tr><td><strong>Inverter brand</strong></td><td>GoodWe — established in AU, 10yr warranty</td><td>Sigenergy — premium, 5-in-1, newer to AU</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Amber SmartShift</strong></td><td>Compatible (API-based)</td><td>Fully compatible, designed for dynamic pricing</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Blackout protection</strong></td><td>Partial (needs extra hardware)</td><td>Built-in, configurable circuits</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Battery scalability</strong></td><td>Fixed stack (32kWh)</td><td>Modular (8.76kWh blocks, up to 48kWh)</td><td class="win">NRG</td></tr>
-        <tr><td><strong>EV charger ready</strong></td><td>No</td><td>Built-in (5-in-1 integration)</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Mounting</strong></td><td>Standard</td><td>Schletter Black Proline (German, 25yr)</td><td class="win">NRG</td></tr>
-        <tr><td><strong>Installation support</strong></td><td>GoodWe Australia established</td><td>Sigenergy newer to AU but growing fast</td><td class="warn-text">Glow</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </div>
-</section>
+  <p style="font-size:0.88rem;color:var(--body);margin-bottom:24px;">The $19,460 comes from the BankSA mortgage offset account (<strong>balance ~$104,711, variable rate 6.04%</strong>). Money sitting in offset effectively earns 6.04% tax-free by reducing mortgage interest. Taking it out means paying more interest — this is a real cost that simple payback calculations ignore.</p>
 
-<!-- ═══ The Offset Cost ═══ -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-label">New Factor</div>
-    <div class="section-title">Mortgage Offset Opportunity Cost <span class="badge-new" style="background:rgba(204,120,92,0.1);color:var(--coral);">CRITICAL</span></div>
-  </div>
-
-  <p style="font-size:0.88rem;color:var(--body);margin-bottom:20px;">The $19,460 comes from the BankSA mortgage offset account (balance ~$104,711, variable rate <strong>6.04%</strong>). Money in offset effectively earns 6.04% tax-free by reducing interest. Taking it out means paying more interest — a real cost that previous modelling ignored.</p>
+  <p style="font-size:0.88rem;color:var(--body);margin-bottom:24px;">But here's the key: <strong>solar savings flow back into the offset account</strong>, gradually rebuilding the balance. Each year the offset deficit shrinks, so the interest penalty decreases. The system eventually repays itself in full.</p>
 
   <div class="table-wrap">
     <div style="padding:20px 24px 8px;">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">How the offset cost works</div>
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Year-by-Year: How the Offset Recovers</div>
     </div>
     <div class="table-scroll">
     <table>
-      <thead><tr><th></th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th><th>Year 6</th></tr></thead>
+      <thead><tr><th>Year</th><th>Offset Deficit (start)</th><th>Extra Interest @ 6.04%</th><th>Gross Solar Savings</th><th>Net Benefit</th><th style="text-align:right;">Cumulative Position</th></tr></thead>
       <tbody>
-        <tr><td><strong>Offset deficit (start of year)</strong></td><td class="warn-text">$19,460</td><td class="warn-text">$16,341</td><td class="warn-text">$13,034</td><td class="warn-text">$9,527</td><td class="warn-text">$5,809</td><td class="warn-text">$1,866</td></tr>
-        <tr><td><strong>Extra interest @ 6.04%</strong></td><td class="warn-text">$1,175</td><td class="warn-text">$987</td><td class="warn-text">$787</td><td class="warn-text">$576</td><td>$351</td><td>$113</td></tr>
-        <tr><td><strong>Gross solar savings</strong></td><td class="win">$4,294</td><td class="win">$4,294</td><td class="win">$4,294</td><td class="win">$4,294</td><td class="win">$4,294</td><td class="win">$4,294</td></tr>
-        <tr class="break"><td><strong>Net benefit</strong></td><td class="win"><strong>$3,119</strong></td><td class="win"><strong>$3,307</strong></td><td class="win"><strong>$3,507</strong></td><td class="win"><strong>$3,718</strong></td><td class="win"><strong>$3,943</strong></td><td class="win"><strong>$4,181</strong></td></tr>
-        <tr><td><strong>Cumulative (net of offset)</strong></td><td class="warn-text">−$16,341</td><td class="warn-text">−$13,034</td><td class="warn-text">−$9,527</td><td class="warn-text">−$5,809</td><td class="warn-text">−$1,866</td><td class="win">+$2,315</td></tr>
+        <tr><td class="num">0</td><td class="warn-text">$19,460</td><td>—</td><td>—</td><td class="num">—</td><td class="num" style="color:var(--danger);">−$19,460</td></tr>
+        <tr><td class="num">1</td><td class="warn-text">$19,460</td><td class="warn-text">−$1,175</td><td class="win">+$4,294</td><td class="num win">+$3,119</td><td class="num" style="color:var(--danger);">−$16,341</td></tr>
+        <tr><td class="num">2</td><td class="warn-text">$16,341</td><td class="warn-text">−$987</td><td class="win">+$4,294</td><td class="num win">+$3,307</td><td class="num" style="color:var(--danger);">−$13,034</td></tr>
+        <tr><td class="num">3</td><td class="warn-text">$13,034</td><td class="warn-text">−$787</td><td class="win">+$4,294</td><td class="num win">+$3,507</td><td class="num" style="color:var(--danger);">−$9,527</td></tr>
+        <tr><td class="num">4</td><td class="warn-text">$9,527</td><td class="warn-text">−$576</td><td class="win">+$4,294</td><td class="num win">+$3,718</td><td class="num" style="color:var(--danger);">−$5,809</td></tr>
+        <tr class="highlight-row"><td class="num"><strong>5</strong></td><td class="warn-text"><strong>$5,809</strong></td><td class="warn-text"><strong>−$351</strong></td><td class="win"><strong>+$4,294</strong></td><td class="num win"><strong>+$3,943</strong></td><td class="num" style="color:var(--danger);"><strong>−$1,866</strong></td></tr>
+        <tr class="break"><td class="num"><strong>6</strong></td><td class="warn-text"><strong>$1,866</strong></td><td class="warn-text"><strong>−$113</strong></td><td class="win"><strong>+$4,294</strong></td><td class="num win"><strong>+$4,181</strong></td><td class="num win"><strong>+$2,315 ✓</strong></td></tr>
+        <tr><td class="num">7</td><td>—</td><td>—</td><td class="win">+$4,294</td><td class="num win">+$4,294</td><td class="num win">+$6,609</td></tr>
+        <tr><td class="num">8</td><td>—</td><td>—</td><td class="win">+$4,294</td><td class="num win">+$4,294</td><td class="num win">+$10,903</td></tr>
+        <tr><td class="num">9</td><td>—</td><td>—</td><td class="win">+$4,294</td><td class="num win">+$4,294</td><td class="num win">+$15,197</td></tr>
+        <tr><td class="num"><strong>10</strong></td><td>—</td><td>—</td><td class="win"><strong>+$4,294</strong></td><td class="num win"><strong>+$4,294</strong></td><td class="num win"><strong>+$19,491</strong></td></tr>
       </tbody>
     </table>
     </div>
     <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
-      <strong>How this works:</strong> Solar savings are deposited back into the offset account, gradually rebuilding the balance. The offset deficit shrinks each year, so the interest penalty decreases. Full offset recovery in <strong>Year 6</strong> (5.4 years effective payback). From Year 7 onward, the full $4,294/yr is pure net benefit.<br><br>
-      <strong>All subsequent tables include this offset cost.</strong>
+      <strong>From Year 7 onward:</strong> Offset is fully rebuilt. The full $4,294/yr is pure net benefit — no more interest drag. Every year after that is $4,294 in your pocket.
     </div>
   </div>
 </section>
 
-<!-- ═══ ROI Modelling ═══ -->
+<!-- ═══ The Timeline ═══ -->
 <section class="section">
   <div class="section-header">
-    <div class="section-label">The Numbers</div>
-    <div class="section-title">ROI Modelling <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">UPDATED</span></div>
+    <div class="section-label">The Timeline</div>
+    <div class="section-title">When You Get Your Money Back</div>
   </div>
 
-  <p style="font-size:0.88rem;color:var(--muted);margin-bottom:24px;">Two scenarios: conservative current usage, and realistic fully-loaded with pool + AC + sauna. All figures now include offset opportunity cost.</p>
+  <p style="font-size:0.88rem;color:var(--body);margin-bottom:24px;">Counting every dollar — gross savings minus the real offset interest cost. Here's the path from $19,460 out of pocket to pure profit.</p>
 
-  <div class="cards cols-2">
-    <!-- Scenario A -->
-    <div class="card">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Scenario A — Conservative</div>
-      <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">7,500 kWh/yr · ~$2,522/yr bill (winter baseline)</div>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th></th><th>Glow Opt 2</th><th>NRG</th></tr></thead>
-        <tbody>
-          <tr><td>Solar gen (kWh)</td><td>20,206</td><td>27,600</td></tr>
-          <tr><td>Self-cons (kWh)</td><td>~5,000</td><td>~5,500</td></tr>
-          <tr><td>Grid avoided</td><td>~67%</td><td>~73%</td></tr>
-          <tr><td>Gross savings/yr</td><td>~$1,700</td><td>~$1,900</td></tr>
-          <tr><td>Offset cost (avg yr 1–5)</td><td class="warn-text">~−$600</td><td class="warn-text">~−$900</td></tr>
-          <tr><td>Export revenue</td><td>~$400</td><td>~$600</td></tr>
-          <tr class="break"><td><strong>Net savings/yr</strong></td><td><strong>~$1,500</strong></td><td><strong>~$1,600</strong></td></tr>
-          <tr><td><strong>Payback</strong></td><td><strong>~13 yr</strong></td><td><strong>~17 yr</strong></td></tr>
-        </tbody>
-      </table>
-      </div>
-      <div style="font-size:0.8rem;color:var(--warning);margin-top:12px;">Systems oversized for winter-only usage. Payback is poor — this is the wrong scenario.</div>
-    </div>
-
-    <!-- Scenario B -->
-    <div class="card highlight">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;">Scenario B — Realistic</div>
-      <div style="font-size:0.84rem;color:var(--body);margin-bottom:16px;">~10,000 kWh/yr · ~$3,360/yr bill</div>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th></th><th>Glow Opt 2</th><th>NRG</th></tr></thead>
-        <tbody>
-          <tr><td>Self-cons (kWh)</td><td>~7,200</td><td>~8,500</td></tr>
-          <tr><td>Grid avoided</td><td>72%</td><td>85%</td></tr>
-          <tr><td>Gross savings/yr</td><td>~$4,294</td><td>~$5,281</td></tr>
-          <tr><td>Offset cost (avg yr 1–5)</td><td class="warn-text">~−$775</td><td class="warn-text">~−$1,178</td></tr>
-          <tr class="break"><td><strong>Net effective/yr</strong></td><td><strong>~$3,519</strong></td><td><strong>~$4,103</strong></td></tr>
-          <tr><td><strong>Payback</strong></td><td><strong>~5.4 yr</strong></td><td><strong>~6.4 yr</strong></td></tr>
-          <tr><td><strong>10yr return (net)</strong></td><td><strong>+$19,491</strong></td><td><strong>+$13,970</strong></td></tr>
-        </tbody>
-      </table>
+  <div class="table-wrap">
+    <div style="padding:28px 32px 28px;">
+      <div class="timeline">
+        <div class="timeline-row">
+          <span class="year-badge now">NOW</span>
+          <span class="milestone">System purchased &amp; installed</span>
+          <span class="number neg">−$19,460</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 1</span>
+          <span class="milestone">First year savings (less $1,175 offset interest)</span>
+          <span class="number neg">−$16,341</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 3</span>
+          <span class="milestone">Offset deficit under $10k — interest cost falling fast</span>
+          <span class="number neg">−$9,527</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 5</span>
+          <span class="milestone">Nearly there — only $1,866 left to recover</span>
+          <span class="number neg">−$1,866</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge breakeven">YR 6</span>
+          <span class="milestone"><strong>Break-even — offset fully rebuilt.</strong> System has paid for itself.</span>
+          <span class="number pos">+$2,315</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 7</span>
+          <span class="milestone">Pure profit begins — $4,294/yr with zero interest drag</span>
+          <span class="number pos">+$6,609</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 10</span>
+          <span class="milestone"><strong>A decade in — nearly $20K ahead</strong></span>
+          <span class="number pos">+$19,491</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 15</span>
+          <span class="milestone">System has returned over 2× the original investment</span>
+          <span class="number pos">+$40,961</span>
+        </div>
+        <div class="timeline-row">
+          <span class="year-badge">YR 20</span>
+          <span class="milestone"><strong>$62K+ net benefit over system lifetime</strong></span>
+          <span class="number pos">+$62,431</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="insight">
-    <strong>Modelling assumptions:</strong> Amber blended 33.6c/kWh (actual), peak window 54.0c/kWh (actual), solar sponge 16.8c/kWh (actual), off-peak 22.7c/kWh (actual). Feed-in 5c/kWh. Battery round-trip 90%. Mortgage offset rate 6.04% variable. Fixed charges excluded. No degradation or tariff inflation modelled. <strong>NRG's payback suffers disproportionately from offset cost due to the 40% larger upfront hit to the offset account.</strong>
+  <div class="insight good">
+    <strong>Effective payback: 5.4 years.</strong> If you ignored offset cost, the simple payback would be 4.5 years ($19,460 ÷ $4,294). The offset interest adds about 11 months. But by Year 6, the system is fully paid off and every dollar after that is profit. Over 20 years, a $19,460 investment returns <strong>$62,431 — a 3.2× return</strong>, completely tax-free.
   </div>
 </section>
 
-<!-- ═══ Financial Forecast: Head to Head ═══ -->
+<!-- ═══ Risks ═══ -->
 <section class="section">
   <div class="section-header">
-    <div class="section-label">Head to Head</div>
-    <div class="section-title">Financial Forecast — Glow vs NRG <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">WITH OFFSET COST</span></div>
+    <div class="section-label">Risks</div>
+    <div class="section-title">What Could Change the Numbers</div>
   </div>
 
-  <p style="font-size:0.88rem;color:var(--body);margin-bottom:24px;">The question: <strong>is NRG's $7,760 premium worth it?</strong> Below: year-by-year cash flows including offset interest cost, showing when each system recovers its real cost.</p>
-
-  <!-- Key metric cards -->
-  <div class="cards cols-2">
-    <div class="card winner">
-      <div class="card-winner-tag">Faster Payback</div>
-      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Glow Option 2</div>
-      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">$19,460</div>
-      <div style="font-size:0.82rem;color:var(--body);">14.25 kW · GoodWe 20kW · 32kWh</div>
-    </div>
-    <div class="card">
-      <div class="label" style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">NRG Solar</div>
-      <div style="font-family:var(--font-body);font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:4px;">$27,220</div>
-      <div style="font-size:0.82rem;color:var(--body);">19.38 kW · Sigenergy 15kW · 36kWh</div>
-      <div style="font-size:0.8rem;color:var(--warning);margin-top:4px;">+$7,760 premium</div>
-    </div>
-  </div>
-
-  <!-- Annual Savings -->
   <div class="table-wrap">
-    <div style="padding:20px 24px 8px;">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Annual Savings Breakdown (Realistic Scenario)</div>
-      <div style="font-size:0.82rem;color:var(--body);margin-bottom:12px;">~10,000 kWh/yr · Amber blended 33.6c/kWh · Peak 54.0c/kWh · Feed-in ~5c/kWh</div>
-    </div>
     <div class="table-scroll">
     <table>
-      <thead><tr><th>Revenue Stream</th><th>Glow Opt 2</th><th>NRG Solar</th><th style="text-align:right;">Edge</th></tr></thead>
+      <thead><tr><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Mitigation</th></tr></thead>
       <tbody>
-        <tr><td><strong>Self-consumption</strong></td><td>$2,419/yr</td><td>$2,856/yr</td><td class="win">NRG +$437</td></tr>
-        <tr><td><strong>Peak avoidance (5–9pm)</strong></td><td>$1,350/yr</td><td>$1,620/yr</td><td class="win">NRG +$270</td></tr>
-        <tr><td><strong>Export revenue</strong></td><td>$525/yr</td><td>$805/yr</td><td class="win">NRG +$280</td></tr>
-        <tr class="break"><td><strong>Gross Annual Savings</strong></td><td><strong>$4,294/yr</strong></td><td><strong>$5,281/yr</strong></td><td class="win">NRG +$987</td></tr>
-        <tr><td><strong>Offset interest cost (avg, first 5yr)</strong></td><td class="warn-text">−$775/yr</td><td class="warn-text">−$1,178/yr</td><td class="win">Glow −$403</td></tr>
-        <tr class="break highlight-row"><td><strong>Effective Net (first 5yr avg)</strong></td><td><strong>$3,519/yr</strong></td><td><strong>$4,103/yr</strong></td><td class="win">NRG +$584</td></tr>
+        <tr>
+          <td><strong>Amber changes pricing model</strong></td>
+          <td class="warn-text">High — peak/off-peak spread could narrow</td>
+          <td>Low–Med</td>
+          <td>Amber's model is wholesale pass-through; structural advantage likely persists</td>
+        </tr>
+        <tr>
+          <td><strong>Interest rate falls</strong></td>
+          <td>Offset cost decreases → faster payback (good)</td>
+          <td>Medium</td>
+          <td>RBA cycle — even at 4%, payback only improves to ~5.0yr</td>
+        </tr>
+        <tr>
+          <td><strong>Interest rate rises</strong></td>
+          <td class="warn-text">Offset cost increases → slower payback</td>
+          <td>Low–Med</td>
+          <td>At 8%, payback extends to ~6.0yr — still within system warranty</td>
+        </tr>
+        <tr>
+          <td><strong>Lower-than-expected summer usage</strong></td>
+          <td class="warn-text">Less self-consumption → lower savings</td>
+          <td>Low</td>
+          <td>Pool + AC + sauna make high summer usage near-certain</td>
+        </tr>
+        <tr>
+          <td><strong>Feed-in tariff drops further</strong></td>
+          <td>Export revenue falls — but this is only 12% of savings</td>
+          <td>Medium</td>
+          <td>Export is the smallest revenue stream; self-consumption is the real value</td>
+        </tr>
+        <tr>
+          <td><strong>Inverter failure after warranty (10yr)</strong></td>
+          <td class="warn-text">~$2,000–3,000 replacement cost</td>
+          <td>Medium</td>
+          <td>GoodWe has established AU support; budget for replacement in Year 10–12</td>
+        </tr>
+        <tr>
+          <td><strong>Battery degradation</strong></td>
+          <td>~2%/yr capacity loss → gradually lower peak avoidance</td>
+          <td>Certain</td>
+          <td>Modelled in; 80% capacity at Year 10 still covers winter peak window</td>
+        </tr>
       </tbody>
     </table>
-    </div>
-    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
-      <strong>Key finding:</strong> NRG generates $987/yr more gross savings, but its $7,760 higher upfront cost means $403/yr more in offset interest. NRG's net advantage is $584/yr — meaning it takes <strong>13.3 years</strong> for NRG to recoup its premium over Glow. If you stay 20+ years, NRG wins. If you're uncertain beyond 10 years, Glow is the safer bet.
-    </div>
-  </div>
-
-  <!-- Year-by-Year Cash Flow -->
-  <div class="table-wrap">
-    <div style="padding:20px 24px 8px;">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Year-by-Year: Net Position (After Offset Cost)</div>
-      <div style="font-size:0.82rem;color:var(--body);margin-bottom:12px;">Each year's net = gross savings − offset interest (declining as balance rebuilds)</div>
-    </div>
-    <div class="table-scroll">
-    <table>
-      <thead><tr><th>Year</th><th>Glow Gross</th><th>Glow Offset Cost</th><th>Glow Net</th><th>Glow Cumulative</th><th style="text-align:right;">NRG Cumulative</th></tr></thead>
-      <tbody>
-        <tr><td>0</td><td>—</td><td>—</td><td class="mono">−$19,460</td><td class="mono warn-text">−$19,460</td><td class="mono warn-text">−$27,220</td></tr>
-        <tr><td>1</td><td>$4,294</td><td class="warn-text">−$1,175</td><td class="mono">$3,119</td><td class="mono warn-text">−$16,341</td><td class="mono warn-text">−$23,583</td></tr>
-        <tr><td>2</td><td>$4,294</td><td class="warn-text">−$987</td><td class="mono">$3,307</td><td class="mono warn-text">−$13,034</td><td class="mono warn-text">−$19,726</td></tr>
-        <tr><td>3</td><td>$4,294</td><td class="warn-text">−$787</td><td class="mono">$3,507</td><td class="mono warn-text">−$9,527</td><td class="mono warn-text">−$15,637</td></tr>
-        <tr><td>4</td><td>$4,294</td><td class="warn-text">−$576</td><td class="mono">$3,718</td><td class="mono warn-text">−$5,809</td><td class="mono warn-text">−$11,300</td></tr>
-        <tr class="highlight-row"><td><strong>5</strong></td><td><strong>$4,294</strong></td><td><strong class="warn-text">−$351</strong></td><td class="mono"><strong>$3,943</strong></td><td class="mono warn-text"><strong>−$1,866</strong></td><td class="mono warn-text"><strong>−$6,702</strong></td></tr>
-        <tr><td>6</td><td>$4,294</td><td class="warn-text">−$113</td><td class="mono">$4,181</td><td class="mono win">+$2,315</td><td class="mono warn-text">−$1,826</td></tr>
-        <tr><td>7</td><td>$4,294</td><td>—</td><td class="mono">$4,294</td><td class="mono win">+$6,609</td><td class="mono win">+$3,455</td></tr>
-        <tr><td>8</td><td>$4,294</td><td>—</td><td class="mono">$4,294</td><td class="mono win">+$10,903</td><td class="mono win">+$8,736</td></tr>
-        <tr><td>9</td><td>$4,294</td><td>—</td><td class="mono">$4,294</td><td class="mono win">+$15,197</td><td class="mono win">+$14,017</td></tr>
-        <tr class="break"><td><strong>10</strong></td><td><strong>$4,294</strong></td><td><strong>—</strong></td><td class="mono"><strong>$4,294</strong></td><td class="mono win"><strong>+$19,491</strong></td><td class="mono win"><strong>+$19,298</strong></td></tr>
-      </tbody>
-    </table>
-    </div>
-    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
-      <strong>Glow break-even: Year 6</strong> (offset fully rebuilt). <strong>NRG break-even: Year 7.</strong><br><br>
-      <strong>At Year 10:</strong> Glow is <strong>$19,491 ahead</strong> vs NRG $19,298 — effectively tied. NRG's higher gross savings are almost entirely consumed by the extra offset interest on its $7,760 premium.<br><br>
-      <strong>Year 15 projection:</strong> Glow ~$40,961, NRG ~$45,703. NRG pulls ahead by ~$4,700 as offset costs disappear for both.<br>
-      <strong>Year 20:</strong> Glow ~$62,431, NRG ~$72,108. NRG leads by ~$9,700.<br><br>
-      <strong>The verdict:</strong> For a 10-year horizon, the systems are near-identical financially. For 15+ years, NRG's better equipment and larger array win out. But you need to stay in the house long enough to collect.
-    </div>
-  </div>
-
-  <!-- Break-Even Visual -->
-  <div class="table-wrap">
-    <div style="padding:20px 24px 8px;">
-      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Cumulative Net Position (includes offset interest)</div>
-    </div>
-    <div style="padding:0 24px 20px;">
-      <div class="breakeven-viz">
-        <span class="year">Yr 0</span> Glow <span class="neg">−$19,460</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="neg">−$27,220</span><br><br>
-        <span class="year">Yr 6</span> Glow <span class="pos">+$2,315</span> <span class="tagline">← GLOW BREAK-EVEN</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="neg">−$1,826</span><br><br>
-        <span class="year">Yr 7</span> Glow <span class="pos">+$6,609</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="pos">+$3,455</span> <span class="tagline">← NRG BREAK-EVEN</span><br><br>
-        <span class="year">Yr 10</span> Glow <span class="pos">+$19,491</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="pos">+$19,298</span> <span class="tagline">← TIED</span><br><br>
-        <span class="year">Yr 15</span> Glow <span class="pos">+$40,961</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="pos">+$45,703</span> <span class="tagline">← NRG +$4,700</span><br><br>
-        <span class="year">Yr 20</span> Glow <span class="pos">+$62,431</span><br>
-        <span style="margin-left:8px;">NRG</span> <span class="pos">+$72,108</span> <span class="tagline">← NRG +$9,700</span>
-      </div>
-      <div style="font-size:0.82rem;color:var(--body);">Offset interest is the great equaliser. NRG's premium takes 13+ years to pay back. Both systems are excellent — the question is timeline, not quality.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ Peak Avoidance Detail ═══ -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-label">The Advantage</div>
-    <div class="section-title">Battery Economics — Peak Avoidance</div>
-  </div>
-
-  <div class="table-wrap">
-    <div style="padding:20px 24px 8px;">
-      <div style="font-size:0.88rem;color:var(--body);">Your Amber data (Jul 8–14) confirms the battery thesis:</div>
-    </div>
-    <div class="table-scroll">
-    <table>
-      <thead><tr><th>Metric</th><th>Your Data</th><th>With Glow 32kWh</th><th>With NRG 36kWh</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Nighttime usage (6pm–6am)</strong></td><td>34.2% of kWh</td><td>—</td><td>—</td></tr>
-        <tr><td><strong>Nighttime COST share</strong></td><td class="warn-text">52.6% of bill</td><td>—</td><td>—</td></tr>
-        <tr><td><strong>Peak window (5–9pm) kWh</strong></td><td>6.9 kWh/day</td><td>Covered by battery</td><td>Covered by battery</td></tr>
-        <tr><td><strong>Peak window avg rate</strong></td><td class="warn-text">54.0c/kWh</td><td>—</td><td>—</td></tr>
-        <tr><td><strong>7pm spike rate</strong></td><td class="warn-text">89.7c/kWh</td><td>—</td><td>—</td></tr>
-        <tr><td><strong>Peak cost avoided/yr</strong></td><td>—</td><td>~$1,350</td><td class="win">~$1,620</td></tr>
-        <tr><td><strong>Summer peak (pool+AC est.)</strong></td><td>8–12 kWh/day</td><td>May exhaust battery</td><td class="win">36kWh rides through</td></tr>
-      </tbody>
-    </table>
-    </div>
-    <div style="padding:12px 24px 20px;font-size:0.84rem;color:var(--body);">
-      <strong>Why the battery matters more than the panels:</strong> Solar generates during cheap solar sponge hours (16.8c/kWh). The battery shifts that energy to the peak window (54c/kWh) — a 3.2× value multiplier. Without a battery, you'd export at 5c and import at 54c. The spread is the entire business case.<br><br>
-      <strong>NRG's 36kWh edge:</strong> On a 40°C summer day with pool + AC + sauna, evening draw could hit 10–12 kWh. Glow's 32kWh battery (~29kWh usable) would be depleted by morning. NRG's 36kWh gives a critical buffer. But in winter, both systems have ample capacity.
-    </div>
-  </div>
-</section>
-
-<!-- ═══ Recommendation ═══ -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-label">The Call</div>
-    <div class="section-title">Recommendation <span class="badge-new" style="background:rgba(27,138,61,0.1);color:var(--success);">UPDATED 14 JUL</span></div>
-  </div>
-
-  <div class="verdict">
-    <div class="verdict-badge">Our Pick — Confirmed with Actual Data</div>
-    <h2>Glow Option 2 — $19,460</h2>
-    <div class="price">5.4yr payback · $19,491 net by Year 10</div>
-    <p style="text-align:center;font-size:0.9rem;color:var(--body);max-width:540px;margin:8px auto 24px;">The actual Amber rates and offset cost modelling confirm Glow as the right choice. Here's why:</p>
-    <ol>
-      <li><strong>Faster offset recovery.</strong> Glow repays the offset account in Year 6. NRG takes until Year 7. The $7,760 you save upfront stays in offset earning 6.04% from day one — that's $469/yr in avoided interest just from choosing the cheaper system.</li>
-      <li><strong>Actual rates improved the case.</strong> The blended rate came in at 33.6c (vs 30c assumed), boosting self-consumption savings by 12%. The peak window is a predictable 54c — not the volatile 40–60c range we feared. Both changes favour the system you can get sooner.</li>
-      <li><strong>20kW inverter is future-proof.</strong> Lincoln's 3-phase upgrade eliminates the bottleneck concern. Glow's 20kW inverter has more headroom than NRG's 15kW for pool + sauna + future EV.</li>
-      <li><strong>Local installer, established support.</strong> Glow has operated in SA since 1997 with a 10-year workmanship warranty. GoodWe has mature Australian support. NRG's Sigenergy is technically superior but newer to market.</li>
-      <li><strong>At 10 years, they tie.</strong> The offset cost equalises the financial outcome. NRG doesn't pull meaningfully ahead until Year 13+. If you're still at Mitcham in 2040, NRG would have been the better long-term bet — but that's a long time to wait for a payoff.</li>
-    </ol>
-
-    <div class="neg-notes">
-      <p style="font-size:0.88rem;color:var(--body);"><strong>What you give up vs NRG:</strong></p>
-      <ul>
-        <li>5.1 kW less solar (14.25 vs 19.38 kW)</li>
-        <li>4 kWh less battery (32 vs 36 kWh) — marginal in winter, noticeable in peak summer</li>
-        <li>Dual-glass panels — Jinko's standard backsheet is fine for Adelaide but Trina's dual-glass is objectively better</li>
-        <li>Native Amber SmartShift — GoodWe needs Home Assistant/ChargeHQ for dynamic dispatch</li>
-        <li>Modular battery expansion — GoodWe is a fixed stack</li>
-        <li>Built-in blackout protection and EV charger readiness</li>
-      </ul>
-      <p style="font-size:0.88rem;color:var(--body);margin-top:16px;"><strong>If you want the premium option:</strong> NRG's Sigenergy ecosystem is genuinely better engineered — dual-glass panels, modular battery, native Amber integration, EV-ready. If this is your 20+ year forever home and you value future-proofing over near-term cash flow, NRG is defensible. But it costs $7,760 more today and doesn't pull ahead financially until Year 13.</p>
-      <p style="font-size:0.88rem;color:var(--success);margin-top:16px;"><strong>Bottom line:</strong> Glow at $19,460 is excellent value from a local installer with a 20kW inverter, 32kWh battery, and solid Jinko panels. The offset cost analysis removes NRG's financial edge — they tie at Year 10. Glow is the lower-risk choice with faster payback. <strong>Go with Glow.</strong></p>
     </div>
   </div>
 </section>
 
 <!-- ═══ Footer ═══ -->
 <footer class="site-footer">
-  <p>Data: Amber API (6 days actual usage, Jul 8–14 2026) · OpenSolar Glow quote (#9416550) · NRG Pylon proposal · BankSA offset rate 6.04% · Updated 14 July 2026</p>
+  <p>Data: Amber API (6 days actual usage, Jul 8–14 2026) · OpenSolar Glow quote #9416550 · BankSA offset rate 6.04% · Prepared 14 July 2026</p>
   <p style="margin-top:4px;">Not financial advice. Payback estimates are modelled projections. Actual savings depend on usage, Amber pricing, weather, and interest rate movements.</p>
+  <p style="margin-top:4px;">Assumptions: 10,000 kWh/yr realistic usage · Blended 33.6c/kWh · Peak 54.0c/kWh · Feed-in 5c/kWh · No tariff inflation · No degradation (except where noted) · Fixed supply charges excluded</p>
   <p style="margin-top:16px;font-family:var(--font-display);font-size:1rem;color:var(--coral);">Gary (Josh's P.A)</p>
 </footer>
 
