@@ -344,6 +344,32 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   </div>
 </div>
 
+<!-- ═══ SUPPLIER BREAKDOWN TABLE ═══ -->
+<section class="gsap-reveal">
+  <div class="section-header">
+    <div class="kicker">Spending</div>
+    <h2>By Supplier</h2>
+  </div>
+  <div class="table-wrap">
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Supplier</th>
+          <th>Amount</th>
+          <th>% of Spend</th>
+        </tr>
+      </thead>
+      <tbody id="supplierTable">
+      </tbody>
+    </table>
+    </div>
+    <div style="padding:12px 24px;font-size:0.78rem;color:var(--muted);border-top:1px solid var(--hairline-soft);">
+      Total spend this period: <strong style="color:var(--ink);" id="supplierTotal">—</strong>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ FORTNIGHTLY TABLE ═══ -->
 <section class="gsap-reveal">
   <div class="section-header">
@@ -450,6 +476,7 @@ function renderAll() {
   buildExpenseChart(pd);
   buildIncomeChart(pd);
   buildLoanChart(pd);
+  buildSupplierTable(pd);
   buildTable();
 }
 
@@ -628,6 +655,25 @@ function buildLoanChart(pd) {
         tooltip: { callbacks: { label: ctx => '  $' + ctx.raw.toLocaleString() + '  ' } }
       }
     }
+  });
+}
+
+function buildSupplierTable(pd) {
+  const tbody = document.getElementById('supplierTable');
+  const totalEl = document.getElementById('supplierTotal');
+  tbody.innerHTML = '';
+  if (!pd.supplierData || !pd.supplierData.suppliers || pd.supplierData.suppliers.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:32px;">No supplier data for this period</td></tr>';
+    totalEl.textContent = '—';
+    return;
+  }
+  const sd = pd.supplierData;
+  totalEl.textContent = '$' + sd.totalSpend.toLocaleString();
+  sd.suppliers.forEach(s => {
+    const pct = sd.totalSpend > 0 ? ((s.amount / sd.totalSpend) * 100).toFixed(1) : '0.0';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><strong>${s.name}</strong></td><td>$${s.amount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td><td>${pct}%</td>`;
+    tbody.appendChild(tr);
   });
 }
 
