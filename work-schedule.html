@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hancock Family · Work Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-sm: 10px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.05);
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 56px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--canvas);
+  font-family: var(--font-body);
+  color: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 920px; margin: 0 auto; padding: var(--space-lg) 20px var(--space-xl); }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: var(--space-xl) 0 var(--space-lg);
+}
+.hero .kicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: var(--space-sm);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.hero .subtitle {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: var(--space-sm);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section header */
+.section { margin-top: var(--space-lg); }
+.section-header { margin-bottom: var(--space-md); }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 4px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* Cards */
+.cards { display: grid; gap: var(--space-md); }
+.cards.cols-2 { grid-template-columns: 1fr; }
+@media (min-width: 700px) { .cards.cols-2 { grid-template-columns: 1fr 1fr; } }
+.cards.cols-3 { grid-template-columns: 1fr; }
+@media (min-width: 700px) { .cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-card);
+}
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-sm);
+}
+.card .meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: var(--space-sm);
+}
+
+/* Day badges */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+.badge-office { background: #f0e8e2; color: #8b5e3c; }
+.badge-wfh { background: #e2f0e4; color: #1b6d30; }
+.badge-off { background: #ece9e4; color: #8c887e; }
+.badge-ashford { background: #e8e2f0; color: #5b3c8b; }
+.badge-home { background: #f0eee6; color: #6b6040; }
+
+/* Day card */
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-rest);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.day-card .day-label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.day-card .day-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.day-card .day-role {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.5;
+}
+.day-card .day-time {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+.day-card .day-divider {
+  border: none;
+  border-top: 1px solid var(--hairline-soft);
+  margin: 4px 0;
+}
+
+/* Weekly grid */
+.week-grid {
+  display: grid;
+  gap: var(--space-sm);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 550px) { .week-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 800px) { .week-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Data tables */
+.table-wrap { margin-top: var(--space-sm); }
+.table-scroll { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--hairline);
+}
+tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hairline-soft);
+  color: var(--body);
+  vertical-align: top;
+}
+tbody td strong { color: var(--ink); font-weight: 600; }
+tbody tr:last-child td { border-bottom: none; }
+td.win { color: var(--success); font-weight: 600; }
+td.highlight { background: #fdfaf5; }
+
+/* Insight boxes */
+.insights {
+  display: grid;
+  gap: var(--space-sm);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 600px) { .insights { grid-template-columns: 1fr 1fr; } }
+.insight {
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+.insight .insight-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.insight .insight-body h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.insight .insight-body p {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.5;
+}
+
+/* Footnote */
+.footnote {
+  margin-top: var(--space-lg);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Tuesday toggle */
+.week-toggle {
+  display: flex;
+  gap: 6px;
+  margin-bottom: var(--space-md);
+}
+.week-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.week-btn.active {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+.week-btn:hover:not(.active) {
+  background: var(--surface-alt);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="kicker">Mitcham · Stepney · Ashford · Rose Park</div>
+  <h1>Hancock Family<br>Work Schedule</h1>
+  <p class="subtitle">Josh's 4-day office/WFH split &amp; Amy's rotating roster — same rhythm, every week.</p>
+</section>
+
+<!-- Weekly Rhythm -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Weekly Rhythm</div>
+    <div class="section-title">Every Week, Same Pattern</div>
+  </div>
+  <div class="week-grid">
+    <div class="day-card">
+      <span class="day-label">Monday</span>
+      <div class="day-row"><span class="badge badge-office">Office</span><span class="badge badge-ashford">Amy Works</span></div>
+      <hr class="day-divider">
+      <div class="day-role"><strong>AM:</strong> Josh drops Toby (Rose Park) → Noah (8:45)</div>
+      <div class="day-time">Desk ~9:15am</div>
+      <div class="day-role"><strong>PM:</strong> Amy → Noah (3:15). Josh → Toby (~5:25)</div>
+    </div>
+    <div class="day-card">
+      <span class="day-label">Tuesday</span>
+      <div class="day-row"><span class="badge badge-wfh">WFH</span><span class="badge badge-ashford">Amy Works*</span></div>
+      <hr class="day-divider">
+      <div class="day-role"><strong>AM:</strong> Josh drops Toby → Noah (8:45)</div>
+      <div class="day-time">Home desk ~9:00am</div>
+      <div class="day-role"><strong>PM:</strong> Amy → Toby (~2:50) → Noah (3:15)</div>
+    </div>
+    <div class="day-card">
+      <span class="day-label">Wednesday</span>
+      <div class="day-row"><span class="badge badge-office">Office</span><span class="badge badge-home">Amy Home</span></div>
+      <hr class="day-divider">
+      <div class="day-role"><strong>AM:</strong> Amy drops Noah (8:45)</div>
+      <div class="day-role"><strong>PM:</strong> Amy → Noah (3:15)</div>
+    </div>
+    <div class="day-card">
+      <span class="day-label">Thu + Fri</span>
+      <div class="day-row"><span class="badge badge-off">Off</span><span class="badge badge-home">Amy Home</span></div>
+      <hr class="day-divider">
+      <div class="day-role">Family days. No work, no rush.</div>
+    </div>
+  </div>
+</section>
+
+<!-- The Tuesday Split -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Tuesday Variable</div>
+    <div class="section-title">Amy Works Alternate Tuesdays</div>
+  </div>
+  <div class="cards cols-2">
+    <div class="card">
+      <h3>Week A · Amy Works</h3>
+      <div class="meta">6:30am – 2:30pm · Ashford Hospital</div>
+      <table>
+        <tbody>
+          <tr><td><strong>Amy finishes</strong></td><td>2:30pm</td></tr>
+          <tr><td><strong>Toby pickup</strong></td><td>~2:50pm · Rose Park</td></tr>
+          <tr><td><strong>Noah pickup</strong></td><td>3:15pm · Mitcham Primary</td></tr>
+          <tr><td><strong>Toby's childcare</strong></td><td>~6.8 hrs ✓ short</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Week B · Amy Off</h3>
+      <div class="meta">Family night at Glenelg East</div>
+      <table>
+        <tbody>
+          <tr><td><strong>Morning</strong></td><td>Amy drops Toby at Donna's (Glenelg East), Noah (8:45)</td></tr>
+          <tr><td><strong>Afternoon</strong></td><td>Amy picks up Noah (3:15), then Toby from Donna's</td></tr>
+          <tr><td><strong>Evening</strong></td><td>Family night · Glenelg East</td></tr>
+          <tr><td><strong>Josh</strong></td><td>WFH · finishes at home</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Toby's Week -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Toby's Week</div>
+    <div class="section-title">Where Toby Goes</div>
+  </div>
+  <div class="table-wrap"><div class="table-scroll">
+  <table>
+    <thead><tr><th>Day</th><th>Where</th><th>Hours</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mon</strong></td><td>Childcare · Rose Park</td><td>~8:10 – 5:25 <span style="color:var(--warning);">(~9.2 hrs)</span></td></tr>
+      <tr><td><strong>Tue</strong> (Week A)</td><td>Childcare · Rose Park</td><td class="win">~8:00 – 2:50 (~6.8 hrs)</td></tr>
+      <tr><td><strong>Tue</strong> (Week B)</td><td>Auntie Donna's · Glenelg East</td><td>Day</td></tr>
+      <tr><td><strong>Wed – Fri</strong></td><td>Home</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+</section>
+
+<!-- Why It Works -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Logic</div>
+    <div class="section-title">Why This Works</div>
+  </div>
+  <div class="insights">
+    <div class="insight">
+      <div class="insight-icon">🔄</div>
+      <div class="insight-body">
+        <h4>Same rhythm, every single week</h4>
+        <p>Mon office, Tue WFH, Wed office, Thu–Fri off. No fortnightly switching, no mental load remembering which week is which.</p>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🏃</div>
+      <div class="insight-body">
+        <h4>Amy only does Rose Park once a fortnight</h4>
+        <p>On her work Tuesday, it's a clean loop: Ashford → Toby (2:50) → Noah (3:15) → home. Every other day, the childcare run is Josh's or not needed.</p>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">⏱️</div>
+      <div class="insight-body">
+        <h4>Toby gets one long day, one short day</h4>
+        <p>Monday is the trade-off: ~9.2 hrs at childcare. Tuesday is ~6.8 hrs. Wed–Fri at home. No OSHC required.</p>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🏡</div>
+      <div class="insight-body">
+        <h4>Josh's WFH day lands midweek</h4>
+        <p>Tuesday from home breaks up the commute, gives presence for the morning chaos, and means Toby's childcare day is short on Amy's work weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="footnote">Prepared by Gary · 18 July 2026 · <span style="color:var(--ink);">Hancock Family</span></p>
+
+</div>
+
+</body>
+</html>
