@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hancock Recipe Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --canvas: #faf9f5;
+    --surface: #ffffff;
+    --surface-alt: #f0eeea;
+    --ink: #141413;
+    --body: #5c5a55;
+    --muted: #94918a;
+    --hairline: #e4e1db;
+    --hairline-soft: #ece9e4;
+    --coral: #cc785c;
+    --coral-hover: #a9583e;
+    --success: #1b8a3d;
+    --amber: #c2680c;
+    --radius: 20px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.06);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 48px 0 32px;
+    text-align: center;
+  }
+  .hero-kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* ── Search & Filters (sticky) ── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: linear-gradient(180deg, var(--canvas) 80%, rgba(250,249,245,0));
+    padding: 0 0 16px;
+  }
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-wrap:focus-within {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(204,120,92,0.1);
+  }
+  .search-icon {
+    color: var(--muted);
+    flex-shrink: 0;
+    display: flex;
+  }
+  .search-input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    min-width: 0;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-clear {
+    display: none;
+    border: none;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+  .search-clear:hover { color: var(--ink); }
+  .search-clear.visible { display: block; }
+  .result-count {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-left: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* ── Filter chips ── */
+  .filter-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--body);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chip:hover {
+    border-color: var(--coral);
+    color: var(--coral);
+  }
+  .chip.active {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #fff;
+  }
+  .chip-clear-all {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    border: none;
+    background: none;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    display: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chip-clear-all.visible { display: block; }
+
+  /* ── Card Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-bottom: 60px;
+  }
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  }
+  @media (max-width: 520px) {
+    .grid { grid-template-columns: 1fr; gap: 14px; }
+    .container { padding: 0 14px; }
+    .hero { padding: 32px 0 24px; }
+  }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  .card:active { transform: scale(0.985); }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--surface-alt);
+  }
+  .card-body {
+    padding: 14px 16px 16px;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .card-meta-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .card-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: var(--surface-alt);
+    color: var(--coral);
+  }
+
+  /* ── Empty state ── */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.6; }
+  .empty-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .empty-text { color: var(--muted); font-size: 0.9rem; }
+
+  /* ── Recipe Detail Modal ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(20,20,19,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius) var(--radius) 0 0;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal-overlay.open .modal {
+    transform: translateY(0);
+  }
+  .modal-handle {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 4px;
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 2;
+  }
+  .modal-handle-bar {
+    width: 36px;
+    height: 4px;
+    border-radius: 100px;
+    background: var(--hairline);
+  }
+  .modal-close {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    font-size: 1.1rem;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: var(--surface-alt); color: var(--ink); }
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+    background: var(--surface-alt);
+  }
+  .modal-content { padding: 24px 24px 40px; }
+  @media (max-width: 520px) {
+    .modal-content { padding: 20px 18px 36px; }
+  }
+  .modal-source {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 8px;
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .modal-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .modal-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .modal-meta-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .modal-meta-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .modal-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 5px 10px;
+    border-radius: 100px;
+    background: var(--surface-alt);
+    color: var(--coral);
+    border: 1px solid var(--hairline);
+  }
+  .modal-section-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+  .modal-section-title:first-of-type { margin-top: 0; }
+  .ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ingredient-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--body);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .ingredient-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+  .method-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    counter-reset: step;
+  }
+  .method-list li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    font-size: 0.92rem;
+    color: var(--body);
+    line-height: 1.6;
+  }
+  .method-list li::before {
+    content: counter(step);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    color: var(--coral);
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .modal-notes {
+    background: var(--surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--body);
+    font-style: italic;
+  }
+  .modal-notes-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="hero">
+    <div class="hero-kicker">The Hancock Kitchen</div>
+    <h1>Recipe Book</h1>
+    <p class="hero-sub">Send me recipes and I'll add them here — photos, links, or just type them out.</p>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search by name, ingredient, or tag..." autocomplete="off">
+      <button class="search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="filter-scroll" id="filterScroll"></div>
+    <button class="chip-clear-all" id="clearFilters">Clear filters</button>
+  </div>
+
+  <div class="grid" id="recipeGrid"></div>
+</div>
+
+<!-- Recipe Detail Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-handle"><div class="modal-handle-bar"></div></div>
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ── Load recipes ──
+let recipes = [];
+let activeTags = new Set();
+
+async function init() {
+  try {
+    const res = await fetch('recipes/data.json');
+    recipes = await res.json();
+  } catch(e) {
+    recipes = [];
+  }
+  buildFilters();
+  render();
+}
+
+// ── Extract all unique tags ──
+function getAllTags() {
+  const tagSet = new Set();
+  recipes.forEach(r => r.tags.forEach(t => tagSet.add(t.toLowerCase())));
+  return [...tagSet].sort();
+}
+
+// ── Build filter chips ──
+function buildFilters() {
+  const tags = getAllTags();
+  const scroll = document.getElementById('filterScroll');
+  scroll.innerHTML = tags.map(t => 
+    `<button class="chip" data-tag="${t}" onclick="toggleTag('${t}')">${t}</button>`
+  ).join('');
+  document.getElementById('clearFilters').addEventListener('click', clearFilters);
+}
+
+// ── Toggle tag filter ──
+function toggleTag(tag) {
+  if (activeTags.has(tag)) {
+    activeTags.delete(tag);
+  } else {
+    activeTags.add(tag);
+  }
+  render();
+}
+
+function clearFilters() {
+  activeTags.clear();
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  render();
+}
+
+// ── Filter & search ──
+function getFiltered() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  let filtered = recipes;
+
+  // Tag filter
+  if (activeTags.size > 0) {
+    filtered = filtered.filter(r => 
+      r.tags.some(t => activeTags.has(t.toLowerCase()))
+    );
+  }
+
+  // Text search
+  if (query) {
+    filtered = filtered.filter(r => {
+      const haystack = [
+        r.title, r.source, ...r.tags, ...r.ingredients, r.notes || ''
+      ].join(' ').toLowerCase();
+      return haystack.includes(query);
+    });
+  }
+
+  return filtered;
+}
+
+// ── Render ──
+function render() {
+  const filtered = getFiltered();
+  const grid = document.getElementById('recipeGrid');
+
+  // Update counts
+  document.getElementById('resultCount').textContent = 
+    filtered.length !== recipes.length ? `${filtered.length}/${recipes.length}` : '';
+
+  // Update search clear
+  const clearBtn = document.getElementById('searchClear');
+  if (document.getElementById('searchInput').value) {
+    clearBtn.classList.add('visible');
+  } else {
+    clearBtn.classList.remove('visible');
+  }
+
+  // Update filter clear
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  if (activeTags.size > 0 || document.getElementById('searchInput').value) {
+    clearFiltersBtn.classList.add('visible');
+  } else {
+    clearFiltersBtn.classList.remove('visible');
+  }
+
+  // Update chip states
+  document.querySelectorAll('.chip').forEach(chip => {
+    const tag = chip.dataset.tag;
+    chip.classList.toggle('active', activeTags.has(tag));
+  });
+
+  // Empty state
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🍽️</div>
+        <div class="empty-title">No recipes found</div>
+        <p class="empty-text">${recipes.length === 0 ? 'Send me a recipe and I\'ll add it here.' : 'Try a different search or clear your filters.'}</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render cards
+  grid.innerHTML = filtered.map((r, i) => `
+    <div class="card" onclick="openRecipe('${r.id}')">
+      <img class="card-img" src="${r.image}" alt="${r.title}" loading="${i < 6 ? 'eager' : 'lazy'}" width="400" height="300">
+      <div class="card-body">
+        <div class="card-title">${r.title}</div>
+        <div class="card-meta">
+          ${r.prep_time ? `<span>Prep ${r.prep_time}</span>` : ''}
+          ${r.prep_time && r.cook_time ? '<span class="card-meta-dot"></span>' : ''}
+          ${r.cook_time ? `<span>Cook ${r.cook_time}</span>` : ''}
+          ${(r.prep_time || r.cook_time) && r.servings ? '<span class="card-meta-dot"></span>' : ''}
+          ${r.servings ? `<span>Serves ${r.servings}</span>` : ''}
+        </div>
+        <div class="card-tags">
+          ${r.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Modal ──
+function openRecipe(id) {
+  const r = recipes.find(rcp => rcp.id === id);
+  if (!r) return;
+
+  document.getElementById('modalImg').src = r.image;
+  document.getElementById('modalImg').alt = r.title;
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-source">${r.source}</div>
+    <h2 class="modal-title">${r.title}</h2>
+    <div class="modal-meta-row">
+      ${r.prep_time ? `<div class="modal-meta-item"><span class="modal-meta-label">Prep</span><span class="modal-meta-value">${r.prep_time}</span></div>` : ''}
+      ${r.cook_time ? `<div class="modal-meta-item"><span class="modal-meta-label">Cook</span><span class="modal-meta-value">${r.cook_time}</span></div>` : ''}
+      ${r.servings ? `<div class="modal-meta-item"><span class="modal-meta-label">Serves</span><span class="modal-meta-value">${r.servings}</span></div>` : ''}
+    </div>
+    <div class="modal-tags">
+      ${r.tags.map(t => `<span class="modal-tag">${t}</span>`).join('')}
+    </div>
+    <div class="modal-section-title">Ingredients</div>
+    <ul class="ingredient-list">
+      ${r.ingredients.map(i => `<li>${i}</li>`).join('')}
+    </ul>
+    <div class="modal-section-title">Method</div>
+    <ol class="method-list">
+      ${r.method.map(s => `<li>${s}</li>`).join('')}
+    </ol>
+    ${r.notes ? `
+    <div class="modal-notes">
+      <div class="modal-notes-label">Amy's Notes</div>
+      ${r.notes}
+    </div>` : ''}
+  `;
+
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Events ──
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('searchClear').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  render();
+  document.getElementById('searchInput').focus();
+});
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// Close modal on swipe down (touch)
+let touchStartY = 0;
+document.getElementById('modal').addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.getElementById('modal').addEventListener('touchmove', (e) => {
+  const delta = e.touches[0].clientY - touchStartY;
+  if (delta > 80 && document.getElementById('modal').scrollTop <= 0) {
+    closeModal();
+  }
+}, { passive: true });
+
+// Keyboard
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+init();
+</script>
+</body>
+</html>
