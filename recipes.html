@@ -540,7 +540,7 @@ let activeTags = new Set();
 
 async function init() {
   try {
-    const res = await fetch('recipes/data.json');
+    const res = await fetch('recipes/data.json?v=' + Date.now());
     recipes = await res.json();
   } catch(e) {
     recipes = [];
