@@ -264,6 +264,24 @@
     color: var(--coral);
   }
 
+  /* ── Macro pills on card ── */
+  .card-macros {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .macro-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.3px;
+  }
+  .macro-pill.protein { background: #f0e8e4; color: #a9583e; }
+  .macro-pill.carbs { background: #e8efe4; color: #5a7a3e; }
+  .macro-pill.fibre { background: #e4ece8; color: #3e6a5a; }
+
   /* ── Empty state ── */
   .empty {
     grid-column: 1 / -1;
@@ -365,6 +383,13 @@
     color: var(--coral);
     margin-bottom: 8px;
   }
+  .modal-source a {
+    color: var(--coral);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--coral);
+    transition: color 0.15s;
+  }
+  .modal-source a:hover { color: var(--coral-hover); }
   .modal-title {
     font-family: var(--font-display);
     font-size: clamp(1.6rem, 4vw, 2rem);
@@ -651,7 +676,13 @@ function render() {
   }
 
   // Render cards
-  grid.innerHTML = filtered.map((r, i) => `
+  grid.innerHTML = filtered.map((r, i) => {
+    const hasMacros = r.protein_g != null || r.carbs_g != null || r.fibre_g != null;
+    const macroParts = [];
+    if (r.protein_g != null) macroParts.push(`<span class="macro-pill protein">P ${r.protein_g}g</span>`);
+    if (r.carbs_g != null) macroParts.push(`<span class="macro-pill carbs">C ${r.carbs_g}g</span>`);
+    if (r.fibre_g != null) macroParts.push(`<span class="macro-pill fibre">Fb ${r.fibre_g}g</span>`);
+    return `
     <div class="card" onclick="openRecipe('${r.id}')">
       <img class="card-img" src="${r.image}" alt="${r.title}" loading="${i < 6 ? 'eager' : 'lazy'}" width="400" height="300">
       <div class="card-body">
@@ -663,12 +694,13 @@ function render() {
           ${(r.prep_time || r.cook_time) && r.servings ? '<span class="card-meta-dot"></span>' : ''}
           ${r.servings ? `<span>Serves ${r.servings}</span>` : ''}
         </div>
+        ${hasMacros ? `<div class="card-macros">${macroParts.join('')}</div>` : ''}
         <div class="card-tags">
           ${r.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}
         </div>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 // ── Modal ──
@@ -680,7 +712,7 @@ function openRecipe(id) {
   document.getElementById('modalImg').alt = r.title;
 
   document.getElementById('modalContent').innerHTML = `
-    <div class="modal-source">${r.source}</div>
+    <div class="modal-source">${r.source_url ? `<a href="${r.source_url}" target="_blank" rel="noopener">${r.source} ↗</a>` : r.source}</div>
     <h2 class="modal-title">${r.title}</h2>
     <div class="modal-meta-row">
       ${r.prep_time ? `<div class="modal-meta-item"><span class="modal-meta-label">Prep</span><span class="modal-meta-value">${r.prep_time}</span></div>` : ''}
