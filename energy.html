@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <title>Energy · Hancock</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 :root {
   --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f5f4f0;
@@ -85,6 +86,20 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.5rem;font-weight:600;color:rgba(255,255,255,.85)}
 .bar-price{width:38px;font-family:var(--font-mono);font-size:.6rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
 
+/* Chart */
+.chart-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:14px 10px 8px;margin:10px 0}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.chart-nav{display:flex;align-items:center;gap:10px}
+.chart-nav button{background:none;border:1px solid var(--hairline);border-radius:6px;padding:4px 10px;font-size:.6rem;font-family:var(--font-body);font-weight:600;color:var(--body);cursor:pointer}
+.chart-nav button:disabled{opacity:.3;cursor:default}
+.chart-nav .chart-range{font-size:.62rem;font-weight:600;color:var(--muted);min-width:100px;text-align:center}
+.chart-legend{display:flex;gap:14px;font-size:.55rem;color:var(--muted);margin-top:4px}
+.chart-legend span{display:flex;align-items:center;gap:4px}
+.chart-legend .swatch{width:8px;height:8px;border-radius:2px}
+.chart-legend .swatch.renew{background:#4a9e6e}
+.chart-legend .swatch.grid{background:#5b8cb8}
+#consumptionChart{width:100%;height:auto;max-height:260px}
+
 /* Refresh */
 .refresh-bar{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;font-size:.58rem;color:var(--muted)}
 .refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
@@ -151,6 +166,24 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
+  </div>
+
+  <!-- Consumption chart -->
+  <div class="section-label">Consumption Mix</div>
+  <div class="chart-card">
+    <div class="chart-header">
+      <div class="section-label" style="margin:0">Last 7 Days</div>
+      <div class="chart-nav">
+        <button id="chartPrev" disabled>← Newer</button>
+        <span class="chart-range" id="chartRange">--</span>
+        <button id="chartNext" disabled>Older →</button>
+      </div>
+    </div>
+    <canvas id="consumptionChart"></canvas>
+    <div class="chart-legend">
+      <span><span class="swatch renew"></span> Solar + Battery</span>
+      <span><span class="swatch grid"></span> Grid Import</span>
+    </div>
   </div>
 
   <!-- Forward prices -->
@@ -238,6 +271,71 @@ async function fetchData(){
 }
 fetchData();setInterval(fetchData,30000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData()});
+
+// === CONSUMPTION CHART ===
+const HISTORY_URL='data/energy-history.json';
+let allHistory=[],chartOffset=0,chartInstance=null;
+const DAYS_PER_PAGE=7;
+
+function fmtDate(d){const p=d.split('-');return p[2]+'/'+p[1]}
+
+async function loadHistory(){
+  try{const r=await fetch(HISTORY_URL+'?v='+Date.now());if(r.ok)allHistory=await r.json();else allHistory=[]}
+  catch(e){allHistory=[]}
+  renderChart();
+}
+
+function renderChart(){
+  const totalDays=allHistory.length;
+  if(totalDays===0){
+    document.getElementById('chartRange').textContent='No data yet';
+    document.getElementById('chartPrev').disabled=true;
+    document.getElementById('chartNext').disabled=true;
+    if(chartInstance){chartInstance.destroy();chartInstance=null}
+    return;
+  }
+  // Clamp offset
+  if(chartOffset<0)chartOffset=0;
+  if(chartOffset+DAYS_PER_PAGE>totalDays)chartOffset=Math.max(0,totalDays-DAYS_PER_PAGE);
+
+  const page=allHistory.slice(chartOffset,chartOffset+DAYS_PER_PAGE).reverse(); // oldest first for chart
+  const labels=page.map(d=>fmtDate(d.date));
+  const renewData=page.map(d=>(d.solar_kwh||0)+(d.battery_discharge_kwh||0));
+  const gridData=page.map(d=>d.grid_import_kwh||0);
+
+  // Update nav
+  const end=chartOffset+page.length;
+  document.getElementById('chartRange').textContent=labels[0]+' – '+labels[labels.length-1];
+  document.getElementById('chartPrev').disabled=chartOffset===0;
+  document.getElementById('chartNext').disabled=chartOffset+DAYS_PER_PAGE>=totalDays;
+
+  // Render
+  const ctx=document.getElementById('consumptionChart').getContext('2d');
+  if(chartInstance)chartInstance.destroy();
+  chartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Solar + Battery',data:renewData,backgroundColor:'#4a9e6e',borderRadius:4,borderSkipped:false},
+        {label:'Grid Import',data:gridData,backgroundColor:'#5b8cb8',borderRadius:4,borderSkipped:false},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw.toFixed(1)+' kWh'}}},
+      scales:{
+        x:{stacked:true,grid:{display:false},ticks:{font:{size:9},color:'#94918a'}},
+        y:{stacked:true,grid:{color:'#e4e1db'},ticks:{font:{size:9},color:'#94918a',callback:v=>v+' kWh'},title:{display:true,text:'kWh',font:{size:9},color:'#94918a'}}
+      }
+    }
+  });
+}
+
+document.getElementById('chartPrev').addEventListener('click',()=>{chartOffset=Math.max(0,chartOffset-DAYS_PER_PAGE);renderChart()});
+document.getElementById('chartNext').addEventListener('click',()=>{chartOffset+=DAYS_PER_PAGE;renderChart()});
+
+loadHistory();
 </script>
 </body>
 </html>
