@@ -57,6 +57,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .data-badge .val{font-family:var(--font-display);font-size:clamp(15px,2.8vw,24px);font-weight:900;color:var(--ink);line-height:1.1}
 .data-badge .unit{font-size:clamp(8px,1.2vw,11px);font-weight:600;color:var(--muted);margin-left:1px}
 .data-badge .dir{font-size:clamp(10px,1.5vw,14px);margin-left:2px}
+.data-badge .lbl{display:block;width:100%;text-align:center;font-size:clamp(6px,1vw,8px);font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:2px}
 .data-badge.solar .bubble{border-color:rgba(232,168,56,.35)}
 .data-badge.battery .bubble{border-color:rgba(74,158,110,.35)}
 .data-badge.grid .bubble{border-color:rgba(91,140,184,.35)}
@@ -142,10 +143,10 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     </svg>
 
     <!-- Data badges positioned near physical elements -->
-    <div class="data-badge solar" style="left:54%;top:30%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="unit">kW</span></div></div>
-    <div class="data-badge grid" style="left:24%;top:24%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="unit" id="svgGridUnit">kW</span><span class="dir" id="svgGridDir"></span></div></div>
-    <div class="data-badge battery" style="left:33%;top:63%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="unit">%</span></div></div>
-    <div class="data-badge home" style="left:57%;top:48%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="unit">kW</span></div></div>
+    <div class="data-badge solar" style="left:54%;top:30%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="unit">kW</span><span class="lbl">Solar</span></div></div>
+    <div class="data-badge grid" style="left:24%;top:24%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="unit">kW</span><span class="dir" id="svgGridDir"></span><span class="lbl">Grid</span></div></div>
+    <div class="data-badge battery" style="left:33%;top:63%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="unit">%</span><span class="lbl">Battery</span></div></div>
+    <div class="data-badge home" style="left:57%;top:48%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="unit">kW</span><span class="lbl">Home</span></div></div>
   </div>
 
   <!-- Daily summary -->
