@@ -21,24 +21,22 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
-.container{flex:1;display:flex;flex-direction:column;max-width:480px;width:100%;margin:0 auto;padding:10px 10px 24px;min-height:100dvh}
+html,body{height:auto}
+body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased}
+.container{max-width:480px;width:100%;margin:0 auto;padding:10px 10px 32px}
 
-/* Header — compact */
-.hero{text-align:center;padding:4px 0 6px;flex-shrink:0}
+/* Header */
 .hero .kicker{font-size:.62rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--coral)}
 .hero h1{font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--ink);line-height:1.1}
 .hero .timestamp{font-size:.65rem;color:var(--muted);font-family:var(--font-mono);margin-top:1px}
 
-/* === FLOW DIAGRAM — fills available height === */
+/* === FLOW DIAGRAM === */
 .flow-card{
-  flex:1;display:flex;align-items:center;justify-content:center;
   background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);margin:6px 0;padding:4px;min-height:280px;
+  border-radius:var(--radius);margin:8px 0;padding:12px 4px;
   position:relative;overflow:hidden
 }
-.flow-card svg{display:block;width:100%;height:100%;max-height:420px}
+.flow-card svg{display:block;width:100%;height:auto}
 
 /* Node styles */
 .node-circle{fill:var(--surface);stroke-width:2.5;filter:drop-shadow(0 1px 4px rgba(0,0,0,.05))}
@@ -62,7 +60,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .conn-line.bat-chg{stroke:var(--battery)}
 
 /* === AMBER PRICE STRIP === */
-.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0;flex-shrink:0}
+.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .price-cell{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius-sm);padding:10px 12px;text-align:center
@@ -77,8 +75,8 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .price-cell.buy{border-color:rgba(91,140,184,.3)}
 .price-cell.sell{border-color:rgba(74,158,110,.3)}
 
-/* Bottom sections — compact, scroll if needed */
-.bottom-sections{flex-shrink:0;overflow-y:auto;max-height:45vh}
+/* Bottom sections */
+.bottom-sections{}
 
 .explainer{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:7px 12px;margin:4px 0;font-size:.7rem;color:var(--body);line-height:1.4;text-align:center}
 .daily-strip{display:flex;justify-content:center;gap:16px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:7px 12px;margin:4px 0}
@@ -95,7 +93,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.55rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
 .bar-price{width:40px;font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
 
-.refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px;font-size:.58rem;color:var(--muted);flex-shrink:0}
+.refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px;font-size:.58rem;color:var(--muted)}
 .refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
 .refresh-dot.stale{background:#c2680c}
 </style>
@@ -108,9 +106,9 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- FLOW DIAGRAM — fills available height -->
+  <!-- FLOW DIAGRAM -->
   <div class="flow-card">
-    <svg viewBox="0 0 360 430" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 360 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
         <marker id="arrowSolar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
           <polygon points="0,0 8,3 0,6" fill="#e8a838"/>
@@ -130,82 +128,82 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
       </defs>
 
       <!-- Subtle background rings -->
-      <circle cx="180" cy="62" r="64" fill="none" stroke="#f5ecd8" stroke-width="1" opacity=".5"/>
-      <circle cx="58" cy="210" r="64" fill="none" stroke="#d8e8f5" stroke-width="1" opacity=".5"/>
-      <circle cx="302" cy="210" r="64" fill="none" stroke="#d8efe2" stroke-width="1" opacity=".5"/>
-      <circle cx="180" cy="210" r="74" fill="none" stroke="#f0ddd5" stroke-width="1.5" opacity=".5"/>
+      <circle cx="180" cy="80" r="72" fill="none" stroke="#f5ecd8" stroke-width="1" opacity=".5"/>
+      <circle cx="58" cy="280" r="72" fill="none" stroke="#d8e8f5" stroke-width="1" opacity=".5"/>
+      <circle cx="302" cy="280" r="72" fill="none" stroke="#d8efe2" stroke-width="1" opacity=".5"/>
+      <circle cx="180" cy="280" r="82" fill="none" stroke="#f0ddd5" stroke-width="1.5" opacity=".5"/>
 
       <!-- CONNECTION LINES -->
       <!-- Solar → Home -->
-      <line id="lnSolar" class="conn-line solar-fl" x1="180" y1="112" x2="180" y2="146"/>
-      <line id="lnSolarA" class="conn-line solar-fl" x1="180" y1="112" x2="180" y2="146" opacity="0" marker-end="url(#arrowSolar)"/>
+      <line id="lnSolar" class="conn-line solar-fl" x1="180" y1="136" x2="180" y2="218"/>
+      <line id="lnSolarA" class="conn-line solar-fl" x1="180" y1="136" x2="180" y2="218" opacity="0" marker-end="url(#arrowSolar)"/>
 
-      <!-- Grid → Home (import) -->
-      <line id="lnGridImp" class="conn-line grid-imp" x1="110" y1="210" x2="146" y2="210"/>
-      <line id="lnGridImpA" class="conn-line grid-imp" x1="110" y1="210" x2="146" y2="210" opacity="0" marker-end="url(#arrowGridImp)"/>
+      <!-- Grid → Home (import: left→right) -->
+      <line id="lnGridImp" class="conn-line grid-imp" x1="116" y1="280" x2="218" y2="280"/>
+      <line id="lnGridImpA" class="conn-line grid-imp" x1="116" y1="280" x2="218" y2="280" opacity="0" marker-end="url(#arrowGridImp)"/>
 
-      <!-- Home → Grid (export) -->
-      <line id="lnGridExp" class="conn-line grid-exp" x1="146" y1="210" x2="110" y2="210"/>
-      <line id="lnGridExpA" class="conn-line grid-exp" x1="146" y1="210" x2="110" y2="210" opacity="0" marker-end="url(#arrowGridExp)"/>
+      <!-- Home → Grid (export: right→left) -->
+      <line id="lnGridExp" class="conn-line grid-exp" x1="218" y1="280" x2="116" y2="280"/>
+      <line id="lnGridExpA" class="conn-line grid-exp" x1="218" y1="280" x2="116" y2="280" opacity="0" marker-end="url(#arrowGridExp)"/>
 
-      <!-- Battery → Home (discharge) -->
-      <line id="lnBatDis" class="conn-line bat-dis" x1="250" y1="210" x2="214" y2="210"/>
-      <line id="lnBatDisA" class="conn-line bat-dis" x1="250" y1="210" x2="214" y2="210" opacity="0" marker-end="url(#arrowBatDis)"/>
+      <!-- Battery → Home (discharge: right→left) -->
+      <line id="lnBatDis" class="conn-line bat-dis" x1="246" y1="280" x2="218" y2="280"/>
+      <line id="lnBatDisA" class="conn-line bat-dis" x1="246" y1="280" x2="218" y2="280" opacity="0" marker-end="url(#arrowBatDis)"/>
 
-      <!-- Home → Battery (charge) -->
-      <line id="lnBatChg" class="conn-line bat-chg" x1="214" y1="210" x2="250" y2="210"/>
-      <line id="lnBatChgA" class="conn-line bat-chg" x1="214" y1="210" x2="250" y2="210" opacity="0" marker-end="url(#arrowBatChg)"/>
+      <!-- Home → Battery (charge: left→right) -->
+      <line id="lnBatChg" class="conn-line bat-chg" x1="218" y1="280" x2="246" y2="280"/>
+      <line id="lnBatChgA" class="conn-line bat-chg" x1="218" y1="280" x2="246" y2="280" opacity="0" marker-end="url(#arrowBatChg)"/>
 
       <!-- === SOLAR (top) === -->
-      <circle class="node-circle solar" cx="180" cy="62" r="50"/>
-      <g transform="translate(162,44)">
-        <rect x="0" y="7" width="36" height="22" rx="2" fill="#e8a838" opacity=".12" stroke="#e8a838" stroke-width="1"/>
-        <line x1="7" y1="15" x2="29" y2="15" stroke="#e8a838" stroke-width=".4"/>
-        <line x1="7" y1="21" x2="29" y2="21" stroke="#e8a838" stroke-width=".4"/>
-        <circle cx="18" cy="3" r="3.5" fill="#e8a838"/>
-        <line x1="18" y1="0" x2="18" y2="0" stroke="#e8a838" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="11" y1="1" x2="13" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
-        <line x1="25" y1="1" x2="23" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
+      <circle class="node-circle solar" cx="180" cy="80" r="56"/>
+      <g transform="translate(160,58)">
+        <rect x="0" y="8" width="40" height="24" rx="2" fill="#e8a838" opacity=".12" stroke="#e8a838" stroke-width="1"/>
+        <line x1="8" y1="17" x2="32" y2="17" stroke="#e8a838" stroke-width=".4"/>
+        <line x1="8" y1="23" x2="32" y2="23" stroke="#e8a838" stroke-width=".4"/>
+        <circle cx="20" cy="4" r="4" fill="#e8a838"/>
+        <line x1="20" y1="0" x2="20" y2="0" stroke="#e8a838" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="13" y1="2" x2="15" y2="2" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
+        <line x1="27" y1="2" x2="25" y2="2" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
       </g>
-      <text class="nv" x="180" y="128" id="nvSolar">--</text>
-      <text class="nl" x="180" y="142">SOLAR</text>
+      <text class="nv" x="180" y="152" id="nvSolar">--</text>
+      <text class="nl" x="180" y="166">SOLAR</text>
 
       <!-- === GRID (left) === -->
-      <circle class="node-circle grid" cx="58" cy="210" r="50"/>
-      <g transform="translate(40,194)">
-        <rect x="6" y="0" width="3" height="32" rx="1" fill="#5b8cb8" opacity=".15"/>
-        <rect x="27" y="0" width="3" height="32" rx="1" fill="#5b8cb8" opacity=".15"/>
-        <line x1="2" y1="9" x2="34" y2="9" stroke="#5b8cb8" stroke-width=".7"/>
-        <line x1="2" y1="19" x2="34" y2="19" stroke="#5b8cb8" stroke-width=".7"/>
-        <line x1="7" y1="4" x2="29" y2="4" stroke="#5b8cb8" stroke-width=".35"/>
-        <line x1="7" y1="14" x2="29" y2="14" stroke="#5b8cb8" stroke-width=".35"/>
-        <line x1="7" y1="24" x2="29" y2="24" stroke="#5b8cb8" stroke-width=".35"/>
+      <circle class="node-circle grid" cx="58" cy="280" r="56"/>
+      <g transform="translate(38,262)">
+        <rect x="7" y="0" width="3.5" height="36" rx="1" fill="#5b8cb8" opacity=".15"/>
+        <rect x="29.5" y="0" width="3.5" height="36" rx="1" fill="#5b8cb8" opacity=".15"/>
+        <line x1="3" y1="10" x2="37" y2="10" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="3" y1="22" x2="37" y2="22" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="8" y1="5" x2="32" y2="5" stroke="#5b8cb8" stroke-width=".35"/>
+        <line x1="8" y1="16" x2="32" y2="16" stroke="#5b8cb8" stroke-width=".35"/>
+        <line x1="8" y1="28" x2="32" y2="28" stroke="#5b8cb8" stroke-width=".35"/>
       </g>
-      <text class="nv" x="58" y="278" id="nvGrid">--</text>
-      <text class="nl" x="58" y="292">GRID</text>
+      <text class="nv" x="58" y="356" id="nvGrid">--</text>
+      <text class="nl" x="58" y="370">GRID</text>
 
       <!-- === HOME (center) === -->
-      <circle class="node-circle home" cx="180" cy="210" r="56"/>
-      <g transform="translate(162,194)">
-        <path d="M0 13L18 0l18 13" fill="none" stroke="#cc785c" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M4 11v13h10v-7h8v7h10V11" fill="#cc785c" opacity=".12" stroke="#cc785c" stroke-width="1" stroke-linejoin="round"/>
-        <rect x="17" y="17" width="4" height="7" rx=".3" fill="#fdf5f2" stroke="#cc785c" stroke-width=".6"/>
+      <circle class="node-circle home" cx="180" cy="280" r="62"/>
+      <g transform="translate(160,262)">
+        <path d="M0 14L20 0l20 14" fill="none" stroke="#cc785c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 12v14h12v-8h8v8h12V12" fill="#cc785c" opacity=".12" stroke="#cc785c" stroke-width="1.1" stroke-linejoin="round"/>
+        <rect x="18" y="18" width="4" height="8" rx=".3" fill="#fdf5f2" stroke="#cc785c" stroke-width=".6"/>
       </g>
-      <text class="nv-home" x="180" y="282" id="nvHome">--</text>
-      <text class="nl" x="180" y="298">HOME</text>
+      <text class="nv-home" x="180" y="358" id="nvHome">--</text>
+      <text class="nl" x="180" y="374">HOME</text>
 
       <!-- === BATTERY (right) === -->
-      <circle class="node-circle battery" cx="302" cy="210" r="50"/>
-      <g transform="translate(285,194)">
-        <rect x="1" y="4" width="28" height="24" rx="3" fill="#4a9e6e" opacity=".1" stroke="#4a9e6e" stroke-width="1"/>
-        <rect x="9" y="1" width="12" height="3" rx="1" fill="none" stroke="#4a9e6e" stroke-width=".8"/>
-        <rect x="5" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".3"/>
-        <rect x="12" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".2"/>
-        <rect x="19" y="9" width="5" height="14" rx=".4" fill="#4a9e6e" opacity=".1"/>
+      <circle class="node-circle battery" cx="302" cy="280" r="56"/>
+      <g transform="translate(283,262)">
+        <rect x="1" y="4" width="30" height="28" rx="3" fill="#4a9e6e" opacity=".1" stroke="#4a9e6e" stroke-width="1"/>
+        <rect x="10" y="1" width="12" height="3" rx="1" fill="none" stroke="#4a9e6e" stroke-width=".8"/>
+        <rect x="5" y="10" width="7" height="16" rx=".4" fill="#4a9e6e" opacity=".3"/>
+        <rect x="13" y="10" width="7" height="16" rx=".4" fill="#4a9e6e" opacity=".2"/>
+        <rect x="21" y="10" width="5" height="16" rx=".4" fill="#4a9e6e" opacity=".1"/>
       </g>
-      <text class="nv" x="302" y="278" id="nvBat">--</text>
-      <text class="ns" x="302" y="292" id="nvBatSub">--</text>
-      <text class="nl" x="302" y="306">BATTERY</text>
+      <text class="nv" x="302" y="356" id="nvBat">--</text>
+      <text class="ns" x="302" y="372" id="nvBatSub">--</text>
+      <text class="nl" x="302" y="386">BATTERY</text>
 
       <!-- Particle groups -->
       <g id="pSolar"><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/></g>
@@ -255,11 +253,11 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 const DATA_URL='data/energy-data.json';
 
 const FLOWS={
-  solar:   {x1:180,y1:112,x2:180,y2:146, line:'#lnSolar', arrow:'#lnSolarA'},
-  gridImp: {x1:110,y1:210,x2:146,y2:210, line:'#lnGridImp', arrow:'#lnGridImpA'},
-  gridExp: {x1:146,y1:210,x2:110,y2:210, line:'#lnGridExp', arrow:'#lnGridExpA'},
-  batDis:  {x1:250,y1:210,x2:214,y2:210, line:'#lnBatDis', arrow:'#lnBatDisA'},
-  batChg:  {x1:214,y1:210,x2:250,y2:210, line:'#lnBatChg', arrow:'#lnBatChgA'},
+  solar:   {x1:180,y1:136,x2:180,y2:218, line:'#lnSolar', arrow:'#lnSolarA'},
+  gridImp: {x1:116,y1:280,x2:218,y2:280, line:'#lnGridImp', arrow:'#lnGridImpA'},
+  gridExp: {x1:218,y1:280,x2:116,y2:280, line:'#lnGridExp', arrow:'#lnGridExpA'},
+  batDis:  {x1:246,y1:280,x2:218,y2:280, line:'#lnBatDis', arrow:'#lnBatDisA'},
+  batChg:  {x1:218,y1:280,x2:246,y2:280, line:'#lnBatChg', arrow:'#lnBatChgA'},
 };
 const active={};
 
