@@ -66,6 +66,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 
 /* Section label */
 .section-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:10px 0 6px;padding:0 2px}
+.section-label.live{color:#1b8a3d;font-size:.58rem}
 
 /* Daily strip */
 .daily-strip{display:flex;justify-content:space-around;gap:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 8px}
@@ -98,6 +99,9 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
+  <!-- LIVE section -->
+  <div class="section-label">● LIVE</div>
+
   <!-- 2×2 power widgets -->
   <div class="widget-grid">
     <div class="widget solar-w">
@@ -125,13 +129,13 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   <!-- Amber prices -->
   <div class="price-strip">
     <div class="price-cell buy">
-      <div class="pc-label">Buy at</div>
+      <div class="pc-label">Buy Price</div>
       <div class="pc-val" id="buyPrice">--</div>
       <div class="pc-unit">c/kWh</div>
       <div class="pc-period" id="buyPeriod">--</div>
     </div>
     <div class="price-cell sell">
-      <div class="pc-label">Sell at</div>
+      <div class="pc-label">Sell Price</div>
       <div class="pc-val" id="sellPrice">--</div>
       <div class="pc-unit">c/kWh</div>
       <div class="pc-period" id="sellPeriod">--</div>
