@@ -7,129 +7,66 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --canvas: #faf9f5;
-  --surface: #ffffff;
-  --surface-alt: #f0eeea;
-  --ink: #141413;
-  --body: #5c5a55;
-  --muted: #94918a;
-  --hairline: #e4e1db;
-  --hairline-soft: #ece9e4;
-  --coral: #cc785c;
-  --solar: #e8a838;
-  --solar-glow: #f5c85a;
-  --battery: #4a9e6e;
-  --battery-glow: #6bc48a;
-  --grid: #5b8cb8;
-  --grid-glow: #80b4e0;
-  --home: #cc785c;
-  --radius: 20px;
-  --radius-sm: 12px;
+  --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
+  --ink: #141413; --body: #5c5a55; --muted: #94918a;
+  --hairline: #e4e1db; --hairline-soft: #ece9e4; --coral: #cc785c;
+  --solar: #e8a838; --solar-glow: #f5c85a;
+  --battery: #4a9e6e; --battery-glow: #6bc48a;
+  --grid: #5b8cb8; --grid-glow: #80b4e0;
+  --radius: 20px; --radius-sm: 12px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: var(--font-body);
-  background: var(--canvas);
-  color: var(--body);
-  -webkit-font-smoothing: antialiased;
-}
+body { font-family: var(--font-body); background: var(--canvas); color: var(--body); -webkit-font-smoothing: antialiased; }
 .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
-
-/* Hero */
 .hero { text-align: center; padding: 10px 0 4px; }
 .hero .kicker { font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--coral); }
 .hero h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; margin: 2px 0 0; }
 .hero .timestamp { font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
 
-/* === FLOW DIAGRAM WITH HOUSE IMAGE === */
-.flow-diagram {
-  position: relative;
-  margin: 16px 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--canvas);
-  /* subtle border */
-  box-shadow: 0 0 0 1px var(--hairline);
-}
-.flow-diagram svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+/* Flow diagram */
+.flow-diagram { position: relative; margin: 16px 0; border-radius: var(--radius); overflow: hidden; background: var(--canvas); box-shadow: 0 0 0 1px var(--hairline); }
+.flow-diagram svg { display: block; width: 100%; height: auto; }
 
 /* Flow paths */
-.flow-path {
-  fill: none;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 8 6;
-  opacity: 0.15;
-  transition: opacity 0.6s;
-}
-.flow-path.active {
-  opacity: 0.75;
-  animation: flowDash 1.2s linear infinite;
-}
-@keyframes flowDash { to { stroke-dashoffset: -28; } }
-
-/* Particles */
-.flow-particle { opacity: 0; }
-.flow-particle.active { opacity: 0.9; }
-
-/* Particle colors */
-.flow-particle.solar { fill: var(--solar-glow); filter: drop-shadow(0 0 4px rgba(232,168,56,0.7)); }
-.flow-particle.battery { fill: var(--battery-glow); filter: drop-shadow(0 0 4px rgba(74,158,110,0.7)); }
-.flow-particle.grid { fill: var(--grid-glow); filter: drop-shadow(0 0 4px rgba(91,140,184,0.7)); }
-.flow-particle.export { fill: #e88a8a; filter: drop-shadow(0 0 4px rgba(200,60,60,0.6)); }
-
-/* Path colors */
+.flow-path { fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 8 6; opacity: 0.15; }
 .flow-path.solar { stroke: var(--solar); }
 .flow-path.battery { stroke: var(--battery); }
 .flow-path.grid { stroke: var(--grid); }
 .flow-path.export { stroke: #c0392b; }
 
-/* Data badges — positioned absolutely over the image */
+/* Particles */
+.flow-particle { opacity: 0; }
+.flow-particle.solar { fill: var(--solar-glow); filter: drop-shadow(0 0 5px rgba(232,168,56,0.8)); }
+.flow-particle.battery { fill: var(--battery-glow); filter: drop-shadow(0 0 5px rgba(74,158,110,0.8)); }
+.flow-particle.grid { fill: var(--grid-glow); filter: drop-shadow(0 0 5px rgba(91,140,184,0.8)); }
+.flow-particle.export { fill: #e88a8a; filter: drop-shadow(0 0 5px rgba(200,60,60,0.7)); }
+
+/* Data badges */
 .data-badge {
-  position: absolute;
-  display: flex; flex-direction: column; align-items: center;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
+  position: absolute; display: flex; flex-direction: column; align-items: center;
+  pointer-events: none; transform: translate(-50%, -50%);
 }
 .data-badge .bubble {
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(20,20,19,0.08);
-  border-radius: clamp(16px, 3vw, 28px);
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(20,20,19,0.08); border-radius: clamp(16px, 3vw, 28px);
   padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2.4vw, 20px);
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   display: flex; flex-direction: column; align-items: center;
 }
 .data-badge .val {
-  font-family: var(--font-display);
-  font-size: clamp(16px, 3vw, 26px);
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1.1;
+  font-family: var(--font-display); font-size: clamp(16px, 3vw, 26px);
+  font-weight: 900; color: var(--ink); line-height: 1.1;
 }
 .data-badge .lbl {
-  font-size: clamp(7px, 1.2vw, 9px);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--muted);
-  margin-top: 1px;
+  font-size: clamp(7px, 1.2vw, 9px); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-top: 1px;
 }
-/* Accent dots on bubbles */
 .data-badge .bubble::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--muted);
+  content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
 }
 .data-badge.solar .bubble { border-color: rgba(232,168,56,0.4); }
 .data-badge.solar .bubble::before { background: var(--solar); }
@@ -141,18 +78,11 @@ body {
 .data-badge.home .bubble::before { background: var(--home); }
 
 /* Amber card */
-.amber-card {
-  background: var(--surface); border: 1px solid var(--hairline);
-  border-radius: var(--radius); padding: 16px 18px;
-  display: flex; align-items: center; gap: 14px; margin: 16px 0;
-}
+.amber-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin: 16px 0; }
 .amber-price { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--ink); line-height: 1; }
 .amber-price-unit { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
 .amber-meta { flex: 1; }
-.amber-period {
-  font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 4px;
-}
+.amber-period { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 4px; }
 .amber-period.solarSponge { background: #fef3d5; color: #8b6914; }
 .amber-period.peak { background: #fde8e8; color: #9b1c1c; }
 .amber-period.offPeak { background: #e8f0fe; color: #1e429f; }
@@ -166,47 +96,23 @@ body {
 .bar-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 0.75rem; }
 .bar-time { width: 42px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-align: right; flex-shrink: 0; }
 .bar-track { flex: 1; height: 22px; background: var(--surface-alt); border-radius: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; display: flex; align-items: center; padding-left: 6px; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.9); white-space: nowrap; }
+.bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.9); white-space: nowrap; }
 .bar-price { width: 52px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; color: var(--body); text-align: left; flex-shrink: 0; }
 
-/* Battery SoC gauge (small, below diagram) */
-.soc-strip {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm);
-  padding: 12px 16px; margin: 16px 0;
-}
-.soc-strip .soc-val {
-  font-family: var(--font-display); font-size: 1.8rem; font-weight: 900;
-  color: var(--ink); min-width: 56px;
-}
-.soc-strip .soc-bar-wrap {
-  flex: 1; height: 14px; background: var(--surface-alt);
-  border-radius: 7px; overflow: hidden;
-}
-.soc-strip .soc-bar-fill {
-  height: 100%; border-radius: 7px;
-  transition: width 0.8s ease;
-}
-.soc-strip .soc-meta {
-  font-size: 0.72rem; color: var(--muted);
-  font-family: var(--font-mono); min-width: 70px; text-align: right;
-}
+/* SoC strip */
+.soc-strip { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 12px 16px; margin: 16px 0; }
+.soc-strip .soc-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: var(--ink); min-width: 56px; }
+.soc-strip .soc-bar-wrap { flex: 1; height: 14px; background: var(--surface-alt); border-radius: 7px; overflow: hidden; }
+.soc-strip .soc-bar-fill { height: 100%; border-radius: 7px; }
+.soc-strip .soc-meta { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); min-width: 70px; text-align: right; }
 
-/* Refresh */
 .refresh-bar { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; font-size: 0.7rem; color: var(--muted); }
-.refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: #1b8a3d; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: #1b8a3d; }
 .refresh-dot.stale { background: #c2680c; }
-
-@keyframes shimmer { 0%{background-position:-200px 0} 100%{background-position:calc(200px + 100%) 0} }
+@keyframes shimmer { 0%{background-position:-200px 0} 100%{background-position:calc(200px+100%) 0} }
 .shimmer { background: linear-gradient(90deg,var(--surface-alt) 25%,var(--hairline) 50%,var(--surface-alt) 75%); background-size:200px 100%; animation:shimmer 1.5s infinite; border-radius:4px; }
 
-@media (max-width:480px) {
-  .hero h1 { font-size:1.6rem; }
-  .amber-price { font-size:1.8rem; }
-}
+@media (max-width:480px) { .hero h1 { font-size:1.6rem; } .amber-price { font-size:1.8rem; } }
 </style>
 </head>
 <body>
@@ -218,82 +124,53 @@ body {
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- FLOW DIAGRAM — house image + animated overlays -->
+  <!-- FLOW DIAGRAM -->
   <div class="flow-diagram" id="flowContainer">
     <svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
-      <!-- House image -->
       <image href="images/house-energy.png" width="1200" height="1200"/>
 
-      <!-- === FLOW PATHS === -->
-      <!-- Solar→Home: from roof panels to house center -->
-      <path id="pathSolarHome" class="flow-path solar active"
-        d="M 650,430 C 650,470 650,500 650,530"/>
-      <!-- Solar→Battery: from roof to battery unit -->
-      <path id="pathSolarBat" class="flow-path solar"
-        d="M 600,460 C 530,490 470,550 440,610"/>
-      <!-- Battery→Home: from battery to house -->
-      <path id="pathBatHome" class="flow-path battery"
-        d="M 460,640 C 510,620 560,570 590,540"/>
-      <!-- Grid→Home: power pole to grid connection then house -->
-      <path id="pathGridHome" class="flow-path grid"
-        d="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/>
-      <!-- Home→Grid: reverse -->
-      <path id="pathHomeGrid" class="flow-path export"
-        d="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/>
+      <!-- Flow paths (static, GSAP animates them) -->
+      <path id="pathSolarHome" class="flow-path solar" d="M 650,430 C 650,470 650,500 650,530"/>
+      <path id="pathSolarBat" class="flow-path solar" d="M 600,460 C 530,490 470,550 440,610"/>
+      <path id="pathBatHome" class="flow-path battery" d="M 460,640 C 510,620 560,570 590,540"/>
+      <path id="pathGridHome" class="flow-path grid" d="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/>
+      <path id="pathHomeGrid" class="flow-path export" d="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/>
 
-      <!-- === PARTICLES === -->
-      <!-- Solar→Home -->
-      <circle class="flow-particle solar active p1" id="pSH1"><animateMotion dur="2s" repeatCount="indefinite" path="M 650,430 C 650,470 650,500 650,530"/></circle>
-      <circle class="flow-particle solar active p2" id="pSH2"><animateMotion dur="2s" repeatCount="indefinite" path="M 650,430 C 650,470 650,500 650,530"/></circle>
-      <circle class="flow-particle solar active p3" id="pSH3"><animateMotion dur="2s" repeatCount="indefinite" path="M 650,430 C 650,470 650,500 650,530"/></circle>
-      <!-- Solar→Battery -->
-      <circle class="flow-particle solar p1" id="pSB1"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 600,460 C 530,490 470,550 440,610"/></circle>
-      <circle class="flow-particle solar p2" id="pSB2"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 600,460 C 530,490 470,550 440,610"/></circle>
-      <circle class="flow-particle solar p3" id="pSB3"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 600,460 C 530,490 470,550 440,610"/></circle>
-      <!-- Battery→Home -->
-      <circle class="flow-particle battery p1" id="pBH1"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 460,640 C 510,620 560,570 590,540"/></circle>
-      <circle class="flow-particle battery p2" id="pBH2"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 460,640 C 510,620 560,570 590,540"/></circle>
-      <circle class="flow-particle battery p3" id="pBH3"><animateMotion dur="2.8s" repeatCount="indefinite" path="M 460,640 C 510,620 560,570 590,540"/></circle>
-      <!-- Grid→Home -->
-      <circle class="flow-particle grid p1" id="pGH1"><animateMotion dur="3s" repeatCount="indefinite" path="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/></circle>
-      <circle class="flow-particle grid p2" id="pGH2"><animateMotion dur="3s" repeatCount="indefinite" path="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/></circle>
-      <circle class="flow-particle grid p3" id="pGH3"><animateMotion dur="3s" repeatCount="indefinite" path="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/></circle>
-      <!-- Home→Grid (export) -->
-      <circle class="flow-particle export p1" id="pHG1"><animateMotion dur="3s" repeatCount="indefinite" path="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/></circle>
-      <circle class="flow-particle export p2" id="pHG2"><animateMotion dur="3s" repeatCount="indefinite" path="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/></circle>
-      <circle class="flow-particle export p3" id="pHG3"><animateMotion dur="3s" repeatCount="indefinite" path="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/></circle>
+      <!-- Particle circles (positioned and animated by GSAP) -->
+      <g id="particlesSolarHome">
+        <circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/>
+      </g>
+      <g id="particlesSolarBat">
+        <circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/>
+      </g>
+      <g id="particlesBatHome">
+        <circle class="flow-particle battery" r="5"/><circle class="flow-particle battery" r="5"/><circle class="flow-particle battery" r="5"/>
+      </g>
+      <g id="particlesGridHome">
+        <circle class="flow-particle grid" r="5"/><circle class="flow-particle grid" r="5"/><circle class="flow-particle grid" r="5"/>
+      </g>
+      <g id="particlesHomeGrid">
+        <circle class="flow-particle export" r="5"/><circle class="flow-particle export" r="5"/><circle class="flow-particle export" r="5"/>
+      </g>
     </svg>
 
-    <!-- Data badges overlaid -->
-    <div class="data-badge solar" id="badgeSolar" style="left:54%;top:29%;">
-      <div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="lbl">Solar</span></div>
-    </div>
-    <div class="data-badge grid" id="badgeGrid" style="left:26%;top:21%;">
-      <div class="bubble"><span class="val" id="svgGridVal">--</span><span class="lbl">Grid</span></div>
-    </div>
-    <div class="data-badge battery" id="badgeBattery" style="left:37%;top:65%;">
-      <div class="bubble"><span class="val" id="svgBatVal">--</span><span class="lbl">Battery</span></div>
-    </div>
-    <div class="data-badge home" id="badgeHome" style="left:54%;top:51%;">
-      <div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="lbl">Home</span></div>
-    </div>
+    <!-- Data badges -->
+    <div class="data-badge solar" style="left:54%;top:29%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="lbl">Solar</span></div></div>
+    <div class="data-badge grid" style="left:26%;top:21%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="lbl">Grid</span></div></div>
+    <div class="data-badge battery" style="left:37%;top:65%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="lbl">Battery</span></div></div>
+    <div class="data-badge home" style="left:54%;top:51%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="lbl">Home</span></div></div>
   </div>
 
-  <!-- Battery SoC strip -->
+  <!-- SoC strip -->
   <div class="soc-strip">
     <span class="soc-val" id="socVal">--%</span>
-    <div class="soc-bar-wrap">
-      <div class="soc-bar-fill" id="socBarFill" style="width:0%;background:#4a9e6e;"></div>
-    </div>
+    <div class="soc-bar-wrap"><div class="soc-bar-fill" id="socBarFill" style="width:0%;background:#4a9e6e;"></div></div>
     <span class="soc-meta" id="socMeta">--</span>
   </div>
 
   <!-- Amber -->
   <div class="amber-card">
-    <div>
-      <div class="amber-price" id="amberPrice">--</div>
-      <div class="amber-price-unit">c/kWh</div>
-    </div>
+    <div><div class="amber-price" id="amberPrice">--</div><div class="amber-price-unit">c/kWh</div></div>
     <div class="amber-meta">
       <span class="amber-period" id="amberPeriod">--</span>
       <div class="amber-descriptor" id="amberDescriptor">--</div>
@@ -313,8 +190,24 @@ body {
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
 <script>
+gsap.registerPlugin(MotionPathPlugin);
+
 const DATA_URL = 'data/energy-data.json';
+
+// Path definitions for GSAP
+const FLOWS = {
+  SH: { path: '#pathSolarHome', group: '#particlesSolarHome', id: 'pathSolarHome' },
+  SB: { path: '#pathSolarBat', group: '#particlesSolarBat', id: 'pathSolarBat' },
+  BH: { path: '#pathBatHome', group: '#particlesBatHome', id: 'pathBatHome' },
+  GH: { path: '#pathGridHome', group: '#particlesGridHome', id: 'pathGridHome' },
+  HG: { path: '#pathHomeGrid', group: '#particlesHomeGrid', id: 'pathHomeGrid' }
+};
+
+// Active GSAP tweens per flow (so we can kill/restart)
+const activeTimelines = {};
 
 function fmtW(v) {
   const a=Math.abs(v);
@@ -328,19 +221,59 @@ function fmtSignedW(v) {
   return v>=0?'+'+s:'−'+s;
 }
 
-function setFlowActive(id, active) {
-  const el=document.getElementById(id);
-  if(!el) return;
-  if(active) el.classList.add('active');
-  else el.classList.remove('active');
+// Start particle animation along a path
+function startFlow(key) {
+  if (activeTimelines[key]) return; // already running
+  const flow = FLOWS[key];
+  const pathEl = document.querySelector(flow.path);
+  const particles = document.querySelectorAll(flow.group + ' circle');
+  if (!pathEl || !particles.length) return;
+
+  // Show path
+  const tl = gsap.timeline({ repeat: -1 });
+  tl.to(pathEl, { opacity: 0.75, duration: 0.4, ease: 'power2.out' }, 0);
+
+  // Animate particles with staggered start
+  particles.forEach((p, i) => {
+    gsap.set(p, { opacity: 1, scale: 1 });
+    const ptl = gsap.timeline({ repeat: -1, delay: i * 0.7 });
+    ptl.to(p, {
+      duration: 2.5,
+      ease: 'none',
+      motionPath: { path: pathEl, align: pathEl, autoRotate: false },
+    });
+    ptl.to(p, { scale: 1.6, duration: 0.3, ease: 'power2.out' }, 0);
+    ptl.to(p, { scale: 1, duration: 0.3, ease: 'power2.in' }, 2.2);
+  });
+
+  // Path glow pulse
+  tl.to(pathEl, { opacity: 0.55, duration: 1.5, ease: 'sine.inOut' }, 0.4);
+  tl.to(pathEl, { opacity: 0.75, duration: 1.5, ease: 'sine.inOut' }, 1.9);
+
+  activeTimelines[key] = { tl, particles };
 }
-function setParticlesActive(group, active) {
-  for(let i=1;i<=3;i++) {
-    const el=document.getElementById('p'+group+i);
-    if(!el) continue;
-    if(active) el.classList.add('active');
-    else el.classList.remove('active');
-  }
+
+// Stop particle animation
+function stopFlow(key) {
+  const entry = activeTimelines[key];
+  if (!entry) return;
+  entry.tl.kill();
+  entry.particles.forEach(p => gsap.set(p, { opacity: 0 }));
+  const pathEl = document.getElementById(FLOWS[key].id);
+  if (pathEl) gsap.to(pathEl, { opacity: 0.15, duration: 0.5, ease: 'power2.in' });
+  delete activeTimelines[key];
+}
+
+// Animate a number change with a subtle pop
+function popNumber(el, newText) {
+  if (el.textContent === newText) return;
+  gsap.to(el, {
+    scale: 1.15, duration: 0.15, ease: 'power2.out',
+    onComplete: () => {
+      el.textContent = newText;
+      gsap.to(el, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.4)' });
+    }
+  });
 }
 
 function updateUI(data) {
@@ -351,33 +284,29 @@ function updateUI(data) {
   const homeW=g.home_consumption_w||0, batW=g.battery_power_w||0;
   const soc=g.battery_soc_pct||0;
 
-  // Data badges
-  document.getElementById('svgSolarVal').textContent=fmtW(solarW);
-  document.getElementById('svgGridVal').textContent=fmtSignedW(gridW);
-  document.getElementById('svgHomeVal').textContent=fmtW(homeW);
-  document.getElementById('svgBatVal').textContent=soc+'%';
+  // Data badges with pop animation
+  popNumber(document.getElementById('svgSolarVal'), fmtW(solarW));
+  popNumber(document.getElementById('svgGridVal'), fmtSignedW(gridW));
+  popNumber(document.getElementById('svgHomeVal'), fmtW(homeW));
+  popNumber(document.getElementById('svgBatVal'), soc+'%');
 
-  // SoC strip
-  document.getElementById('socVal').textContent=soc+'%';
-  const bar=document.getElementById('socBarFill');
-  bar.style.width=soc+'%';
+  // SoC strip with GSAP tween
+  const socBar = document.getElementById('socBarFill');
   let bc='#4a9e6e';
   if(soc<15) bc='#c0392b'; else if(soc<30) bc='#c2680c';
-  bar.style.background=bc;
+  socBar.style.background=bc;
+  gsap.to(socBar, { width: soc+'%', duration: 0.8, ease: 'power2.out' });
+  document.getElementById('socVal').textContent=soc+'%';
   document.getElementById('socMeta').textContent=fmtSignedW(batW)+' · '+(g.battery_flow==='charging'?'charging':g.battery_flow==='discharging'?'discharging':'idle');
 
-  // Flow visibility
-  setFlowActive('pathSolarHome', solarW>50);
-  setParticlesActive('SH', solarW>50);
-  const charging=batW<-50;
-  setFlowActive('pathSolarBat', charging&&solarW>100);
-  setParticlesActive('SB', charging&&solarW>100);
-  setFlowActive('pathBatHome', batW>50);
-  setParticlesActive('BH', batW>50);
-  setFlowActive('pathGridHome', gridW<-50);
-  setParticlesActive('GH', gridW<-50);
-  setFlowActive('pathHomeGrid', gridW>50);
-  setParticlesActive('HG', gridW>50);
+  // Flow control — start/stop animations
+  const charging=batW<-50, importing=gridW<-50, exporting=gridW>50;
+
+  solarW>50 ? startFlow('SH') : stopFlow('SH');
+  (charging && solarW>100) ? startFlow('SB') : stopFlow('SB');
+  (batW>50) ? startFlow('BH') : stopFlow('BH');
+  importing ? startFlow('GH') : stopFlow('GH');
+  exporting ? startFlow('HG') : stopFlow('HG');
 
   // Amber
   const price=a.current_price_c;
@@ -400,9 +329,16 @@ function updateUI(data) {
       else if(f.period==='solarSponge') c='#c2680c';
       return '<div class="bar-row"><span class="bar-time">'+f.time+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.max((f.price/mx)*100,4)+'%;background:'+c+'"> </span></span><span class="bar-price">'+f.price.toFixed(1)+'c</span></div>';
     }).join('');
+    // Animate bar-fills in
+    gsap.fromTo('#priceBars .bar-fill', { width: '0%' }, { duration: 0.6, ease: 'power2.out', stagger: 0.03 });
   } else bars.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:0.8rem">No price data</div>';
 
-  document.getElementById('refreshDot').classList.remove('stale');
+  // Refresh dot pulse
+  const dot = document.getElementById('refreshDot');
+  dot.classList.remove('stale');
+  gsap.to(dot, { scale: 1.8, opacity: 0.5, duration: 0.3, ease: 'power2.out',
+    onComplete: () => gsap.to(dot, { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.in' })
+  });
   document.getElementById('refreshText').textContent='Live · '+(data.timestamp_short||'just now');
 }
 
@@ -421,7 +357,7 @@ async function fetchData(){
 }
 
 fetchData();
-setInterval(fetchData,30000);
+setInterval(fetchData, 30000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData();});
 </script>
 </body>
