@@ -10,10 +10,10 @@
   --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
   --ink: #141413; --body: #5c5a55; --muted: #94918a;
   --hairline: #e4e1db; --coral: #cc785c;
-  --solar: #e8a838; --solar-light: #fef9f0; --solar-soft: #f5d080;
-  --battery: #4a9e6e; --battery-light: #f0faf4; --battery-soft: #8cd4a0;
-  --grid: #5b8cb8; --grid-light: #f0f5fa; --grid-soft: #a0c4e0;
-  --home: #cc785c; --home-light: #fdf5f2; --home-soft: #e8b8a8;
+  --solar: #e8a838; --solar-light: #fef9f0; --solar-subtle: #f5ecd8;
+  --battery: #4a9e6e; --battery-light: #f0faf4; --battery-subtle: #d8efe2;
+  --grid: #5b8cb8; --grid-light: #f0f5fa; --grid-subtle: #d8e8f5;
+  --home: #cc785c; --home-light: #fdf5f2; --home-subtle: #f0ddd5;
   --export: #c0392b;
   --radius: 16px; --radius-sm: 10px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -25,99 +25,52 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .container{max-width:480px;margin:0 auto;padding:12px 10px 32px}
 
 /* Header */
-.hero{text-align:center;padding:6px 0 2px}
+.hero{text-align:center;padding:6px 0 4px}
 .hero .kicker{font-size:.62rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--coral)}
 .hero h1{font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--ink)}
 .hero .timestamp{font-size:.68rem;color:var(--muted);font-family:var(--font-mono);margin-top:1px}
 
-/* === FLOW DIAGRAM === */
-.flow-section{display:flex;flex-direction:column;align-items:center;gap:0;margin:12px 0;position:relative}
+/* === SVG FLOW DIAGRAM === */
+.flow-card{
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--radius);padding:8px 2px;margin:10px 0;
+  position:relative
+}
+.flow-card svg{display:block;width:100%;height:auto}
 
-/* Node cards */
-.node-card{
-  display:flex;align-items:center;gap:10px;padding:10px 14px;
-  background:var(--surface);border:2px solid var(--hairline);
-  border-radius:var(--radius);width:100%;max-width:280px;
-  position:relative;transition:border-color .3s
-}
-.node-card .nc-icon{width:42px;height:42px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.node-card .nc-icon svg{width:24px;height:24px}
-.node-card .nc-info{flex:1;min-width:0}
-.node-card .nc-val{font-family:var(--font-display);font-size:1.25rem;font-weight:900;color:var(--ink);line-height:1.1}
-.node-card .nc-sub{font-size:.68rem;color:var(--body)}
-.node-card .nc-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+/* Node styles (SVG) */
+.node-circle{fill:var(--surface);stroke-width:2.5;filter:drop-shadow(0 1px 4px rgba(0,0,0,.06))}
+.node-circle.solar{stroke:var(--solar)}
+.node-circle.battery{stroke:var(--battery)}
+.node-circle.grid{stroke:var(--grid)}
+.node-circle.home{stroke:var(--home)}
+.node-circle.active{filter:drop-shadow(0 1px 6px rgba(0,0,0,.1))}
 
-/* Node variants */
-.node-card.solar{border-color:var(--solar-soft)}
-.node-card.solar .nc-icon{background:var(--solar-light)}
-.node-card.solar .nc-val{color:var(--solar)}
-.node-card.grid-node{border-color:var(--grid-soft)}
-.node-card.grid-node .nc-icon{background:var(--grid-light)}
-.node-card.grid-node .nc-val{color:var(--grid)}
-.node-card.home-node{border-color:var(--home-soft);border-width:2.5px;max-width:300px}
-.node-card.home-node .nc-icon{background:var(--home-light);width:48px;height:48px}
-.node-card.home-node .nc-icon svg{width:28px;height:28px}
-.node-card.home-node .nc-val{font-size:1.5rem}
-.node-card.battery-node{border-color:var(--battery-soft)}
-.node-card.battery-node .nc-icon{background:var(--battery-light)}
-.node-card.battery-node .nc-val{color:var(--battery)}
+.nv{font-family:var(--font-display);font-size:18px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nv-home{font-family:var(--font-display);font-size:24px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nl{font-family:var(--font-body);font-size:7px;font-weight:700;fill:var(--muted);text-anchor:middle;letter-spacing:.4px;text-transform:uppercase}
+.ns{font-family:var(--font-body);font-size:8.5px;fill:var(--body);text-anchor:middle}
 
-/* Connection indicators between cards */
-.connector{
-  display:flex;align-items:center;justify-content:center;width:2px;height:18px;
-  position:relative;margin:1px 0
-}
-.connector::before{
-  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
-  border-left:2px dashed var(--hairline)
-}
-.connector.active::before{border-color:var(--solar);border-style:solid}
-.connector .dot{
-  width:4px;height:4px;border-radius:50%;position:absolute;
-  animation:moveDown 1.2s linear infinite
-}
-.connector .dot:nth-child(2){animation-delay:.4s}
-.connector .dot:nth-child(3){animation-delay:.8s}
-.connector.solar-dot .dot{background:var(--solar)}
-.connector.grid-dot .dot{background:var(--grid)}
-.connector.battery-dot .dot{background:var(--battery)}
+/* Flow lines */
+.conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.2;transition:opacity .4s}
+.conn-line.active{opacity:.7;stroke-width:3}
+.conn-line.solar-fl{stroke:var(--solar)}
+.conn-line.grid-imp{stroke:var(--grid)}
+.conn-line.grid-exp{stroke:var(--export)}
+.conn-line.bat-dis{stroke:#c2680c}
+.conn-line.bat-chg{stroke:var(--battery)}
 
-@keyframes moveDown{0%{top:0;opacity:1}80%{opacity:1}100%{top:100%;opacity:0}}
+/* Arrow heads */
+.arrow-head{opacity:0;transition:opacity .3s}
+.arrow-head.active{opacity:.8}
 
-/* Split connector for grid+battery below home */
-.split-connector{
-  display:flex;justify-content:center;gap:40px;width:100%;max-width:280px;
-  position:relative;margin:1px 0
-}
-.split-connector::before{
-  content:'';position:absolute;top:0;left:50%;width:40%;height:18px;
-  border-left:2px dashed var(--hairline);
-  border-bottom:2px dashed var(--hairline);
-  border-radius:0 0 0 8px
-}
-.split-connector::after{
-  content:'';position:absolute;top:0;right:50%;width:40%;height:18px;
-  border-right:2px dashed var(--hairline);
-  border-bottom:2px dashed var(--hairline);
-  border-radius:0 0 8px 0
-}
-.split-branch{display:flex;align-items:center;justify-content:center;width:2px;position:relative}
-.split-branch::before{content:'';position:absolute;top:18px;left:0;width:100%;height:12px;border-left:2px dashed var(--hairline)}
-.split-branch .dot{width:4px;height:4px;border-radius:50%;position:absolute;top:18px;animation:moveDown 1.2s linear infinite}
-.split-branch .dot:nth-child(2){animation-delay:.4s}
-.split-branch .dot:nth-child(3){animation-delay:.8s}
-.split-branch.left .dot{background:var(--grid)}
-.split-branch.right .dot{background:var(--battery)}
-
-/* Row for grid+battery side by side */
-.flow-row{display:flex;gap:10px;width:100%;max-width:280px;justify-content:center}
-.flow-row .node-card{flex:1;max-width:135px;padding:8px 10px;flex-direction:column;align-items:center;text-align:center;gap:4px}
-.flow-row .nc-val{font-size:1rem}
-.flow-row .nc-icon{width:32px;height:32px}
-.flow-row .nc-icon svg{width:18px;height:18px}
+/* Flow particles */
+.flow-dot{opacity:0}
+.pulse{animation:pulseDot 1s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:.6}50%{opacity:1}}
 
 /* === AMBER PRICE STRIP === */
-.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
 .price-cell{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius-sm);padding:10px 12px;text-align:center
@@ -161,66 +114,123 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- FLOW DIAGRAM — themed node cards with inline SVG icons -->
-  <div class="flow-section">
+  <!-- SVG FLOW DIAGRAM — HOME at center hub -->
+  <div class="flow-card">
+    <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Arrow markers -->
+        <marker id="arrowSolar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0,0 8,3 0,6" fill="#e8a838"/>
+        </marker>
+        <marker id="arrowGridImp" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0,0 8,3 0,6" fill="#5b8cb8"/>
+        </marker>
+        <marker id="arrowGridExp" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0,0 8,3 0,6" fill="#c0392b"/>
+        </marker>
+        <marker id="arrowBatDis" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0,0 8,3 0,6" fill="#c2680c"/>
+        </marker>
+        <marker id="arrowBatChg" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0,0 8,3 0,6" fill="#4a9e6e"/>
+        </marker>
+        <!-- Glow filters -->
+        <filter id="glowSolar" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
 
-    <!-- SOLAR -->
-    <div class="node-card solar" id="cardSolar">
-      <div class="nc-icon">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="12" width="18" height="9" rx="1" fill="#e8a838" opacity=".2" stroke="#e8a838" stroke-width="1"/><line x1="6" y1="15" x2="18" y2="15" stroke="#e8a838" stroke-width=".5"/><line x1="6" y1="18" x2="18" y2="18" stroke="#e8a838" stroke-width=".5"/><circle cx="12" cy="7" r="3" fill="#e8a838"/><line x1="12" y1="1" x2="12" y2="4" stroke="#e8a838" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="3" x2="9" y2="5" stroke="#e8a838" stroke-width="1" stroke-linecap="round"/><line x1="17" y1="3" x2="15" y2="5" stroke="#e8a838" stroke-width="1" stroke-linecap="round"/></svg>
-      </div>
-      <div class="nc-info">
-        <div class="nc-val" id="nvSolar">--</div>
-        <div class="nc-label">Solar</div>
-      </div>
-    </div>
+      <!-- Background node glow rings (subtle) -->
+      <circle cx="180" cy="48" r="56" fill="none" stroke="var(--solar-subtle)" stroke-width="1" opacity=".4"/>
+      <circle cx="58" cy="152" r="56" fill="none" stroke="var(--grid-subtle)" stroke-width="1" opacity=".4"/>
+      <circle cx="302" cy="152" r="56" fill="none" stroke="var(--battery-subtle)" stroke-width="1" opacity=".4"/>
+      <circle cx="180" cy="152" r="64" fill="none" stroke="var(--home-subtle)" stroke-width="1.5" opacity=".4"/>
 
-    <!-- Connector: Solar → Home -->
-    <div class="connector solar-dot" id="connSolar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <!-- CONNECTION LINES -->
+      <!-- Solar → Home -->
+      <line id="lnSolar" class="conn-line solar-fl" x1="180" y1="94" x2="180" y2="100"/>
+      <line id="lnSolarA" class="conn-line solar-fl" x1="180" y1="94" x2="180" y2="100" opacity="0" marker-end="url(#arrowSolar)"/>
 
-    <!-- HOME -->
-    <div class="node-card home-node" id="cardHome">
-      <div class="nc-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9" stroke="#cc785c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11h5v-6h4v6h5V10" fill="#cc785c" opacity=".15" stroke="#cc785c" stroke-width="1.2" stroke-linejoin="round"/><rect x="10" y="15" width="4" height="6" rx=".5" fill="#fdf5f2" stroke="#cc785c" stroke-width=".8"/></svg>
-      </div>
-      <div class="nc-info">
-        <div class="nc-val" id="nvHome">--</div>
-        <div class="nc-label">Home</div>
-      </div>
-    </div>
+      <!-- Grid → Home (import: left to right) -->
+      <line id="lnGridImp" class="conn-line grid-imp" x1="100" y1="152" x2="128" y2="152"/>
+      <line id="lnGridImpA" class="conn-line grid-imp" x1="100" y1="152" x2="128" y2="152" opacity="0" marker-end="url(#arrowGridImp)"/>
 
-    <!-- Split connector: Home → Grid + Battery -->
-    <div class="split-connector" id="splitConn">
-      <div class="split-branch left">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      </div>
-      <div class="split-branch right">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      </div>
-    </div>
+      <!-- Home → Grid (export: right to left) -->
+      <line id="lnGridExp" class="conn-line grid-exp" x1="128" y1="152" x2="100" y2="152"/>
+      <line id="lnGridExpA" class="conn-line grid-exp" x1="128" y1="152" x2="100" y2="152" opacity="0" marker-end="url(#arrowGridExp)"/>
 
-    <!-- GRID + BATTERY side by side -->
-    <div class="flow-row">
-      <div class="node-card grid-node" id="cardGrid">
-        <div class="nc-icon">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="1" width="2.5" height="22" rx="1" fill="#5b8cb8" opacity=".15"/><rect x="18.5" y="1" width="2.5" height="22" rx="1" fill="#5b8cb8" opacity=".15"/><line x1="1" y1="7" x2="23" y2="7" stroke="#5b8cb8" stroke-width=".8"/><line x1="1" y1="14" x2="23" y2="14" stroke="#5b8cb8" stroke-width=".8"/><line x1="4" y1="4" x2="20" y2="4" stroke="#5b8cb8" stroke-width=".5"/><line x1="4" y1="10" x2="20" y2="10" stroke="#5b8cb8" stroke-width=".5"/><line x1="4" y1="17" x2="20" y2="17" stroke="#5b8cb8" stroke-width=".5"/></svg>
-        </div>
-        <div class="nc-info">
-          <div class="nc-val" id="nvGrid">--</div>
-          <div class="nc-label">Grid</div>
-        </div>
-      </div>
-      <div class="node-card battery-node" id="cardBatt">
-        <div class="nc-icon">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="18" height="15" rx="2" fill="#4a9e6e" opacity=".15" stroke="#4a9e6e" stroke-width="1.2"/><rect x="7" y="2" width="8" height="4" rx="1" fill="none" stroke="#4a9e6e" stroke-width="1"/><rect x="5" y="9" width="4" height="9" rx=".5" fill="#4a9e6e" opacity=".4"/><rect x="10" y="9" width="4" height="9" rx=".5" fill="#4a9e6e" opacity=".3"/><rect x="15" y="9" width="2" height="9" rx=".5" fill="#4a9e6e" opacity=".15"/></svg>
-        </div>
-        <div class="nc-info">
-          <div class="nc-val" id="nvBat">--</div>
-          <div class="nc-sub" id="nvBatSub">--</div>
-          <div class="nc-label">Battery</div>
-        </div>
-      </div>
-    </div>
+      <!-- Battery → Home (discharge: right to left) -->
+      <line id="lnBatDis" class="conn-line bat-dis" x1="260" y1="152" x2="232" y2="152"/>
+      <line id="lnBatDisA" class="conn-line bat-dis" x1="260" y1="152" x2="232" y2="152" opacity="0" marker-end="url(#arrowBatDis)"/>
+
+      <!-- Home → Battery (charge: left to right) -->
+      <line id="lnBatChg" class="conn-line bat-chg" x1="232" y1="152" x2="260" y2="152"/>
+      <line id="lnBatChgA" class="conn-line bat-chg" x1="232" y1="152" x2="260" y2="152" opacity="0" marker-end="url(#arrowBatChg)"/>
+
+      <!-- === SOLAR (top) === -->
+      <circle class="node-circle solar" cx="180" cy="48" r="46"/>
+      <!-- Solar panel icon -->
+      <g transform="translate(163,31)">
+        <rect x="0" y="6" width="34" height="20" rx="2" fill="#e8a838" opacity=".15" stroke="#e8a838" stroke-width="1"/>
+        <line x1="6" y1="13" x2="28" y2="13" stroke="#e8a838" stroke-width=".4"/>
+        <line x1="6" y1="19" x2="28" y2="19" stroke="#e8a838" stroke-width=".4"/>
+        <circle cx="17" cy="3" r="3" fill="#e8a838"/>
+        <line x1="17" y1="0" x2="17" y2="0" stroke="#e8a838" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="11" y1="1" x2="13" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
+        <line x1="23" y1="1" x2="21" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
+      </g>
+      <!-- Labels outside circle -->
+      <text class="nv" x="180" y="110" id="nvSolar">--</text>
+      <text class="nl" x="180" y="122">SOLAR</text>
+
+      <!-- === GRID (left) === -->
+      <circle class="node-circle grid" cx="58" cy="152" r="46"/>
+      <!-- Stobie pole icon -->
+      <g transform="translate(41,135)">
+        <rect x="5" y="0" width="3" height="34" rx="1" fill="#5b8cb8" opacity=".2"/>
+        <rect x="26" y="0" width="3" height="34" rx="1" fill="#5b8cb8" opacity=".2"/>
+        <line x1="1" y1="10" x2="33" y2="10" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="1" y1="20" x2="33" y2="20" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="6" y1="5" x2="28" y2="5" stroke="#5b8cb8" stroke-width=".4"/>
+        <line x1="6" y1="15" x2="28" y2="15" stroke="#5b8cb8" stroke-width=".4"/>
+        <line x1="6" y1="25" x2="28" y2="25" stroke="#5b8cb8" stroke-width=".4"/>
+      </g>
+      <text class="nv" x="58" y="214" id="nvGrid">--</text>
+      <text class="nl" x="58" y="226">GRID</text>
+
+      <!-- === HOME (center) === -->
+      <circle class="node-circle home" cx="180" cy="152" r="52"/>
+      <!-- House icon -->
+      <g transform="translate(163,136)">
+        <path d="M0 12L17 0l17 12" fill="none" stroke="#cc785c" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 10v12h10v-7h8v7h10V10" fill="#cc785c" opacity=".12" stroke="#cc785c" stroke-width="1" stroke-linejoin="round"/>
+        <rect x="16" y="15" width="4" height="7" rx=".3" fill="#fdf5f2" stroke="#cc785c" stroke-width=".6"/>
+      </g>
+      <text class="nv-home" x="180" y="220" id="nvHome">--</text>
+      <text class="nl" x="180" y="234">HOME</text>
+
+      <!-- === BATTERY (right) === -->
+      <circle class="node-circle battery" cx="302" cy="152" r="46"/>
+      <!-- Battery icon -->
+      <g transform="translate(286,136)">
+        <rect x="1" y="4" width="28" height="24" rx="3" fill="#4a9e6e" opacity=".12" stroke="#4a9e6e" stroke-width="1.1"/>
+        <rect x="9" y="1" width="12" height="3" rx="1" fill="none" stroke="#4a9e6e" stroke-width=".9"/>
+        <rect x="5" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".35"/>
+        <rect x="12" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".25"/>
+        <rect x="19" y="9" width="5" height="14" rx=".4" fill="#4a9e6e" opacity=".12"/>
+      </g>
+      <text class="nv" x="302" y="214" id="nvBat">--</text>
+      <text class="ns" x="302" y="226" id="nvBatSub">--</text>
+      <text class="nl" x="302" y="238">BATTERY</text>
+
+      <!-- Particle groups for GSAP -->
+      <g id="pSolar"><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/></g>
+      <g id="pGridImp"><circle class="flow-dot" r="4" fill="#80b4e0"/><circle class="flow-dot" r="4" fill="#80b4e0"/><circle class="flow-dot" r="4" fill="#80b4e0"/></g>
+      <g id="pGridExp"><circle class="flow-dot" r="4" fill="#e88a8a"/><circle class="flow-dot" r="4" fill="#e88a8a"/><circle class="flow-dot" r="4" fill="#e88a8a"/></g>
+      <g id="pBatDis"><circle class="flow-dot" r="4" fill="#e8956a"/><circle class="flow-dot" r="4" fill="#e8956a"/><circle class="flow-dot" r="4" fill="#e8956a"/></g>
+      <g id="pBatChg"><circle class="flow-dot" r="4" fill="#6bc48a"/><circle class="flow-dot" r="4" fill="#6bc48a"/><circle class="flow-dot" r="4" fill="#6bc48a"/></g>
+    </svg>
   </div>
 
   <!-- Amber buy/sell prices -->
@@ -261,66 +271,99 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Loading...</span></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 const DATA_URL='data/energy-data.json';
+
+// Flow definitions: path start→end for particle animation, plus the line & arrow elements
+const FLOWS={
+  solar:   {x1:180,y1:94, x2:180,y2:100, line:'#lnSolar', arrow:'#lnSolarA'},
+  gridImp: {x1:100,y1:152,x2:128,y2:152, line:'#lnGridImp', arrow:'#lnGridImpA'},
+  gridExp: {x1:128,y1:152,x2:100,y2:152, line:'#lnGridExp', arrow:'#lnGridExpA'},
+  batDis:  {x1:260,y1:152,x2:232,y2:152, line:'#lnBatDis', arrow:'#lnBatDisA'},
+  batChg:  {x1:232,y1:152,x2:260,y2:152, line:'#lnBatChg', arrow:'#lnBatChgA'},
+};
+const active={};
 
 function fmtW(v){const a=Math.abs(v);return a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W'}
 function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
 
-function setActive(el,active){if(active)el.classList.add('active');else el.classList.remove('active')}
+function animFlow(key){
+  if(active[key])return;
+  const f=FLOWS[key],line=document.querySelector(f.line),arrow=document.querySelector(f.arrow);
+  if(!line)return;
+  line.classList.add('active');
+  if(arrow)arrow.classList.add('active');
+  gsap.to(line,{opacity:.7,duration:.3,ease:'power2.out'});
 
-function updateConnectorDots(connId,active){
-  const conn=document.getElementById(connId);
-  if(!conn)return;
-  conn.querySelectorAll('.dot').forEach(d=>{d.style.display=active?'block':'none'});
+  // Find particle group: key → pSolar, pGridImp etc
+  const gMap={solar:'pSolar',gridImp:'pGridImp',gridExp:'pGridExp',batDis:'pBatDis',batChg:'pBatChg'};
+  const gid=gMap[key],group=document.getElementById(gid);
+  if(!group)return;
+  const dots=group.querySelectorAll('circle');
+  dots.forEach((d,i)=>{
+    gsap.set(d,{opacity:1,x:f.x1,y:f.y1});
+    const t=gsap.timeline({repeat:-1,delay:i*.55});
+    t.to(d,{x:f.x2,y:f.y2,duration:1.5,ease:'none'});
+    t.to(d,{scale:1.5,duration:.15,ease:'power2.out'},0);
+    t.to(d,{scale:1,duration:.15,ease:'power2.in'},1.35);
+  });
+  active[key]=true;
 }
+function stopFlow(key){
+  if(!active[key])return;delete active[key];
+  const f=FLOWS[key],line=document.querySelector(f.line),arrow=document.querySelector(f.arrow);
+  if(line){line.classList.remove('active');gsap.to(line,{opacity:.2,duration:.5,ease:'power2.in'})}
+  if(arrow)arrow.classList.remove('active');
+}
+
+function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
 
 function updateUI(data){
   const g=data.goodwe,a=data.amber;
-  document.getElementById('timestamp').textContent=data.timestamp_display||'--';
+  setText('timestamp',data.timestamp_display||'--');
 
   const sW=g.solar_now_w||0, gW=g.grid_power_w||0;
   const hW=g.home_consumption_w||0, bW=g.battery_power_w||0;
   const soc=g.battery_soc_pct||0;
 
-  // Node values
-  document.getElementById('nvSolar').textContent=fmtW(sW);
+  // SVG node values
+  setText('nvSolar',fmtW(sW));
   const ga=Math.abs(gW),gd=gW<-50?' ↓':gW>50?' ↑':'';
-  document.getElementById('nvGrid').textContent=fmtW(ga)+gd;
-  document.getElementById('nvHome').textContent=fmtW(hW);
-  document.getElementById('nvBat').textContent=fmtW(Math.abs(bW));
-  document.getElementById('nvBatSub').textContent=soc+'%'+(g.battery_flow?', '+g.battery_flow:'');
+  setText('nvGrid',fmtW(ga)+gd);
+  setText('nvHome',fmtW(hW));
+  setText('nvBat',fmtW(Math.abs(bW)));
+  setText('nvBatSub',soc+'%'+(g.battery_flow?', '+g.battery_flow:''));
 
-  // Connection dots — show when flow is active
+  // Flow animations
   const chg=bW<-50, dis=bW>50, imp=gW<-50, exp=gW>50;
-  updateConnectorDots('connSolar',sW>50);
-  // Grid dot always shown if importing, battery dot if charging/discharging
-  const splitConn=document.getElementById('splitConn');
-  const lDots=splitConn.querySelectorAll('.split-branch.left .dot');
-  const rDots=splitConn.querySelectorAll('.split-branch.right .dot');
-  lDots.forEach(d=>d.style.display=imp||exp?'block':'none');
-  rDots.forEach(d=>d.style.display=(chg||dis)?'block':'none');
+  sW>50?animFlow('solar'):stopFlow('solar');
+  imp?animFlow('gridImp'):stopFlow('gridImp');
+  exp?animFlow('gridExp'):stopFlow('gridExp');
+  dis?animFlow('batDis'):stopFlow('batDis');
+  chg?animFlow('batChg'):stopFlow('batChg');
 
-  // Node card borders glow on activity
-  setActive(document.getElementById('cardSolar'),sW>50);
-  setActive(document.getElementById('cardGrid'),imp||exp);
-  setActive(document.getElementById('cardBatt'),chg||dis);
+  // Node glow on activity
+  document.querySelectorAll('.node-circle').forEach(c=>c.classList.remove('active'));
+  if(sW>50)document.querySelector('.node-circle.solar').classList.add('active');
+  if(imp||exp)document.querySelector('.node-circle.grid').classList.add('active');
+  if(dis||chg)document.querySelector('.node-circle.battery').classList.add('active');
 
   // Daily
-  document.getElementById('dailySolar').textContent=fmtKwh(g.today_solar_kwh);
-  document.getElementById('dailyBatt').textContent=fmtKwh(g.lifetime_bat_charge_kwh);
-  document.getElementById('dailyExport').textContent=fmtKwh(g.lifetime_export_kwh);
+  setText('dailySolar',fmtKwh(g.today_solar_kwh));
+  setText('dailyBatt',fmtKwh(g.lifetime_bat_charge_kwh));
+  setText('dailyExport',fmtKwh(g.lifetime_export_kwh));
 
-  // Amber prices — buy = perKwh (retail), sell = spotPerKwh (wholesale feed-in)
+  // Amber prices
   const buyC=a.current_price_c, sellC=a.sell_price_c;
   const period=a.period||'';
   if(buyC!=null){
-    document.getElementById('buyPrice').textContent=buyC.toFixed(1);
+    setText('buyPrice',buyC.toFixed(1));
     const bp=document.getElementById('buyPeriod');
     bp.textContent=period;bp.className='pc-period '+period;
   }
   if(sellC!=null){
-    document.getElementById('sellPrice').textContent=sellC.toFixed(1);
+    setText('sellPrice',sellC.toFixed(1));
     const sp=document.getElementById('sellPeriod');
     sp.textContent=period;sp.className='pc-period '+period;
   }
@@ -352,15 +395,15 @@ function updateUI(data){
     }).join('');
   }else bars.innerHTML='<div style="padding:16px;text-align:center;color:var(--muted);font-size:.7rem">No price data</div>';
 
-  // Refresh indicator
+  // Refresh dot
   const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
-  document.getElementById('refreshText').textContent='Live · '+(data.timestamp_short||'just now');
+  setText('refreshText','Live · '+(data.timestamp_short||'just now'));
 }
 
 function showError(msg){
-  document.getElementById('timestamp').textContent='Unable to connect';
+  setText('timestamp','Unable to connect');
   document.getElementById('refreshDot').classList.add('stale');
-  document.getElementById('refreshText').textContent=msg||'Connection lost';
+  setText('refreshText',msg||'Connection lost');
 }
 
 async function fetchData(){
