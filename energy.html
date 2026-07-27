@@ -196,7 +196,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 <script>
 const DATA_URL='data/energy-data.json';
 
-function fmtW(v){const a=Math.abs(v);return a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W'}
+function fmtW(v){const a=Math.abs(v);return a>=100?(a/1000).toFixed(2)+' kW':(a/1000).toFixed(3)+' kW'}
 function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
 
 function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
