@@ -43,6 +43,11 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .node-circle.grid{stroke:var(--grid)}
 .node-circle.home{stroke:var(--home)}
 
+/* SVG text inside nodes */
+.nv{font-family:var(--font-display);font-size:17px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nv-home{font-family:var(--font-display);font-size:22px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nl{font-family:var(--font-body);font-size:7px;font-weight:700;fill:var(--muted);text-anchor:middle;letter-spacing:.4px;text-transform:uppercase}
+.ns{font-family:var(--font-body);font-size:8px;fill:var(--body);text-anchor:middle}
 /* Connection lines */
 .conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.25}
 .conn-line.active{opacity:.75}
@@ -283,15 +288,12 @@ function updateUI(data){
   setText('dailyBatt',fmtKwh(g.lifetime_bat_charge_kwh));
   setText('dailyExport',fmtKwh(g.lifetime_export_kwh));
 
-  // Amber buy/sell
-  const price=a.current_price_c;
+  // Amber buy/sell — both track wholesale spot on Amber
+  const spot=a.current_price_c;
   const period=a.period||'';
-  if(price!=null){
-    // Amber wholesale: buy ≈ price + small margin, sell ≈ price - small margin
-    // Using the raw spot price as the indicator
-    const spot=price;
+  if(spot!=null){
     setText('buyPrice',spot.toFixed(1));
-    setText('sellPrice',Math.max(0,spot-1).toFixed(1)); // ~1c spread
+    setText('sellPrice',spot.toFixed(1));
     const bp=document.getElementById('buyPeriod'),sp=document.getElementById('sellPeriod');
     bp.textContent=period;bp.className='pc-period '+period;
     sp.textContent=period;sp.className='pc-period '+period;
