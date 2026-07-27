@@ -13,167 +13,146 @@
   --solar: #e8a838; --solar-glow: #f5c85a;
   --battery: #4a9e6e; --battery-glow: #6bc48a;
   --grid: #5b8cb8; --grid-glow: #80b4e0;
+  --active-flow: #4a9e6e;
   --radius: 20px; --radius-sm: 12px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-body); background: var(--canvas); color: var(--body); -webkit-font-smoothing: antialiased; }
-.container { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
-.hero { text-align: center; padding: 10px 0 4px; }
-.hero .kicker { font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--coral); }
-.hero h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; margin: 2px 0 0; }
-.hero .timestamp { font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased}
+.container{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+.hero{text-align:center;padding:10px 0 4px}
+.hero .kicker{font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral)}
+.hero h1{font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--ink);letter-spacing:-.5px;margin:2px 0 0}
+.hero .timestamp{font-size:0.78rem;color:var(--muted);font-family:var(--font-mono);margin-top:2px}
 
 /* Flow diagram */
-.flow-diagram { position: relative; margin: 16px 0; border-radius: var(--radius); overflow: hidden; background: var(--canvas); box-shadow: 0 0 0 1px var(--hairline); }
-.flow-diagram svg { display: block; width: 100%; height: auto; }
+.flow-diagram{position:relative;margin:16px 0;border-radius:var(--radius);overflow:hidden;background:var(--canvas);box-shadow:0 0 0 1px var(--hairline)}
+.flow-diagram svg{display:block;width:100%;height:auto}
 
-/* Flow paths */
-.flow-path { fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 8 6; opacity: 0.15; }
-.flow-path.solar { stroke: var(--solar); }
-.flow-path.battery { stroke: var(--battery); }
-.flow-path.grid { stroke: var(--grid); }
-.flow-path.export { stroke: #c0392b; }
+/* Hub junction dot */
+.hub-dot{fill:#fff;stroke:var(--active-flow);stroke-width:2.5;filter:drop-shadow(0 0 6px rgba(74,158,110,0.4))}
+
+/* Flow spokes — straight lines from junction */
+.flow-spoke{fill:none;stroke-width:3;stroke-linecap:round;stroke:var(--active-flow);opacity:0.15}
+.flow-spoke.grid-spoke{stroke:var(--grid)}
+.flow-spoke.export-spoke{stroke:#c0392b}
 
 /* Particles */
-.flow-particle { opacity: 0; }
-.flow-particle.solar { fill: var(--solar-glow); filter: drop-shadow(0 0 5px rgba(232,168,56,0.8)); }
-.flow-particle.battery { fill: var(--battery-glow); filter: drop-shadow(0 0 5px rgba(74,158,110,0.8)); }
-.flow-particle.grid { fill: var(--grid-glow); filter: drop-shadow(0 0 5px rgba(91,140,184,0.8)); }
-.flow-particle.export { fill: #e88a8a; filter: drop-shadow(0 0 5px rgba(200,60,60,0.7)); }
+.flow-particle{opacity:0}
+.flow-particle.solar{fill:var(--solar-glow);filter:drop-shadow(0 0 5px rgba(232,168,56,.8))}
+.flow-particle.battery{fill:var(--battery-glow);filter:drop-shadow(0 0 5px rgba(74,158,110,.8))}
+.flow-particle.grid{fill:var(--grid-glow);filter:drop-shadow(0 0 5px rgba(91,140,184,.8))}
+.flow-particle.export{fill:#e88a8a;filter:drop-shadow(0 0 5px rgba(200,60,60,.7))}
 
 /* Data badges */
-.data-badge {
-  position: absolute; display: flex; flex-direction: column; align-items: center;
-  pointer-events: none; transform: translate(-50%, -50%);
+.data-badge{position:absolute;display:flex;flex-direction:column;align-items:center;pointer-events:none;transform:translate(-50%,-50%)}
+.data-badge .bubble{
+  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(20,20,19,.08);border-radius:clamp(14px,2.5vw,24px);
+  padding:clamp(4px,.8vw,8px) clamp(8px,1.6vw,16px);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);display:flex;align-items:baseline;gap:3px
 }
-.data-badge .bubble {
-  background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(20,20,19,0.08); border-radius: clamp(16px, 3vw, 28px);
-  padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2.4vw, 20px);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  display: flex; flex-direction: column; align-items: center;
+.data-badge .val{font-family:var(--font-display);font-size:clamp(15px,2.8vw,24px);font-weight:900;color:var(--ink);line-height:1.1}
+.data-badge .unit{font-size:clamp(8px,1.2vw,11px);font-weight:600;color:var(--muted);margin-left:1px}
+.data-badge .dir{font-size:clamp(10px,1.5vw,14px);margin-left:2px}
+.data-badge.solar .bubble{border-color:rgba(232,168,56,.35)}
+.data-badge.battery .bubble{border-color:rgba(74,158,110,.35)}
+.data-badge.grid .bubble{border-color:rgba(91,140,184,.35)}
+.data-badge.home .bubble{border-color:rgba(204,120,92,.35)}
+
+/* Daily summary strip */
+.daily-strip{
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--radius-sm);padding:10px 16px;margin:16px 0
 }
-.data-badge .val {
-  font-family: var(--font-display); font-size: clamp(16px, 3vw, 26px);
-  font-weight: 900; color: var(--ink); line-height: 1.1;
-}
-.data-badge .lbl {
-  font-size: clamp(7px, 1.2vw, 9px); font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-top: 1px;
-}
-.data-badge .bubble::before {
-  content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
-  width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
-}
-.data-badge.solar .bubble { border-color: rgba(232,168,56,0.4); }
-.data-badge.solar .bubble::before { background: var(--solar); }
-.data-badge.battery .bubble { border-color: rgba(74,158,110,0.4); }
-.data-badge.battery .bubble::before { background: var(--battery); }
-.data-badge.grid .bubble { border-color: rgba(91,140,184,0.4); }
-.data-badge.grid .bubble::before { background: var(--grid); }
-.data-badge.home .bubble { border-color: rgba(204,120,92,0.4); }
-.data-badge.home .bubble::before { background: var(--home); }
+.daily-item{text-align:center}
+.daily-val{font-family:var(--font-display);font-size:1.1rem;font-weight:900;color:var(--ink)}
+.daily-lbl{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
 
 /* Amber card */
-.amber-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin: 16px 0; }
-.amber-price { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--ink); line-height: 1; }
-.amber-price-unit { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
-.amber-meta { flex: 1; }
-.amber-period { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 4px; }
-.amber-period.solarSponge { background: #fef3d5; color: #8b6914; }
-.amber-period.peak { background: #fde8e8; color: #9b1c1c; }
-.amber-period.offPeak { background: #e8f0fe; color: #1e429f; }
-.amber-descriptor { font-size: 0.78rem; color: var(--body); }
-.amber-next { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-.amber-next strong { color: var(--ink); }
+.amber-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;margin:16px 0}
+.amber-price{font-family:var(--font-display);font-size:2.2rem;font-weight:900;color:var(--ink);line-height:1}
+.amber-price-unit{font-size:.85rem;font-weight:600;color:var(--muted)}
+.amber-meta{flex:1}
+.amber-period{font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:4px}
+.amber-period.solarSponge{background:#fef3d5;color:#8b6914}
+.amber-period.peak{background:#fde8e8;color:#9b1c1c}
+.amber-period.offPeak{background:#e8f0fe;color:#1e429f}
+.amber-descriptor{font-size:.78rem;color:var(--body)}
+.amber-next{font-size:.75rem;color:var(--muted);margin-top:2px}
+.amber-next strong{color:var(--ink)}
 
 /* Price bars */
-.price-bars { margin: 16px 0; }
-.price-bars-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.bar-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 0.75rem; }
-.bar-time { width: 42px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-align: right; flex-shrink: 0; }
-.bar-track { flex: 1; height: 22px; background: var(--surface-alt); border-radius: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.9); white-space: nowrap; }
-.bar-price { width: 52px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; color: var(--body); text-align: left; flex-shrink: 0; }
+.price-bars{margin:16px 0}
+.price-bars-label{font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.bar-row{display:flex;align-items:center;gap:10px;padding:4px 0;font-size:.75rem}
+.bar-time{width:42px;font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--surface-alt);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:.68rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
+.bar-price{width:52px;font-family:var(--font-mono);font-size:.72rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
 
-/* SoC strip */
-.soc-strip { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 12px 16px; margin: 16px 0; }
-.soc-strip .soc-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: var(--ink); min-width: 56px; }
-.soc-strip .soc-bar-wrap { flex: 1; height: 14px; background: var(--surface-alt); border-radius: 7px; overflow: hidden; }
-.soc-strip .soc-bar-fill { height: 100%; border-radius: 7px; }
-.soc-strip .soc-meta { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); min-width: 70px; text-align: right; }
-
-.refresh-bar { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; font-size: 0.7rem; color: var(--muted); }
-.refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: #1b8a3d; }
-.refresh-dot.stale { background: #c2680c; }
-@keyframes shimmer { 0%{background-position:-200px 0} 100%{background-position:calc(200px+100%) 0} }
-.shimmer { background: linear-gradient(90deg,var(--surface-alt) 25%,var(--hairline) 50%,var(--surface-alt) 75%); background-size:200px 100%; animation:shimmer 1.5s infinite; border-radius:4px; }
-
-@media (max-width:480px) { .hero h1 { font-size:1.6rem; } .amber-price { font-size:1.8rem; } }
+.refresh-bar{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;font-size:.7rem;color:var(--muted)}
+.refresh-dot{width:6px;height:6px;border-radius:50%;background:#1b8a3d}
+.refresh-dot.stale{background:#c2680c}
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:calc(200px+100%) 0}}
+.shimmer{background:linear-gradient(90deg,var(--surface-alt)25%,var(--hairline)50%,var(--surface-alt)75%);background-size:200px 100%;animation:shimmer 1.5s infinite;border-radius:4px}
+@media(max-width:480px){.hero h1{font-size:1.6rem}.amber-price{font-size:1.8rem}}
 </style>
 </head>
 <body>
 <div class="container">
-
   <div class="hero">
     <div class="kicker">119 Princes Road</div>
     <h1>Energy</h1>
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- FLOW DIAGRAM -->
+  <!-- FLOW DIAGRAM — hub-and-spoke from junction box -->
   <div class="flow-diagram" id="flowContainer">
     <svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
       <image href="images/house-energy.png" width="1200" height="1200"/>
 
-      <!-- Arrowhead markers for flow direction -->
-      <defs>
-        <marker id="arrowSolar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#e8a838"/></marker>
-        <marker id="arrowBattery" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#4a9e6e"/></marker>
-        <marker id="arrowGrid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#5b8cb8"/></marker>
-        <marker id="arrowExport" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#c0392b"/></marker>
-      </defs>
+      <!-- Junction hub dot (at the grid connection box on the house) -->
+      <circle cx="410" cy="520" r="7" class="hub-dot" id="hubDot"/>
+      <!-- Hub glow ring -->
+      <circle cx="410" cy="520" r="14" fill="none" stroke="var(--active-flow)" stroke-width="1.5" opacity="0.3" id="hubRing"/>
 
-      <!-- Flow paths (static, GSAP animates them) -->
-      <path id="pathSolarHome" class="flow-path solar" d="M 650,430 C 650,470 650,500 650,530" marker-end="url(#arrowSolar)"/>
-      <path id="pathSolarBat" class="flow-path solar" d="M 600,460 C 530,490 470,550 440,610" marker-end="url(#arrowSolar)"/>
-      <path id="pathBatHome" class="flow-path battery" d="M 460,640 C 510,620 560,570 590,540" marker-end="url(#arrowBattery)"/>
-      <path id="pathGridHome" class="flow-path grid" d="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540" marker-end="url(#arrowGrid)"/>
-      <path id="pathHomeGrid" class="flow-path export" d="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350" marker-end="url(#arrowExport)"/>
+      <!-- 4 SPOKES — straight lines from junction to each component -->
+      <!-- Spoke 1: Junction → Solar (roof panels) -->
+      <line id="spokeSolar" class="flow-spoke" x1="410" y1="520" x2="650" y2="430"/>
+      <!-- Spoke 2: Junction → Battery (wall unit) -->
+      <line id="spokeBatteryDown" class="flow-spoke" x1="410" y1="520" x2="410" y2="640"/>
+      <!-- Spoke 3: Junction → Home (house interior) -->
+      <line id="spokeHome" class="flow-spoke" x1="410" y1="520" x2="650" y2="530"/>
+      <!-- Spoke 4: Junction → Grid (power pole) -->
+      <line id="spokeGridIn" class="flow-spoke grid-spoke" x1="410" y1="520" x2="320" y2="350"/>
+      <!-- Spoke 5: Grid → Junction (reverse, export) -->
+      <line id="spokeGridOut" class="flow-spoke export-spoke" x1="320" y1="350" x2="410" y2="520"/>
 
-      <!-- Particle circles (positioned and animated by GSAP) -->
-      <g id="particlesSolarHome">
-        <circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/>
-      </g>
-      <g id="particlesSolarBat">
-        <circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/><circle class="flow-particle solar" r="5"/>
-      </g>
-      <g id="particlesBatHome">
-        <circle class="flow-particle battery" r="5"/><circle class="flow-particle battery" r="5"/><circle class="flow-particle battery" r="5"/>
-      </g>
-      <g id="particlesGridHome">
-        <circle class="flow-particle grid" r="5"/><circle class="flow-particle grid" r="5"/><circle class="flow-particle grid" r="5"/>
-      </g>
-      <g id="particlesHomeGrid">
-        <circle class="flow-particle export" r="5"/><circle class="flow-particle export" r="5"/><circle class="flow-particle export" r="5"/>
-      </g>
+      <!-- Particle groups (GSAP-animated along spokes) -->
+      <g id="particlesSolar"><circle class="flow-particle solar" r="4"/><circle class="flow-particle solar" r="4"/><circle class="flow-particle solar" r="4"/></g>
+      <g id="particlesBatteryDown"><circle class="flow-particle battery" r="4"/><circle class="flow-particle battery" r="4"/><circle class="flow-particle battery" r="4"/></g>
+      <g id="particlesBatteryUp"><circle class="flow-particle battery" r="4"/><circle class="flow-particle battery" r="4"/><circle class="flow-particle battery" r="4"/></g>
+      <g id="particlesHome"><circle class="flow-particle solar" r="4"/><circle class="flow-particle solar" r="4"/><circle class="flow-particle solar" r="4"/></g>
+      <g id="particlesGridIn"><circle class="flow-particle grid" r="4"/><circle class="flow-particle grid" r="4"/><circle class="flow-particle grid" r="4"/></g>
+      <g id="particlesGridOut"><circle class="flow-particle export" r="4"/><circle class="flow-particle export" r="4"/><circle class="flow-particle export" r="4"/></g>
     </svg>
 
-    <!-- Data badges -->
-    <div class="data-badge solar" style="left:54%;top:29%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="lbl">Solar</span></div></div>
-    <div class="data-badge grid" style="left:26%;top:21%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="lbl">Grid</span></div></div>
-    <div class="data-badge battery" style="left:37%;top:65%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="lbl">Battery</span></div></div>
-    <div class="data-badge home" style="left:54%;top:51%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="lbl">Home</span></div></div>
+    <!-- Data badges positioned near physical elements -->
+    <div class="data-badge solar" style="left:54%;top:30%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="unit">kW</span></div></div>
+    <div class="data-badge grid" style="left:24%;top:24%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="unit" id="svgGridUnit">kW</span><span class="dir" id="svgGridDir"></span></div></div>
+    <div class="data-badge battery" style="left:33%;top:63%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="unit">%</span></div></div>
+    <div class="data-badge home" style="left:57%;top:48%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="unit">kW</span></div></div>
   </div>
 
-  <!-- SoC strip -->
-  <div class="soc-strip">
-    <span class="soc-val" id="socVal">--%</span>
-    <div class="soc-bar-wrap"><div class="soc-bar-fill" id="socBarFill" style="width:0%;background:#4a9e6e;"></div></div>
-    <span class="soc-meta" id="socMeta">--</span>
+  <!-- Daily summary -->
+  <div class="daily-strip">
+    <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">To Battery</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
   </div>
 
   <!-- Amber -->
@@ -192,138 +171,121 @@ body { font-family: var(--font-body); background: var(--canvas); color: var(--bo
     <div id="priceBars"><div class="shimmer" style="height:120px;"></div></div>
   </div>
 
-  <div class="refresh-bar">
-    <div class="refresh-dot" id="refreshDot"></div>
-    <span id="refreshText">Live</span>
-  </div>
+  <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Live</span></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
 <script>
 gsap.registerPlugin(MotionPathPlugin);
+const DATA_URL='data/energy-data.json';
 
-const DATA_URL = 'data/energy-data.json';
-
-// Path definitions for GSAP
-const FLOWS = {
-  SH: { path: '#pathSolarHome', group: '#particlesSolarHome', id: 'pathSolarHome' },
-  SB: { path: '#pathSolarBat', group: '#particlesSolarBat', id: 'pathSolarBat' },
-  BH: { path: '#pathBatHome', group: '#particlesBatHome', id: 'pathBatHome' },
-  GH: { path: '#pathGridHome', group: '#particlesGridHome', id: 'pathGridHome' },
-  HG: { path: '#pathHomeGrid', group: '#particlesHomeGrid', id: 'pathHomeGrid' }
+// Spoke definitions for GSAP — straight lines from junction
+const SPOKES={
+  solar:   {line:'#spokeSolar', group:'#particlesSolar', dir:'fwd'},
+  batDown: {line:'#spokeBatteryDown', group:'#particlesBatteryDown', dir:'fwd'},  // charging
+  batUp:   {line:'#spokeBatteryDown', group:'#particlesBatteryUp', dir:'rev'},   // discharging (reverse path)
+  home:    {line:'#spokeHome', group:'#particlesHome', dir:'fwd'},
+  gridIn:  {line:'#spokeGridIn', group:'#particlesGridIn', dir:'fwd'},   // importing
+  gridOut: {line:'#spokeGridOut', group:'#particlesGridOut', dir:'fwd'},  // exporting
 };
+const activeSpokes={};
 
-// Active GSAP tweens per flow (so we can kill/restart)
-const activeTimelines = {};
+function fmtW(v){const a=Math.abs(v);if(a>=1000)return(a/1000).toFixed(2);return Math.round(a).toString()}
+function fmtKwh(v){if(v==null)return'--';return v.toFixed(1)+' kWh'}
 
-function fmtW(v) {
-  const a=Math.abs(v);
-  if(a>=1000) return (a/1000).toFixed(2)+' kW';
-  return Math.round(a)+' W';
-}
-function fmtSignedW(v) {
-  if(v==null) return '--';
-  const a=Math.abs(v);
-  let s=a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W';
-  return v>=0?'+'+s:'−'+s;
-}
+// Start particle animation along a spoke
+function startSpoke(key){
+  if(activeSpokes[key])return;
+  const s=SPOKES[key];
+  const pathEl=document.querySelector(s.line);
+  const particles=document.querySelectorAll(s.group+' circle');
+  if(!pathEl||!particles.length)return;
 
-// Start particle animation along a path
-function startFlow(key) {
-  if (activeTimelines[key]) return; // already running
-  const flow = FLOWS[key];
-  const pathEl = document.querySelector(flow.path);
-  const particles = document.querySelectorAll(flow.group + ' circle');
-  if (!pathEl || !particles.length) return;
+  const tl=gsap.timeline({repeat:-1});
+  tl.to(pathEl,{opacity:0.8,duration:0.4,ease:'power2.out'},0);
+  pathEl.classList.add('active');
 
-  // Show path
-  const tl = gsap.timeline({ repeat: -1 });
-  tl.to(pathEl, { opacity: 0.75, duration: 0.4, ease: 'power2.out' }, 0);
+  // Build motion path from line coords
+  const x1=parseFloat(pathEl.getAttribute('x1'));
+  const y1=parseFloat(pathEl.getAttribute('y1'));
+  const x2=parseFloat(pathEl.getAttribute('x2'));
+  const y2=parseFloat(pathEl.getAttribute('y2'));
+  const isRev=s.dir==='rev';
+  const sx=isRev?x2:x1, sy=isRev?y2:y1, ex=isRev?x1:x2, ey=isRev?y1:y2;
 
-  // Animate particles with staggered start
-  particles.forEach((p, i) => {
-    gsap.set(p, { opacity: 1, scale: 1 });
-    const ptl = gsap.timeline({ repeat: -1, delay: i * 0.7 });
-    ptl.to(p, {
-      duration: 2.5,
-      ease: 'none',
-      motionPath: { path: pathEl, align: pathEl, autoRotate: false },
-    });
-    ptl.to(p, { scale: 1.6, duration: 0.3, ease: 'power2.out' }, 0);
-    ptl.to(p, { scale: 1, duration: 0.3, ease: 'power2.in' }, 2.2);
+  particles.forEach((p,i)=>{
+    gsap.set(p,{opacity:1,x:sx,y:sy});
+    const ptl=gsap.timeline({repeat:-1,delay:i*0.6});
+    ptl.to(p,{x:ex,y:ey,duration:2,ease:'none'});
+    ptl.to(p,{scale:1.5,duration:.25,ease:'power2.out'},0);
+    ptl.to(p,{scale:1,duration:.25,ease:'power2.in'},1.75);
   });
 
-  // Path glow pulse
-  tl.to(pathEl, { opacity: 0.55, duration: 1.5, ease: 'sine.inOut' }, 0.4);
-  tl.to(pathEl, { opacity: 0.75, duration: 1.5, ease: 'sine.inOut' }, 1.9);
+  // Glow pulse on hub
+  const hub=document.getElementById('hubRing');
+  if(hub)tl.to(hub,{opacity:0.6,r:18,duration:1.5,ease:'sine.inOut'},0).to(hub,{opacity:0.3,r:14,duration:1.5,ease:'sine.inOut'},1.5);
 
-  activeTimelines[key] = { tl, particles };
+  activeSpokes[key]={tl,particles};
 }
 
-// Stop particle animation
-function stopFlow(key) {
-  const entry = activeTimelines[key];
-  if (!entry) return;
-  entry.tl.kill();
-  entry.particles.forEach(p => gsap.set(p, { opacity: 0 }));
-  const pathEl = document.getElementById(FLOWS[key].id);
-  if (pathEl) gsap.to(pathEl, { opacity: 0.15, duration: 0.5, ease: 'power2.in' });
-  delete activeTimelines[key];
+function stopSpoke(key){
+  const e=activeSpokes[key];if(!e)return;
+  e.tl.kill();e.particles.forEach(p=>gsap.set(p,{opacity:0}));
+  const pathEl=document.querySelector(SPOKES[key].line);
+  if(pathEl){gsap.to(pathEl,{opacity:0.15,duration:.5,ease:'power2.in'});pathEl.classList.remove('active')}
+  delete activeSpokes[key];
 }
 
-// Animate a number change with a subtle pop
-function popNumber(el, newText) {
-  if (el.textContent === newText) return;
-  gsap.to(el, {
-    scale: 1.15, duration: 0.15, ease: 'power2.out',
-    onComplete: () => {
-      el.textContent = newText;
-      gsap.to(el, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.4)' });
-    }
-  });
+function popNumber(el,newText){
+  if(el.textContent===newText)return;
+  gsap.to(el,{scale:1.15,duration:.15,ease:'power2.out',onComplete:()=>{
+    el.textContent=newText;gsap.to(el,{scale:1,duration:.3,ease:'elastic.out(1,.4)'});
+  }});
 }
 
-function updateUI(data) {
-  const g=data.goodwe, a=data.amber;
+function updateUI(data){
+  const g=data.goodwe,a=data.amber;
   document.getElementById('timestamp').textContent=data.timestamp_display||'--';
 
-  const solarW=g.solar_now_w||0, gridW=g.grid_power_w||0;
-  const homeW=g.home_consumption_w||0, batW=g.battery_power_w||0;
+  const solarW=g.solar_now_w||0,gridW=g.grid_power_w||0;
+  const homeW=g.home_consumption_w||0,batW=g.battery_power_w||0;
   const soc=g.battery_soc_pct||0;
 
-  // Data badges with pop animation
-  popNumber(document.getElementById('svgSolarVal'), fmtW(solarW));
-  // Grid badge — show absolute value with direction indicator
-  const gridAbs = Math.abs(gridW);
-  const gridDir = gridW < -50 ? '↓' : gridW > 50 ? '↑' : '·';
-  document.getElementById('svgGridVal').textContent = fmtW(gridAbs) + ' ' + gridDir;
-  popNumber(document.getElementById('svgHomeVal'), fmtW(homeW));
-  popNumber(document.getElementById('svgBatVal'), soc+'%');
+  // Data badges
+  popNumber(document.getElementById('svgSolarVal'),fmtW(solarW));
+  // Grid: absolute value + direction arrow
+  const gridAbs=Math.abs(gridW);
+  document.getElementById('svgGridVal').textContent=fmtW(gridAbs);
+  document.getElementById('svgGridDir').textContent=gridW<-50?'↓':gridW>50?'↑':'';
+  popNumber(document.getElementById('svgHomeVal'),fmtW(homeW));
+  popNumber(document.getElementById('svgBatVal'),soc.toString());
 
-  // SoC strip with GSAP tween
-  const socBar = document.getElementById('socBarFill');
-  let bc='#4a9e6e';
-  if(soc<15) bc='#c0392b'; else if(soc<30) bc='#c2680c';
-  socBar.style.background=bc;
-  gsap.to(socBar, { width: soc+'%', duration: 0.8, ease: 'power2.out' });
-  document.getElementById('socVal').textContent=soc+'%';
-  document.getElementById('socMeta').textContent=fmtSignedW(batW)+' · '+(g.battery_flow==='charging'?'charging':g.battery_flow==='discharging'?'discharging':'idle');
+  // Daily totals
+  document.getElementById('dailySolar').textContent=fmtKwh(g.today_solar_kwh);
+  document.getElementById('dailyBatt').textContent=fmtKwh(g.lifetime_bat_charge_kwh);
+  document.getElementById('dailyExport').textContent=fmtKwh(g.lifetime_export_kwh);
 
-  // Flow control — start/stop animations
-  const charging=batW<-50, importing=gridW<-50, exporting=gridW>50;
+  // Spoke control — straight hub-and-spoke, no overlap
+  const charging=batW<-50, discharging=batW>50;
+  const importing=gridW<-50, exporting=gridW>50;
 
-  solarW>50 ? startFlow('SH') : stopFlow('SH');
-  (charging && solarW>100) ? startFlow('SB') : stopFlow('SB');
-  (batW>50) ? startFlow('BH') : stopFlow('BH');
-  importing ? startFlow('GH') : stopFlow('GH');
-  exporting ? startFlow('HG') : stopFlow('HG');
+  // Solar always flows into junction when generating
+  solarW>50?startSpoke('solar'):stopSpoke('solar');
+  // From junction to battery (charging) or battery to junction (discharging)
+  charging?startSpoke('batDown'):stopSpoke('batDown');
+  discharging?startSpoke('batUp'):stopSpoke('batUp');
+  // From junction to home (always when consuming)
+  homeW>50?startSpoke('home'):stopSpoke('home');
+  // Grid to junction (importing) or junction to grid (exporting)
+  importing?startSpoke('gridIn'):stopSpoke('gridIn');
+  exporting?startSpoke('gridOut'):stopSpoke('gridOut');
 
   // Amber
   const price=a.current_price_c;
   document.getElementById('amberPrice').textContent=price!=null?price.toFixed(1):'--';
-  const pe=document.getElementById('amberPeriod'), period=a.period||'';
-  pe.textContent=period; pe.className='amber-period '+period;
+  const pe=document.getElementById('amberPeriod'),period=a.period||'';
+  pe.textContent=period;pe.className='amber-period '+period;
   document.getElementById('amberDescriptor').textContent=a.descriptor||'';
   const ne=document.getElementById('amberNext');
   if(a.next_peak_c!=null&&a.next_peak_time)
@@ -331,25 +293,18 @@ function updateUI(data) {
   else ne.textContent='';
 
   // Price bars
-  const bars=document.getElementById('priceBars'), fwd=a.forward_prices||[];
+  const bars=document.getElementById('priceBars'),fwd=a.forward_prices||[];
   if(fwd.length>0){
-    const mx=Math.max(...fwd.map(f=>f.price),0.1);
+    const mx=Math.max(...fwd.map(f=>f.price),.1);
     bars.innerHTML=fwd.map(f=>{
-      let c='#b0ada6';
-      if(f.period==='peak') c='#c0392b';
-      else if(f.period==='solarSponge') c='#c2680c';
+      let c='#b0ada6';if(f.period==='peak')c='#c0392b';else if(f.period==='solarSponge')c='#c2680c';
       return '<div class="bar-row"><span class="bar-time">'+f.time+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.max((f.price/mx)*100,4)+'%;background:'+c+'"> </span></span><span class="bar-price">'+f.price.toFixed(1)+'c</span></div>';
     }).join('');
-    // Animate bar-fills in
-    gsap.fromTo('#priceBars .bar-fill', { width: '0%' }, { duration: 0.6, ease: 'power2.out', stagger: 0.03 });
-  } else bars.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:0.8rem">No price data</div>';
+    gsap.fromTo('#priceBars .bar-fill',{width:'0%'},{duration:.6,ease:'power2.out',stagger:.03});
+  }else bars.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:.8rem">No price data</div>';
 
-  // Refresh dot pulse
-  const dot = document.getElementById('refreshDot');
-  dot.classList.remove('stale');
-  gsap.to(dot, { scale: 1.8, opacity: 0.5, duration: 0.3, ease: 'power2.out',
-    onComplete: () => gsap.to(dot, { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.in' })
-  });
+  const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
+  gsap.to(dot,{scale:1.8,opacity:.5,duration:.3,ease:'power2.out',onComplete:()=>gsap.to(dot,{scale:1,opacity:1,duration:.5,ease:'power2.in'})});
   document.getElementById('refreshText').textContent='Live · '+(data.timestamp_short||'just now');
 }
 
@@ -360,16 +315,11 @@ function showError(msg){
 }
 
 async function fetchData(){
-  try{
-    const r=await fetch(DATA_URL+'?v='+Date.now());
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    updateUI(await r.json());
-  }catch(e){console.warn('Fetch failed:',e.message);showError('Retrying...');}
+  try{const r=await fetch(DATA_URL+'?v='+Date.now());if(!r.ok)throw new Error('HTTP '+r.status);updateUI(await r.json())}
+  catch(e){console.warn('Fetch failed:',e.message);showError('Retrying...')}
 }
-
-fetchData();
-setInterval(fetchData, 30000);
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData();});
+fetchData();setInterval(fetchData,30000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData()});
 </script>
 </body>
 </html>
