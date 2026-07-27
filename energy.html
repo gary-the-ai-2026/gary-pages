@@ -218,9 +218,10 @@ function updateUI(data){
   setText('wGridSub',gd);
 
   setText('wBat',soc+'%');
+  const storedKwh=(soc*0.32).toFixed(1);
   const ba=Math.abs(bW);
   const bs=bW>50?'discharging '+fmtW(ba):bW<-50?'charging '+fmtW(ba):'idle';
-  setText('wBatSub',bs);
+  setText('wBatSub',storedKwh+' kWh · '+bs);
 
   // Amber prices
   const buyC=a.current_price_c,sellC=a.sell_price_c,period=a.period||'';
