@@ -193,14 +193,14 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 <script>
 const DATA_URL='data/energy-data.json';
 
-// Spoke particle configs
+// Spoke particle configs — direction is the physical energy flow
 const SPOKES={
-  solar:  {line:'#spokeSolar', group:'#pSolar', x1:375,y1:728,x2:595,y2:495},
-  batDn:  {line:'#spokeBatteryDn', group:'#pBatDn', x1:375,y1:728,x2:375,y2:645},
-  batUp:  {line:'#spokeBatteryDn', group:'#pBatUp', x1:375,y1:645,x2:375,y2:728},
-  home:   {line:'#spokeHome', group:'#pHome', x1:375,y1:728,x2:595,y2:650},
-  gridIn: {line:'#spokeGridIn', group:'#pGridIn', x1:375,y1:728,x2:290,y2:400},
-  gridOut:{line:'#spokeGridOut', group:'#pGridOut', x1:290,y1:400,x2:375,y2:728},
+  solar:  {line:'#spokeSolar', group:'#pSolar', x1:595,y1:495,x2:375,y2:728},   // FROM solar TO junction
+  batDn:  {line:'#spokeBatteryDn', group:'#pBatDn', x1:375,y1:728,x2:375,y2:645}, // FROM junction TO battery (charging)
+  batUp:  {line:'#spokeBatteryDn', group:'#pBatUp', x1:375,y1:645,x2:375,y2:728}, // FROM battery TO junction (discharging)
+  home:   {line:'#spokeHome', group:'#pHome', x1:375,y1:728,x2:595,y2:650},       // FROM junction TO home
+  gridIn: {line:'#spokeGridIn', group:'#pGridIn', x1:290,y1:400,x2:375,y2:728},   // FROM grid TO junction (importing)
+  gridOut:{line:'#spokeGridOut', group:'#pGridOut', x1:375,y1:728,x2:290,y2:400}, // FROM junction TO grid (exporting)
 };
 const active={};
 
