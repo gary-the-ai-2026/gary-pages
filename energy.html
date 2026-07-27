@@ -10,10 +10,10 @@
   --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
   --ink: #141413; --body: #5c5a55; --muted: #94918a;
   --hairline: #e4e1db; --coral: #cc785c;
-  --solar: #e8a838; --solar-light: #fef9f0; --solar-subtle: #f5ecd8;
-  --battery: #4a9e6e; --battery-light: #f0faf4; --battery-subtle: #d8efe2;
-  --grid: #5b8cb8; --grid-light: #f0f5fa; --grid-subtle: #d8e8f5;
-  --home: #cc785c; --home-light: #fdf5f2; --home-subtle: #f0ddd5;
+  --solar: #e8a838; --solar-light: #fef9f0;
+  --battery: #4a9e6e; --battery-light: #f0faf4;
+  --grid: #5b8cb8; --grid-light: #f0f5fa;
+  --home: #cc785c; --home-light: #fdf5f2;
   --export: #c0392b;
   --radius: 16px; --radius-sm: 10px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -21,38 +21,39 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased}
-.container{max-width:480px;margin:0 auto;padding:12px 10px 32px}
+html,body{height:100%}
+body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+.container{flex:1;display:flex;flex-direction:column;max-width:480px;width:100%;margin:0 auto;padding:10px 10px 24px;min-height:100dvh}
 
-/* Header */
-.hero{text-align:center;padding:6px 0 4px}
+/* Header — compact */
+.hero{text-align:center;padding:4px 0 6px;flex-shrink:0}
 .hero .kicker{font-size:.62rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--coral)}
-.hero h1{font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--ink)}
-.hero .timestamp{font-size:.68rem;color:var(--muted);font-family:var(--font-mono);margin-top:1px}
+.hero h1{font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--ink);line-height:1.1}
+.hero .timestamp{font-size:.65rem;color:var(--muted);font-family:var(--font-mono);margin-top:1px}
 
-/* === SVG FLOW DIAGRAM === */
+/* === FLOW DIAGRAM — fills available height === */
 .flow-card{
+  flex:1;display:flex;align-items:center;justify-content:center;
   background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);padding:8px 2px;margin:10px 0;
-  position:relative
+  border-radius:var(--radius);margin:6px 0;padding:4px;min-height:280px;
+  position:relative;overflow:hidden
 }
-.flow-card svg{display:block;width:100%;height:auto}
+.flow-card svg{display:block;width:100%;height:100%;max-height:420px}
 
-/* Node styles (SVG) */
-.node-circle{fill:var(--surface);stroke-width:2.5;filter:drop-shadow(0 1px 4px rgba(0,0,0,.06))}
+/* Node styles */
+.node-circle{fill:var(--surface);stroke-width:2.5;filter:drop-shadow(0 1px 4px rgba(0,0,0,.05))}
 .node-circle.solar{stroke:var(--solar)}
 .node-circle.battery{stroke:var(--battery)}
 .node-circle.grid{stroke:var(--grid)}
 .node-circle.home{stroke:var(--home)}
-.node-circle.active{filter:drop-shadow(0 1px 6px rgba(0,0,0,.1))}
 
-.nv{font-family:var(--font-display);font-size:18px;font-weight:900;fill:var(--ink);text-anchor:middle}
-.nv-home{font-family:var(--font-display);font-size:24px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nv{font-family:var(--font-display);font-size:17px;font-weight:900;fill:var(--ink);text-anchor:middle}
+.nv-home{font-family:var(--font-display);font-size:26px;font-weight:900;fill:var(--ink);text-anchor:middle}
 .nl{font-family:var(--font-body);font-size:7px;font-weight:700;fill:var(--muted);text-anchor:middle;letter-spacing:.4px;text-transform:uppercase}
 .ns{font-family:var(--font-body);font-size:8.5px;fill:var(--body);text-anchor:middle}
 
 /* Flow lines */
-.conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.2;transition:opacity .4s}
+.conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.2;transition:opacity .5s}
 .conn-line.active{opacity:.7;stroke-width:3}
 .conn-line.solar-fl{stroke:var(--solar)}
 .conn-line.grid-imp{stroke:var(--grid)}
@@ -60,17 +61,8 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .conn-line.bat-dis{stroke:#c2680c}
 .conn-line.bat-chg{stroke:var(--battery)}
 
-/* Arrow heads */
-.arrow-head{opacity:0;transition:opacity .3s}
-.arrow-head.active{opacity:.8}
-
-/* Flow particles */
-.flow-dot{opacity:0}
-.pulse{animation:pulseDot 1s ease-in-out infinite}
-@keyframes pulseDot{0%,100%{opacity:.6}50%{opacity:1}}
-
 /* === AMBER PRICE STRIP === */
-.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0;flex-shrink:0}
 .price-cell{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius-sm);padding:10px 12px;text-align:center
@@ -85,23 +77,25 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .price-cell.buy{border-color:rgba(91,140,184,.3)}
 .price-cell.sell{border-color:rgba(74,158,110,.3)}
 
-/* Explainer & daily */
-.explainer{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:8px 12px;margin:10px 0;font-size:.72rem;color:var(--body);line-height:1.5;text-align:center}
-.daily-strip{display:flex;justify-content:center;gap:16px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:8px 12px;margin:10px 0}
+/* Bottom sections — compact, scroll if needed */
+.bottom-sections{flex-shrink:0;overflow-y:auto;max-height:45vh}
+
+.explainer{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:7px 12px;margin:4px 0;font-size:.7rem;color:var(--body);line-height:1.4;text-align:center}
+.daily-strip{display:flex;justify-content:center;gap:16px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:7px 12px;margin:4px 0}
 .daily-item{text-align:center}
-.daily-val{font-family:var(--font-display);font-size:.95rem;font-weight:900;color:var(--ink)}
-.daily-lbl{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.daily-val{font-family:var(--font-display);font-size:.9rem;font-weight:900;color:var(--ink)}
+.daily-lbl{font-size:.52rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
 
 /* Price bars */
-.price-bars{margin:10px 0}
-.price-bars-label{font-size:.58rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.bar-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:.68rem}
-.bar-time{width:36px;font-family:var(--font-mono);font-size:.62rem;color:var(--muted);text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:18px;background:var(--surface-alt);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.58rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
-.bar-price{width:42px;font-family:var(--font-mono);font-size:.65rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
+.price-bars{margin:6px 0}
+.price-bars-label{font-size:.55rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.bar-row{display:flex;align-items:center;gap:8px;padding:2px 0;font-size:.68rem}
+.bar-time{width:34px;font-family:var(--font-mono);font-size:.6rem;color:var(--muted);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:16px;background:var(--surface-alt);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.55rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
+.bar-price{width:40px;font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
 
-.refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;font-size:.6rem;color:var(--muted)}
+.refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px;font-size:.58rem;color:var(--muted);flex-shrink:0}
 .refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
 .refresh-dot.stale{background:#c2680c}
 </style>
@@ -114,11 +108,10 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- SVG FLOW DIAGRAM — HOME at center hub -->
+  <!-- FLOW DIAGRAM — fills available height -->
   <div class="flow-card">
-    <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 360 430" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <!-- Arrow markers -->
         <marker id="arrowSolar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
           <polygon points="0,0 8,3 0,6" fill="#e8a838"/>
         </marker>
@@ -134,97 +127,87 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
         <marker id="arrowBatChg" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
           <polygon points="0,0 8,3 0,6" fill="#4a9e6e"/>
         </marker>
-        <!-- Glow filters -->
-        <filter id="glowSolar" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
       </defs>
 
-      <!-- Background node glow rings (subtle) -->
-      <circle cx="180" cy="48" r="56" fill="none" stroke="var(--solar-subtle)" stroke-width="1" opacity=".4"/>
-      <circle cx="58" cy="152" r="56" fill="none" stroke="var(--grid-subtle)" stroke-width="1" opacity=".4"/>
-      <circle cx="302" cy="152" r="56" fill="none" stroke="var(--battery-subtle)" stroke-width="1" opacity=".4"/>
-      <circle cx="180" cy="152" r="64" fill="none" stroke="var(--home-subtle)" stroke-width="1.5" opacity=".4"/>
+      <!-- Subtle background rings -->
+      <circle cx="180" cy="62" r="64" fill="none" stroke="#f5ecd8" stroke-width="1" opacity=".5"/>
+      <circle cx="58" cy="210" r="64" fill="none" stroke="#d8e8f5" stroke-width="1" opacity=".5"/>
+      <circle cx="302" cy="210" r="64" fill="none" stroke="#d8efe2" stroke-width="1" opacity=".5"/>
+      <circle cx="180" cy="210" r="74" fill="none" stroke="#f0ddd5" stroke-width="1.5" opacity=".5"/>
 
       <!-- CONNECTION LINES -->
       <!-- Solar → Home -->
-      <line id="lnSolar" class="conn-line solar-fl" x1="180" y1="94" x2="180" y2="100"/>
-      <line id="lnSolarA" class="conn-line solar-fl" x1="180" y1="94" x2="180" y2="100" opacity="0" marker-end="url(#arrowSolar)"/>
+      <line id="lnSolar" class="conn-line solar-fl" x1="180" y1="112" x2="180" y2="146"/>
+      <line id="lnSolarA" class="conn-line solar-fl" x1="180" y1="112" x2="180" y2="146" opacity="0" marker-end="url(#arrowSolar)"/>
 
-      <!-- Grid → Home (import: left to right) -->
-      <line id="lnGridImp" class="conn-line grid-imp" x1="100" y1="152" x2="128" y2="152"/>
-      <line id="lnGridImpA" class="conn-line grid-imp" x1="100" y1="152" x2="128" y2="152" opacity="0" marker-end="url(#arrowGridImp)"/>
+      <!-- Grid → Home (import) -->
+      <line id="lnGridImp" class="conn-line grid-imp" x1="110" y1="210" x2="146" y2="210"/>
+      <line id="lnGridImpA" class="conn-line grid-imp" x1="110" y1="210" x2="146" y2="210" opacity="0" marker-end="url(#arrowGridImp)"/>
 
-      <!-- Home → Grid (export: right to left) -->
-      <line id="lnGridExp" class="conn-line grid-exp" x1="128" y1="152" x2="100" y2="152"/>
-      <line id="lnGridExpA" class="conn-line grid-exp" x1="128" y1="152" x2="100" y2="152" opacity="0" marker-end="url(#arrowGridExp)"/>
+      <!-- Home → Grid (export) -->
+      <line id="lnGridExp" class="conn-line grid-exp" x1="146" y1="210" x2="110" y2="210"/>
+      <line id="lnGridExpA" class="conn-line grid-exp" x1="146" y1="210" x2="110" y2="210" opacity="0" marker-end="url(#arrowGridExp)"/>
 
-      <!-- Battery → Home (discharge: right to left) -->
-      <line id="lnBatDis" class="conn-line bat-dis" x1="260" y1="152" x2="232" y2="152"/>
-      <line id="lnBatDisA" class="conn-line bat-dis" x1="260" y1="152" x2="232" y2="152" opacity="0" marker-end="url(#arrowBatDis)"/>
+      <!-- Battery → Home (discharge) -->
+      <line id="lnBatDis" class="conn-line bat-dis" x1="250" y1="210" x2="214" y2="210"/>
+      <line id="lnBatDisA" class="conn-line bat-dis" x1="250" y1="210" x2="214" y2="210" opacity="0" marker-end="url(#arrowBatDis)"/>
 
-      <!-- Home → Battery (charge: left to right) -->
-      <line id="lnBatChg" class="conn-line bat-chg" x1="232" y1="152" x2="260" y2="152"/>
-      <line id="lnBatChgA" class="conn-line bat-chg" x1="232" y1="152" x2="260" y2="152" opacity="0" marker-end="url(#arrowBatChg)"/>
+      <!-- Home → Battery (charge) -->
+      <line id="lnBatChg" class="conn-line bat-chg" x1="214" y1="210" x2="250" y2="210"/>
+      <line id="lnBatChgA" class="conn-line bat-chg" x1="214" y1="210" x2="250" y2="210" opacity="0" marker-end="url(#arrowBatChg)"/>
 
       <!-- === SOLAR (top) === -->
-      <circle class="node-circle solar" cx="180" cy="48" r="46"/>
-      <!-- Solar panel icon -->
-      <g transform="translate(163,31)">
-        <rect x="0" y="6" width="34" height="20" rx="2" fill="#e8a838" opacity=".15" stroke="#e8a838" stroke-width="1"/>
-        <line x1="6" y1="13" x2="28" y2="13" stroke="#e8a838" stroke-width=".4"/>
-        <line x1="6" y1="19" x2="28" y2="19" stroke="#e8a838" stroke-width=".4"/>
-        <circle cx="17" cy="3" r="3" fill="#e8a838"/>
-        <line x1="17" y1="0" x2="17" y2="0" stroke="#e8a838" stroke-width="1.2" stroke-linecap="round"/>
+      <circle class="node-circle solar" cx="180" cy="62" r="50"/>
+      <g transform="translate(162,44)">
+        <rect x="0" y="7" width="36" height="22" rx="2" fill="#e8a838" opacity=".12" stroke="#e8a838" stroke-width="1"/>
+        <line x1="7" y1="15" x2="29" y2="15" stroke="#e8a838" stroke-width=".4"/>
+        <line x1="7" y1="21" x2="29" y2="21" stroke="#e8a838" stroke-width=".4"/>
+        <circle cx="18" cy="3" r="3.5" fill="#e8a838"/>
+        <line x1="18" y1="0" x2="18" y2="0" stroke="#e8a838" stroke-width="1.2" stroke-linecap="round"/>
         <line x1="11" y1="1" x2="13" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
-        <line x1="23" y1="1" x2="21" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
+        <line x1="25" y1="1" x2="23" y2="1" stroke="#e8a838" stroke-width=".8" stroke-linecap="round"/>
       </g>
-      <!-- Labels outside circle -->
-      <text class="nv" x="180" y="110" id="nvSolar">--</text>
-      <text class="nl" x="180" y="122">SOLAR</text>
+      <text class="nv" x="180" y="128" id="nvSolar">--</text>
+      <text class="nl" x="180" y="142">SOLAR</text>
 
       <!-- === GRID (left) === -->
-      <circle class="node-circle grid" cx="58" cy="152" r="46"/>
-      <!-- Stobie pole icon -->
-      <g transform="translate(41,135)">
-        <rect x="5" y="0" width="3" height="34" rx="1" fill="#5b8cb8" opacity=".2"/>
-        <rect x="26" y="0" width="3" height="34" rx="1" fill="#5b8cb8" opacity=".2"/>
-        <line x1="1" y1="10" x2="33" y2="10" stroke="#5b8cb8" stroke-width=".7"/>
-        <line x1="1" y1="20" x2="33" y2="20" stroke="#5b8cb8" stroke-width=".7"/>
-        <line x1="6" y1="5" x2="28" y2="5" stroke="#5b8cb8" stroke-width=".4"/>
-        <line x1="6" y1="15" x2="28" y2="15" stroke="#5b8cb8" stroke-width=".4"/>
-        <line x1="6" y1="25" x2="28" y2="25" stroke="#5b8cb8" stroke-width=".4"/>
+      <circle class="node-circle grid" cx="58" cy="210" r="50"/>
+      <g transform="translate(40,194)">
+        <rect x="6" y="0" width="3" height="32" rx="1" fill="#5b8cb8" opacity=".15"/>
+        <rect x="27" y="0" width="3" height="32" rx="1" fill="#5b8cb8" opacity=".15"/>
+        <line x1="2" y1="9" x2="34" y2="9" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="2" y1="19" x2="34" y2="19" stroke="#5b8cb8" stroke-width=".7"/>
+        <line x1="7" y1="4" x2="29" y2="4" stroke="#5b8cb8" stroke-width=".35"/>
+        <line x1="7" y1="14" x2="29" y2="14" stroke="#5b8cb8" stroke-width=".35"/>
+        <line x1="7" y1="24" x2="29" y2="24" stroke="#5b8cb8" stroke-width=".35"/>
       </g>
-      <text class="nv" x="58" y="214" id="nvGrid">--</text>
-      <text class="nl" x="58" y="226">GRID</text>
+      <text class="nv" x="58" y="278" id="nvGrid">--</text>
+      <text class="nl" x="58" y="292">GRID</text>
 
       <!-- === HOME (center) === -->
-      <circle class="node-circle home" cx="180" cy="152" r="52"/>
-      <!-- House icon -->
-      <g transform="translate(163,136)">
-        <path d="M0 12L17 0l17 12" fill="none" stroke="#cc785c" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M3 10v12h10v-7h8v7h10V10" fill="#cc785c" opacity=".12" stroke="#cc785c" stroke-width="1" stroke-linejoin="round"/>
-        <rect x="16" y="15" width="4" height="7" rx=".3" fill="#fdf5f2" stroke="#cc785c" stroke-width=".6"/>
+      <circle class="node-circle home" cx="180" cy="210" r="56"/>
+      <g transform="translate(162,194)">
+        <path d="M0 13L18 0l18 13" fill="none" stroke="#cc785c" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 11v13h10v-7h8v7h10V11" fill="#cc785c" opacity=".12" stroke="#cc785c" stroke-width="1" stroke-linejoin="round"/>
+        <rect x="17" y="17" width="4" height="7" rx=".3" fill="#fdf5f2" stroke="#cc785c" stroke-width=".6"/>
       </g>
-      <text class="nv-home" x="180" y="220" id="nvHome">--</text>
-      <text class="nl" x="180" y="234">HOME</text>
+      <text class="nv-home" x="180" y="282" id="nvHome">--</text>
+      <text class="nl" x="180" y="298">HOME</text>
 
       <!-- === BATTERY (right) === -->
-      <circle class="node-circle battery" cx="302" cy="152" r="46"/>
-      <!-- Battery icon -->
-      <g transform="translate(286,136)">
-        <rect x="1" y="4" width="28" height="24" rx="3" fill="#4a9e6e" opacity=".12" stroke="#4a9e6e" stroke-width="1.1"/>
-        <rect x="9" y="1" width="12" height="3" rx="1" fill="none" stroke="#4a9e6e" stroke-width=".9"/>
-        <rect x="5" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".35"/>
-        <rect x="12" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".25"/>
-        <rect x="19" y="9" width="5" height="14" rx=".4" fill="#4a9e6e" opacity=".12"/>
+      <circle class="node-circle battery" cx="302" cy="210" r="50"/>
+      <g transform="translate(285,194)">
+        <rect x="1" y="4" width="28" height="24" rx="3" fill="#4a9e6e" opacity=".1" stroke="#4a9e6e" stroke-width="1"/>
+        <rect x="9" y="1" width="12" height="3" rx="1" fill="none" stroke="#4a9e6e" stroke-width=".8"/>
+        <rect x="5" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".3"/>
+        <rect x="12" y="9" width="6" height="14" rx=".4" fill="#4a9e6e" opacity=".2"/>
+        <rect x="19" y="9" width="5" height="14" rx=".4" fill="#4a9e6e" opacity=".1"/>
       </g>
-      <text class="nv" x="302" y="214" id="nvBat">--</text>
-      <text class="ns" x="302" y="226" id="nvBatSub">--</text>
-      <text class="nl" x="302" y="238">BATTERY</text>
+      <text class="nv" x="302" y="278" id="nvBat">--</text>
+      <text class="ns" x="302" y="292" id="nvBatSub">--</text>
+      <text class="nl" x="302" y="306">BATTERY</text>
 
-      <!-- Particle groups for GSAP -->
+      <!-- Particle groups -->
       <g id="pSolar"><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/><circle class="flow-dot" r="4" fill="#f5c85a"/></g>
       <g id="pGridImp"><circle class="flow-dot" r="4" fill="#80b4e0"/><circle class="flow-dot" r="4" fill="#80b4e0"/><circle class="flow-dot" r="4" fill="#80b4e0"/></g>
       <g id="pGridExp"><circle class="flow-dot" r="4" fill="#e88a8a"/><circle class="flow-dot" r="4" fill="#e88a8a"/><circle class="flow-dot" r="4" fill="#e88a8a"/></g>
@@ -233,7 +216,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     </svg>
   </div>
 
-  <!-- Amber buy/sell prices -->
+  <!-- Amber prices -->
   <div class="price-strip">
     <div class="price-cell buy">
       <div class="pc-label">Buy at</div>
@@ -249,23 +232,19 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     </div>
   </div>
 
-  <!-- Explainer -->
-  <div class="explainer" id="explainer">--</div>
-
-  <!-- Daily totals -->
-  <div class="daily-strip">
-    <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
-  </div>
-
-  <!-- Next peak/trough -->
-  <div class="explainer" id="peakInfo" style="font-size:.68rem">--</div>
-
-  <!-- Forward Prices -->
-  <div class="price-bars">
-    <div class="price-bars-label">Next 4 Hours</div>
-    <div id="priceBars"></div>
+  <!-- Bottom sections (scrollable) -->
+  <div class="bottom-sections">
+    <div class="explainer" id="explainer">--</div>
+    <div class="daily-strip">
+      <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
+      <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
+      <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
+    </div>
+    <div class="explainer" id="peakInfo" style="font-size:.65rem">--</div>
+    <div class="price-bars">
+      <div class="price-bars-label">Next 4 Hours</div>
+      <div id="priceBars"></div>
+    </div>
   </div>
 
   <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Loading...</span></div>
@@ -275,13 +254,12 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 <script>
 const DATA_URL='data/energy-data.json';
 
-// Flow definitions: path start→end for particle animation, plus the line & arrow elements
 const FLOWS={
-  solar:   {x1:180,y1:94, x2:180,y2:100, line:'#lnSolar', arrow:'#lnSolarA'},
-  gridImp: {x1:100,y1:152,x2:128,y2:152, line:'#lnGridImp', arrow:'#lnGridImpA'},
-  gridExp: {x1:128,y1:152,x2:100,y2:152, line:'#lnGridExp', arrow:'#lnGridExpA'},
-  batDis:  {x1:260,y1:152,x2:232,y2:152, line:'#lnBatDis', arrow:'#lnBatDisA'},
-  batChg:  {x1:232,y1:152,x2:260,y2:152, line:'#lnBatChg', arrow:'#lnBatChgA'},
+  solar:   {x1:180,y1:112,x2:180,y2:146, line:'#lnSolar', arrow:'#lnSolarA'},
+  gridImp: {x1:110,y1:210,x2:146,y2:210, line:'#lnGridImp', arrow:'#lnGridImpA'},
+  gridExp: {x1:146,y1:210,x2:110,y2:210, line:'#lnGridExp', arrow:'#lnGridExpA'},
+  batDis:  {x1:250,y1:210,x2:214,y2:210, line:'#lnBatDis', arrow:'#lnBatDisA'},
+  batChg:  {x1:214,y1:210,x2:250,y2:210, line:'#lnBatChg', arrow:'#lnBatChgA'},
 };
 const active={};
 
@@ -293,12 +271,11 @@ function animFlow(key){
   const f=FLOWS[key],line=document.querySelector(f.line),arrow=document.querySelector(f.arrow);
   if(!line)return;
   line.classList.add('active');
-  if(arrow)arrow.classList.add('active');
+  if(arrow)arrow.setAttribute('opacity','.8');
   gsap.to(line,{opacity:.7,duration:.3,ease:'power2.out'});
 
-  // Find particle group: key → pSolar, pGridImp etc
   const gMap={solar:'pSolar',gridImp:'pGridImp',gridExp:'pGridExp',batDis:'pBatDis',batChg:'pBatChg'};
-  const gid=gMap[key],group=document.getElementById(gid);
+  const group=document.getElementById(gMap[key]);
   if(!group)return;
   const dots=group.querySelectorAll('circle');
   dots.forEach((d,i)=>{
@@ -314,7 +291,7 @@ function stopFlow(key){
   if(!active[key])return;delete active[key];
   const f=FLOWS[key],line=document.querySelector(f.line),arrow=document.querySelector(f.arrow);
   if(line){line.classList.remove('active');gsap.to(line,{opacity:.2,duration:.5,ease:'power2.in'})}
-  if(arrow)arrow.classList.remove('active');
+  if(arrow)arrow.setAttribute('opacity','0');
 }
 
 function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
@@ -322,12 +299,8 @@ function setText(id,val){const el=document.getElementById(id);if(el&&el.textCont
 function updateUI(data){
   const g=data.goodwe,a=data.amber;
   setText('timestamp',data.timestamp_display||'--');
+  const sW=g.solar_now_w||0,gW=g.grid_power_w||0,hW=g.home_consumption_w||0,bW=g.battery_power_w||0,soc=g.battery_soc_pct||0;
 
-  const sW=g.solar_now_w||0, gW=g.grid_power_w||0;
-  const hW=g.home_consumption_w||0, bW=g.battery_power_w||0;
-  const soc=g.battery_soc_pct||0;
-
-  // SVG node values
   setText('nvSolar',fmtW(sW));
   const ga=Math.abs(gW),gd=gW<-50?' ↓':gW>50?' ↑':'';
   setText('nvGrid',fmtW(ga)+gd);
@@ -335,57 +308,42 @@ function updateUI(data){
   setText('nvBat',fmtW(Math.abs(bW)));
   setText('nvBatSub',soc+'%'+(g.battery_flow?', '+g.battery_flow:''));
 
-  // Flow animations
-  const chg=bW<-50, dis=bW>50, imp=gW<-50, exp=gW>50;
+  const chg=bW<-50,dis=bW>50,imp=gW<-50,exp=gW>50;
   sW>50?animFlow('solar'):stopFlow('solar');
   imp?animFlow('gridImp'):stopFlow('gridImp');
   exp?animFlow('gridExp'):stopFlow('gridExp');
   dis?animFlow('batDis'):stopFlow('batDis');
   chg?animFlow('batChg'):stopFlow('batChg');
 
-  // Node glow on activity
-  document.querySelectorAll('.node-circle').forEach(c=>c.classList.remove('active'));
-  if(sW>50)document.querySelector('.node-circle.solar').classList.add('active');
-  if(imp||exp)document.querySelector('.node-circle.grid').classList.add('active');
-  if(dis||chg)document.querySelector('.node-circle.battery').classList.add('active');
-
-  // Daily
   setText('dailySolar',fmtKwh(g.today_solar_kwh));
   setText('dailyBatt',fmtKwh(g.lifetime_bat_charge_kwh));
   setText('dailyExport',fmtKwh(g.lifetime_export_kwh));
 
-  // Amber prices
-  const buyC=a.current_price_c, sellC=a.sell_price_c;
-  const period=a.period||'';
+  const buyC=a.current_price_c,sellC=a.sell_price_c,period=a.period||'';
   if(buyC!=null){
     setText('buyPrice',buyC.toFixed(1));
-    const bp=document.getElementById('buyPeriod');
-    bp.textContent=period;bp.className='pc-period '+period;
+    const bp=document.getElementById('buyPeriod');bp.textContent=period;bp.className='pc-period '+period;
   }
   if(sellC!=null){
     setText('sellPrice',sellC.toFixed(1));
-    const sp=document.getElementById('sellPeriod');
-    sp.textContent=period;sp.className='pc-period '+period;
+    const sp=document.getElementById('sellPeriod');sp.textContent=period;sp.className='pc-period '+period;
   }
 
-  // Explainer
   let parts=[];
-  if(sW>20) parts.push('<strong>Solar</strong> '+fmtW(sW));
-  if(hW>20) parts.push('<strong>Home</strong> '+fmtW(hW));
-  if(chg) parts.push('<strong>Battery</strong> charging '+fmtW(Math.abs(bW))+' ('+soc+'%)');
-  if(dis) parts.push('<strong>Battery</strong> discharging '+fmtW(bW)+' ('+soc+'%)');
-  if(imp) parts.push('<strong>Grid</strong> importing '+fmtW(Math.abs(gW))+' at '+(buyC||'?')+'c');
-  if(exp) parts.push('<strong>Grid</strong> exporting '+fmtW(gW)+' at '+(sellC||'?')+'c');
+  if(sW>20)parts.push('<strong>Solar</strong> '+fmtW(sW));
+  if(hW>20)parts.push('<strong>Home</strong> '+fmtW(hW));
+  if(chg)parts.push('<strong>Battery</strong> charging '+fmtW(Math.abs(bW))+' ('+soc+'%)');
+  if(dis)parts.push('<strong>Battery</strong> discharging '+fmtW(bW)+' ('+soc+'%)');
+  if(imp)parts.push('<strong>Grid</strong> importing '+fmtW(Math.abs(gW))+' at '+(buyC||'?')+'c');
+  if(exp)parts.push('<strong>Grid</strong> exporting '+fmtW(gW)+' at '+(sellC||'?')+'c');
   document.getElementById('explainer').innerHTML=parts.length?parts.join(' · '):'Waiting for data...';
 
-  // Peak/trough
   const pi=document.getElementById('peakInfo');
   if(a.next_peak_c!=null&&a.next_peak_time)
     pi.innerHTML='Next peak: <strong>'+a.next_peak_c.toFixed(1)+'c</strong> at '+a.next_peak_time+
       (a.next_trough_c!=null?' · Trough: <strong>'+a.next_trough_c.toFixed(1)+'c</strong> at '+a.next_trough_time:'');
   else pi.textContent='';
 
-  // Price bars
   const bars=document.getElementById('priceBars'),fwd=a.forward_prices||[];
   if(fwd.length>0){
     const mx=Math.max(...fwd.map(f=>f.price),.1);
@@ -393,9 +351,8 @@ function updateUI(data){
       let c='#b0ada6';if(f.period==='peak')c='#c0392b';else if(f.period==='solarSponge')c='#c2680c';
       return '<div class="bar-row"><span class="bar-time">'+f.time+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.max((f.price/mx)*100,4)+'%;background:'+c+'"> </span></span><span class="bar-price">'+f.price.toFixed(1)+'c</span></div>';
     }).join('');
-  }else bars.innerHTML='<div style="padding:16px;text-align:center;color:var(--muted);font-size:.7rem">No price data</div>';
+  }else bars.innerHTML='<div style="padding:12px;text-align:center;color:var(--muted);font-size:.65rem">No price data</div>';
 
-  // Refresh dot
   const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
   setText('refreshText','Live · '+(data.timestamp_short||'just now'));
 }
