@@ -98,22 +98,47 @@ body {
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
+.data-badge .bubble {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(20,20,19,0.08);
+  border-radius: clamp(16px, 3vw, 28px);
+  padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2.4vw, 20px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; align-items: center;
+}
 .data-badge .val {
   font-family: var(--font-display);
   font-size: clamp(16px, 3vw, 26px);
   font-weight: 900;
   color: var(--ink);
   line-height: 1.1;
-  text-shadow: 0 0 8px rgba(250,249,245,0.85), 0 1px 0 rgba(250,249,245,0.6);
 }
 .data-badge .lbl {
-  font-size: clamp(8px, 1.5vw, 10px);
+  font-size: clamp(7px, 1.2vw, 9px);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   color: var(--muted);
   margin-top: 1px;
 }
+/* Accent dots on bubbles */
+.data-badge .bubble::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--muted);
+}
+.data-badge.solar .bubble { border-color: rgba(232,168,56,0.4); }
+.data-badge.solar .bubble::before { background: var(--solar); }
+.data-badge.battery .bubble { border-color: rgba(74,158,110,0.4); }
+.data-badge.battery .bubble::before { background: var(--battery); }
+.data-badge.grid .bubble { border-color: rgba(91,140,184,0.4); }
+.data-badge.grid .bubble::before { background: var(--grid); }
+.data-badge.home .bubble { border-color: rgba(204,120,92,0.4); }
+.data-badge.home .bubble::before { background: var(--home); }
 
 /* Amber card */
 .amber-card {
@@ -240,21 +265,17 @@ body {
     </svg>
 
     <!-- Data badges overlaid -->
-    <div class="data-badge" id="badgeSolar" style="left:54%;top:30%;">
-      <span class="val" id="svgSolarVal">--</span>
-      <span class="lbl">Solar</span>
+    <div class="data-badge solar" id="badgeSolar" style="left:54%;top:29%;">
+      <div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="lbl">Solar</span></div>
     </div>
-    <div class="data-badge" id="badgeGrid" style="left:26%;top:23%;">
-      <span class="val" id="svgGridVal">--</span>
-      <span class="lbl">Grid</span>
+    <div class="data-badge grid" id="badgeGrid" style="left:26%;top:21%;">
+      <div class="bubble"><span class="val" id="svgGridVal">--</span><span class="lbl">Grid</span></div>
     </div>
-    <div class="data-badge" id="badgeBattery" style="left:37%;top:63%;">
-      <span class="val" id="svgBatVal">--</span>
-      <span class="lbl">Battery</span>
+    <div class="data-badge battery" id="badgeBattery" style="left:37%;top:65%;">
+      <div class="bubble"><span class="val" id="svgBatVal">--</span><span class="lbl">Battery</span></div>
     </div>
-    <div class="data-badge" id="badgeHome" style="left:54%;top:52%;">
-      <span class="val" id="svgHomeVal">--</span>
-      <span class="lbl">Home</span>
+    <div class="data-badge home" id="badgeHome" style="left:54%;top:51%;">
+      <div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="lbl">Home</span></div>
     </div>
   </div>
 
