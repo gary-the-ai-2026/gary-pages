@@ -46,11 +46,21 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .flow-particle.grid-export{fill:#e88a8a;filter:drop-shadow(0 0 3px rgba(200,60,60,.6))}
 .flow-particle.home{fill:#e8a090;filter:drop-shadow(0 0 3px rgba(204,120,92,.6))}
 
-/* Data labels — clean, positioned near component */
-.data-label{position:absolute;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
-.data-label .val{font-family:var(--font-display);font-size:1.15rem;font-weight:900;color:var(--ink);line-height:1.1;text-shadow:0 0 8px rgba(250,249,245,.9)}
-.data-label .sub{font-size:.62rem;font-weight:500;color:var(--body);text-shadow:0 0 6px rgba(250,249,245,.8)}
+/* Data labels — in negative space around house, with pill background */
+.data-label{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.data-label .pill{
+  background:rgba(255,255,255,.93);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(20,20,19,.1);border-radius:12px;
+  padding:5px 10px;box-shadow:0 1px 8px rgba(0,0,0,.05);
+  text-align:center
+}
+.data-label .val{font-family:var(--font-display);font-size:1.1rem;font-weight:900;color:var(--ink);line-height:1.1;white-space:nowrap}
+.data-label .sub{font-size:.58rem;font-weight:500;color:var(--body);white-space:nowrap}
 .data-label .tag{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-top:1px}
+.data-label.solar .pill{border-color:rgba(232,168,56,.4)}
+.data-label.battery .pill{border-color:rgba(74,158,110,.4)}
+.data-label.grid .pill{border-color:rgba(91,140,184,.4)}
+.data-label.home .pill{border-color:rgba(204,120,92,.4)}
 
 /* Live explainer */
 .explainer{
@@ -88,7 +98,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .bar-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:.68rem}
 .bar-time{width:36px;font-family:var(--font-mono);font-size:.62rem;color:var(--muted);text-align:right;flex-shrink:0}
 .bar-track{flex:1;height:18px;background:var(--surface-alt);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:4px;font-size:.58rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.58rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap}
 .bar-price{width:42px;font-family:var(--font-mono);font-size:.65rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
 
 .refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;font-size:.6rem;color:var(--muted)}
@@ -111,21 +121,16 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
       <image href="images/house-energy.png" width="1200" height="1200"/>
 
-      <!-- Direct connection lines — each component has its own line to the house -->
-      <!-- Solar line: panels (595,495) → house connection point (500,550) -->
-      <line id="connSolar" class="conn-line solar" x1="595" y1="495" x2="480" y2="550"/>
-
-      <!-- Grid line: power pole (290,400) → house connection box (375,728) -->
-      <line id="connGridIn" class="conn-line grid-import" x1="290" y1="400" x2="375" y2="728"/>
-      <!-- Grid export: reverse -->
-      <line id="connGridOut" class="conn-line grid-export" x1="375" y1="728" x2="290" y2="400"/>
-
-      <!-- Battery line: unit (375,645) → house connection (430,630) -->
-      <line id="connBatCharge" class="conn-line battery-charge" x1="375" y1="645" x2="460" y2="600"/>
-      <!-- Battery discharge: reverse direction along same visual path -->
-      <line id="connBatDischarge" class="conn-line battery-discharge" x1="460" y1="600" x2="375" y2="645"/>
-
-      <!-- Home line: house interior (595,650) → no line needed, label sits near home -->
+      <!-- Direct connection lines — each label connects to its component -->
+      <!-- Solar: label at negative space (78%,22%) → roof panels (595,495) -->
+      <line id="connSolar" class="conn-line solar" x1="936" y1="264" x2="595" y2="495"/>
+      <!-- Grid: label (15%,17%) → power pole (290,400) -->
+      <line id="connGridIn" class="conn-line grid-import" x1="180" y1="204" x2="290" y2="400"/>
+      <line id="connGridOut" class="conn-line grid-export" x1="290" y1="400" x2="180" y2="204"/>
+      <!-- Battery: label (15%,62%) → battery unit (375,645) -->
+      <line id="connBatCharge" class="conn-line battery-charge" x1="180" y1="744" x2="375" y2="645"/>
+      <line id="connBatDischarge" class="conn-line battery-discharge" x1="375" y1="645" x2="180" y2="744"/>
+      <!-- Home: label (82%,60%) → house front (595,650) — no line needed for consumption -->
 
       <!-- Particle groups (GSAP-animated) -->
       <g id="pSolar"><circle class="flow-particle solar" r="3"/><circle class="flow-particle solar" r="3"/><circle class="flow-particle solar" r="3"/></g>
@@ -135,15 +140,15 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
       <g id="pBatDischarge"><circle class="flow-particle battery-discharge" r="3"/><circle class="flow-particle battery-discharge" r="3"/><circle class="flow-particle battery-discharge" r="3"/></g>
     </svg>
 
-    <!-- Data labels near physical elements -->
-    <!-- Solar: above roof panels -->
-    <div class="data-label" style="left:50%;top:34%;"><div class="val" id="lblSolarVal">--</div><div class="tag">SOLAR</div></div>
-    <!-- Grid: above power pole -->
-    <div class="data-label" style="left:22%;top:27%;"><div class="val" id="lblGridVal">--</div><div class="tag">GRID</div></div>
-    <!-- Battery: near wall unit -->
-    <div class="data-label" style="left:22%;top:52%;"><div class="val" id="lblBatVal">--</div><div class="sub" id="lblBatSub">--</div><div class="tag">BATTERY</div></div>
-    <!-- Home: near house front -->
-    <div class="data-label" style="left:54%;top:52%;"><div class="val" id="lblHomeVal">--</div><div class="tag">HOME</div></div>
+    <!-- Data labels in negative space around house -->
+    <!-- Solar: top-right edge -->
+    <div class="data-label solar" style="left:78%;top:22%;"><div class="pill"><div class="val" id="lblSolarVal">--</div><div class="tag">SOLAR</div></div></div>
+    <!-- Grid: top-left, above pole -->
+    <div class="data-label grid" style="left:15%;top:17%;"><div class="pill"><div class="val" id="lblGridVal">--</div><div class="tag">GRID</div></div></div>
+    <!-- Battery: bottom-left -->
+    <div class="data-label battery" style="left:15%;top:62%;"><div class="pill"><div class="val" id="lblBatVal">--</div><div class="sub" id="lblBatSub">--</div><div class="tag">BATTERY</div></div></div>
+    <!-- Home: bottom-right -->
+    <div class="data-label home" style="left:82%;top:60%;"><div class="pill"><div class="val" id="lblHomeVal">--</div><div class="tag">HOME</div></div></div>
   </div>
 
   <!-- Live explainer -->
@@ -181,11 +186,11 @@ const DATA_URL='data/energy-data.json';
 
 // Each flow has a line, particle group, start and end coords
 const FLOWS={
-  solar:      {line:'#connSolar', group:'#pSolar', x1:595,y1:495,x2:480,y2:550, cls:'solar'},
-  gridIn:     {line:'#connGridIn', group:'#pGridIn', x1:290,y1:400,x2:375,y2:728, cls:'grid-import'},
-  gridOut:    {line:'#connGridOut', group:'#pGridOut', x1:375,y1:728,x2:290,y2:400, cls:'grid-export'},
-  batCharge:  {line:'#connBatCharge', group:'#pBatCharge', x1:375,y1:645,x2:460,y2:600, cls:'battery-charge'},
-  batDischarge:{line:'#connBatDischarge', group:'#pBatDischarge', x1:460,y1:600,x2:375,y2:645, cls:'battery-discharge'},
+  solar:      {line:'#connSolar', group:'#pSolar', x1:936,y1:264,x2:595,y2:495, cls:'solar'},
+  gridIn:     {line:'#connGridIn', group:'#pGridIn', x1:180,y1:204,x2:290,y2:400, cls:'grid-import'},
+  gridOut:    {line:'#connGridOut', group:'#pGridOut', x1:290,y1:400,x2:180,y2:204, cls:'grid-export'},
+  batCharge:  {line:'#connBatCharge', group:'#pBatCharge', x1:180,y1:744,x2:375,y2:645, cls:'battery-charge'},
+  batDischarge:{line:'#connBatDischarge', group:'#pBatDischarge', x1:375,y1:645,x2:180,y2:744, cls:'battery-discharge'},
 };
 const active={};
 
@@ -279,7 +284,6 @@ function updateUI(data){
       let c='#b0ada6';if(f.period==='peak')c='#c0392b';else if(f.period==='solarSponge')c='#c2680c';
       return '<div class="bar-row"><span class="bar-time">'+f.time+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.max((f.price/mx)*100,4)+'%;background:'+c+'"> </span></span><span class="bar-price">'+f.price.toFixed(1)+'c</span></div>';
     }).join('');
-    gsap.fromTo('#priceBars .bar-fill',{width:'0%'},{duration:.5,ease:'power2.out',stagger:.02});
   }else bars.innerHTML='<div style="padding:16px;text-align:center;color:var(--muted);font-size:.7rem">No price data</div>';
 
   const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
