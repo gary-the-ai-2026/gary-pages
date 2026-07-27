@@ -9,9 +9,8 @@
 :root {
   --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
   --ink: #141413; --body: #5c5a55; --muted: #94918a;
-  --hairline: #e4e1db; --hairline-soft: #ece9e4; --coral: #cc785c;
-  --solar: #e8a838; --battery: #4a9e6e; --grid: #5b8cb8;
-  --active-flow: #4a9e6e;
+  --hairline: #e4e1db; --coral: #cc785c;
+  --solar-yellow: #e8a838; --battery-green: #4a9e6e; --grid-blue: #5b8cb8;
   --radius: 16px; --radius-sm: 10px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', -apple-system, sans-serif;
@@ -29,38 +28,29 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .flow-diagram{position:relative;margin:10px 0;border-radius:var(--radius);overflow:hidden;background:var(--canvas);box-shadow:0 0 0 1px var(--hairline)}
 .flow-diagram svg{display:block;width:100%;height:auto}
 
-/* Hub junction */
-.hub-dot{fill:#fff;stroke:var(--active-flow);stroke-width:3;filter:drop-shadow(0 0 6px rgba(74,158,110,.5))}
-.hub-ring{fill:none;stroke:var(--active-flow);stroke-width:2;opacity:.25}
+/* Connection lines — thin, colour-coded */
+.conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.7}
+.conn-line.solar{stroke:var(--solar-yellow)}
+.conn-line.battery-charge{stroke:var(--battery-green)}
+.conn-line.battery-discharge{stroke:#c2680c}
+.conn-line.grid-import{stroke:var(--grid-blue)}
+.conn-line.grid-export{stroke:#c0392b}
+.conn-line.home{stroke:var(--coral)}
 
-/* Flow spokes */
-.flow-spoke{fill:none;stroke-width:3.5;stroke-linecap:round;stroke:var(--active-flow);opacity:.12}
-.flow-spoke.grid-spoke{stroke:var(--grid)}
-.flow-spoke.export-spoke{stroke:#c0392b}
+/* Animated particles along lines */
+.flow-particle{opacity:0}
+.flow-particle.solar{fill:#f5c85a;filter:drop-shadow(0 0 3px rgba(232,168,56,.7))}
+.flow-particle.battery-charge{fill:#6bc48a;filter:drop-shadow(0 0 3px rgba(74,158,110,.7))}
+.flow-particle.battery-discharge{fill:#e8956a;filter:drop-shadow(0 0 3px rgba(194,104,12,.6))}
+.flow-particle.grid-import{fill:#80b4e0;filter:drop-shadow(0 0 3px rgba(91,140,184,.7))}
+.flow-particle.grid-export{fill:#e88a8a;filter:drop-shadow(0 0 3px rgba(200,60,60,.6))}
+.flow-particle.home{fill:#e8a090;filter:drop-shadow(0 0 3px rgba(204,120,92,.6))}
 
-/* Particles */
-.flow-particle{opacity:0;r:3.5}
-.flow-particle.solar{fill:#f5c85a;filter:drop-shadow(0 0 4px rgba(232,168,56,.8))}
-.flow-particle.battery{fill:#6bc48a;filter:drop-shadow(0 0 4px rgba(74,158,110,.8))}
-.flow-particle.grid{fill:#80b4e0;filter:drop-shadow(0 0 4px rgba(91,140,184,.8))}
-.flow-particle.export{fill:#e88a8a;filter:drop-shadow(0 0 4px rgba(200,60,60,.7))}
-
-/* Data badges */
-.data-badge{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
-.data-badge .bubble{
-  background:rgba(255,255,255,.93);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  border:1.5px solid rgba(20,20,19,.1);border-radius:12px;
-  padding:5px 10px;box-shadow:0 1px 8px rgba(0,0,0,.05);
-  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:3px;max-width:110px
-}
-.data-badge .val{font-family:var(--font-display);font-size:1.05rem;font-weight:900;color:var(--ink);line-height:1.1;white-space:nowrap}
-.data-badge .unit{font-size:.58rem;font-weight:600;color:var(--muted);white-space:nowrap}
-.data-badge .dir{font-size:.75rem;line-height:1}
-.data-badge .lbl{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);text-align:center}
-.data-badge.solar .bubble{border-color:rgba(232,168,56,.4)}
-.data-badge.battery .bubble{border-color:rgba(74,158,110,.4)}
-.data-badge.grid .bubble{border-color:rgba(91,140,184,.4)}
-.data-badge.home .bubble{border-color:rgba(204,120,92,.4)}
+/* Data labels — clean, positioned near component */
+.data-label{position:absolute;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
+.data-label .val{font-family:var(--font-display);font-size:1.15rem;font-weight:900;color:var(--ink);line-height:1.1;text-shadow:0 0 8px rgba(250,249,245,.9)}
+.data-label .sub{font-size:.62rem;font-weight:500;color:var(--body);text-shadow:0 0 6px rgba(250,249,245,.8)}
+.data-label .tag{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-top:1px}
 
 /* Live explainer */
 .explainer{
@@ -68,9 +58,6 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   padding:8px 12px;margin:10px 0;font-size:.72rem;color:var(--body);line-height:1.5;text-align:center
 }
 .explainer strong{color:var(--ink)}
-.explainer .highlight-solar{color:#b8860b}
-.explainer .highlight-grid{color:var(--grid)}
-.explainer .highlight-battery{color:var(--battery)}
 
 /* Daily strip */
 .daily-strip{
@@ -119,45 +106,44 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- FLOW DIAGRAM — precise coordinates from image -->
+  <!-- FLOW DIAGRAM — direct component lines, no hub-and-spoke -->
   <div class="flow-diagram" id="flowContainer">
     <svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
       <image href="images/house-energy.png" width="1200" height="1200"/>
 
-      <!-- Junction hub at grid connection box (375, 728) -->
-      <circle cx="375" cy="728" r="9" class="hub-dot" id="hubDot"/>
-      <circle cx="375" cy="728" r="18" class="hub-ring" id="hubRing"/>
+      <!-- Direct connection lines — each component has its own line to the house -->
+      <!-- Solar line: panels (595,495) → house connection point (500,550) -->
+      <line id="connSolar" class="conn-line solar" x1="595" y1="495" x2="480" y2="550"/>
 
-      <!-- 4 SPOKES from junction to each component -->
-      <!-- Spoke 1: Junction → Battery (375,728 to 375,645) — straight up -->
-      <line id="spokeBatteryDn" class="flow-spoke" x1="375" y1="728" x2="375" y2="645"/>
-      <!-- Spoke 2: Junction → Solar (375,728 to 595,495) — up-right -->
-      <line id="spokeSolar" class="flow-spoke" x1="375" y1="728" x2="595" y2="495"/>
-      <!-- Spoke 3: Junction → Home (375,728 to 595,650) — right -->
-      <line id="spokeHome" class="flow-spoke" x1="375" y1="728" x2="595" y2="650"/>
-      <!-- Spoke 4: Junction → Grid (375,728 to 290,400) — up-left -->
-      <line id="spokeGridIn" class="flow-spoke grid-spoke" x1="375" y1="728" x2="290" y2="400"/>
+      <!-- Grid line: power pole (290,400) → house connection box (375,728) -->
+      <line id="connGridIn" class="conn-line grid-import" x1="290" y1="400" x2="375" y2="728"/>
       <!-- Grid export: reverse -->
-      <line id="spokeGridOut" class="flow-spoke export-spoke" x1="290" y1="400" x2="375" y2="728"/>
+      <line id="connGridOut" class="conn-line grid-export" x1="375" y1="728" x2="290" y2="400"/>
 
-      <!-- Particle groups -->
-      <g id="pSolar"><circle class="flow-particle solar"/><circle class="flow-particle solar"/><circle class="flow-particle solar"/></g>
-      <g id="pBatDn"><circle class="flow-particle battery"/><circle class="flow-particle battery"/><circle class="flow-particle battery"/></g>
-      <g id="pBatUp"><circle class="flow-particle battery"/><circle class="flow-particle battery"/><circle class="flow-particle battery"/></g>
-      <g id="pHome"><circle class="flow-particle solar"/><circle class="flow-particle solar"/><circle class="flow-particle solar"/></g>
-      <g id="pGridIn"><circle class="flow-particle grid"/><circle class="flow-particle grid"/><circle class="flow-particle grid"/></g>
-      <g id="pGridOut"><circle class="flow-particle export"/><circle class="flow-particle export"/><circle class="flow-particle export"/></g>
+      <!-- Battery line: unit (375,645) → house connection (430,630) -->
+      <line id="connBatCharge" class="conn-line battery-charge" x1="375" y1="645" x2="460" y2="600"/>
+      <!-- Battery discharge: reverse direction along same visual path -->
+      <line id="connBatDischarge" class="conn-line battery-discharge" x1="460" y1="600" x2="375" y2="645"/>
+
+      <!-- Home line: house interior (595,650) → no line needed, label sits near home -->
+
+      <!-- Particle groups (GSAP-animated) -->
+      <g id="pSolar"><circle class="flow-particle solar" r="3"/><circle class="flow-particle solar" r="3"/><circle class="flow-particle solar" r="3"/></g>
+      <g id="pGridIn"><circle class="flow-particle grid-import" r="3"/><circle class="flow-particle grid-import" r="3"/><circle class="flow-particle grid-import" r="3"/></g>
+      <g id="pGridOut"><circle class="flow-particle grid-export" r="3"/><circle class="flow-particle grid-export" r="3"/><circle class="flow-particle grid-export" r="3"/></g>
+      <g id="pBatCharge"><circle class="flow-particle battery-charge" r="3"/><circle class="flow-particle battery-charge" r="3"/><circle class="flow-particle battery-charge" r="3"/></g>
+      <g id="pBatDischarge"><circle class="flow-particle battery-discharge" r="3"/><circle class="flow-particle battery-discharge" r="3"/><circle class="flow-particle battery-discharge" r="3"/></g>
     </svg>
 
-    <!-- Badges positioned near actual elements -->
-    <!-- Solar: above panels (595, 420) -->
-    <div class="data-badge solar" style="left:49.6%;top:35%;"><div class="bubble"><span class="val" id="svgSolarVal">--</span><span class="lbl">Solar</span></div></div>
-    <!-- Grid: above pole (290, 340) -->
-    <div class="data-badge grid" style="left:24.2%;top:28.3%;"><div class="bubble"><span class="val" id="svgGridVal">--</span><span class="dir" id="svgGridDir"></span><span class="lbl">Grid</span></div></div>
-    <!-- Battery: left of unit (290, 645) -->
-    <div class="data-badge battery" style="left:24.2%;top:53.8%;"><div class="bubble"><span class="val" id="svgBatVal">--</span><span class="lbl">Battery</span></div></div>
-    <!-- Home: right of house front (690, 650) -->
-    <div class="data-badge home" style="left:57.5%;top:54.2%;"><div class="bubble"><span class="val" id="svgHomeVal">--</span><span class="lbl">Home</span></div></div>
+    <!-- Data labels near physical elements -->
+    <!-- Solar: above roof panels -->
+    <div class="data-label" style="left:50%;top:34%;"><div class="val" id="lblSolarVal">--</div><div class="tag">SOLAR</div></div>
+    <!-- Grid: above power pole -->
+    <div class="data-label" style="left:22%;top:27%;"><div class="val" id="lblGridVal">--</div><div class="tag">GRID</div></div>
+    <!-- Battery: near wall unit -->
+    <div class="data-label" style="left:22%;top:52%;"><div class="val" id="lblBatVal">--</div><div class="sub" id="lblBatSub">--</div><div class="tag">BATTERY</div></div>
+    <!-- Home: near house front -->
+    <div class="data-label" style="left:54%;top:52%;"><div class="val" id="lblHomeVal">--</div><div class="tag">HOME</div></div>
   </div>
 
   <!-- Live explainer -->
@@ -166,7 +152,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   <!-- Daily summary -->
   <div class="daily-strip">
     <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery In</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
   </div>
 
@@ -193,49 +179,43 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 <script>
 const DATA_URL='data/energy-data.json';
 
-// Spoke particle configs — direction is the physical energy flow
-const SPOKES={
-  solar:  {line:'#spokeSolar', group:'#pSolar', x1:595,y1:495,x2:375,y2:728},   // FROM solar TO junction
-  batDn:  {line:'#spokeBatteryDn', group:'#pBatDn', x1:375,y1:728,x2:375,y2:645}, // FROM junction TO battery (charging)
-  batUp:  {line:'#spokeBatteryDn', group:'#pBatUp', x1:375,y1:645,x2:375,y2:728}, // FROM battery TO junction (discharging)
-  home:   {line:'#spokeHome', group:'#pHome', x1:375,y1:728,x2:595,y2:650},       // FROM junction TO home
-  gridIn: {line:'#spokeGridIn', group:'#pGridIn', x1:290,y1:400,x2:375,y2:728},   // FROM grid TO junction (importing)
-  gridOut:{line:'#spokeGridOut', group:'#pGridOut', x1:375,y1:728,x2:290,y2:400}, // FROM junction TO grid (exporting)
+// Each flow has a line, particle group, start and end coords
+const FLOWS={
+  solar:      {line:'#connSolar', group:'#pSolar', x1:595,y1:495,x2:480,y2:550, cls:'solar'},
+  gridIn:     {line:'#connGridIn', group:'#pGridIn', x1:290,y1:400,x2:375,y2:728, cls:'grid-import'},
+  gridOut:    {line:'#connGridOut', group:'#pGridOut', x1:375,y1:728,x2:290,y2:400, cls:'grid-export'},
+  batCharge:  {line:'#connBatCharge', group:'#pBatCharge', x1:375,y1:645,x2:460,y2:600, cls:'battery-charge'},
+  batDischarge:{line:'#connBatDischarge', group:'#pBatDischarge', x1:460,y1:600,x2:375,y2:645, cls:'battery-discharge'},
 };
 const active={};
 
 function fmtW(v){const a=Math.abs(v);return a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W'}
 function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
 
-function startSpoke(key){
+function animFlow(key){
   if(active[key])return;
-  const s=SPOKES[key],line=document.querySelector(s.line);
-  const dots=document.querySelectorAll(s.group+' circle');
+  const f=FLOWS[key],line=document.querySelector(f.line);
+  const dots=document.querySelectorAll(f.group+' circle');
   if(!line||!dots.length)return;
 
   const tl=gsap.timeline({repeat:-1});
   tl.to(line,{opacity:.8,duration:.4,ease:'power2.out'},0);
-  line.classList.add('active');
 
   dots.forEach((d,i)=>{
-    gsap.set(d,{opacity:1,x:s.x1,y:s.y1});
+    gsap.set(d,{opacity:1,x:f.x1,y:f.y1});
     const ptl=gsap.timeline({repeat:-1,delay:i*.55});
-    ptl.to(d,{x:s.x2,y:s.y2,duration:1.8,ease:'none'});
+    ptl.to(d,{x:f.x2,y:f.y2,duration:1.8,ease:'none'});
     ptl.to(d,{scale:1.6,duration:.2,ease:'power2.out'},0);
     ptl.to(d,{scale:1,duration:.2,ease:'power2.in'},1.6);
   });
 
-  const ring=document.getElementById('hubRing');
-  if(ring)tl.to(ring,{opacity:.5,attr:{r:22},duration:1.4,ease:'sine.inOut'},0)
-         .to(ring,{opacity:.25,attr:{r:18},duration:1.4,ease:'sine.inOut'},1.4);
-
   active[key]={tl,dots};
 }
-function stopSpoke(key){
+function stopFlow(key){
   const e=active[key];if(!e)return;
   e.tl.kill();e.dots.forEach(d=>gsap.set(d,{opacity:0}));
-  const line=document.querySelector(SPOKES[key].line);
-  if(line){gsap.to(line,{opacity:.12,duration:.5,ease:'power2.in'});line.classList.remove('active')}
+  const line=document.querySelector(FLOWS[key].line);
+  if(line)gsap.to(line,{opacity:.25,duration:.6,ease:'power2.in'});
   delete active[key];
 }
 
@@ -247,37 +227,37 @@ function updateUI(data){
   const homeW=g.home_consumption_w||0,batW=g.battery_power_w||0;
   const soc=g.battery_soc_pct||0;
 
-  // Badges
-  document.getElementById('svgSolarVal').textContent=fmtW(solarW);
-  const ga=Math.abs(gridW);
-  document.getElementById('svgGridVal').textContent=fmtW(ga);
-  document.getElementById('svgGridDir').textContent=gridW<-50?'↓':gridW>50?'↑':'';
-  document.getElementById('svgHomeVal').textContent=fmtW(homeW);
-  document.getElementById('svgBatVal').textContent=soc+'%';
+  // Data labels — clean text near components
+  document.getElementById('lblSolarVal').textContent=fmtW(solarW);
+  document.getElementById('lblHomeVal').textContent=fmtW(homeW);
+  // Grid: show kW + direction indicator
+  const ga=Math.abs(gridW),gd=gridW<-50?' ↓':gridW>50?' ↑':'';
+  document.getElementById('lblGridVal').textContent=fmtW(ga)+gd;
+  // Battery: show kW AND %
+  document.getElementById('lblBatVal').textContent=fmtSigned(batW);
+  document.getElementById('lblBatSub').textContent=soc+'%'+(g.battery_flow?(', '+g.battery_flow):'');
 
   // Daily
   document.getElementById('dailySolar').textContent=fmtKwh(g.today_solar_kwh);
   document.getElementById('dailyBatt').textContent=fmtKwh(g.lifetime_bat_charge_kwh);
   document.getElementById('dailyExport').textContent=fmtKwh(g.lifetime_export_kwh);
 
-  // Spokes
+  // Flows
   const chg=batW<-50,dis=batW>50,imp=gridW<-50,exp=gridW>50;
-  solarW>50?startSpoke('solar'):stopSpoke('solar');
-  homeW>50?startSpoke('home'):stopSpoke('home');
-  chg?startSpoke('batDn'):stopSpoke('batDn');
-  dis?startSpoke('batUp'):stopSpoke('batUp');
-  imp?startSpoke('gridIn'):stopSpoke('gridIn');
-  exp?startSpoke('gridOut'):stopSpoke('gridOut');
+  solarW>50?animFlow('solar'):stopFlow('solar');
+  imp?animFlow('gridIn'):stopFlow('gridIn');
+  exp?animFlow('gridOut'):stopFlow('gridOut');
+  chg?animFlow('batCharge'):stopFlow('batCharge');
+  dis?animFlow('batDischarge'):stopFlow('batDischarge');
 
-  // Live explainer
+  // Explainer
   let parts=[];
-  if(solarW>20) parts.push('<span class="highlight-solar">Solar generating '+fmtW(solarW)+'</span>');
-  if(homeW>20) parts.push('powering home ('+fmtW(homeW)+')');
-  if(chg) parts.push('<span class="highlight-battery">charging battery at '+fmtW(Math.abs(batW))+'</span>');
-  if(dis) parts.push('<span class="highlight-battery">battery discharging '+fmtW(batW)+'</span>');
-  if(imp) parts.push('<span class="highlight-grid">importing '+fmtW(Math.abs(gridW))+' from grid</span>');
-  if(exp) parts.push('<span class="highlight-grid">exporting '+fmtW(gridW)+' to grid</span>');
-  if(soc>0&&!chg&&!dis) parts.push('battery idle at '+soc+'%');
+  if(solarW>20) parts.push('<strong>Solar</strong> generating '+fmtW(solarW));
+  if(homeW>20) parts.push('<strong>Home</strong> using '+fmtW(homeW));
+  if(chg) parts.push('<strong>Battery</strong> charging at '+fmtW(Math.abs(batW))+' ('+soc+'%)');
+  if(dis) parts.push('<strong>Battery</strong> discharging '+fmtW(batW)+' ('+soc+'%)');
+  if(imp) parts.push('<strong>Grid</strong> importing '+fmtW(Math.abs(gridW)));
+  if(exp) parts.push('<strong>Grid</strong> exporting '+fmtW(gridW));
   document.getElementById('explainer').innerHTML=parts.length?parts.join(' · '):'Waiting for data...';
 
   // Amber
@@ -306,6 +286,8 @@ function updateUI(data){
   gsap.to(dot,{scale:2,opacity:.4,duration:.25,ease:'power2.out',onComplete:()=>gsap.to(dot,{scale:1,opacity:1,duration:.4,ease:'power2.in'})});
   document.getElementById('refreshText').textContent='Live · '+(data.timestamp_short||'just now');
 }
+
+function fmtSigned(v){const a=Math.abs(v),s=a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W';return v>=0?'+'+s:'−'+s}
 
 function showError(msg){
   document.getElementById('timestamp').textContent='Unable to connect';
