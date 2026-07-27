@@ -129,12 +129,20 @@ body { font-family: var(--font-body); background: var(--canvas); color: var(--bo
     <svg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
       <image href="images/house-energy.png" width="1200" height="1200"/>
 
+      <!-- Arrowhead markers for flow direction -->
+      <defs>
+        <marker id="arrowSolar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#e8a838"/></marker>
+        <marker id="arrowBattery" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#4a9e6e"/></marker>
+        <marker id="arrowGrid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#5b8cb8"/></marker>
+        <marker id="arrowExport" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0,0 L 10,5 L 0,10 Z" fill="#c0392b"/></marker>
+      </defs>
+
       <!-- Flow paths (static, GSAP animates them) -->
-      <path id="pathSolarHome" class="flow-path solar" d="M 650,430 C 650,470 650,500 650,530"/>
-      <path id="pathSolarBat" class="flow-path solar" d="M 600,460 C 530,490 470,550 440,610"/>
-      <path id="pathBatHome" class="flow-path battery" d="M 460,640 C 510,620 560,570 590,540"/>
-      <path id="pathGridHome" class="flow-path grid" d="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540"/>
-      <path id="pathHomeGrid" class="flow-path export" d="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350"/>
+      <path id="pathSolarHome" class="flow-path solar" d="M 650,430 C 650,470 650,500 650,530" marker-end="url(#arrowSolar)"/>
+      <path id="pathSolarBat" class="flow-path solar" d="M 600,460 C 530,490 470,550 440,610" marker-end="url(#arrowSolar)"/>
+      <path id="pathBatHome" class="flow-path battery" d="M 460,640 C 510,620 560,570 590,540" marker-end="url(#arrowBattery)"/>
+      <path id="pathGridHome" class="flow-path grid" d="M 320,350 C 370,430 410,490 410,520 C 410,530 480,540 550,540" marker-end="url(#arrowGrid)"/>
+      <path id="pathHomeGrid" class="flow-path export" d="M 550,540 C 480,540 410,530 410,520 C 410,490 370,430 320,350" marker-end="url(#arrowExport)"/>
 
       <!-- Particle circles (positioned and animated by GSAP) -->
       <g id="particlesSolarHome">
@@ -286,7 +294,10 @@ function updateUI(data) {
 
   // Data badges with pop animation
   popNumber(document.getElementById('svgSolarVal'), fmtW(solarW));
-  popNumber(document.getElementById('svgGridVal'), fmtSignedW(gridW));
+  // Grid badge — show absolute value with direction indicator
+  const gridAbs = Math.abs(gridW);
+  const gridDir = gridW < -50 ? '↓' : gridW > 50 ? '↑' : '·';
+  document.getElementById('svgGridVal').textContent = fmtW(gridAbs) + ' ' + gridDir;
   popNumber(document.getElementById('svgHomeVal'), fmtW(homeW));
   popNumber(document.getElementById('svgBatVal'), soc+'%');
 
