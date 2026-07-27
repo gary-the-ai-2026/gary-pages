@@ -10,10 +10,10 @@
   --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f0eeea;
   --ink: #141413; --body: #5c5a55; --muted: #94918a;
   --hairline: #e4e1db; --coral: #cc785c;
-  --solar: #e8a838; --solar-bg: #fef9f0; --solar-border: #f0d080;
-  --battery: #4a9e6e; --battery-bg: #f0faf4; --battery-border: #8cd4a0;
-  --grid: #5b8cb8; --grid-bg: #f0f5fa; --grid-border: #a0c4e0;
-  --home: #cc785c; --home-bg: #fdf5f2; --home-border: #e8b8a8;
+  --solar: #e8a838; --solar-light: #fef9f0; --solar-soft: #f5d080;
+  --battery: #4a9e6e; --battery-light: #f0faf4; --battery-soft: #8cd4a0;
+  --grid: #5b8cb8; --grid-light: #f0f5fa; --grid-soft: #a0c4e0;
+  --home: #cc785c; --home-light: #fdf5f2; --home-soft: #e8b8a8;
   --export: #c0392b;
   --radius: 16px; --radius-sm: 10px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -22,66 +22,108 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased}
-.container{max-width:520px;margin:0 auto;padding:12px 10px 32px}
+.container{max-width:480px;margin:0 auto;padding:12px 10px 32px}
+
+/* Header */
 .hero{text-align:center;padding:6px 0 2px}
 .hero .kicker{font-size:.62rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--coral)}
 .hero h1{font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--ink)}
 .hero .timestamp{font-size:.68rem;color:var(--muted);font-family:var(--font-mono);margin-top:1px}
 
-/* === NODE FLOW DIAGRAM === */
-.flow-card{
-  background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);padding:16px 10px;margin:10px 0;
-  position:relative;overflow:hidden
+/* === FLOW DIAGRAM === */
+.flow-section{display:flex;flex-direction:column;align-items:center;gap:0;margin:12px 0;position:relative}
+
+/* Node cards */
+.node-card{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--surface);border:2px solid var(--hairline);
+  border-radius:var(--radius);width:100%;max-width:280px;
+  position:relative;transition:border-color .3s
 }
-.flow-card svg{display:block;width:100%;height:auto}
+.node-card .nc-icon{width:42px;height:42px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.node-card .nc-icon svg{width:24px;height:24px}
+.node-card .nc-info{flex:1;min-width:0}
+.node-card .nc-val{font-family:var(--font-display);font-size:1.25rem;font-weight:900;color:var(--ink);line-height:1.1}
+.node-card .nc-sub{font-size:.68rem;color:var(--body)}
+.node-card .nc-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
 
-/* Node circles */
-.node-circle{fill:var(--surface);stroke-width:2.5;filter:drop-shadow(0 1px 4px rgba(0,0,0,.06))}
-.node-circle.solar{stroke:var(--solar)}
-.node-circle.battery{stroke:var(--battery)}
-.node-circle.grid{stroke:var(--grid)}
-.node-circle.home{stroke:var(--home)}
+/* Node variants */
+.node-card.solar{border-color:var(--solar-soft)}
+.node-card.solar .nc-icon{background:var(--solar-light)}
+.node-card.solar .nc-val{color:var(--solar)}
+.node-card.grid-node{border-color:var(--grid-soft)}
+.node-card.grid-node .nc-icon{background:var(--grid-light)}
+.node-card.grid-node .nc-val{color:var(--grid)}
+.node-card.home-node{border-color:var(--home-soft);border-width:2.5px;max-width:300px}
+.node-card.home-node .nc-icon{background:var(--home-light);width:48px;height:48px}
+.node-card.home-node .nc-icon svg{width:28px;height:28px}
+.node-card.home-node .nc-val{font-size:1.5rem}
+.node-card.battery-node{border-color:var(--battery-soft)}
+.node-card.battery-node .nc-icon{background:var(--battery-light)}
+.node-card.battery-node .nc-val{color:var(--battery)}
 
-/* SVG text inside nodes */
-.nv{font-family:var(--font-display);font-size:17px;font-weight:900;fill:var(--ink);text-anchor:middle}
-.nv-home{font-family:var(--font-display);font-size:22px;font-weight:900;fill:var(--ink);text-anchor:middle}
-.nl{font-family:var(--font-body);font-size:7px;font-weight:700;fill:var(--muted);text-anchor:middle;letter-spacing:.4px;text-transform:uppercase}
-.ns{font-family:var(--font-body);font-size:8px;fill:var(--body);text-anchor:middle}
-/* Connection lines */
-.conn-line{fill:none;stroke-width:2.5;stroke-linecap:round;opacity:.25}
-.conn-line.active{opacity:.75}
-.conn-line.solar-fl{stroke:var(--solar)}
-.conn-line.battery-chg{stroke:var(--battery)}
-.conn-line.battery-dis{stroke:#c2680c}
-.conn-line.grid-imp{stroke:var(--grid)}
-.conn-line.grid-exp{stroke:var(--export)}
+/* Connection indicators between cards */
+.connector{
+  display:flex;align-items:center;justify-content:center;width:2px;height:18px;
+  position:relative;margin:1px 0
+}
+.connector::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  border-left:2px dashed var(--hairline)
+}
+.connector.active::before{border-color:var(--solar);border-style:solid}
+.connector .dot{
+  width:4px;height:4px;border-radius:50%;position:absolute;
+  animation:moveDown 1.2s linear infinite
+}
+.connector .dot:nth-child(2){animation-delay:.4s}
+.connector .dot:nth-child(3){animation-delay:.8s}
+.connector.solar-dot .dot{background:var(--solar)}
+.connector.grid-dot .dot{background:var(--grid)}
+.connector.battery-dot .dot{background:var(--battery)}
 
-/* Flow particles */
-.flow-dot{opacity:0}
-.flow-dot.solar{fill:#f5c85a;filter:drop-shadow(0 0 4px rgba(232,168,56,.7))}
-.flow-dot.battery-chg{fill:#6bc48a;filter:drop-shadow(0 0 4px rgba(74,158,110,.7))}
-.flow-dot.battery-dis{fill:#e8956a;filter:drop-shadow(0 0 4px rgba(194,104,12,.6))}
-.flow-dot.grid-imp{fill:#80b4e0;filter:drop-shadow(0 0 4px rgba(91,140,184,.7))}
-.flow-dot.grid-exp{fill:#e88a8a;filter:drop-shadow(0 0 4px rgba(200,60,60,.6))}
+@keyframes moveDown{0%{top:0;opacity:1}80%{opacity:1}100%{top:100%;opacity:0}}
 
-/* Node labels (SVG text) */
-.nv{font-family:var(--font-display);font-size:22px;font-weight:900;fill:var(--ink);text-anchor:middle}
-.nl{font-family:var(--font-body);font-size:8px;font-weight:700;fill:var(--muted);text-anchor:middle;letter-spacing:.5px;text-transform:uppercase}
-.ns{font-family:var(--font-body);font-size:9px;fill:var(--body);text-anchor:middle}
+/* Split connector for grid+battery below home */
+.split-connector{
+  display:flex;justify-content:center;gap:40px;width:100%;max-width:280px;
+  position:relative;margin:1px 0
+}
+.split-connector::before{
+  content:'';position:absolute;top:0;left:50%;width:40%;height:18px;
+  border-left:2px dashed var(--hairline);
+  border-bottom:2px dashed var(--hairline);
+  border-radius:0 0 0 8px
+}
+.split-connector::after{
+  content:'';position:absolute;top:0;right:50%;width:40%;height:18px;
+  border-right:2px dashed var(--hairline);
+  border-bottom:2px dashed var(--hairline);
+  border-radius:0 0 8px 0
+}
+.split-branch{display:flex;align-items:center;justify-content:center;width:2px;position:relative}
+.split-branch::before{content:'';position:absolute;top:18px;left:0;width:100%;height:12px;border-left:2px dashed var(--hairline)}
+.split-branch .dot{width:4px;height:4px;border-radius:50%;position:absolute;top:18px;animation:moveDown 1.2s linear infinite}
+.split-branch .dot:nth-child(2){animation-delay:.4s}
+.split-branch .dot:nth-child(3){animation-delay:.8s}
+.split-branch.left .dot{background:var(--grid)}
+.split-branch.right .dot{background:var(--battery)}
+
+/* Row for grid+battery side by side */
+.flow-row{display:flex;gap:10px;width:100%;max-width:280px;justify-content:center}
+.flow-row .node-card{flex:1;max-width:135px;padding:8px 10px;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.flow-row .nc-val{font-size:1rem}
+.flow-row .nc-icon{width:32px;height:32px}
+.flow-row .nc-icon svg{width:18px;height:18px}
 
 /* === AMBER PRICE STRIP === */
-.price-strip{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0
-}
+.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
 .price-cell{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius-sm);padding:10px 12px;text-align:center
 }
 .price-cell .pc-label{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:2px}
-.price-cell .pc-val{
-  font-family:var(--font-display);font-size:1.6rem;font-weight:900;color:var(--ink);line-height:1
-}
+.price-cell .pc-val{font-family:var(--font-display);font-size:1.6rem;font-weight:900;color:var(--ink);line-height:1}
 .price-cell .pc-unit{font-size:.65rem;font-weight:500;color:var(--muted)}
 .price-cell .pc-period{display:inline-block;font-size:.55rem;font-weight:600;text-transform:uppercase;padding:1px 6px;border-radius:100px;margin-top:3px}
 .price-cell .pc-period.solarSponge{background:#fef3d5;color:#8b6914}
@@ -90,18 +132,9 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .price-cell.buy{border-color:rgba(91,140,184,.3)}
 .price-cell.sell{border-color:rgba(74,158,110,.3)}
 
-/* Explainer */
-.explainer{
-  background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);
-  padding:8px 12px;margin:10px 0;font-size:.72rem;color:var(--body);line-height:1.5;text-align:center
-}
-
-/* Daily */
-.daily-strip{
-  display:flex;justify-content:center;gap:16px;
-  background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius-sm);padding:8px 12px;margin:10px 0
-}
+/* Explainer & daily */
+.explainer{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:8px 12px;margin:10px 0;font-size:.72rem;color:var(--body);line-height:1.5;text-align:center}
+.daily-strip{display:flex;justify-content:center;gap:16px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:8px 12px;margin:10px 0}
 .daily-item{text-align:center}
 .daily-val{font-family:var(--font-display);font-size:.95rem;font-weight:900;color:var(--ink)}
 .daily-lbl{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
@@ -118,8 +151,6 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .refresh-bar{display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;font-size:.6rem;color:var(--muted)}
 .refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
 .refresh-dot.stale{background:#c2680c}
-@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:calc(200px+100%) 0}}
-.shimmer{background:linear-gradient(90deg,var(--surface-alt)25%,var(--hairline)50%,var(--surface-alt)75%);background-size:200px 100%;animation:shimmer 1.5s infinite;border-radius:3px}
 </style>
 </head>
 <body>
@@ -130,52 +161,66 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- NODE FLOW DIAGRAM — HOME at center -->
-  <div class="flow-card">
-    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- FLOW DIAGRAM — themed node cards with inline SVG icons -->
+  <div class="flow-section">
 
-      <!-- Connection lines -->
-      <!-- Solar → Home (generation) -->
-      <line id="lnSolar" class="conn-line solar-fl" x1="200" y1="88" x2="200" y2="148"/>
-      <!-- Home → Solar (reverse for export — not used for solar, but keeping structure) -->
-      <!-- Grid → Home (import) -->
-      <line id="lnGridImp" class="conn-line grid-imp" x1="88" y1="200" x2="148" y2="200"/>
-      <!-- Home → Grid (export) -->
-      <line id="lnGridExp" class="conn-line grid-exp" x1="148" y1="200" x2="88" y2="200"/>
-      <!-- Home → Battery (charging) -->
-      <line id="lnBatChg" class="conn-line battery-chg" x1="200" y1="252" x2="200" y2="312"/>
-      <!-- Battery → Home (discharging) -->
-      <line id="lnBatDis" class="conn-line battery-dis" x1="200" y1="312" x2="200" y2="252"/>
+    <!-- SOLAR -->
+    <div class="node-card solar" id="cardSolar">
+      <div class="nc-icon">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="12" width="18" height="9" rx="1" fill="#e8a838" opacity=".2" stroke="#e8a838" stroke-width="1"/><line x1="6" y1="15" x2="18" y2="15" stroke="#e8a838" stroke-width=".5"/><line x1="6" y1="18" x2="18" y2="18" stroke="#e8a838" stroke-width=".5"/><circle cx="12" cy="7" r="3" fill="#e8a838"/><line x1="12" y1="1" x2="12" y2="4" stroke="#e8a838" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="3" x2="9" y2="5" stroke="#e8a838" stroke-width="1" stroke-linecap="round"/><line x1="17" y1="3" x2="15" y2="5" stroke="#e8a838" stroke-width="1" stroke-linecap="round"/></svg>
+      </div>
+      <div class="nc-info">
+        <div class="nc-val" id="nvSolar">--</div>
+        <div class="nc-label">Solar</div>
+      </div>
+    </div>
 
-      <!-- Nodes -->
-      <!-- SOLAR (top) -->
-      <circle class="node-circle solar" cx="200" cy="70" r="38"/>
-      <text class="nv" x="200" y="66" id="nvSolar">--</text>
-      <text class="nl" x="200" y="82">SOLAR</text>
+    <!-- Connector: Solar → Home -->
+    <div class="connector solar-dot" id="connSolar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 
-      <!-- GRID (left) -->
-      <circle class="node-circle grid" cx="70" cy="200" r="38"/>
-      <text class="nv" x="70" y="196" id="nvGrid">--</text>
-      <text class="nl" x="70" y="212">GRID</text>
+    <!-- HOME -->
+    <div class="node-card home-node" id="cardHome">
+      <div class="nc-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9" stroke="#cc785c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v11h5v-6h4v6h5V10" fill="#cc785c" opacity=".15" stroke="#cc785c" stroke-width="1.2" stroke-linejoin="round"/><rect x="10" y="15" width="4" height="6" rx=".5" fill="#fdf5f2" stroke="#cc785c" stroke-width=".8"/></svg>
+      </div>
+      <div class="nc-info">
+        <div class="nc-val" id="nvHome">--</div>
+        <div class="nc-label">Home</div>
+      </div>
+    </div>
 
-      <!-- HOME (center) — larger -->
-      <circle class="node-circle home" cx="200" cy="200" r="52"/>
-      <text class="nv" x="200" y="196" id="nvHome" font-size="28">--</text>
-      <text class="nl" x="200" y="216">HOME</text>
+    <!-- Split connector: Home → Grid + Battery -->
+    <div class="split-connector" id="splitConn">
+      <div class="split-branch left">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="split-branch right">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
 
-      <!-- BATTERY (bottom) -->
-      <circle class="node-circle battery" cx="200" cy="330" r="38"/>
-      <text class="nv" x="200" y="322" id="nvBat">--</text>
-      <text class="ns" x="200" y="336" id="nvBatSub">--</text>
-      <text class="nl" x="200" y="350">BATTERY</text>
-
-      <!-- Particle groups -->
-      <g id="pSolar"><circle class="flow-dot solar" r="3.5"/><circle class="flow-dot solar" r="3.5"/><circle class="flow-dot solar" r="3.5"/></g>
-      <g id="pGridImp"><circle class="flow-dot grid-imp" r="3.5"/><circle class="flow-dot grid-imp" r="3.5"/><circle class="flow-dot grid-imp" r="3.5"/></g>
-      <g id="pGridExp"><circle class="flow-dot grid-exp" r="3.5"/><circle class="flow-dot grid-exp" r="3.5"/><circle class="flow-dot grid-exp" r="3.5"/></g>
-      <g id="pBatChg"><circle class="flow-dot battery-chg" r="3.5"/><circle class="flow-dot battery-chg" r="3.5"/><circle class="flow-dot battery-chg" r="3.5"/></g>
-      <g id="pBatDis"><circle class="flow-dot battery-dis" r="3.5"/><circle class="flow-dot battery-dis" r="3.5"/><circle class="flow-dot battery-dis" r="3.5"/></g>
-    </svg>
+    <!-- GRID + BATTERY side by side -->
+    <div class="flow-row">
+      <div class="node-card grid-node" id="cardGrid">
+        <div class="nc-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="1" width="2.5" height="22" rx="1" fill="#5b8cb8" opacity=".15"/><rect x="18.5" y="1" width="2.5" height="22" rx="1" fill="#5b8cb8" opacity=".15"/><line x1="1" y1="7" x2="23" y2="7" stroke="#5b8cb8" stroke-width=".8"/><line x1="1" y1="14" x2="23" y2="14" stroke="#5b8cb8" stroke-width=".8"/><line x1="4" y1="4" x2="20" y2="4" stroke="#5b8cb8" stroke-width=".5"/><line x1="4" y1="10" x2="20" y2="10" stroke="#5b8cb8" stroke-width=".5"/><line x1="4" y1="17" x2="20" y2="17" stroke="#5b8cb8" stroke-width=".5"/></svg>
+        </div>
+        <div class="nc-info">
+          <div class="nc-val" id="nvGrid">--</div>
+          <div class="nc-label">Grid</div>
+        </div>
+      </div>
+      <div class="node-card battery-node" id="cardBatt">
+        <div class="nc-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="18" height="15" rx="2" fill="#4a9e6e" opacity=".15" stroke="#4a9e6e" stroke-width="1.2"/><rect x="7" y="2" width="8" height="4" rx="1" fill="none" stroke="#4a9e6e" stroke-width="1"/><rect x="5" y="9" width="4" height="9" rx=".5" fill="#4a9e6e" opacity=".4"/><rect x="10" y="9" width="4" height="9" rx=".5" fill="#4a9e6e" opacity=".3"/><rect x="15" y="9" width="2" height="9" rx=".5" fill="#4a9e6e" opacity=".15"/></svg>
+        </div>
+        <div class="nc-info">
+          <div class="nc-val" id="nvBat">--</div>
+          <div class="nc-sub" id="nvBatSub">--</div>
+          <div class="nc-label">Battery</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Amber buy/sell prices -->
@@ -197,7 +242,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   <!-- Explainer -->
   <div class="explainer" id="explainer">--</div>
 
-  <!-- Daily -->
+  <!-- Daily totals -->
   <div class="daily-strip">
     <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
@@ -210,92 +255,73 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
   <!-- Forward Prices -->
   <div class="price-bars">
     <div class="price-bars-label">Next 4 Hours</div>
-    <div id="priceBars"><div class="shimmer" style="height:100px;"></div></div>
+    <div id="priceBars"></div>
   </div>
 
-  <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Live</span></div>
+  <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Loading...</span></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 const DATA_URL='data/energy-data.json';
-
-// Flow definitions — line element, particle group, start/end coords
-const FLOWS={
-  solar:   {line:'#lnSolar',   group:'#pSolar',   x1:200,y1:88, x2:200,y2:148},
-  gridImp: {line:'#lnGridImp', group:'#pGridImp', x1:88,y1:200, x2:148,y2:200},
-  gridExp: {line:'#lnGridExp', group:'#pGridExp', x1:148,y1:200, x2:88,y2:200},
-  batChg:  {line:'#lnBatChg',  group:'#pBatChg',  x1:200,y1:252,x2:200,y2:312},
-  batDis:  {line:'#lnBatDis',  group:'#pBatDis',  x1:200,y1:312,x2:200,y2:252},
-};
-const active={};
 
 function fmtW(v){const a=Math.abs(v);return a>=1000?(a/1000).toFixed(2)+' kW':Math.round(a)+' W'}
 function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
 
-function animFlow(key){
-  if(active[key])return;
-  const f=FLOWS[key],line=document.querySelector(f.line);
-  const dots=document.querySelectorAll(f.group+' circle');
-  if(!line||!dots.length)return;
-  line.classList.add('active');
-  gsap.to(line,{opacity:.75,duration:.4,ease:'power2.out'});
+function setActive(el,active){if(active)el.classList.add('active');else el.classList.remove('active')}
 
-  dots.forEach((d,i)=>{
-    gsap.set(d,{opacity:1,x:f.x1,y:f.y1});
-    const t=gsap.timeline({repeat:-1,delay:i*.5});
-    t.to(d,{x:f.x2,y:f.y2,duration:1.6,ease:'none'});
-    t.to(d,{scale:1.5,duration:.2,ease:'power2.out'},0);
-    t.to(d,{scale:1,duration:.2,ease:'power2.in'},1.4);
-  });
-  active[key]=true;
+function updateConnectorDots(connId,active){
+  const conn=document.getElementById(connId);
+  if(!conn)return;
+  conn.querySelectorAll('.dot').forEach(d=>{d.style.display=active?'block':'none'});
 }
-function stopFlow(key){
-  if(!active[key])return;delete active[key];
-  const f=FLOWS[key],line=document.querySelector(f.line);
-  if(line){line.classList.remove('active');gsap.to(line,{opacity:.25,duration:.6,ease:'power2.in'})}
-  document.querySelectorAll(f.group+' circle').forEach(d=>gsap.set(d,{opacity:0}));
-}
-
-function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
 
 function updateUI(data){
   const g=data.goodwe,a=data.amber;
-  setText('timestamp',data.timestamp_display||'--');
+  document.getElementById('timestamp').textContent=data.timestamp_display||'--';
 
   const sW=g.solar_now_w||0, gW=g.grid_power_w||0;
   const hW=g.home_consumption_w||0, bW=g.battery_power_w||0;
   const soc=g.battery_soc_pct||0;
 
-  // SVG node values
-  setText('nvSolar',fmtW(sW));
+  // Node values
+  document.getElementById('nvSolar').textContent=fmtW(sW);
   const ga=Math.abs(gW),gd=gW<-50?' ↓':gW>50?' ↑':'';
-  setText('nvGrid',fmtW(ga)+gd);
-  setText('nvHome',fmtW(hW));
-  setText('nvBat',fmtW(Math.abs(bW)));
-  setText('nvBatSub',soc+'%'+(g.battery_flow?', '+g.battery_flow:''));
+  document.getElementById('nvGrid').textContent=fmtW(ga)+gd;
+  document.getElementById('nvHome').textContent=fmtW(hW);
+  document.getElementById('nvBat').textContent=fmtW(Math.abs(bW));
+  document.getElementById('nvBatSub').textContent=soc+'%'+(g.battery_flow?', '+g.battery_flow:'');
 
-  // Flows
+  // Connection dots — show when flow is active
   const chg=bW<-50, dis=bW>50, imp=gW<-50, exp=gW>50;
-  sW>50?animFlow('solar'):stopFlow('solar');
-  imp?animFlow('gridImp'):stopFlow('gridImp');
-  exp?animFlow('gridExp'):stopFlow('gridExp');
-  chg?animFlow('batChg'):stopFlow('batChg');
-  dis?animFlow('batDis'):stopFlow('batDis');
+  updateConnectorDots('connSolar',sW>50);
+  // Grid dot always shown if importing, battery dot if charging/discharging
+  const splitConn=document.getElementById('splitConn');
+  const lDots=splitConn.querySelectorAll('.split-branch.left .dot');
+  const rDots=splitConn.querySelectorAll('.split-branch.right .dot');
+  lDots.forEach(d=>d.style.display=imp||exp?'block':'none');
+  rDots.forEach(d=>d.style.display=(chg||dis)?'block':'none');
+
+  // Node card borders glow on activity
+  setActive(document.getElementById('cardSolar'),sW>50);
+  setActive(document.getElementById('cardGrid'),imp||exp);
+  setActive(document.getElementById('cardBatt'),chg||dis);
 
   // Daily
-  setText('dailySolar',fmtKwh(g.today_solar_kwh));
-  setText('dailyBatt',fmtKwh(g.lifetime_bat_charge_kwh));
-  setText('dailyExport',fmtKwh(g.lifetime_export_kwh));
+  document.getElementById('dailySolar').textContent=fmtKwh(g.today_solar_kwh);
+  document.getElementById('dailyBatt').textContent=fmtKwh(g.lifetime_bat_charge_kwh);
+  document.getElementById('dailyExport').textContent=fmtKwh(g.lifetime_export_kwh);
 
-  // Amber buy/sell — both track wholesale spot on Amber
-  const spot=a.current_price_c;
+  // Amber prices — buy = perKwh (retail), sell = spotPerKwh (wholesale feed-in)
+  const buyC=a.current_price_c, sellC=a.sell_price_c;
   const period=a.period||'';
-  if(spot!=null){
-    setText('buyPrice',spot.toFixed(1));
-    setText('sellPrice',spot.toFixed(1));
-    const bp=document.getElementById('buyPeriod'),sp=document.getElementById('sellPeriod');
+  if(buyC!=null){
+    document.getElementById('buyPrice').textContent=buyC.toFixed(1);
+    const bp=document.getElementById('buyPeriod');
     bp.textContent=period;bp.className='pc-period '+period;
+  }
+  if(sellC!=null){
+    document.getElementById('sellPrice').textContent=sellC.toFixed(1);
+    const sp=document.getElementById('sellPeriod');
     sp.textContent=period;sp.className='pc-period '+period;
   }
 
@@ -305,11 +331,11 @@ function updateUI(data){
   if(hW>20) parts.push('<strong>Home</strong> '+fmtW(hW));
   if(chg) parts.push('<strong>Battery</strong> charging '+fmtW(Math.abs(bW))+' ('+soc+'%)');
   if(dis) parts.push('<strong>Battery</strong> discharging '+fmtW(bW)+' ('+soc+'%)');
-  if(imp) parts.push('<strong>Grid</strong> importing '+fmtW(Math.abs(gW))+' at '+spot.toFixed(1)+'c');
-  if(exp) parts.push('<strong>Grid</strong> exporting '+fmtW(gW)+' at '+(spot-1).toFixed(1)+'c');
+  if(imp) parts.push('<strong>Grid</strong> importing '+fmtW(Math.abs(gW))+' at '+(buyC||'?')+'c');
+  if(exp) parts.push('<strong>Grid</strong> exporting '+fmtW(gW)+' at '+(sellC||'?')+'c');
   document.getElementById('explainer').innerHTML=parts.length?parts.join(' · '):'Waiting for data...';
 
-  // Peak/trough info
+  // Peak/trough
   const pi=document.getElementById('peakInfo');
   if(a.next_peak_c!=null&&a.next_peak_time)
     pi.innerHTML='Next peak: <strong>'+a.next_peak_c.toFixed(1)+'c</strong> at '+a.next_peak_time+
@@ -326,15 +352,15 @@ function updateUI(data){
     }).join('');
   }else bars.innerHTML='<div style="padding:16px;text-align:center;color:var(--muted);font-size:.7rem">No price data</div>';
 
+  // Refresh indicator
   const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
-  gsap.to(dot,{scale:2,opacity:.4,duration:.25,ease:'power2.out',onComplete:()=>gsap.to(dot,{scale:1,opacity:1,duration:.4,ease:'power2.in'})});
-  setText('refreshText','Live · '+(data.timestamp_short||'just now'));
+  document.getElementById('refreshText').textContent='Live · '+(data.timestamp_short||'just now');
 }
 
 function showError(msg){
-  setText('timestamp','Unable to connect');
+  document.getElementById('timestamp').textContent='Unable to connect';
   document.getElementById('refreshDot').classList.add('stale');
-  setText('refreshText',msg||'Connection lost');
+  document.getElementById('refreshText').textContent=msg||'Connection lost';
 }
 
 async function fetchData(){
