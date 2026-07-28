@@ -2,484 +2,667 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Energy · Hancock</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
-:root {
-  --canvas: #faf9f5; --surface: #ffffff; --surface-alt: #f5f4f0;
-  --ink: #141413; --body: #5c5a55; --muted: #94918a;
-  --hairline: #e4e1db;
-  --solar: #e8a838; --battery: #4a9e6e; --grid: #5b8cb8; --home: #cc785c;
-  --radius: 12px;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased}
-.container{max-width:440px;margin:0 auto;padding:14px 12px 32px}
+  :root {
+    --canvas: #faf9f5;
+    --ink: #141413;
+    --body: #3d3d3a;
+    --muted: #6c6a64;
+    --muted-soft: #8e8b82;
+    --hairline: #e6dfd8;
+    --hairline-soft: #ebe6df;
+    --surface-card: #efe9de;
+    --surface-strong: #e8e0d2;
+    --surface-dark: #181715;
+    --on-dark: #faf9f5;
+    --on-dark-soft: #a09d96;
+    --coral: #cc785c;
+    --coral-active: #a9583e;
+    --solar: #e8a838;
+    --battery: #4a9e6e;
+    --grid: #5b8cb8;
+    --home: #cc785c;
+    --success: #1b8a3d;
+    --warning: #c2680c;
+    --danger: #c0392b;
+    --font-display: 'Cormorant Garamond', 'Garamond', 'Times New Roman', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-pill: 9999px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
+  .app { max-width: 520px; margin: 0 auto; padding: var(--space-lg) var(--space-md) 40px; }
 
-/* Header */
-.hero{text-align:center;padding:4px 0 8px}
-.hero .kicker{font-size:.6rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--home)}
-.hero h1{font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--ink)}
-.hero .timestamp{font-size:.65rem;color:var(--muted);font-family:var(--font-mono);margin-top:2px}
+  /* ── Header ── */
+  .header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: var(--space-sm); }
+  .brand { display: flex; align-items: center; gap: 8px; }
+  .brand-mark { width: 22px; height: 22px; }
+  .brand-name { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
+  .header h1 { font-family: var(--font-display); font-size: 36px; font-weight: 400; line-height: 1.1; letter-spacing: -0.5px; color: var(--ink); }
+  .header h1 span { color: var(--muted); font-style: italic; }
+  .header-meta { text-align: right; }
+  .header-meta .addr { font-size: 11px; color: var(--muted-soft); font-family: var(--font-mono); }
+  .header-meta .ts { font-size: 11px; color: var(--muted-soft); font-family: var(--font-mono); margin-top: 2px; }
 
-/* ── Tier Labels ── */
-.tier-label{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:0 0 6px 2px}
+  /* ── Nav toggle ── */
+  .nav-group { display: inline-flex; border-radius: var(--radius-md); border: 1px solid var(--hairline); background: var(--canvas); padding: 3px; margin-bottom: var(--space-lg); }
+  .nav-group button { background: none; border: none; padding: 8px 18px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+  .nav-group button:hover { color: var(--ink); }
+  .nav-group button.active { background: var(--surface-card); color: var(--ink); }
 
-/* ═══════════════════════════════════════════
-   TIER 1 — Energy Balance (PRIMARY)
-   ═══════════════════════════════════════════ */
-.tier1-card{
-  background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);padding:18px 16px 14px;margin-bottom:12px;
-  position:relative;overflow:hidden
-}
-.tier1-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--solar) 0%,var(--solar) 50%,var(--home) 50%,var(--home) 100%)
-}
-.tier1-header{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);text-align:center;margin-bottom:12px}
-.tier1-row{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:14px}
-.tier1-side{text-align:center;flex:1;max-width:140px}
-.tier1-side .t1-label{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:2px;display:flex;align-items:center;justify-content:center;gap:4px}
-.tier1-side .t1-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.tier1-side .t1-dot.gen{background:var(--solar)}
-.tier1-side .t1-dot.con{background:var(--home)}
-.tier1-side .t1-value{font-family:var(--font-display);font-size:2.4rem;font-weight:900;color:var(--ink);line-height:1;margin:2px 0}
-.tier1-side .t1-unit{font-size:.6rem;font-weight:500;color:var(--muted)}
-.tier1-vs{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--muted);padding-bottom:8px}
+  /* ── Views ── */
+  .view { display: none; animation: fadeIn 0.35s ease; }
+  .view.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Balance bar */
-.balance-bar-wrap{margin:0 0 10px}
-/* Stacked 3-segment bar */
-.bar-stacked{display:flex;height:6px;background:var(--hairline);border-radius:3px;overflow:hidden;margin-bottom:6px}
-.bar-seg{height:100%;transition:width .8s ease}
-.bar-seg.bar-solar{background:var(--solar)}
-.bar-seg.bar-battery{background:var(--battery)}
-.bar-seg.bar-grid{background:var(--home)}
-.balance-meta{display:flex;justify-content:space-between;font-size:.55rem;color:var(--muted)}
-.balance-meta .bm-self{font-weight:600;color:var(--battery)}
-.balance-sub{font-size:.55rem;color:var(--body);text-align:center}
-.balance-sub span{font-family:var(--font-mono);font-weight:500;color:var(--ink)}
+  /* ── Hero illustration ── */
+  .hero-illustration { width: 100%; max-height: 140px; object-fit: contain; margin-bottom: var(--space-md); border-radius: var(--radius-md); }
 
-/* ═══════════════════════════════════════════
-   TIER 2 — Live Power Widgets
-   ═══════════════════════════════════════════ */
-.widget-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
-.widget{
-  background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);padding:12px 14px;
-  display:flex;flex-direction:column;gap:2px
-}
-.widget .w-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
-.widget .w-value{font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--ink);line-height:1.1}
-.widget .w-sub{font-size:.65rem;color:var(--body);margin-top:1px}
-.widget .w-accent{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
-.widget .w-accent.solar{background:var(--solar)}
-.widget .w-accent.battery{background:var(--battery)}
-.widget .w-accent.grid{background:var(--grid)}
-.widget .w-accent.home{background:var(--home)}
-.widget.solar-w{border-left:3px solid var(--solar)}
-.widget.home-w{border-left:3px solid var(--home)}
-.widget.grid-w{border-left:3px solid var(--grid)}
-.widget.battery-w{border-left:3px solid var(--battery)}
+  /* ── Cards ── */
+  .card-cream { background: var(--surface-card); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: var(--space-lg); transition: border-color 0.2s ease; margin-bottom: var(--space-sm); }
+  .card-cream:hover { border-color: var(--hairline-soft); }
+  .card-dark { background: var(--surface-dark); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: var(--space-lg); color: var(--on-dark); margin-bottom: var(--space-sm); }
+  .card-coral { background: var(--coral); border-radius: var(--radius-lg); padding: var(--space-lg); color: #fff; margin-bottom: var(--space-sm); }
 
-/* ═══════════════════════════════════════════
-   TIER 3 — Amber Prices
-   ═══════════════════════════════════════════ */
-.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
-.price-cell{
-  background:var(--surface);border:1px solid var(--hairline);
-  border-radius:var(--radius);padding:10px 14px;text-align:center
-}
-.price-cell .pc-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:2px}
-.price-cell .pc-val{font-family:var(--font-display);font-size:1.6rem;font-weight:900;color:var(--ink);line-height:1}
-.price-cell .pc-unit{font-size:.6rem;font-weight:500;color:var(--muted)}
-.price-cell .pc-period{display:inline-block;font-size:.5rem;font-weight:600;text-transform:uppercase;padding:1px 6px;border-radius:100px;margin-top:3px}
-.price-cell .pc-period.solarSponge{background:#fef3d5;color:#8b6914}
-.price-cell .pc-period.peak{background:#fde8e8;color:#9b1c1c}
-.price-cell .pc-period.offPeak{background:#e8f0fe;color:#1e429f}
-.price-cell.buy{border-left:3px solid var(--grid)}
-.price-cell.sell{border-left:3px solid var(--battery)}
-.price-cell .pc-sub{font-size:.55rem;font-weight:600;margin-top:1px}
-.price-cell .pc-sub.costs{color:#c0392b}
-.price-cell .pc-sub.pays{color:#1b8a3d}
-.price-cell .pc-val.neg{color:#c0392b}
-.price-cell .pc-val.pos{color:#1b8a3d}
+  /* ── Section label ── */
+  .section-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: var(--space-sm); }
 
-/* ═══════════════════════════════════════════
-   TIER 4 — Remaining Dashboard
-   ═══════════════════════════════════════════ */
-/* Section label */
-.section-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:10px 0 6px;padding:0 2px}
+  /* ── Live Balance (Home tab hero card) ── */
+  .balance-row { display: flex; align-items: flex-end; justify-content: center; gap: var(--space-lg); margin-bottom: var(--space-md); }
+  .balance-side { text-align: center; flex: 1; }
+  .balance-side .bl-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .bl-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .bl-dot.gen { background: var(--solar); }
+  .bl-dot.con { background: var(--home); }
+  .balance-side .bl-value { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .balance-side .bl-unit { font-size: 0.65rem; color: var(--muted); font-family: var(--font-body); margin-top: 2px; }
+  .balance-vs { font-size: 0.7rem; color: var(--muted-soft); padding-bottom: 8px; }
+  .bar-stacked { display: flex; height: 6px; background: var(--hairline); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  .bar-seg { height: 100%; transition: width 0.8s ease; }
+  .bar-seg.bar-solar { background: var(--solar); }
+  .bar-seg.bar-battery { background: var(--battery); }
+  .bar-seg.bar-grid { background: var(--home); }
+  .balance-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--body); }
+  .balance-meta .bm-renewable { color: var(--success); font-weight: 500; }
+  .balance-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .balance-sub span { color: var(--battery); font-weight: 500; }
 
-/* Daily strip */
-.daily-strip{display:flex;justify-content:space-around;gap:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 8px}
-.daily-item{text-align:center;flex:1}
-.daily-val{font-family:var(--font-display);font-size:1.1rem;font-weight:900;color:var(--ink)}
-.daily-lbl{font-size:.5rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  /* ── Metrics row ── */
+  .metrics-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); margin-bottom: var(--space-sm); }
+  .metric-card { padding: var(--space-md); }
+  .metric-card .metric-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
+  .metric-card .metric-value { font-family: var(--font-mono); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink); line-height: 1; }
+  .metric-card .metric-sub { font-size: 11px; color: var(--muted-soft); margin-top: 4px; font-family: var(--font-body); }
+  .metric-card.solar-card { border-left: 3px solid var(--solar); }
+  .metric-card.home-card { border-left: 3px solid var(--home); }
+  .metric-card.grid-card { border-left: 3px solid var(--grid); }
+  .metric-card.battery-card { border-left: 3px solid var(--battery); }
+  .metric-value.solar-c { color: var(--solar); }
+  .metric-value.battery-c { color: var(--battery); }
+  .metric-value.grid-c { color: var(--grid); }
+  .metric-value.home-c { color: var(--home); }
 
-/* Peak/trough */
-.info-tag{background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:8px 12px;font-size:.65rem;color:var(--body);text-align:center;margin:10px 0}
+  /* ── Price strip ── */
+  .price-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+  .price-cell { padding: var(--space-md); text-align: center; }
+  .price-cell.buy-cell { border-left: 3px solid var(--grid); }
+  .price-cell.sell-cell { border-left: 3px solid var(--battery); }
+  .price-cell .pc-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 2px; }
+  .price-cell .pc-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .price-cell .pc-unit { font-size: 0.6rem; font-weight: 500; color: var(--muted); }
+  .price-cell .pc-sub { font-size: 10px; font-weight: 600; margin-top: 1px; }
+  .price-cell .pc-sub.costs { color: var(--danger); }
+  .price-cell .pc-sub.pays { color: var(--success); }
+  .price-cell .pc-val.neg { color: var(--danger); }
+  .price-cell .pc-val.pos { color: var(--success); }
+  .price-cell .pc-period { display: inline-block; font-size: 9px; font-weight: 600; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-pill); margin-top: 4px; }
+  .pc-period.solarSponge { background: #fef3d5; color: #8b6914; }
+  .pc-period.peak { background: #fde8e8; color: #9b1c1c; }
+  .pc-period.offPeak { background: #e8f0fe; color: #1e429f; }
 
-/* Price bars */
-.price-bars{margin:6px 0}
-.bar-row{display:flex;align-items:center;gap:6px;padding:3px 0}
-.bar-time{width:34px;font-family:var(--font-mono);font-size:.58rem;color:var(--muted);text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:14px;background:var(--surface-alt);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:4px;font-size:.5rem;font-weight:600;color:rgba(255,255,255,.85)}
-.bar-price{width:38px;font-family:var(--font-mono);font-size:.6rem;font-weight:500;color:var(--body);text-align:left;flex-shrink:0}
+  /* ── Next 4h ── */
+  .peak-trough-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+  .pt-card { padding: var(--space-md); text-align: center; }
+  .pt-card.peak-card { border-left: 3px solid var(--danger); }
+  .pt-card.trough-card { border-left: 3px solid var(--success); }
+  .pt-card .pt-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 2px; }
+  .pt-card .pt-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .pt-card .pt-unit { font-size: 0.6rem; color: var(--muted); }
+  .pt-card .pt-time { font-size: 11px; color: var(--muted-soft); margin-top: 2px; }
+  .period-badge { text-align: center; margin-bottom: var(--space-md); }
+  .period-badge span { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 14px; border-radius: var(--radius-pill); background: #fef3d5; color: #8b6914; }
+  .price-bars { margin: var(--space-sm) 0; }
+  .bar-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+  .bar-time { width: 38px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 16px; background: var(--surface-card); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; display: flex; align-items: center; padding-left: 4px; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .bar-price { width: 42px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--body); text-align: left; flex-shrink: 0; }
+  .insight-box { background: var(--surface-card); border-radius: var(--radius-md); padding: var(--space-sm) var(--space-md); font-size: 12px; color: var(--body); margin-top: var(--space-md); text-align: center; }
 
-/* Chart */
-.chart-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:14px 10px 8px;margin:10px 0}
-.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.chart-nav{display:flex;align-items:center;gap:10px}
-.chart-nav button{background:none;border:1px solid var(--hairline);border-radius:6px;padding:4px 10px;font-size:.6rem;font-family:var(--font-body);font-weight:600;color:var(--body);cursor:pointer}
-.chart-nav button:disabled{opacity:.3;cursor:default}
-.chart-nav .chart-range{font-size:.62rem;font-weight:600;color:var(--muted);min-width:100px;text-align:center}
-.chart-legend{display:flex;gap:14px;font-size:.55rem;color:var(--muted);margin-top:4px}
-.chart-legend span{display:flex;align-items:center;gap:4px}
-.chart-legend .swatch{width:8px;height:8px;border-radius:2px}
-.chart-legend .swatch.renew{background:#4a9e6e}
-.chart-legend .swatch.grid{background:#5b8cb8}
-#consumptionChart{width:100%;height:auto;max-height:260px}
+  /* ── Usage ── */
+  .daily-tiles { display: flex; justify-content: space-between; gap: 6px; margin-bottom: var(--space-sm); }
+  .daily-tile { flex: 1; text-align: center; padding: var(--space-sm) 4px; background: var(--surface-card); border-radius: var(--radius-md); }
+  .daily-tile .dt-icon { font-size: 14px; margin-bottom: 4px; }
+  .daily-tile .dt-val { font-family: var(--font-mono); font-size: 15px; font-weight: 500; color: var(--ink); }
+  .daily-tile .dt-unit { font-size: 9px; color: var(--muted); }
+  .daily-tile .dt-label { font-size: 8px; color: var(--muted-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  .dt-gen { color: var(--solar); } .dt-use { color: var(--home); } .dt-imp { color: var(--grid); } .dt-exp { color: var(--battery); } .dt-bat { color: var(--battery); }
 
-/* Refresh */
-.refresh-bar{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;font-size:.58rem;color:var(--muted)}
-.refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
-.refresh-dot.stale{background:#c2680c}
+  /* ── Donut chart ── */
+  .donut-wrap { display: flex; align-items: center; justify-content: center; gap: var(--space-lg); margin: var(--space-md) 0; flex-wrap: wrap; }
+  .donut-cont { position: relative; width: 140px; height: 140px; flex-shrink: 0; }
+  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-center .dc-val { font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .donut-center .dc-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .donut-legend { font-size: 12px; }
+  .donut-legend .dl-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .dl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dl-dot.dl-solar { background: var(--solar); }
+  .dl-dot.dl-battery { background: var(--battery); }
+  .dl-dot.dl-grid { background: var(--grid); }
 
-/* Tier border accents — subtle visual hierarchy markers */
-.tier-divider{height:1px;background:var(--hairline);margin:12px 0 10px;opacity:.6}
+  /* ── Battery bar ── */
+  .battery-card { margin-bottom: var(--space-sm); }
+  .battery-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-sm); }
+  .battery-header .bh-pct { font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--battery); line-height: 1; }
+  .battery-header .bh-stored { font-size: 13px; color: var(--muted); }
+  .battery-bar { height: 6px; background: var(--hairline); border-radius: 3px; overflow: hidden; margin-bottom: var(--space-sm); }
+  .battery-bar-fill { height: 100%; background: var(--battery); border-radius: 3px; transition: width 0.8s ease; }
+  .battery-stats { display: flex; gap: var(--space-lg); font-size: 11px; color: var(--muted); }
 
-@media (max-width: 480px) {
-  .tier1-side .t1-value{font-size:2rem}
-  .tier1-row{gap:10px}
-}
+  /* ── Chart ── */
+  .chart-card { margin-top: var(--space-sm); }
+  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
+  .chart-nav { display: flex; align-items: center; gap: 10px; }
+  .chart-nav button { background: none; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 4px 12px; font-size: 11px; font-family: var(--font-body); font-weight: 500; color: var(--body); cursor: pointer; }
+  .chart-nav button:disabled { opacity: 0.3; cursor: default; }
+  .chart-nav .chart-range { font-size: 11px; color: var(--muted); min-width: 100px; text-align: center; font-family: var(--font-mono); }
+  .chart-legend { display: flex; gap: 16px; font-size: 10px; color: var(--muted); margin-top: 6px; }
+  .chart-legend span { display: flex; align-items: center; gap: 4px; }
+  .chart-legend .swatch { width: 8px; height: 8px; border-radius: 2px; }
+  .swatch.renew { background: var(--battery); }
+  .swatch.grid-sw { background: var(--grid); }
+
+  /* ── Refresh ── */
+  .refresh-bar { text-align: center; padding: 14px; font-size: 10px; color: var(--muted-soft); font-family: var(--font-mono); }
+  .refresh-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--success); margin-right: 4px; vertical-align: middle; }
+  .refresh-dot.stale { background: var(--warning); }
+
+  /* ── Yesterday ── */
+  .yesterday-row { margin-top: var(--space-md); font-size: 11px; color: var(--muted-soft); text-align: center; }
+
+  @media (max-width: 480px) {
+    .balance-side .bl-value { font-size: 2.2rem; }
+    .balance-row { gap: var(--space-md); }
+    .daily-tiles { flex-wrap: wrap; }
+    .daily-tile { flex: 0 0 30%; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="hero">
-    <div class="kicker">119 Princes Road</div>
-    <h1>Energy</h1>
-    <div class="timestamp" id="timestamp">--</div>
+<div class="app">
+
+  <!-- ── Header ── -->
+  <div class="header">
+    <div>
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="none" stroke="#e8a838" stroke-width="2"/><circle cx="11" cy="11" r="4" fill="#cc785c"/></svg>
+        <span class="brand-name">Hancock</span>
+      </div>
+      <h1>Energy</h1>
+    </div>
+    <div class="header-meta">
+      <div class="addr">119 Princes Road</div>
+      <div class="ts" id="timestamp">--</div>
+    </div>
   </div>
 
-  <!-- ══════════════════════ TIER 1: LIVE BALANCE ══════════════════════ -->
-  <div class="tier-label">● Live Balance</div>
-  <div class="tier1-card">
-    <div class="tier1-header">Right Now</div>
-    <div class="tier1-row">
-      <div class="tier1-side">
-        <div class="t1-label"><span class="t1-dot gen"></span> Generating</div>
-        <div class="t1-value" id="t1Gen">--</div>
-        <div class="t1-unit" id="t1GenUnit">kW</div>
+  <!-- ── Nav Toggle ── -->
+  <div class="nav-group" id="navGroup">
+    <button data-view="home" class="active">Home</button>
+    <button data-view="next4h">Next 4h</button>
+    <button data-view="usage">Usage</button>
+  </div>
+
+  <!-- ═══════════════ HOME VIEW ═══════════════ -->
+  <div class="view active" id="view-home">
+    <img class="hero-illustration" src="images/hero-house.jpg" alt="Home with solar, battery, and grid connection" width="600" height="140" loading="eager">
+
+    <!-- Live Balance -->
+    <div class="card-cream">
+      <div class="section-label">Right Now</div>
+      <div class="balance-row">
+        <div class="balance-side">
+          <div class="bl-label"><span class="bl-dot gen"></span> Generating</div>
+          <div class="bl-value" id="t1Gen">--</div>
+          <div class="bl-unit">kW</div>
+        </div>
+        <div class="balance-vs">vs</div>
+        <div class="balance-side">
+          <div class="bl-label"><span class="bl-dot con"></span> Consuming</div>
+          <div class="bl-value" id="t1Con">--</div>
+          <div class="bl-unit">kW</div>
+        </div>
       </div>
-      <div class="tier1-vs">vs</div>
-      <div class="tier1-side">
-        <div class="t1-label"><span class="t1-dot con"></span> Consuming</div>
-        <div class="t1-value" id="t1Con">--</div>
-        <div class="t1-unit" id="t1ConUnit">kW</div>
-      </div>
-    </div>
-    <div class="balance-bar-wrap">
-      <div class="bar-stacked" id="balanceTrack">
+      <div class="bar-stacked">
         <div class="bar-seg bar-solar" id="barSolar" style="width:0%"></div>
         <div class="bar-seg bar-battery" id="barBattery" style="width:0%"></div>
         <div class="bar-seg bar-grid" id="barGrid" style="width:0%"></div>
       </div>
       <div class="balance-meta">
-        <span class="bm-self" id="bmSelf">--</span>
+        <span class="bm-renewable" id="bmSelf">--</span>
         <span id="bmImport">--</span>
       </div>
+      <div class="balance-sub" id="balanceSub">--</div>
     </div>
-    <div class="balance-sub" id="balanceSub">--</div>
-  </div>
 
-  <!-- ══════════════════════ TIER 2: LIVE POWER ══════════════════════ -->
-  <div class="tier-label">● Live Power</div>
-  <div class="widget-grid">
-    <div class="widget solar-w">
-      <div class="w-label"><span class="w-accent solar"></span>Solar</div>
-      <div class="w-value" id="wSolar">--</div>
-      <div class="w-sub" id="wSolarSub">--</div>
-    </div>
-    <div class="widget home-w">
-      <div class="w-label"><span class="w-accent home"></span>Home</div>
-      <div class="w-value" id="wHome">--</div>
-      <div class="w-sub">consumption</div>
-    </div>
-    <div class="widget grid-w">
-      <div class="w-label"><span class="w-accent grid"></span>Grid</div>
-      <div class="w-value" id="wGrid">--</div>
-      <div class="w-sub" id="wGridSub">--</div>
-    </div>
-    <div class="widget battery-w">
-      <div class="w-label"><span class="w-accent battery"></span>Battery</div>
-      <div class="w-value" id="wBat">--</div>
-      <div class="w-sub" id="wBatSub">--</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════ TIER 3: AMBER PRICES ══════════════════════ -->
-  <div class="tier-label">● Amber Prices</div>
-  <div class="price-strip">
-    <div class="price-cell buy">
-      <div class="pc-label">Buy Price</div>
-      <div class="pc-val" id="buyPrice">--</div>
-      <div class="pc-unit">c/kWh</div>
-      <div class="pc-period" id="buyPeriod">--</div>
-    </div>
-    <div class="price-cell sell">
-      <div class="pc-label">Feed-in</div>
-      <div class="pc-val" id="sellPrice">--</div>
-      <div class="pc-unit">c/kWh</div>
-      <div class="pc-sub" id="sellSub">--</div>
-      <div class="pc-period" id="sellPeriod">--</div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════ TIER 4: REMAINING ══════════════════════ -->
-  <div class="tier-divider"></div>
-
-  <!-- Peak/trough -->
-  <div class="info-tag" id="peakInfo">--</div>
-
-  <!-- Daily strip -->
-  <div class="section-label">Today's Detail</div>
-  <div class="daily-strip">
-    <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyImport">--</div><div class="daily-lbl">Imported</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">Exported</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyLoad">--</div><div class="daily-lbl">Load</div></div>
-  </div>
-
-  <!-- Consumption chart -->
-  <div class="section-label">Consumption Mix</div>
-  <div class="chart-card">
-    <div class="chart-header">
-      <div class="section-label" style="margin:0">Last 7 Days</div>
-      <div class="chart-nav">
-        <button id="chartPrev" disabled>← Newer</button>
-        <span class="chart-range" id="chartRange">--</span>
-        <button id="chartNext" disabled>Older →</button>
+    <!-- Live Power Widgets -->
+    <div class="metrics-row">
+      <div class="metric-card card-cream solar-card">
+        <div class="metric-label">Solar</div>
+        <div class="metric-value solar-c" id="wSolar">--</div>
+        <div class="metric-sub" id="wSolarSub">--</div>
+      </div>
+      <div class="metric-card card-cream home-card">
+        <div class="metric-label">Home</div>
+        <div class="metric-value home-c" id="wHome">--</div>
+        <div class="metric-sub">consumption</div>
+      </div>
+      <div class="metric-card card-cream grid-card">
+        <div class="metric-label">Grid</div>
+        <div class="metric-value grid-c" id="wGrid">--</div>
+        <div class="metric-sub" id="wGridSub">--</div>
+      </div>
+      <div class="metric-card card-cream battery-card">
+        <div class="metric-label">Battery</div>
+        <div class="metric-value battery-c" id="wBat">--</div>
+        <div class="metric-sub" id="wBatSub">--</div>
       </div>
     </div>
-    <canvas id="consumptionChart"></canvas>
-    <div class="chart-legend">
-      <span><span class="swatch renew"></span> Solar + Battery</span>
-      <span><span class="swatch grid"></span> Grid Import</span>
+
+    <!-- Amber Prices -->
+    <div class="price-row">
+      <div class="price-cell card-cream buy-cell">
+        <div class="pc-label">Buy Price</div>
+        <div class="pc-val" id="buyPrice">--</div>
+        <div class="pc-unit">c/kWh</div>
+        <div class="pc-period" id="buyPeriod">--</div>
+      </div>
+      <div class="price-cell card-cream sell-cell">
+        <div class="pc-label">Feed-in</div>
+        <div class="pc-val" id="sellPrice">--</div>
+        <div class="pc-unit">c/kWh</div>
+        <div class="pc-sub" id="sellSub">--</div>
+        <div class="pc-period" id="sellPeriod">--</div>
+      </div>
     </div>
   </div>
 
-  <!-- Forward prices -->
-  <div class="section-label">Next 4 Hours</div>
-  <div class="price-bars" id="priceBars"></div>
+  <!-- ═══════════════ NEXT 4H VIEW ═══════════════ -->
+  <div class="view" id="view-next4h">
+    <!-- Peak / Trough -->
+    <div class="peak-trough-row">
+      <div class="pt-card card-cream peak-card">
+        <div class="pt-label">Next Peak</div>
+        <div class="pt-val" id="nextPeakVal" style="color:var(--danger)">--</div>
+        <div class="pt-unit">c/kWh</div>
+        <div class="pt-time" id="nextPeakTime">--</div>
+      </div>
+      <div class="pt-card card-cream trough-card">
+        <div class="pt-label">Next Trough</div>
+        <div class="pt-val" id="nextTroughVal" style="color:var(--success)">--</div>
+        <div class="pt-unit">c/kWh</div>
+        <div class="pt-time" id="nextTroughTime">--</div>
+      </div>
+    </div>
 
-  <div class="refresh-bar"><div class="refresh-dot" id="refreshDot"></div><span id="refreshText">Loading...</span></div>
+    <!-- Period badge -->
+    <div class="period-badge"><span id="periodBadge">--</span></div>
+
+    <!-- Forward prices -->
+    <div class="card-cream">
+      <div class="section-label">Forward Prices</div>
+      <div class="price-bars" id="priceBars"></div>
+    </div>
+
+    <!-- Insight -->
+    <div class="insight-box" id="insightBox">--</div>
+  </div>
+
+  <!-- ═══════════════ USAGE VIEW ═══════════════ -->
+  <div class="view" id="view-usage">
+    <!-- Today's Detail -->
+    <div class="section-label">Today's Detail</div>
+    <div class="daily-tiles">
+      <div class="daily-tile"><div class="dt-icon dt-gen">☀</div><div class="dt-val" id="dailySolar">--</div><div class="dt-label">Generated</div></div>
+      <div class="daily-tile"><div class="dt-icon dt-use">⌂</div><div class="dt-val" id="dailyLoad">--</div><div class="dt-label">Used</div></div>
+      <div class="daily-tile"><div class="dt-icon dt-imp">↓</div><div class="dt-val" id="dailyImport">--</div><div class="dt-label">Imported</div></div>
+      <div class="daily-tile"><div class="dt-icon dt-exp">↑</div><div class="dt-val" id="dailyExport">--</div><div class="dt-label">Exported</div></div>
+      <div class="daily-tile"><div class="dt-icon dt-bat">▮</div><div class="dt-val" id="dailyBatCharge">--</div><div class="dt-label">Bat Chg</div></div>
+    </div>
+
+    <!-- Consumption Mix -->
+    <div class="card-cream">
+      <div class="section-label">Where Your Power Came From</div>
+      <div class="donut-wrap">
+        <div class="donut-cont">
+          <canvas id="donutChart" width="140" height="140"></canvas>
+          <div class="donut-center">
+            <div class="dc-val" id="donutTotal">--</div>
+            <div class="dc-lbl">kWh used</div>
+          </div>
+        </div>
+        <div class="donut-legend" id="donutLegend"></div>
+      </div>
+    </div>
+
+    <!-- Battery -->
+    <div class="card-cream battery-card">
+      <div class="section-label">Battery</div>
+      <div class="battery-header">
+        <div class="bh-pct" id="batPct">--</div>
+        <div class="bh-stored" id="batStored">--</div>
+      </div>
+      <div class="battery-bar"><div class="battery-bar-fill" id="batBar" style="width:0%"></div></div>
+      <div class="battery-stats">
+        <span id="batCharged">--</span>
+        <span id="batDischarged">--</span>
+      </div>
+    </div>
+
+    <!-- Consumption Chart -->
+    <div class="card-cream chart-card">
+      <div class="chart-header">
+        <div class="section-label" style="margin:0">Last 7 Days</div>
+        <div class="chart-nav">
+          <button id="chartPrev" disabled>← Newer</button>
+          <span class="chart-range" id="chartRange">--</span>
+          <button id="chartNext" disabled>Older →</button>
+        </div>
+      </div>
+      <canvas id="consumptionChart"></canvas>
+      <div class="chart-legend">
+        <span><span class="swatch renew"></span> Solar + Battery</span>
+        <span><span class="swatch grid-sw"></span> Grid Import</span>
+      </div>
+    </div>
+
+    <!-- Yesterday -->
+    <div class="yesterday-row" id="yesterdayRow">--</div>
+  </div>
+
+  <!-- Refresh -->
+  <div class="refresh-bar"><span class="refresh-dot" id="refreshDot"></span><span id="refreshText">Loading...</span></div>
 </div>
 
 <script>
-const DATA_URL='data/energy-data.json';
+const DATA_URL = 'data/energy-data.json';
 
-function fmtW(v){const a=Math.abs(v);return a>=100?(a/1000).toFixed(2)+' kW':(a/1000).toFixed(3)+' kW'}
-function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
+function fmtW(v) { const a = Math.abs(v); return a >= 100 ? (a/1000).toFixed(2) + ' kW' : (a/1000).toFixed(3) + ' kW'; }
+function fmtKwh(v) { return v == null ? '--' : v.toFixed(1) + ' kWh'; }
+function setText(id, val) { const el = document.getElementById(id); if (el && el.textContent !== val) el.textContent = val; }
 
-function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
+// ── Tab Navigation ──
+document.querySelectorAll('#navGroup button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#navGroup button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    if (btn.dataset.view === 'usage') renderDonut();
+  });
+});
 
-function updateUI(data){
-  const g=data.goodwe,a=data.amber,t=data.today||{};
-  setText('timestamp',data.timestamp_display||'--');
+let currentData = null;
 
-  const sW=g.solar_now_w||0,gW=g.grid_power_w||0,hW=g.home_consumption_w||0,bW=g.battery_power_w||0,soc=g.battery_soc_pct||0;
+function updateUI(data) {
+  currentData = data;
+  const g = data.goodwe, a = data.amber, t = data.today || {};
+  setText('timestamp', data.timestamp_display || '--');
 
-  // ── TIER 1: Live Balance ──
-  // Live instantaneous generation vs consumption
-  const genW=sW,conW=hW;
-  // Format: use kW with 2 decimal places for consistency
-  const genKw=(genW/1000).toFixed(2),conKw=(conW/1000).toFixed(2);
-  setText('t1Gen',genKw);
-  setText('t1Con',conKw);
+  const sW = g.solar_now_w || 0, gW = g.grid_power_w || 0, hW = g.home_consumption_w || 0, bW = g.battery_power_w || 0, soc = g.battery_soc_pct || 0;
 
-  // Balance bar: where is home consumption coming from?
-  // Solar covers home first → battery discharge fills gap → grid fills remainder
-  // Battery charging and grid export are separate flows, not part of home supply
-  const solarToHome=Math.min(genW,conW);
-  const batToHome=bW>0?Math.min(bW,Math.max(0,conW-solarToHome)):0;
-  const gridToHome=Math.max(0,conW-solarToHome-batToHome);
+  // ── Live Balance ──
+  const genW = sW, conW = hW;
+  const genKw = (genW/1000).toFixed(2), conKw = (conW/1000).toFixed(2);
+  setText('t1Gen', genKw);
+  setText('t1Con', conKw);
 
-  const sPct=conW>0?(solarToHome/conW)*100:0;
-  const bPct=conW>0?(batToHome/conW)*100:0;
-  const gPct=conW>0?(gridToHome/conW)*100:0;
+  const solarToHome = Math.min(genW, conW);
+  const batToHome = bW > 0 ? Math.min(bW, Math.max(0, conW - solarToHome)) : 0;
+  const gridToHome = Math.max(0, conW - solarToHome - batToHome);
+  const sPct = conW > 0 ? (solarToHome/conW)*100 : 0;
+  const bPct = conW > 0 ? (batToHome/conW)*100 : 0;
+  const gPct = conW > 0 ? (gridToHome/conW)*100 : 0;
 
-  document.getElementById('barSolar').style.width=sPct+'%';
-  document.getElementById('barBattery').style.width=bPct+'%';
-  document.getElementById('barGrid').style.width=gPct+'%';
+  document.getElementById('barSolar').style.width = sPct + '%';
+  document.getElementById('barBattery').style.width = bPct + '%';
+  document.getElementById('barGrid').style.width = gPct + '%';
 
-  // Renewable = solar + battery combined
-  const renPct=sPct+bPct;
-  setText('bmSelf',renPct.toFixed(0)+'% renewable');
+  const renPct = sPct + bPct;
+  setText('bmSelf', renPct.toFixed(0) + '% renewable');
 
-  // Right meta: actual grid position
-  const ga=Math.abs(gW);
-  if(gW<-50){
-    setText('bmImport','Grid: importing '+fmtW(ga));
-  }else if(gW>50){
-    setText('bmImport','Grid: exporting '+fmtW(ga));
-  }else{
-    setText('bmImport','Grid: balanced');
+  const ga = Math.abs(gW);
+  if (gW < -50) setText('bmImport', 'Grid: importing ' + fmtW(ga));
+  else if (gW > 50) setText('bmImport', 'Grid: exporting ' + fmtW(ga));
+  else setText('bmImport', 'Grid: balanced');
+
+  const subEl = document.getElementById('balanceSub');
+  const ba = Math.abs(bW);
+  if (bW > 50) subEl.innerHTML = 'Battery: discharging <span>' + fmtW(ba) + '</span>';
+  else if (bW < -50) subEl.innerHTML = 'Battery: charging <span>' + fmtW(ba) + '</span>';
+  else subEl.textContent = 'Battery: idle';
+
+  // ── Widgets ──
+  setText('wSolar', fmtW(sW));
+  setText('wSolarSub', (g.today_solar_kwh || 0).toFixed(1) + ' kWh today');
+  setText('wHome', fmtW(hW));
+  const gd = gW < -50 ? 'importing' : gW > 50 ? 'exporting' : 'idle';
+  setText('wGrid', fmtW(ga));
+  setText('wGridSub', gd);
+  setText('wBat', soc + '%');
+  const storedKwh = (soc * 0.32).toFixed(1);
+  const bs = bW > 50 ? 'discharging ' + fmtW(ba) : bW < -50 ? 'charging ' + fmtW(ba) : 'idle';
+  setText('wBatSub', storedKwh + ' kWh · ' + bs);
+
+  // ── Prices ──
+  const buyC = a.current_price_c, sellC = a.sell_price_c, period = a.period || '';
+  if (buyC != null) {
+    setText('buyPrice', buyC.toFixed(1));
+    const bp = document.getElementById('buyPeriod'); bp.textContent = period; bp.className = 'pc-period ' + period;
+  }
+  if (sellC != null) {
+    const sv = document.getElementById('sellPrice');
+    sv.textContent = sellC.toFixed(1);
+    sv.className = 'pc-val' + (sellC < 0 ? ' neg' : sellC > 0 ? ' pos' : '');
+    const ss = document.getElementById('sellSub');
+    ss.textContent = sellC < 0 ? 'costs you' : sellC > 0 ? 'pays you' : 'break even';
+    ss.className = 'pc-sub' + (sellC < 0 ? ' costs' : sellC > 0 ? ' pays' : '');
+    const sp = document.getElementById('sellPeriod'); sp.textContent = period; sp.className = 'pc-period ' + period;
   }
 
-  // Sub line: battery position (the missing piece)
-  const subEl=document.getElementById('balanceSub');
-  const ba=Math.abs(bW);
-  if(bW>50){
-    subEl.innerHTML='Battery: discharging <span>'+fmtW(ba)+'</span>';
-  }else if(bW<-50){
-    subEl.innerHTML='Battery: charging <span>'+fmtW(ba)+'</span>';
-  }else{
-    subEl.textContent='Battery: idle';
+  // ── Next 4h ──
+  if (a.next_peak_c != null && a.next_peak_time) {
+    setText('nextPeakVal', a.next_peak_c.toFixed(1));
+    setText('nextPeakTime', 'at ' + a.next_peak_time);
   }
-
-  // ── TIER 2: Live Widgets ──
-  setText('wSolar',fmtW(sW));
-  setText('wSolarSub',(g.today_solar_kwh||0).toFixed(1)+' kWh today');
-
-  setText('wHome',fmtW(hW));
-
-  const gd=gW<-50?'importing':gW>50?'exporting':'idle';
-  setText('wGrid',fmtW(ga));
-  setText('wGridSub',gd);
-
-  setText('wBat',soc+'%');
-  const storedKwh=(soc*0.32).toFixed(1);
-  const bs=bW>50?'discharging '+fmtW(ba):bW<-50?'charging '+fmtW(ba):'idle';
-  setText('wBatSub',storedKwh+' kWh · '+bs);
-
-  // ── TIER 3: Amber Prices ──
-  const buyC=a.current_price_c,sellC=a.sell_price_c,period=a.period||'';
-  if(buyC!=null){
-    setText('buyPrice',buyC.toFixed(1));
-    const bp=document.getElementById('buyPeriod');bp.textContent=period;bp.className='pc-period '+period;
+  if (a.next_trough_c != null && a.next_trough_time) {
+    setText('nextTroughVal', a.next_trough_c.toFixed(1));
+    setText('nextTroughTime', 'at ' + a.next_trough_time);
   }
-  if(sellC!=null){
-    const sv=document.getElementById('sellPrice');
-    sv.textContent=sellC.toFixed(1);
-    sv.className='pc-val'+(sellC<0?' neg':sellC>0?' pos':'');
-    const ss=document.getElementById('sellSub');
-    ss.textContent=sellC<0?'costs you':sellC>0?'pays you':'break even';
-    ss.className='pc-sub'+(sellC<0?' costs':sellC>0?' pays':'');
-    const sp=document.getElementById('sellPeriod');sp.textContent=period;sp.className='pc-period '+period;
+  if (period) {
+    const badge = document.getElementById('periodBadge');
+    badge.textContent = period === 'solarSponge' ? 'Solar Sponge' : period === 'peak' ? 'Peak' : period === 'offPeak' ? 'Off-Peak' : period;
   }
-
-  // Peak/trough
-  const pi=document.getElementById('peakInfo');
-  if(a.next_peak_c!=null&&a.next_peak_time)
-    pi.innerHTML='Next peak <strong>'+a.next_peak_c.toFixed(1)+'c</strong> at '+a.next_peak_time+
-      (a.next_trough_c!=null?' &nbsp;·&nbsp; Trough <strong>'+a.next_trough_c.toFixed(1)+'c</strong> at '+a.next_trough_time:'');
-  else pi.textContent='';
-
-  // ── TIER 4: Daily Detail ──
-  setText('dailySolar',fmtKwh(t.solar_kwh));
-  setText('dailyImport',fmtKwh(t.import_kwh));
-  setText('dailyExport',fmtKwh(t.export_kwh));
-  setText('dailyLoad',fmtKwh(t.load_kwh));
 
   // Forward price bars
-  const bars=document.getElementById('priceBars'),fwd=a.forward_prices||[];
-  if(fwd.length>0){
-    const mx=Math.max(...fwd.map(f=>f.price),.1);
-    bars.innerHTML=fwd.map(f=>{
-      let c='#b0ada6';if(f.period==='peak')c='#c0392b';else if(f.period==='solarSponge')c='#c2680c';
-      return '<div class="bar-row"><span class="bar-time">'+f.time+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.max((f.price/mx)*100,4)+'%;background:'+c+'"> </span></span><span class="bar-price">'+f.price.toFixed(1)+'c</span></div>';
+  const bars = document.getElementById('priceBars'), fwd = a.forward_prices || [];
+  if (fwd.length > 0) {
+    const mx = Math.max(...fwd.map(f => f.price), 0.1);
+    bars.innerHTML = fwd.map(f => {
+      let c = '#b0ada6';
+      if (f.period === 'peak') c = '#c0392b';
+      else if (f.period === 'solarSponge') c = '#c2680c';
+      return '<div class="bar-row"><span class="bar-time">' + f.time + '</span><span class="bar-track"><span class="bar-fill" style="width:' + Math.max((f.price/mx)*100, 4) + '%;background:' + c + '"> </span></span><span class="bar-price">' + f.price.toFixed(1) + 'c</span></div>';
     }).join('');
-  }else bars.innerHTML='<div style="padding:12px;text-align:center;color:var(--muted);font-size:.65rem">No price data</div>';
 
-  const dot=document.getElementById('refreshDot');dot.classList.remove('stale');
-  setText('refreshText','Live · '+(data.timestamp_short||'just now'));
+    // Insight
+    const pk = a.next_peak_c, pkTime = a.next_peak_time;
+    let insight = '';
+    if (pk != null && pk > 20) insight = 'Prices spike to <strong>' + pk.toFixed(1) + 'c</strong> at ' + pkTime + '. Charge battery before peak.';
+    else if (sellC != null && sellC < 0) insight = 'Feed-in is negative — <strong>costs you</strong> to export right now. Use or store your solar.';
+    else insight = 'Prices steady. Solar sponge period — good time to run appliances.';
+    document.getElementById('insightBox').innerHTML = insight;
+  } else {
+    bars.innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:12px">No price data</div>';
+  }
+
+  // ── Usage: Daily detail ──
+  setText('dailySolar', fmtKwh(t.solar_kwh));
+  setText('dailyLoad', fmtKwh(t.load_kwh));
+  setText('dailyImport', fmtKwh(t.import_kwh));
+  setText('dailyExport', fmtKwh(t.export_kwh));
+  setText('dailyBatCharge', fmtKwh(t.battery_charge_kwh));
+
+  // ── Usage: Battery ──
+  setText('batPct', soc + '%');
+  setText('batStored', storedKwh + ' kWh stored');
+  document.getElementById('batBar').style.width = soc + '%';
+  setText('batCharged', 'Charged today: ' + fmtKwh(t.battery_charge_kwh));
+  setText('batDischarged', 'Discharged today: ' + fmtKwh(t.battery_discharge_kwh));
+
+  // ── Yesterday ──
+  const y = data.yesterday || {};
+  const yr = document.getElementById('yesterdayRow');
+  yr.textContent = 'Yesterday: Generated ' + (y.solar_kwh||0).toFixed(1) + ' kWh · Imported ' + (y.import_kwh||0).toFixed(1) + ' kWh · Exported ' + (y.export_kwh||0).toFixed(1) + ' kWh';
+
+  const dot = document.getElementById('refreshDot'); dot.classList.remove('stale');
+  setText('refreshText', 'Live · ' + (data.timestamp_short || 'just now'));
 }
 
-function showError(msg){
-  setText('timestamp','Unable to connect');
+function showError(msg) {
+  setText('timestamp', 'Unable to connect');
   document.getElementById('refreshDot').classList.add('stale');
-  setText('refreshText',msg||'Connection lost');
+  setText('refreshText', msg || 'Connection lost');
 }
 
-async function fetchData(){
-  try{const r=await fetch(DATA_URL+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);updateUI(await r.json())}
-  catch(e){console.warn(e.message);showError('Retrying...')}
+async function fetchData() {
+  try { const r = await fetch(DATA_URL + '?v=' + Date.now(), {cache: 'no-store'}); if (!r.ok) throw new Error('HTTP ' + r.status); updateUI(await r.json()); }
+  catch(e) { console.warn(e.message); showError('Retrying...'); }
 }
-fetchData();setInterval(fetchData,10000);
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData()});
+fetchData(); setInterval(fetchData, 10000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') fetchData(); });
 
-// === CONSUMPTION CHART ===
-const HISTORY_URL='data/energy-history.json';
-let allHistory=[],chartOffset=0,chartInstance=null;
-const DAYS_PER_PAGE=7;
+// ── Donut Chart (Usage tab) ──
+let donutInstance = null;
+function renderDonut() {
+  if (!currentData) return;
+  const t = currentData.today || {};
+  const load = t.load_kwh || 0;
+  const solarPct = load > 0 ? Math.min((t.solar_kwh || 0) / load * 100, 100) : 0;
+  const batPct = load > 0 ? Math.min((t.battery_discharge_kwh || 0) / load * 100, 100 - solarPct) : 0;
+  const gridPct = Math.max(0, 100 - solarPct - batPct);
 
-function fmtDate(d){const p=d.split('-');return p[2]+'/'+p[1]}
+  setText('donutTotal', load.toFixed(1));
+  document.getElementById('donutLegend').innerHTML =
+    '<div class="dl-item"><span class="dl-dot dl-solar"></span> Solar ' + solarPct.toFixed(0) + '%</div>' +
+    '<div class="dl-item"><span class="dl-dot dl-battery"></span> Battery ' + batPct.toFixed(0) + '%</div>' +
+    '<div class="dl-item"><span class="dl-dot dl-grid"></span> Grid ' + gridPct.toFixed(0) + '%</div>';
 
-async function loadHistory(){
-  try{const r=await fetch(HISTORY_URL+'?v='+Date.now(),{cache:'no-store'});if(r.ok)allHistory=await r.json();else allHistory=[]}
-  catch(e){allHistory=[]}
+  const ctx = document.getElementById('donutChart').getContext('2d');
+  if (donutInstance) donutInstance.destroy();
+  const data = [solarPct, batPct, gridPct].filter(v => v > 0);
+  const bg = []; if (solarPct > 0) bg.push('#e8a838'); if (batPct > 0) bg.push('#4a9e6e'); if (gridPct > 0) bg.push('#5b8cb8');
+  if (data.length === 0) { data.push(1); bg.push('#e6dfd8'); }
+
+  donutInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: { datasets: [{ data, backgroundColor: bg, borderWidth: 0, borderRadius: 4 }] },
+    options: {
+      cutout: '70%',
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } }
+    }
+  });
+}
+
+// ── Consumption Chart (Usage tab) ──
+const HISTORY_URL = 'data/energy-history.json';
+let allHistory = [], chartOffset = 0, chartInstance = null;
+const DAYS_PER_PAGE = 7;
+
+function fmtDate(d) { const p = d.split('-'); return p[2] + '/' + p[1]; }
+
+async function loadHistory() {
+  try { const r = await fetch(HISTORY_URL + '?v=' + Date.now(), {cache: 'no-store'}); if (r.ok) allHistory = await r.json(); else allHistory = []; }
+  catch(e) { allHistory = []; }
   renderChart();
 }
 
-function renderChart(){
-  const totalDays=allHistory.length;
-  if(totalDays===0){
-    document.getElementById('chartRange').textContent='No data yet';
-    document.getElementById('chartPrev').disabled=true;
-    document.getElementById('chartNext').disabled=true;
-    if(chartInstance){chartInstance.destroy();chartInstance=null}
+function renderChart() {
+  const totalDays = allHistory.length;
+  if (totalDays === 0) {
+    document.getElementById('chartRange').textContent = 'No data yet';
+    document.getElementById('chartPrev').disabled = true;
+    document.getElementById('chartNext').disabled = true;
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     return;
   }
-  if(chartOffset<0)chartOffset=0;
-  if(chartOffset+DAYS_PER_PAGE>totalDays)chartOffset=Math.max(0,totalDays-DAYS_PER_PAGE);
+  if (chartOffset < 0) chartOffset = 0;
+  if (chartOffset + DAYS_PER_PAGE > totalDays) chartOffset = Math.max(0, totalDays - DAYS_PER_PAGE);
 
-  const page=allHistory.slice(chartOffset,chartOffset+DAYS_PER_PAGE).reverse();
-  const labels=page.map(d=>fmtDate(d.date));
-  const renewData=page.map(d=>(d.solar_kwh||0)+(d.battery_discharge_kwh||0));
-  const gridData=page.map(d=>d.grid_import_kwh||0);
+  const page = allHistory.slice(chartOffset, chartOffset + DAYS_PER_PAGE).reverse();
+  const labels = page.map(d => fmtDate(d.date));
+  const renewData = page.map(d => (d.solar_kwh || 0) + (d.battery_discharge_kwh || 0));
+  const gridData = page.map(d => d.grid_import_kwh || 0);
 
-  const end=chartOffset+page.length;
-  document.getElementById('chartRange').textContent=labels[0]+' – '+labels[labels.length-1];
-  document.getElementById('chartPrev').disabled=chartOffset===0;
-  document.getElementById('chartNext').disabled=chartOffset+DAYS_PER_PAGE>=totalDays;
+  document.getElementById('chartRange').textContent = labels[0] + ' – ' + labels[labels.length - 1];
+  document.getElementById('chartPrev').disabled = chartOffset === 0;
+  document.getElementById('chartNext').disabled = chartOffset + DAYS_PER_PAGE >= totalDays;
 
-  const ctx=document.getElementById('consumptionChart').getContext('2d');
-  if(chartInstance)chartInstance.destroy();
-  chartInstance=new Chart(ctx,{
-    type:'bar',
-    data:{
+  const ctx = document.getElementById('consumptionChart').getContext('2d');
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
       labels,
-      datasets:[
-        {label:'Solar + Battery',data:renewData,backgroundColor:'#4a9e6e',borderRadius:4,borderSkipped:false},
-        {label:'Grid Import',data:gridData,backgroundColor:'#5b8cb8',borderRadius:4,borderSkipped:false},
+      datasets: [
+        { label: 'Solar + Battery', data: renewData, backgroundColor: '#4a9e6e', borderRadius: 4, borderSkipped: false },
+        { label: 'Grid Import', data: gridData, backgroundColor: '#5b8cb8', borderRadius: 4, borderSkipped: false }
       ]
     },
-    options:{
-      responsive:true,maintainAspectRatio:true,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw.toFixed(1)+' kWh'}}},
-      scales:{
-        x:{stacked:true,grid:{display:false},ticks:{font:{size:9},color:'#94918a'}},
-        y:{stacked:true,grid:{color:'#e4e1db'},ticks:{font:{size:9},color:'#94918a',callback:v=>v+' kWh'},title:{display:true,text:'kWh',font:{size:9},color:'#94918a'}}
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' kWh' } } },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, color: '#8e8b82' } },
+        y: { stacked: true, grid: { color: '#e6dfd8' }, ticks: { font: { size: 9 }, color: '#8e8b82', callback: v => v + ' kWh' }, title: { display: true, text: 'kWh', font: { size: 9 }, color: '#8e8b82' } }
       }
     }
   });
 }
 
-document.getElementById('chartPrev').addEventListener('click',()=>{chartOffset=Math.max(0,chartOffset-DAYS_PER_PAGE);renderChart()});
-document.getElementById('chartNext').addEventListener('click',()=>{chartOffset+=DAYS_PER_PAGE;renderChart()});
-
+document.getElementById('chartPrev').addEventListener('click', () => { chartOffset = Math.max(0, chartOffset - DAYS_PER_PAGE); renderChart(); });
+document.getElementById('chartNext').addEventListener('click', () => { chartOffset += DAYS_PER_PAGE; renderChart(); });
 loadHistory();
 </script>
 </body>
