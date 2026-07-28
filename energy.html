@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Energy · Hancock</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
@@ -400,7 +403,7 @@ function showError(msg){
 }
 
 async function fetchData(){
-  try{const r=await fetch(DATA_URL+'?v='+Date.now());if(!r.ok)throw new Error('HTTP '+r.status);updateUI(await r.json())}
+  try{const r=await fetch(DATA_URL+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);updateUI(await r.json())}
   catch(e){console.warn(e.message);showError('Retrying...')}
 }
 fetchData();setInterval(fetchData,10000);
@@ -414,7 +417,7 @@ const DAYS_PER_PAGE=7;
 function fmtDate(d){const p=d.split('-');return p[2]+'/'+p[1]}
 
 async function loadHistory(){
-  try{const r=await fetch(HISTORY_URL+'?v='+Date.now());if(r.ok)allHistory=await r.json();else allHistory=[]}
+  try{const r=await fetch(HISTORY_URL+'?v='+Date.now(),{cache:'no-store'});if(r.ok)allHistory=await r.json();else allHistory=[]}
   catch(e){allHistory=[]}
   renderChart();
 }
