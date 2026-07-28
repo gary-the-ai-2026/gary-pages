@@ -94,11 +94,12 @@
   .balance-side .bl-value { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--ink); line-height: 1; }
   .balance-side .bl-unit { font-size: 0.65rem; color: var(--muted); font-family: var(--font-body); margin-top: 2px; }
   .balance-vs { font-size: 0.7rem; color: var(--muted-soft); padding-bottom: 8px; }
-  .bar-stacked { display: flex; height: 6px; background: var(--hairline); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
-  .bar-seg { height: 100%; transition: width 0.8s ease; }
+  .bar-stacked { display: flex; height: 22px; background: var(--hairline); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .bar-seg { height: 100%; transition: width 0.8s ease; display: flex; align-items: center; justify-content: center; }
   .bar-seg.bar-solar { background: var(--solar); }
   .bar-seg.bar-battery { background: var(--battery); }
   .bar-seg.bar-grid { background: var(--home); }
+  .bar-seg .seg-icon { font-size: 12px; line-height: 1; opacity: 0.85; pointer-events: none; user-select: none; }
   .balance-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--body); }
   .balance-meta .bm-renewable { color: var(--success); font-weight: 500; }
   .balance-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
@@ -450,8 +451,11 @@ function updateUI(data) {
   const gPct = conW > 0 ? (gridToHome/conW)*100 : 0;
 
   document.getElementById('barSolar').style.width = sPct + '%';
+  document.getElementById('barSolar').innerHTML = sPct > 12 ? '<span class="seg-icon">☀</span>' : '';
   document.getElementById('barBattery').style.width = bPct + '%';
+  document.getElementById('barBattery').innerHTML = bPct > 12 ? '<span class="seg-icon">▮</span>' : '';
   document.getElementById('barGrid').style.width = gPct + '%';
+  document.getElementById('barGrid').innerHTML = gPct > 12 ? '<span class="seg-icon">⚡</span>' : '';
 
   const renPct = sPct + bPct;
   setText('bmSelf', renPct.toFixed(0) + '% renewable');
