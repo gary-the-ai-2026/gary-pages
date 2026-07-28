@@ -55,8 +55,12 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 
 /* Balance bar */
 .balance-bar-wrap{margin:0 0 10px}
-.balance-bar-track{height:6px;background:var(--hairline);border-radius:3px;overflow:hidden;margin-bottom:6px}
-.balance-bar-fill{height:100%;border-radius:3px;background:var(--battery);transition:width .8s ease}
+/* Stacked 3-segment bar */
+.bar-stacked{display:flex;height:6px;background:var(--hairline);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar-seg{height:100%;transition:width .8s ease}
+.bar-seg.bar-solar{background:var(--solar)}
+.bar-seg.bar-battery{background:var(--battery)}
+.bar-seg.bar-grid{background:var(--home)}
 .balance-meta{display:flex;justify-content:space-between;font-size:.55rem;color:var(--muted)}
 .balance-meta .bm-self{font-weight:600;color:var(--battery)}
 .balance-sub{font-size:.55rem;color:var(--body);text-align:center}
@@ -179,8 +183,10 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
       </div>
     </div>
     <div class="balance-bar-wrap">
-      <div class="balance-bar-track">
-        <div class="balance-bar-fill" id="balanceBar" style="width:0%"></div>
+      <div class="bar-stacked" id="balanceTrack">
+        <div class="bar-seg bar-solar" id="barSolar" style="width:0%"></div>
+        <div class="bar-seg bar-battery" id="barBattery" style="width:0%"></div>
+        <div class="bar-seg bar-grid" id="barGrid" style="width:0%"></div>
       </div>
       <div class="balance-meta">
         <span class="bm-self" id="bmSelf">--</span>
@@ -294,15 +300,23 @@ function updateUI(data){
   setText('t1Gen',genKw);
   setText('t1Con',conKw);
 
-  // Balance bar: how much of current consumption is met by solar
-  const solarShare=conW>0?Math.min((genW/conW)*100,100):0;
-  const bar=document.getElementById('balanceBar');
-  bar.style.width=solarShare+'%';
-  if(solarShare>=90)bar.style.background='#4a9e6e';
-  else if(solarShare>=50)bar.style.background='#c2680c';
-  else bar.style.background='#cc785c';
+  // Balance bar: where is home consumption coming from?
+  // Battery → Home (discharging), Grid → Home (importing), remainder = direct solar
+  const batToHome=Math.max(bW,0);
+  const gridToHome=Math.max(-gW,0);
+  const solarToHome=Math.max(conW-batToHome-gridToHome,0);
 
-  setText('bmSelf',solarShare.toFixed(0)+'% solar-powered');
+  const sPct=conW>0?(solarToHome/conW)*100:0;
+  const bPct=conW>0?(batToHome/conW)*100:0;
+  const gPct=conW>0?(gridToHome/conW)*100:0;
+
+  document.getElementById('barSolar').style.width=sPct+'%';
+  document.getElementById('barBattery').style.width=bPct+'%';
+  document.getElementById('barGrid').style.width=gPct+'%';
+
+  // Renewable = solar + battery combined
+  const renPct=sPct+bPct;
+  setText('bmSelf',renPct.toFixed(0)+'% renewable');
 
   // Right meta: actual grid position
   const ga=Math.abs(gW);
