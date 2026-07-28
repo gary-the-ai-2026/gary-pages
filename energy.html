@@ -224,7 +224,7 @@
     animation: flowDash 0.7s linear infinite;
   }
   .flow-line.idle { display: none; }
-  .flow-label { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 10px; font-weight: 500; text-anchor: middle; }
+  .flow-label { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 10px; font-weight: 500; text-anchor: middle; paint-order: stroke fill; stroke: rgba(255,255,255,0.88); stroke-width: 4px; stroke-linecap: round; stroke-linejoin: round; }
   .flow-label.idle { display: none; }
   @keyframes flowDash { to { stroke-dashoffset: -16; } }
 
