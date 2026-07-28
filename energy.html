@@ -477,7 +477,7 @@ function updateUI(data) {
   setText('wBat', soc + '%');
   const storedKwh = (soc * 0.32).toFixed(1);
   const bs = bW > 50 ? 'discharging ' + fmtW(ba) : bW < -50 ? 'charging ' + fmtW(ba) : 'idle';
-  setText('wBatSub', storedKwh + ' kWh · ' + bs);
+  setText('wBatSub', storedKwh + ' kWh / 32 kWh');
 
   // ── Prices ──
   const buyC = a.current_price_c, sellC = a.sell_price_c, period = a.period || '';
@@ -536,7 +536,7 @@ function updateUI(data) {
 
   // ── Usage: Battery ──
   setText('batPct', soc + '%');
-  setText('batStored', storedKwh + ' kWh stored');
+  setText('batStored', storedKwh + ' kWh / 32 kWh');
   document.getElementById('batBar').style.width = soc + '%';
   setText('batCharged', 'Charged today: ' + fmtKwh(t.battery_charge_kwh));
   setText('batDischarged', 'Discharged today: ' + fmtKwh(t.battery_discharge_kwh));
