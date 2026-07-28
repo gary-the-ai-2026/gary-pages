@@ -948,12 +948,13 @@ function drawUsageChart() {
     intervals = raw.slice(-12);
     barPct = 0.85; catPct = 0.85;
   } else if (usageRange === '12h') {
-    // 15-min blocks, last 48 blocks
+    // 15-min blocks, last 48 blocks (12 hours)
     const all = usageData.intervals || [];
     intervals = all.slice(-48);
   } else {
-    // 24h — all 15-min blocks
-    intervals = usageData.intervals || [];
+    // 24h — last 96 blocks (15-min × 96 = 24 hours)
+    const all = usageData.intervals || [];
+    intervals = all.slice(-96);
   }
 
   if (intervals.length === 0) return;
