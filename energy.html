@@ -356,12 +356,16 @@
         <!-- Grid 3→Home 9 -->
         <path id="flowGridHome" class="flow-line" d="M149,230 L251,230"
               stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
+        <!-- Solar 9→Grid 12 -->
+        <path id="flowSolarGrid" class="flow-line" d="M146,90 C120,110 100,140 95,176"
+              stroke="#e8a838" marker-end="url(#arrowSolar)"/>
 
         <!-- Flow amount labels -->
         <text id="flowLabelSH" class="flow-label idle" x="285" y="128" fill="#e8a838">--</text>
         <text id="flowLabelSB" class="flow-label idle" x="200" y="226" fill="#e8a838">--</text>
         <text id="flowLabelBH" class="flow-label idle" x="280" y="330" fill="#4a9e6e">--</text>
         <text id="flowLabelGH" class="flow-label idle" x="200" y="222" fill="#5b8cb8">--</text>
+        <text id="flowLabelSG" class="flow-label idle" x="115" y="134" fill="#e8a838">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS (icons + text, on top of everything) ═══════════ -->
 
@@ -683,6 +687,16 @@ function updateUI(data) {
   lGH.classList.toggle('idle', !ghActive);
   fGH.setAttribute('stroke-width', ghActive ? flowW(Math.abs(gW)) : '1.5');
   if (ghActive) lGH.textContent = (Math.abs(gW)/1000).toFixed(1) + ' kW';
+
+  // Solar → Grid (exporting)
+  const fSG = document.getElementById('flowSolarGrid');
+  const lSG = document.getElementById('flowLabelSG');
+  const sgActive = gridExporting && genW > 50;
+  fSG.classList.toggle('active', sgActive);
+  fSG.classList.toggle('idle', !sgActive);
+  lSG.classList.toggle('idle', !sgActive);
+  fSG.setAttribute('stroke-width', sgActive ? flowW(Math.abs(gW)) : '1.5');
+  if (sgActive) lSG.textContent = (Math.abs(gW)/1000).toFixed(1) + ' kW';
 
   // Node glow intensity
   document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
