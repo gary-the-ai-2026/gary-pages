@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <title>Energy · Hancock</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 :root {
@@ -22,13 +22,50 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .container{max-width:440px;margin:0 auto;padding:14px 12px 32px}
 
 /* Header */
-.hero{text-align:center;padding:4px 0 10px}
+.hero{text-align:center;padding:4px 0 8px}
 .hero .kicker{font-size:.6rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--home)}
 .hero h1{font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--ink)}
 .hero .timestamp{font-size:.65rem;color:var(--muted);font-family:var(--font-mono);margin-top:2px}
 
-/* 2×2 power widget grid */
-.widget-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+/* ── Tier Labels ── */
+.tier-label{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:0 0 6px 2px}
+
+/* ═══════════════════════════════════════════
+   TIER 1 — Energy Balance (PRIMARY)
+   ═══════════════════════════════════════════ */
+.tier1-card{
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--radius);padding:18px 16px 14px;margin-bottom:12px;
+  position:relative;overflow:hidden
+}
+.tier1-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--solar) 0%,var(--solar) 50%,var(--home) 50%,var(--home) 100%)
+}
+.tier1-header{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);text-align:center;margin-bottom:12px}
+.tier1-row{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:14px}
+.tier1-side{text-align:center;flex:1;max-width:140px}
+.tier1-side .t1-label{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:2px;display:flex;align-items:center;justify-content:center;gap:4px}
+.tier1-side .t1-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.tier1-side .t1-dot.gen{background:var(--solar)}
+.tier1-side .t1-dot.con{background:var(--home)}
+.tier1-side .t1-value{font-family:var(--font-display);font-size:2.4rem;font-weight:900;color:var(--ink);line-height:1;margin:2px 0}
+.tier1-side .t1-unit{font-size:.6rem;font-weight:500;color:var(--muted)}
+.tier1-vs{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--muted);padding-bottom:8px}
+
+/* Balance bar */
+.balance-bar-wrap{margin:0 0 10px}
+.balance-bar-track{height:6px;background:var(--hairline);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.balance-bar-fill{height:100%;border-radius:3px;background:var(--battery);transition:width .8s ease}
+.balance-meta{display:flex;justify-content:space-between;font-size:.55rem;color:var(--muted)}
+.balance-meta .bm-self{font-weight:600;color:var(--battery)}
+.balance-sub{font-size:.55rem;color:var(--body);text-align:center}
+.balance-sub span{font-family:var(--font-mono);font-weight:500;color:var(--ink)}
+
+/* ═══════════════════════════════════════════
+   TIER 2 — Live Power Widgets
+   ═══════════════════════════════════════════ */
+.widget-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
 .widget{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius);padding:12px 14px;
@@ -42,15 +79,15 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .widget .w-accent.battery{background:var(--battery)}
 .widget .w-accent.grid{background:var(--grid)}
 .widget .w-accent.home{background:var(--home)}
-
-/* Widget border accent */
 .widget.solar-w{border-left:3px solid var(--solar)}
 .widget.home-w{border-left:3px solid var(--home)}
 .widget.grid-w{border-left:3px solid var(--grid)}
 .widget.battery-w{border-left:3px solid var(--battery)}
 
-/* Price strip */
-.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+/* ═══════════════════════════════════════════
+   TIER 3 — Amber Prices
+   ═══════════════════════════════════════════ */
+.price-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
 .price-cell{
   background:var(--surface);border:1px solid var(--hairline);
   border-radius:var(--radius);padding:10px 14px;text-align:center
@@ -65,9 +102,11 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .price-cell.buy{border-left:3px solid var(--grid)}
 .price-cell.sell{border-left:3px solid var(--battery)}
 
+/* ═══════════════════════════════════════════
+   TIER 4 — Remaining Dashboard
+   ═══════════════════════════════════════════ */
 /* Section label */
 .section-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:10px 0 6px;padding:0 2px}
-.section-label.live{color:#1b8a3d;font-size:.58rem}
 
 /* Daily strip */
 .daily-strip{display:flex;justify-content:space-around;gap:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:10px 8px}
@@ -104,6 +143,14 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .refresh-bar{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;font-size:.58rem;color:var(--muted)}
 .refresh-dot{width:5px;height:5px;border-radius:50%;background:#1b8a3d}
 .refresh-dot.stale{background:#c2680c}
+
+/* Tier border accents — subtle visual hierarchy markers */
+.tier-divider{height:1px;background:var(--hairline);margin:12px 0 10px;opacity:.6}
+
+@media (max-width: 480px) {
+  .tier1-side .t1-value{font-size:2rem}
+  .tier1-row{gap:10px}
+}
 </style>
 </head>
 <body>
@@ -114,10 +161,37 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- LIVE section -->
-  <div class="section-label">● LIVE</div>
+  <!-- ══════════════════════ TIER 1: ENERGY BALANCE ══════════════════════ -->
+  <div class="tier-label">● Primary</div>
+  <div class="tier1-card">
+    <div class="tier1-header">Today's Balance</div>
+    <div class="tier1-row">
+      <div class="tier1-side">
+        <div class="t1-label"><span class="t1-dot gen"></span> Generated</div>
+        <div class="t1-value" id="t1Gen">--</div>
+        <div class="t1-unit">kWh</div>
+      </div>
+      <div class="tier1-vs">vs</div>
+      <div class="tier1-side">
+        <div class="t1-label"><span class="t1-dot con"></span> Consumed</div>
+        <div class="t1-value" id="t1Con">--</div>
+        <div class="t1-unit">kWh</div>
+      </div>
+    </div>
+    <div class="balance-bar-wrap">
+      <div class="balance-bar-track">
+        <div class="balance-bar-fill" id="balanceBar" style="width:0%"></div>
+      </div>
+      <div class="balance-meta">
+        <span class="bm-self" id="bmSelf">--</span>
+        <span id="bmImport">--</span>
+      </div>
+    </div>
+    <div class="balance-sub" id="balanceSub">--</div>
+  </div>
 
-  <!-- 2×2 power widgets -->
+  <!-- ══════════════════════ TIER 2: LIVE POWER ══════════════════════ -->
+  <div class="tier-label">● Live Power</div>
   <div class="widget-grid">
     <div class="widget solar-w">
       <div class="w-label"><span class="w-accent solar"></span>Solar</div>
@@ -141,7 +215,8 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     </div>
   </div>
 
-  <!-- Amber prices -->
+  <!-- ══════════════════════ TIER 3: AMBER PRICES ══════════════════════ -->
+  <div class="tier-label">● Amber Prices</div>
   <div class="price-strip">
     <div class="price-cell buy">
       <div class="pc-label">Buy Price</div>
@@ -157,15 +232,19 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     </div>
   </div>
 
+  <!-- ══════════════════════ TIER 4: REMAINING ══════════════════════ -->
+  <div class="tier-divider"></div>
+
   <!-- Peak/trough -->
   <div class="info-tag" id="peakInfo">--</div>
 
-  <!-- Daily -->
-  <div class="section-label">Today</div>
+  <!-- Daily strip -->
+  <div class="section-label">Today's Detail</div>
   <div class="daily-strip">
     <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Battery</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">To Grid</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyImport">--</div><div class="daily-lbl">Imported</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">Exported</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Batt Used</div></div>
   </div>
 
   <!-- Consumption chart -->
@@ -202,12 +281,41 @@ function fmtKwh(v){return v==null?'--':v.toFixed(1)+' kWh'}
 function setText(id,val){const el=document.getElementById(id);if(el&&el.textContent!==val)el.textContent=val}
 
 function updateUI(data){
-  const g=data.goodwe,a=data.amber;
+  const g=data.goodwe,a=data.amber,t=data.today||{};
   setText('timestamp',data.timestamp_display||'--');
 
   const sW=g.solar_now_w||0,gW=g.grid_power_w||0,hW=g.home_consumption_w||0,bW=g.battery_power_w||0,soc=g.battery_soc_pct||0;
 
-  // Widgets
+  // ── TIER 1: Energy Balance ──
+  const genKwh=t.solar_kwh||0,conKwh=t.consumption_kwh||0;
+  setText('t1Gen',genKwh.toFixed(1));
+  setText('t1Con',conKwh>0?conKwh.toFixed(1):'--');
+
+  // Balance bar: self-sufficiency = generated / consumed * 100
+  const selfSuff=conKwh>0?Math.min((genKwh/conKwh)*100,100):0;
+  const bar=document.getElementById('balanceBar');
+  bar.style.width=selfSuff+'%';
+  // Colour shifts from green (self-sufficient) to amber/coral (grid-dependent)
+  if(selfSuff>=90)bar.style.background='#4a9e6e';
+  else if(selfSuff>=50)bar.style.background='#c2680c';
+  else bar.style.background='#cc785c';
+
+  setText('bmSelf',selfSuff.toFixed(0)+'% self-sufficient');
+  const impKwh=t.import_kwh||0;
+  if(impKwh>0)setText('bmImport','Imported '+impKwh.toFixed(1)+' kWh');
+  else setText('bmImport','');
+
+  // Sub line: net position
+  const net=genKwh-conKwh;
+  if(net>0.1){
+    setText('balanceSub','Surplus <span>+'+net.toFixed(1)+' kWh</span> today');
+  }else if(net<-0.1){
+    setText('balanceSub','Deficit <span>'+net.toFixed(1)+' kWh</span> from grid');
+  }else{
+    setText('balanceSub','Balanced');
+  }
+
+  // ── TIER 2: Live Widgets ──
   setText('wSolar',fmtW(sW));
   setText('wSolarSub',(g.today_solar_kwh||0).toFixed(1)+' kWh today');
 
@@ -223,7 +331,7 @@ function updateUI(data){
   const bs=bW>50?'discharging '+fmtW(ba):bW<-50?'charging '+fmtW(ba):'idle';
   setText('wBatSub',storedKwh+' kWh · '+bs);
 
-  // Amber prices
+  // ── TIER 3: Amber Prices ──
   const buyC=a.current_price_c,sellC=a.sell_price_c,period=a.period||'';
   if(buyC!=null){
     setText('buyPrice',buyC.toFixed(1));
@@ -241,10 +349,11 @@ function updateUI(data){
       (a.next_trough_c!=null?' &nbsp;·&nbsp; Trough <strong>'+a.next_trough_c.toFixed(1)+'c</strong> at '+a.next_trough_time:'');
   else pi.textContent='';
 
-  // Daily
-  setText('dailySolar',fmtKwh(g.today_solar_kwh));
-  setText('dailyBatt',fmtKwh(g.lifetime_bat_charge_kwh));
-  setText('dailyExport',fmtKwh(g.lifetime_export_kwh));
+  // ── TIER 4: Daily Detail ──
+  setText('dailySolar',fmtKwh(t.solar_kwh));
+  setText('dailyImport',fmtKwh(t.import_kwh));
+  setText('dailyExport',fmtKwh(t.export_kwh));
+  setText('dailyBatt',fmtKwh(t.battery_discharge_kwh));
 
   // Forward price bars
   const bars=document.getElementById('priceBars'),fwd=a.forward_prices||[];
@@ -295,22 +404,19 @@ function renderChart(){
     if(chartInstance){chartInstance.destroy();chartInstance=null}
     return;
   }
-  // Clamp offset
   if(chartOffset<0)chartOffset=0;
   if(chartOffset+DAYS_PER_PAGE>totalDays)chartOffset=Math.max(0,totalDays-DAYS_PER_PAGE);
 
-  const page=allHistory.slice(chartOffset,chartOffset+DAYS_PER_PAGE).reverse(); // oldest first for chart
+  const page=allHistory.slice(chartOffset,chartOffset+DAYS_PER_PAGE).reverse();
   const labels=page.map(d=>fmtDate(d.date));
   const renewData=page.map(d=>(d.solar_kwh||0)+(d.battery_discharge_kwh||0));
   const gridData=page.map(d=>d.grid_import_kwh||0);
 
-  // Update nav
   const end=chartOffset+page.length;
   document.getElementById('chartRange').textContent=labels[0]+' – '+labels[labels.length-1];
   document.getElementById('chartPrev').disabled=chartOffset===0;
   document.getElementById('chartNext').disabled=chartOffset+DAYS_PER_PAGE>=totalDays;
 
-  // Render
   const ctx=document.getElementById('consumptionChart').getContext('2d');
   if(chartInstance)chartInstance.destroy();
   chartInstance=new Chart(ctx,{
