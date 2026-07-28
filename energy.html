@@ -451,11 +451,11 @@ function updateUI(data) {
   const gPct = conW > 0 ? (gridToHome/conW)*100 : 0;
 
   document.getElementById('barSolar').style.width = sPct + '%';
-  document.getElementById('barSolar').innerHTML = sPct > 12 ? '<span class="seg-icon">☀</span>' : '';
+  document.getElementById('barSolar').innerHTML = sPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="3" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><line x1="8" y1="2" x2="8" y2="4" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="8" y1="12" x2="8" y2="14" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="2" y1="8" x2="4" y2="8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="12" y1="8" x2="14" y2="8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="3.8" y1="3.8" x2="5.2" y2="5.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10.8" y1="10.8" x2="12.2" y2="12.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10.8" y1="5.2" x2="12.2" y2="3.8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="5.2" y1="10.8" x2="3.8" y2="12.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>' : '';
   document.getElementById('barBattery').style.width = bPct + '%';
-  document.getElementById('barBattery').innerHTML = bPct > 12 ? '<span class="seg-icon">▮</span>' : '';
+  document.getElementById('barBattery').innerHTML = bPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><rect x="3" y="5" width="8" height="9" rx="1" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><rect x="5.5" y="3" width="3" height="3" rx=".5" fill="none" stroke="#faf9f5" stroke-width="1" opacity=".9"/><rect x="5" y="7" width="4" height="5" rx=".5" fill="#faf9f5" opacity=".35"/></svg>' : '';
   document.getElementById('barGrid').style.width = gPct + '%';
-  document.getElementById('barGrid').innerHTML = gPct > 12 ? '<span class="seg-icon">⚡</span>' : '';
+  document.getElementById('barGrid').innerHTML = gPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><rect x="6.5" y="2" width="3" height="12" rx=".5" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><line x1="2" y1="6" x2="6.5" y2="6" stroke="#faf9f5" stroke-width="1.2" stroke-linecap="round" opacity=".9"/><line x1="9.5" y1="6" x2="14" y2="6" stroke="#faf9f5" stroke-width="1.2" stroke-linecap="round" opacity=".9"/></svg>' : '';
 
   const renPct = sPct + bPct;
   setText('bmSelf', renPct.toFixed(0) + '% renewable');
