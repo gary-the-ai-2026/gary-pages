@@ -161,21 +161,21 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="timestamp" id="timestamp">--</div>
   </div>
 
-  <!-- ══════════════════════ TIER 1: ENERGY BALANCE ══════════════════════ -->
-  <div class="tier-label">● Primary</div>
+  <!-- ══════════════════════ TIER 1: LIVE BALANCE ══════════════════════ -->
+  <div class="tier-label">● Live Balance</div>
   <div class="tier1-card">
-    <div class="tier1-header">Today's Balance</div>
+    <div class="tier1-header">Right Now</div>
     <div class="tier1-row">
       <div class="tier1-side">
-        <div class="t1-label"><span class="t1-dot gen"></span> Generated</div>
+        <div class="t1-label"><span class="t1-dot gen"></span> Generating</div>
         <div class="t1-value" id="t1Gen">--</div>
-        <div class="t1-unit">kWh</div>
+        <div class="t1-unit" id="t1GenUnit">kW</div>
       </div>
       <div class="tier1-vs">vs</div>
       <div class="tier1-side">
-        <div class="t1-label"><span class="t1-dot con"></span> Consumed</div>
+        <div class="t1-label"><span class="t1-dot con"></span> Consuming</div>
         <div class="t1-value" id="t1Con">--</div>
-        <div class="t1-unit">kWh</div>
+        <div class="t1-unit" id="t1ConUnit">kW</div>
       </div>
     </div>
     <div class="balance-bar-wrap">
@@ -286,33 +286,44 @@ function updateUI(data){
 
   const sW=g.solar_now_w||0,gW=g.grid_power_w||0,hW=g.home_consumption_w||0,bW=g.battery_power_w||0,soc=g.battery_soc_pct||0;
 
-  // ── TIER 1: Energy Balance ──
-  const genKwh=t.solar_kwh||0,conKwh=t.consumption_kwh||0;
-  setText('t1Gen',genKwh.toFixed(1));
-  setText('t1Con',conKwh>0?conKwh.toFixed(1):'--');
+  // ── TIER 1: Live Balance ──
+  // Live instantaneous generation vs consumption
+  const genW=sW,conW=hW;
+  // Format: use kW with 2 decimal places for consistency
+  const genKw=(genW/1000).toFixed(2),conKw=(conW/1000).toFixed(2);
+  setText('t1Gen',genKw);
+  setText('t1Con',conKw);
+  // Dynamic units: "W" if <1000, "kW" otherwise
+  setText('t1GenUnit',genW>=1000?'kW':'W');
+  setText('t1ConUnit',conW>=1000?'kW':'W');
 
-  // Balance bar: self-sufficiency = generated / consumed * 100
-  const selfSuff=conKwh>0?Math.min((genKwh/conKwh)*100,100):0;
+  // Balance bar: how much of current consumption is met by solar
+  const solarShare=conW>0?Math.min((genW/conW)*100,100):0;
   const bar=document.getElementById('balanceBar');
-  bar.style.width=selfSuff+'%';
-  // Colour shifts from green (self-sufficient) to amber/coral (grid-dependent)
-  if(selfSuff>=90)bar.style.background='#4a9e6e';
-  else if(selfSuff>=50)bar.style.background='#c2680c';
+  bar.style.width=solarShare+'%';
+  if(solarShare>=90)bar.style.background='#4a9e6e';
+  else if(solarShare>=50)bar.style.background='#c2680c';
   else bar.style.background='#cc785c';
 
-  setText('bmSelf',selfSuff.toFixed(0)+'% self-sufficient');
-  const impKwh=t.import_kwh||0;
-  if(impKwh>0)setText('bmImport','Imported '+impKwh.toFixed(1)+' kWh');
-  else setText('bmImport','');
-
-  // Sub line: net position
-  const net=genKwh-conKwh;
-  if(net>0.1){
-    setText('balanceSub','Surplus <span>+'+net.toFixed(1)+' kWh</span> today');
-  }else if(net<-0.1){
-    setText('balanceSub','Deficit <span>'+net.toFixed(1)+' kWh</span> from grid');
+  setText('bmSelf',solarShare.toFixed(0)+'% solar-powered');
+  // Right meta: grid position
+  const netW=genW-conW;
+  if(netW<-50){
+    setText('bmImport','Drawing '+fmtW(Math.abs(netW))+' from grid');
+  }else if(netW>50){
+    setText('bmImport','Exporting '+fmtW(netW)+' to grid');
   }else{
-    setText('balanceSub','Balanced');
+    setText('bmImport','Balanced');
+  }
+
+  // Sub line: net position with styled value
+  const subEl=document.getElementById('balanceSub');
+  if(netW>50){
+    subEl.innerHTML='Surplus <span>+'+fmtW(netW)+'</span>';
+  }else if(netW<-50){
+    subEl.innerHTML='Shortfall <span>'+fmtW(netW)+'</span> from grid';
+  }else{
+    subEl.textContent='In balance';
   }
 
   // ── TIER 2: Live Widgets ──
