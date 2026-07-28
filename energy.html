@@ -218,11 +218,15 @@
   .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
   .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
   .flow-node-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 9px; font-weight: 500; text-anchor: middle; }
-  .flow-line { fill: none; stroke-linecap: round; transition: opacity 0.6s ease, stroke 0.6s ease, stroke-width 0.6s ease; }
-  .flow-line.active { opacity: 0.9; animation: flowPulse 2s ease-in-out infinite; }
-  .flow-line.idle { opacity: 0.12; animation: none; }
-  .flow-arrow { transition: opacity 0.6s ease; }
-  @keyframes flowPulse { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+  .flow-line { fill: none; stroke-linecap: round; transition: stroke-width 0.6s ease; }
+  .flow-line.active {
+    stroke-dasharray: 8, 8;
+    animation: flowDash 0.7s linear infinite;
+  }
+  .flow-line.idle { display: none; }
+  .flow-label { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 10px; font-weight: 500; text-anchor: middle; }
+  .flow-label.idle { display: none; }
+  @keyframes flowDash { to { stroke-dashoffset: -16; } }
 
   @media (max-width: 480px) {
     .balance-side .bl-value { font-size: 2.2rem; }
@@ -352,6 +356,12 @@
         <!-- Grid 3→Home 9 -->
         <path id="flowGridHome" class="flow-line" d="M149,230 L251,230"
               stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
+
+        <!-- Flow amount labels -->
+        <text id="flowLabelSH" class="flow-label idle" x="285" y="128" fill="#e8a838">--</text>
+        <text id="flowLabelSB" class="flow-label idle" x="200" y="226" fill="#e8a838">--</text>
+        <text id="flowLabelBH" class="flow-label idle" x="280" y="330" fill="#4a9e6e">--</text>
+        <text id="flowLabelGH" class="flow-label idle" x="200" y="222" fill="#5b8cb8">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS (icons + text, on top of everything) ═══════════ -->
 
@@ -636,31 +646,43 @@ function updateUI(data) {
 
   // Solar → Home
   const fSH = document.getElementById('flowSolarHome');
+  const lSH = document.getElementById('flowLabelSH');
   const shActive = solarToHome > 80;
   fSH.classList.toggle('active', shActive);
   fSH.classList.toggle('idle', !shActive);
+  lSH.classList.toggle('idle', !shActive);
   fSH.setAttribute('stroke-width', shActive ? flowW(solarToHome) : '1.5');
+  if (shActive) lSH.textContent = (solarToHome/1000).toFixed(1) + ' kW';
 
   // Solar → Battery
   const fSB = document.getElementById('flowSolarBat');
+  const lSB = document.getElementById('flowLabelSB');
   const sbActive = remainingSolar > 100 && batCharging;
   fSB.classList.toggle('active', sbActive);
   fSB.classList.toggle('idle', !sbActive);
+  lSB.classList.toggle('idle', !sbActive);
   fSB.setAttribute('stroke-width', sbActive ? flowW(remainingSolar) : '1.5');
+  if (sbActive) lSB.textContent = (remainingSolar/1000).toFixed(1) + ' kW';
 
   // Battery → Home
   const fBH = document.getElementById('flowBatHome');
+  const lBH = document.getElementById('flowLabelBH');
   const bhActive = batDischarging && conW > 50;
   fBH.classList.toggle('active', bhActive);
   fBH.classList.toggle('idle', !bhActive);
+  lBH.classList.toggle('idle', !bhActive);
   fBH.setAttribute('stroke-width', bhActive ? flowW(Math.abs(bW)) : '1.5');
+  if (bhActive) lBH.textContent = (Math.abs(bW)/1000).toFixed(1) + ' kW';
 
   // Grid → Home
   const fGH = document.getElementById('flowGridHome');
+  const lGH = document.getElementById('flowLabelGH');
   const ghActive = gridImporting;
   fGH.classList.toggle('active', ghActive);
   fGH.classList.toggle('idle', !ghActive);
+  lGH.classList.toggle('idle', !ghActive);
   fGH.setAttribute('stroke-width', ghActive ? flowW(Math.abs(gW)) : '1.5');
+  if (ghActive) lGH.textContent = (Math.abs(gW)/1000).toFixed(1) + ' kW';
 
   // Node glow intensity
   document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
