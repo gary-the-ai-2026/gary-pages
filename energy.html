@@ -785,7 +785,7 @@ function updateUI(data) {
   setText('dailySolar', fmtKwh(t.solar_kwh));
   setText('dailyLoad', fmtKwh(t.load_kwh));
   setText('dailyImport', fmtKwh(t.import_kwh));
-  setText('dailyExport', fmtKwh(t.export_kwh));
+  setText('dailyExport', fmtKwh(t.grid_export_kwh ?? t.export_kwh));
   setText('dailyBatCharge', fmtKwh(t.battery_charge_kwh));
 
   // ── Usage: Battery ──
