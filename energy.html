@@ -214,7 +214,6 @@
   .flow-node-group { cursor: default; }
   .flow-node-glow { opacity: 0.35; transition: opacity 0.8s ease; }
   .flow-node-bg { fill: #ffffff; stroke-width: 1.5; transition: stroke 0.8s ease; }
-  .flow-node-icon { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
   .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
   .flow-node-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 9px; font-weight: 500; text-anchor: middle; }
@@ -318,6 +317,11 @@
           <marker id="arrowGrid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
             <path d="M0,0 L8,4 L0,8 L2,4 Z" fill="#5b8cb8"/>
           </marker>
+          <!-- Circular clip paths for node images -->
+          <clipPath id="clipSolar"><circle cx="200" cy="90" r="46"/></clipPath>
+          <clipPath id="clipGrid"><circle cx="95" cy="230" r="46"/></clipPath>
+          <clipPath id="clipHome"><circle cx="305" cy="230" r="46"/></clipPath>
+          <clipPath id="clipBat"><circle cx="200" cy="370" r="46"/></clipPath>
         </defs>
 
         <!-- ═══════════ NODE BACKGROUNDS (drawn first, behind flow lines) ═══════════ -->
@@ -371,50 +375,36 @@
 
         <!-- Solar fg -->
         <g id="nodeSolar">
-          <g transform="translate(200,65)" class="flow-node-icon" stroke="#e8a838">
-            <circle cx="0" cy="3" r="9"/>
-            <line x1="0" y1="-10" x2="0" y2="-7"/><line x1="0" y1="13" x2="0" y2="16"/>
-            <line x1="-10" y1="3" x2="-7" y2="3"/><line x1="7" y1="3" x2="10" y2="3"/>
-            <line x1="-7" y1="-4" x2="-5" y2="-2"/><line x1="5" y1="8" x2="7" y2="10"/>
-            <line x1="7" y1="-4" x2="5" y2="-2"/><line x1="-5" y1="8" x2="-7" y2="10"/>
-          </g>
-          <text class="flow-node-val" x="200" y="102" id="flowSolarVal">--</text>
-          <text class="flow-node-lbl" x="200" y="118" fill="#e8a838">SOLAR</text>
+          <image href="images/flow-solar.jpg" x="154" y="44" width="92" height="92"
+                 clip-path="url(#clipSolar)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
+          <text class="flow-node-val" x="200" y="93" id="flowSolarVal">--</text>
+          <text class="flow-node-lbl" x="200" y="110" fill="#e8a838">SOLAR</text>
         </g>
 
         <!-- Grid fg -->
         <g id="nodeGrid">
-          <g transform="translate(95,205)" class="flow-node-icon" stroke="#5b8cb8">
-            <rect x="-4" y="13" width="8" height="6" fill="#5b8cb8" stroke="none" opacity="0.3"/>
-            <line x1="0" y1="0" x2="0" y2="18"/><line x1="-12" y1="8" x2="12" y2="8"/>
-            <line x1="-8" y1="14" x2="8" y2="14"/>
-          </g>
-          <text class="flow-node-val" x="95" y="242" id="flowGridVal">--</text>
-          <text class="flow-node-lbl" x="95" y="258" fill="#5b8cb8">GRID</text>
-          <text class="flow-node-sub" x="95" y="270" fill="#5b8cb8" id="flowGridSub"></text>
+          <image href="images/flow-grid.jpg" x="49" y="184" width="92" height="92"
+                 clip-path="url(#clipGrid)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
+          <text class="flow-node-val" x="95" y="233" id="flowGridVal">--</text>
+          <text class="flow-node-lbl" x="95" y="249" fill="#5b8cb8">GRID</text>
+          <text class="flow-node-sub" x="95" y="261" fill="#5b8cb8" id="flowGridSub"></text>
         </g>
 
         <!-- Home fg -->
         <g id="nodeHome">
-          <g transform="translate(305,204)" class="flow-node-icon" stroke="#cc785c">
-            <polygon points="0,-10 -14,4 14,4" fill="none"/>
-            <rect x="-7" y="4" width="14" height="10" fill="none"/>
-            <rect x="0" y="7" width="5" height="7" fill="#cc785c" stroke="none" opacity="0.3"/>
-          </g>
-          <text class="flow-node-val" x="305" y="242" id="flowHomeVal">--</text>
-          <text class="flow-node-lbl" x="305" y="258" fill="#cc785c">HOME</text>
+          <image href="images/flow-home.jpg" x="259" y="184" width="92" height="92"
+                 clip-path="url(#clipHome)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
+          <text class="flow-node-val" x="305" y="233" id="flowHomeVal">--</text>
+          <text class="flow-node-lbl" x="305" y="249" fill="#cc785c">HOME</text>
         </g>
 
         <!-- Battery fg -->
         <g id="nodeBat">
-          <g transform="translate(200,344)" class="flow-node-icon" stroke="#4a9e6e">
-            <rect x="-13" y="-8" width="22" height="16" rx="2" fill="none"/>
-            <rect x="9" y="-4" width="4" height="8" rx="1.5" fill="#4a9e6e" stroke="none"/>
-            <rect x="-10" y="-5" width="16" height="10" rx="1" fill="#4a9e6e" stroke="none" opacity="0.3"/>
-          </g>
-          <text class="flow-node-val" x="200" y="380" id="flowBatVal">--</text>
-          <text class="flow-node-lbl" x="200" y="394" fill="#4a9e6e">BATTERY</text>
-          <text class="flow-node-sub" x="200" y="406" fill="#4a9e6e" id="flowBatSub"></text>
+          <image href="images/flow-battery.jpg" x="154" y="324" width="92" height="92"
+                 clip-path="url(#clipBat)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
+          <text class="flow-node-val" x="200" y="373" id="flowBatVal">--</text>
+          <text class="flow-node-lbl" x="200" y="389" fill="#4a9e6e">BATTERY</text>
+          <text class="flow-node-sub" x="200" y="401" fill="#4a9e6e" id="flowBatSub"></text>
         </g>
       </svg>
     </div>
