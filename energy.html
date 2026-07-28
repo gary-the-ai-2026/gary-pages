@@ -301,10 +301,11 @@ function updateUI(data){
   setText('t1Con',conKw);
 
   // Balance bar: where is home consumption coming from?
-  // Battery → Home (discharging), Grid → Home (importing), remainder = direct solar
-  const batToHome=Math.max(bW,0);
-  const gridToHome=Math.max(-gW,0);
-  const solarToHome=Math.max(conW-batToHome-gridToHome,0);
+  // Solar covers home first → battery discharge fills gap → grid fills remainder
+  // Battery charging and grid export are separate flows, not part of home supply
+  const solarToHome=Math.min(genW,conW);
+  const batToHome=bW>0?Math.min(bW,Math.max(0,conW-solarToHome)):0;
+  const gridToHome=Math.max(0,conW-solarToHome-batToHome);
 
   const sPct=conW>0?(solarToHome/conW)*100:0;
   const bPct=conW>0?(batToHome/conW)*100:0;
