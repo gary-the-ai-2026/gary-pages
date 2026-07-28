@@ -321,11 +321,10 @@
           <clipPath id="clipGrid"><rect x="5" y="260" width="190" height="190" rx="16"/></clipPath>
           <clipPath id="clipHome"><rect x="365" y="260" width="190" height="190" rx="16"/></clipPath>
           <clipPath id="clipBat"><rect x="185" y="510" width="190" height="190" rx="16"/></clipPath>
-          <linearGradient id="nodeOverlay" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#000" stop-opacity="0.05"/>
-            <stop offset="50%" stop-color="#000" stop-opacity="0.15"/>
-            <stop offset="100%" stop-color="#000" stop-opacity="0.55"/>
-          </linearGradient>
+          <!-- Text shadow for value readability over images -->
+          <filter id="textShadow">
+            <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+          </filter>
         </defs>
 
         <!-- ═══════════ NODE BACKGROUNDS ═══════════ -->
@@ -366,40 +365,44 @@
         <text id="flowLabelSG" class="flow-label idle" x="145" y="185" fill="#e8a838">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS ═══════════ -->
+        <!-- Solar: image fills card, dark bar at bottom, value over image -->
         <g id="nodeSolar">
           <image href="images/flow-solar-v2.jpg" x="185" y="10" width="190" height="190"
                  clip-path="url(#clipSolar)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="185" y="10" width="190" height="190" fill="url(#nodeOverlay)" clip-path="url(#clipSolar)"/>
-          <text class="flow-node-lbl" x="280" y="42">SOLAR</text>
-          <text class="flow-node-val" x="280" y="100" id="flowSolarVal">--</text>
-          <text class="flow-node-sub" x="280" y="122" id="flowSolarSub">--</text>
+          <rect x="185" y="150" width="190" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipSolar)"/>
+          <text class="flow-node-val" x="280" y="115" filter="url(#textShadow)" id="flowSolarVal">--</text>
+          <text class="flow-node-lbl" x="280" y="172">SOLAR</text>
+          <text class="flow-node-sub" x="280" y="189" id="flowSolarSub">--</text>
         </g>
 
+        <!-- Grid -->
         <g id="nodeGrid">
           <image href="images/flow-grid-v2.jpg" x="5" y="260" width="190" height="190"
                  clip-path="url(#clipGrid)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="5" y="260" width="190" height="190" fill="url(#nodeOverlay)" clip-path="url(#clipGrid)"/>
-          <text class="flow-node-lbl" x="100" y="292">GRID</text>
-          <text class="flow-node-val" x="100" y="350" id="flowGridVal">--</text>
-          <text class="flow-node-sub" x="100" y="372" id="flowGridSub">--</text>
+          <rect x="5" y="400" width="190" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipGrid)"/>
+          <text class="flow-node-val" x="100" y="365" filter="url(#textShadow)" id="flowGridVal">--</text>
+          <text class="flow-node-lbl" x="100" y="422">GRID</text>
+          <text class="flow-node-sub" x="100" y="439" id="flowGridSub">--</text>
         </g>
 
+        <!-- Home -->
         <g id="nodeHome">
           <image href="images/flow-home-v2.jpg" x="365" y="260" width="190" height="190"
                  clip-path="url(#clipHome)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="365" y="260" width="190" height="190" fill="url(#nodeOverlay)" clip-path="url(#clipHome)"/>
-          <text class="flow-node-lbl" x="460" y="292">HOME</text>
-          <text class="flow-node-val" x="460" y="350" id="flowHomeVal">--</text>
-          <text class="flow-node-sub" x="460" y="372" id="flowHomeSub">--</text>
+          <rect x="365" y="400" width="190" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipHome)"/>
+          <text class="flow-node-val" x="460" y="365" filter="url(#textShadow)" id="flowHomeVal">--</text>
+          <text class="flow-node-lbl" x="460" y="422">HOME</text>
+          <text class="flow-node-sub" x="460" y="439" id="flowHomeSub">--</text>
         </g>
 
+        <!-- Battery -->
         <g id="nodeBat">
           <image href="images/flow-battery-v2.jpg" x="185" y="510" width="190" height="190"
                  clip-path="url(#clipBat)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="185" y="510" width="190" height="190" fill="url(#nodeOverlay)" clip-path="url(#clipBat)"/>
-          <text class="flow-node-lbl" x="280" y="542">BATTERY</text>
-          <text class="flow-node-val" x="280" y="600" id="flowBatVal">--</text>
-          <text class="flow-node-sub" x="280" y="622" id="flowBatSub">--</text>
+          <rect x="185" y="650" width="190" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipBat)"/>
+          <text class="flow-node-val" x="280" y="615" filter="url(#textShadow)" id="flowBatVal">--</text>
+          <text class="flow-node-lbl" x="280" y="672">BATTERY</text>
+          <text class="flow-node-sub" x="280" y="689" id="flowBatSub">--</text>
         </g>
       </svg>
     </div>
