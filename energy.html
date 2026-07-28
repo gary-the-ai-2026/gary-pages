@@ -293,9 +293,6 @@ function updateUI(data){
   const genKw=(genW/1000).toFixed(2),conKw=(conW/1000).toFixed(2);
   setText('t1Gen',genKw);
   setText('t1Con',conKw);
-  // Dynamic units: "W" if <1000, "kW" otherwise
-  setText('t1GenUnit',genW>=1000?'kW':'W');
-  setText('t1ConUnit',conW>=1000?'kW':'W');
 
   // Balance bar: how much of current consumption is met by solar
   const solarShare=conW>0?Math.min((genW/conW)*100,100):0;
