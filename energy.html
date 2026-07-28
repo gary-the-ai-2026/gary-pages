@@ -214,9 +214,9 @@
   .flow-node-group { cursor: default; }
   .flow-node-glow { opacity: 0; transition: opacity 0.8s ease; }
   .flow-node-bg { fill: #ffffff; stroke-width: 1.5; transition: stroke 0.8s ease; }
-  .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
-  .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
-  .flow-node-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 9px; font-weight: 500; text-anchor: middle; }
+  .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #ffffff; text-anchor: middle; }
+  .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 9px; font-weight: 600; text-anchor: middle; letter-spacing: 0.08em; fill: rgba(255,255,255,0.85); }
+  .flow-node-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 8px; font-weight: 500; text-anchor: middle; fill: rgba(255,255,255,0.7); }
   .flow-line { fill: none; stroke-linecap: round; transition: stroke-width 0.6s ease; }
   .flow-line.active {
     stroke-dasharray: 8, 8;
@@ -322,6 +322,12 @@
           <clipPath id="clipGrid"><circle cx="95" cy="230" r="46"/></clipPath>
           <clipPath id="clipHome"><circle cx="305" cy="230" r="46"/></clipPath>
           <clipPath id="clipBat"><circle cx="200" cy="370" r="46"/></clipPath>
+          <!-- Gradient overlay for text contrast -->
+          <linearGradient id="nodeOverlay" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#000" stop-opacity="0.05"/>
+            <stop offset="50%" stop-color="#000" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0.55"/>
+          </linearGradient>
         </defs>
 
         <!-- ═══════════ NODE BACKGROUNDS (drawn first, behind flow lines) ═══════════ -->
@@ -375,36 +381,42 @@
 
         <!-- Solar fg -->
         <g id="nodeSolar">
-          <image href="images/flow-solar.jpg" x="154" y="44" width="92" height="92"
-                 clip-path="url(#clipSolar)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
-          <text class="flow-node-val" x="200" y="93" id="flowSolarVal">--</text>
-          <text class="flow-node-lbl" x="200" y="110" fill="#e8a838">SOLAR</text>
+          <image href="images/flow-solar-v2.jpg" x="154" y="44" width="92" height="92"
+                 clip-path="url(#clipSolar)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="154" y="44" width="92" height="92" fill="url(#nodeOverlay)" clip-path="url(#clipSolar)"/>
+          <text class="flow-node-lbl" x="200" y="72">SOLAR</text>
+          <text class="flow-node-val" x="200" y="98" id="flowSolarVal">--</text>
+          <text class="flow-node-sub" x="200" y="114" id="flowSolarSub">--</text>
         </g>
 
         <!-- Grid fg -->
         <g id="nodeGrid">
-          <image href="images/flow-grid.jpg" x="49" y="184" width="92" height="92"
-                 clip-path="url(#clipGrid)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
-          <text class="flow-node-val" x="95" y="233" id="flowGridVal">--</text>
-          <text class="flow-node-lbl" x="95" y="249" fill="#5b8cb8">GRID</text>
-          <text class="flow-node-sub" x="95" y="261" fill="#5b8cb8" id="flowGridSub"></text>
+          <image href="images/flow-grid-v2.jpg" x="49" y="184" width="92" height="92"
+                 clip-path="url(#clipGrid)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="49" y="184" width="92" height="92" fill="url(#nodeOverlay)" clip-path="url(#clipGrid)"/>
+          <text class="flow-node-lbl" x="95" y="212">GRID</text>
+          <text class="flow-node-val" x="95" y="238" id="flowGridVal">--</text>
+          <text class="flow-node-sub" x="95" y="254" id="flowGridSub">--</text>
         </g>
 
         <!-- Home fg -->
         <g id="nodeHome">
-          <image href="images/flow-home.jpg" x="259" y="184" width="92" height="92"
-                 clip-path="url(#clipHome)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
-          <text class="flow-node-val" x="305" y="233" id="flowHomeVal">--</text>
-          <text class="flow-node-lbl" x="305" y="249" fill="#cc785c">HOME</text>
+          <image href="images/flow-home-v2.jpg" x="259" y="184" width="92" height="92"
+                 clip-path="url(#clipHome)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="259" y="184" width="92" height="92" fill="url(#nodeOverlay)" clip-path="url(#clipHome)"/>
+          <text class="flow-node-lbl" x="305" y="212">HOME</text>
+          <text class="flow-node-val" x="305" y="238" id="flowHomeVal">--</text>
+          <text class="flow-node-sub" x="305" y="254" id="flowHomeSub">--</text>
         </g>
 
         <!-- Battery fg -->
         <g id="nodeBat">
-          <image href="images/flow-battery.jpg" x="154" y="324" width="92" height="92"
-                 clip-path="url(#clipBat)" opacity="0.35" preserveAspectRatio="xMidYMid slice"/>
-          <text class="flow-node-val" x="200" y="373" id="flowBatVal">--</text>
-          <text class="flow-node-lbl" x="200" y="389" fill="#4a9e6e">BATTERY</text>
-          <text class="flow-node-sub" x="200" y="401" fill="#4a9e6e" id="flowBatSub"></text>
+          <image href="images/flow-battery-v2.jpg" x="154" y="324" width="92" height="92"
+                 clip-path="url(#clipBat)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="154" y="324" width="92" height="92" fill="url(#nodeOverlay)" clip-path="url(#clipBat)"/>
+          <text class="flow-node-lbl" x="200" y="352">BATTERY</text>
+          <text class="flow-node-val" x="200" y="378" id="flowBatVal">--</text>
+          <text class="flow-node-sub" x="200" y="394" id="flowBatSub">--</text>
         </g>
       </svg>
     </div>
@@ -694,17 +706,22 @@ function updateUI(data) {
   document.querySelector('#nodeGridBg_group .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0';
   document.querySelector('#nodeHomeBg_group .flow-node-glow').style.opacity = conW > 50 ? '0.5' : '0';
 
-  // Battery sub-label: kW direction
-  const batSub = document.getElementById('flowBatSub');
-  if (bW > 50) { batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW OUT'; batSub.setAttribute('fill', '#4a9e6e'); }
-  else if (bW < -50) { batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW IN'; batSub.setAttribute('fill', '#4a9e6e'); }
-  else batSub.textContent = '';
+  // Status sub-labels
+  const solarSub = document.getElementById('flowSolarSub');
+  solarSub.textContent = genW > 100 ? 'Generating' : 'Idle';
 
-  // Grid sub-label: direction
+  const homeSub = document.getElementById('flowHomeSub');
+  homeSub.textContent = conW > 50 ? 'Consuming' : 'Idle';
+
   const gridSub = document.getElementById('flowGridSub');
-  if (gridImporting) { gridSub.textContent = 'IMPORTING'; gridSub.setAttribute('fill', '#5b8cb8'); }
-  else if (gridExporting) { gridSub.textContent = 'EXPORTING'; gridSub.setAttribute('fill', '#c2680c'); }
-  else gridSub.textContent = '';
+  if (gridImporting) gridSub.textContent = 'Importing';
+  else if (gridExporting) gridSub.textContent = 'Exporting';
+  else gridSub.textContent = 'Balanced';
+
+  const batSub = document.getElementById('flowBatSub');
+  if (bW > 50) batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW OUT';
+  else if (bW < -50) batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW IN';
+  else batSub.textContent = 'Idle';
 
   // ── Widgets ──
   setText('wSolar', fmtW(sW));
