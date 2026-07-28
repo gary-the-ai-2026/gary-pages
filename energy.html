@@ -306,24 +306,26 @@ function updateUI(data){
   else bar.style.background='#cc785c';
 
   setText('bmSelf',solarShare.toFixed(0)+'% solar-powered');
-  // Right meta: grid position
-  const netW=genW-conW;
-  if(netW<-50){
-    setText('bmImport','Drawing '+fmtW(Math.abs(netW))+' from grid');
-  }else if(netW>50){
-    setText('bmImport','Exporting '+fmtW(netW)+' to grid');
+
+  // Right meta: actual grid position
+  const ga=Math.abs(gW);
+  if(gW<-50){
+    setText('bmImport','Grid: importing '+fmtW(ga));
+  }else if(gW>50){
+    setText('bmImport','Grid: exporting '+fmtW(ga));
   }else{
-    setText('bmImport','Balanced');
+    setText('bmImport','Grid: balanced');
   }
 
-  // Sub line: net position with styled value
+  // Sub line: battery position (the missing piece)
   const subEl=document.getElementById('balanceSub');
-  if(netW>50){
-    subEl.innerHTML='Surplus <span>+'+fmtW(netW)+'</span>';
-  }else if(netW<-50){
-    subEl.innerHTML='Shortfall <span>'+fmtW(netW)+'</span> from grid';
+  const ba=Math.abs(bW);
+  if(bW>50){
+    subEl.innerHTML='Battery: discharging <span>'+fmtW(ba)+'</span>';
+  }else if(bW<-50){
+    subEl.innerHTML='Battery: charging <span>'+fmtW(ba)+'</span>';
   }else{
-    subEl.textContent='In balance';
+    subEl.textContent='Battery: idle';
   }
 
   // ── TIER 2: Live Widgets ──
@@ -332,13 +334,12 @@ function updateUI(data){
 
   setText('wHome',fmtW(hW));
 
-  const ga=Math.abs(gW),gd=gW<-50?'importing':gW>50?'exporting':'idle';
+  const gd=gW<-50?'importing':gW>50?'exporting':'idle';
   setText('wGrid',fmtW(ga));
   setText('wGridSub',gd);
 
   setText('wBat',soc+'%');
   const storedKwh=(soc*0.32).toFixed(1);
-  const ba=Math.abs(bW);
   const bs=bW>50?'discharging '+fmtW(ba):bW<-50?'charging '+fmtW(ba):'idle';
   setText('wBatSub',storedKwh+' kWh · '+bs);
 
