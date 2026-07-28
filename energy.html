@@ -290,7 +290,7 @@
 
     <!-- Energy Flow Diagram -->
     <div class="card-cream flow-card">
-      <svg class="flow-diagram" id="flowDiagram" viewBox="0 0 600 770" xmlns="http://www.w3.org/2000/svg">
+      <svg class="flow-diagram" id="flowDiagram" viewBox="0 0 660 830" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glowSolar" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="8" result="blur"/>
@@ -317,10 +317,10 @@
           <marker id="arrowGrid" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
             <path d="M0,0 L10,5 L0,10 L2,5 Z" fill="#5b8cb8"/>
           </marker>
-          <clipPath id="clipSolar"><rect x="195" y="0" width="210" height="210" rx="18"/></clipPath>
-          <clipPath id="clipGrid"><rect x="0" y="275" width="210" height="210" rx="18"/></clipPath>
-          <clipPath id="clipHome"><rect x="390" y="275" width="210" height="210" rx="18"/></clipPath>
-          <clipPath id="clipBat"><rect x="195" y="555" width="210" height="210" rx="18"/></clipPath>
+          <clipPath id="clipSolar"><rect x="225" y="35" width="210" height="210" rx="18"/></clipPath>
+          <clipPath id="clipGrid"><rect x="30" y="315" width="210" height="210" rx="18"/></clipPath>
+          <clipPath id="clipHome"><rect x="420" y="315" width="210" height="210" rx="18"/></clipPath>
+          <clipPath id="clipBat"><rect x="225" y="595" width="210" height="210" rx="18"/></clipPath>
           <filter id="textShadow">
             <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
           </filter>
@@ -328,76 +328,76 @@
 
         <!-- ═══════════ NODE BACKGROUNDS ═══════════ -->
         <g id="nodeSolarBg_group">
-          <rect x="191" y="-4" width="218" height="218" rx="20" fill="#e8a838" opacity="0.15" filter="url(#glowSolar)" class="flow-node-glow"/>
-          <rect x="195" y="0" width="210" height="210" rx="18" fill="#ffffff" stroke="#e8a838" stroke-width="2" class="flow-node-bg"/>
+          <rect x="221" y="31" width="218" height="218" rx="20" fill="#e8a838" opacity="0.15" filter="url(#glowSolar)" class="flow-node-glow"/>
+          <rect x="225" y="35" width="210" height="210" rx="18" fill="#ffffff" stroke="#e8a838" stroke-width="2" class="flow-node-bg"/>
         </g>
         <g id="nodeGridBg_group">
-          <rect x="-4" y="271" width="218" height="218" rx="20" fill="#5b8cb8" opacity="0.15" filter="url(#glowGrid)" class="flow-node-glow"/>
-          <rect x="0" y="275" width="210" height="210" rx="18" fill="#ffffff" stroke="#5b8cb8" stroke-width="2" class="flow-node-bg"/>
+          <rect x="26" y="311" width="218" height="218" rx="20" fill="#5b8cb8" opacity="0.15" filter="url(#glowGrid)" class="flow-node-glow"/>
+          <rect x="30" y="315" width="210" height="210" rx="18" fill="#ffffff" stroke="#5b8cb8" stroke-width="2" class="flow-node-bg"/>
         </g>
         <g id="nodeHomeBg_group">
-          <rect x="386" y="271" width="218" height="218" rx="20" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow"/>
-          <rect x="390" y="275" width="210" height="210" rx="18" fill="#ffffff" stroke="#cc785c" stroke-width="2" class="flow-node-bg"/>
+          <rect x="416" y="311" width="218" height="218" rx="20" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow"/>
+          <rect x="420" y="315" width="210" height="210" rx="18" fill="#ffffff" stroke="#cc785c" stroke-width="2" class="flow-node-bg"/>
         </g>
         <g id="nodeBatBg_group">
-          <rect x="191" y="551" width="218" height="218" rx="20" fill="#4a9e6e" opacity="0.15" filter="url(#glowBat)" class="flow-node-glow"/>
-          <rect x="195" y="555" width="210" height="210" rx="18" fill="#ffffff" stroke="#4a9e6e" stroke-width="2" class="flow-node-bg"/>
+          <rect x="221" y="591" width="218" height="218" rx="20" fill="#4a9e6e" opacity="0.15" filter="url(#glowBat)" class="flow-node-glow"/>
+          <rect x="225" y="595" width="210" height="210" rx="18" fill="#ffffff" stroke="#4a9e6e" stroke-width="2" class="flow-node-bg"/>
         </g>
 
         <!-- ═══════════ FLOW LINES ═══════════ -->
-        <path id="flowSolarHome" class="flow-line" d="M405,100 C440,110 465,185 495,275"
+        <path id="flowSolarHome" class="flow-line" d="M435,140 C470,150 455,305 525,315"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
-        <path id="flowSolarBat" class="flow-line" d="M300,210 L300,555"
+        <path id="flowSolarBat" class="flow-line" d="M330,245 L330,595"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
-        <path id="flowBatHome" class="flow-line" d="M405,660 C440,630 465,555 495,485"
+        <path id="flowBatHome" class="flow-line" d="M435,700 C470,690 455,535 525,525"
               stroke="#4a9e6e" marker-end="url(#arrowBat)"/>
-        <path id="flowGridHome" class="flow-line" d="M210,380 L390,380"
+        <path id="flowGridHome" class="flow-line" d="M240,420 L420,420"
               stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
-        <path id="flowSolarGrid" class="flow-line" d="M195,100 C160,130 135,195 105,275"
+        <path id="flowSolarGrid" class="flow-line" d="M225,140 C190,150 65,305 135,315"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
 
         <!-- Flow amount labels -->
-        <text id="flowLabelSH" class="flow-label idle" x="455" y="185" fill="#e8a838">--</text>
-        <text id="flowLabelSB" class="flow-label idle" x="300" y="383" fill="#e8a838">--</text>
-        <text id="flowLabelBH" class="flow-label idle" x="455" y="575" fill="#4a9e6e">--</text>
-        <text id="flowLabelGH" class="flow-label idle" x="300" y="372" fill="#5b8cb8">--</text>
-        <text id="flowLabelSG" class="flow-label idle" x="152" y="190" fill="#e8a838">--</text>
+        <text id="flowLabelSH" class="flow-label idle" x="475" y="200" fill="#e8a838">--</text>
+        <text id="flowLabelSB" class="flow-label idle" x="330" y="325" fill="#e8a838">--</text>
+        <text id="flowLabelBH" class="flow-label idle" x="475" y="640" fill="#4a9e6e">--</text>
+        <text id="flowLabelGH" class="flow-label idle" x="285" y="412" fill="#5b8cb8">--</text>
+        <text id="flowLabelSG" class="flow-label idle" x="190" y="195" fill="#e8a838">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS ═══════════ -->
         <g id="nodeSolar">
-          <image href="images/flow-solar-v2.jpg" x="195" y="0" width="210" height="210"
+          <image href="images/flow-solar-v2.jpg" x="225" y="35" width="210" height="210"
                  clip-path="url(#clipSolar)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="195" y="160" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipSolar)"/>
-          <text class="flow-node-val" x="300" y="120" filter="url(#textShadow)" id="flowSolarVal">--</text>
-          <text class="flow-node-lbl" x="300" y="183">SOLAR</text>
-          <text class="flow-node-sub" x="300" y="200" id="flowSolarSub">--</text>
+          <rect x="225" y="195" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipSolar)"/>
+          <text class="flow-node-val" x="330" y="120" filter="url(#textShadow)" id="flowSolarVal">--</text>
+          <text class="flow-node-lbl" x="330" y="160">SOLAR</text>
+          <text class="flow-node-sub" x="330" y="177" id="flowSolarSub">--</text>
         </g>
 
         <g id="nodeGrid">
-          <image href="images/flow-grid-v2.jpg" x="0" y="275" width="210" height="210"
+          <image href="images/flow-grid-v2.jpg" x="30" y="315" width="210" height="210"
                  clip-path="url(#clipGrid)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="0" y="435" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipGrid)"/>
-          <text class="flow-node-val" x="105" y="395" filter="url(#textShadow)" id="flowGridVal">--</text>
-          <text class="flow-node-lbl" x="105" y="458">GRID</text>
-          <text class="flow-node-sub" x="105" y="475" id="flowGridSub">--</text>
+          <rect x="30" y="475" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipGrid)"/>
+          <text class="flow-node-val" x="135" y="400" filter="url(#textShadow)" id="flowGridVal">--</text>
+          <text class="flow-node-lbl" x="135" y="440">GRID</text>
+          <text class="flow-node-sub" x="135" y="457" id="flowGridSub">--</text>
         </g>
 
         <g id="nodeHome">
-          <image href="images/flow-home-v2.jpg" x="390" y="275" width="210" height="210"
+          <image href="images/flow-home-v2.jpg" x="420" y="315" width="210" height="210"
                  clip-path="url(#clipHome)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="390" y="435" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipHome)"/>
-          <text class="flow-node-val" x="495" y="395" filter="url(#textShadow)" id="flowHomeVal">--</text>
-          <text class="flow-node-lbl" x="495" y="458">HOME</text>
-          <text class="flow-node-sub" x="495" y="475" id="flowHomeSub">--</text>
+          <rect x="420" y="475" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipHome)"/>
+          <text class="flow-node-val" x="525" y="400" filter="url(#textShadow)" id="flowHomeVal">--</text>
+          <text class="flow-node-lbl" x="525" y="440">HOME</text>
+          <text class="flow-node-sub" x="525" y="457" id="flowHomeSub">--</text>
         </g>
 
         <g id="nodeBat">
-          <image href="images/flow-battery-v2.jpg" x="195" y="555" width="210" height="210"
+          <image href="images/flow-battery-v2.jpg" x="225" y="595" width="210" height="210"
                  clip-path="url(#clipBat)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="195" y="715" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipBat)"/>
-          <text class="flow-node-val" x="300" y="675" filter="url(#textShadow)" id="flowBatVal">--</text>
-          <text class="flow-node-lbl" x="300" y="738">BATTERY</text>
-          <text class="flow-node-sub" x="300" y="755" id="flowBatSub">--</text>
+          <rect x="225" y="755" width="210" height="50" fill="#1a1a18" opacity="0.75" clip-path="url(#clipBat)"/>
+          <text class="flow-node-val" x="330" y="680" filter="url(#textShadow)" id="flowBatVal">--</text>
+          <text class="flow-node-lbl" x="330" y="720">BATTERY</text>
+          <text class="flow-node-sub" x="330" y="737" id="flowBatSub">--</text>
         </g>
       </svg>
     </div>
