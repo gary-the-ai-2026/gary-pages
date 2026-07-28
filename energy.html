@@ -217,7 +217,8 @@
   .flow-node-icon { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
   .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
-  .flow-line { fill: none; stroke-width: 2.5; stroke-linecap: round; transition: opacity 0.6s ease, stroke 0.6s ease; }
+  .flow-node-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 9px; font-weight: 500; text-anchor: middle; }
+  .flow-line { fill: none; stroke-linecap: round; transition: opacity 0.6s ease, stroke 0.6s ease, stroke-width 0.6s ease; }
   .flow-line.active { opacity: 0.9; animation: flowPulse 2s ease-in-out infinite; }
   .flow-line.idle { opacity: 0.12; animation: none; }
   .flow-arrow { transition: opacity 0.6s ease; }
@@ -318,16 +319,16 @@
 
         <!-- ── Flow Lines (behind nodes) ── -->
         <!-- Solar → Home: from solar bottom-right to home top-left -->
-        <path id="flowSolarHome" class="flow-line" d="M236,128 C280,168 278,198 262,230"
+        <path id="flowSolarHome" class="flow-line" d="M236,128 C276,156 280,190 260,212"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
         <!-- Solar → Battery: straight down -->
         <path id="flowSolarBat" class="flow-line" d="M200,140 L200,316"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
         <!-- Battery → Home: from battery top-right to home bottom-left -->
-        <path id="flowBatHome" class="flow-line" d="M236,332 C280,292 278,262 262,230"
+        <path id="flowBatHome" class="flow-line" d="M236,332 C276,304 280,270 260,248"
               stroke="#4a9e6e" marker-end="url(#arrowBat)"/>
         <!-- Grid → Home: horizontal -->
-        <path id="flowGridHome" class="flow-line" d="M148,230 L256,230"
+        <path id="flowGridHome" class="flow-line" d="M148,230 L250,230"
               stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
 
         <!-- ═══════════ NODES ═══════════ -->
@@ -365,6 +366,7 @@
           </g>
           <text class="flow-node-val" x="95" y="242" id="flowGridVal">--</text>
           <text class="flow-node-lbl" x="95" y="258" fill="#5b8cb8">GRID</text>
+          <text class="flow-node-sub" x="95" y="270" fill="#5b8cb8" id="flowGridSub"></text>
         </g>
 
         <!-- Home Node (right center: 305, 230) -->
@@ -391,8 +393,9 @@
             <rect x="9" y="-4" width="4" height="8" rx="1.5" fill="#4a9e6e" stroke="none"/>
             <rect x="-10" y="-5" width="16" height="10" rx="1" fill="#4a9e6e" stroke="none" opacity="0.3"/>
           </g>
-          <text class="flow-node-val" x="200" y="382" id="flowBatVal">--</text>
-          <text class="flow-node-lbl" x="200" y="398" fill="#4a9e6e">BATTERY</text>
+          <text class="flow-node-val" x="200" y="380" id="flowBatVal">--</text>
+          <text class="flow-node-lbl" x="200" y="394" fill="#4a9e6e">BATTERY</text>
+          <text class="flow-node-sub" x="200" y="406" fill="#4a9e6e" id="flowBatSub"></text>
         </g>
       </svg>
     </div>
@@ -611,13 +614,7 @@ function updateUI(data) {
   document.getElementById('flowGridVal').textContent = (Math.abs(gW)/1000).toFixed(2);
 
   const storedKwh = (soc * 0.32).toFixed(1);
-  const batEl = document.getElementById('flowBatVal');
-  batEl.textContent = soc + '%';
-  // Sub-label shows stored kWh
-  const batLbl = document.getElementById('nodeBat').querySelector('.flow-node-lbl');
-  if (bW > 50) batLbl.textContent = 'BATTERY · ' + (Math.abs(bW)/1000).toFixed(2) + ' kW OUT';
-  else if (bW < -50) batLbl.textContent = 'BATTERY · ' + (Math.abs(bW)/1000).toFixed(2) + ' kW IN';
-  else batLbl.textContent = 'BATTERY';
+  document.getElementById('flowBatVal').textContent = soc + '%';
 
   // Flow logic
   const solarToHome = Math.min(genW, conW);
@@ -627,39 +624,56 @@ function updateUI(data) {
   const gridImporting = gW < -50;    // negative = importing
   const gridExporting = gW > 50;     // positive = exporting
 
-  // Solar → Home (always when solar contributes to home load)
+  // Line weight: scale 1.5px–5px based on power up to 10kW
+  function flowW(watts) {
+    const w = Math.min(Math.max(watts, 0), 10000);
+    return (1.5 + (w / 10000) * 3.5).toFixed(1);
+  }
+
+  // Solar → Home
   const fSH = document.getElementById('flowSolarHome');
-  fSH.classList.toggle('active', solarToHome > 80);
-  fSH.classList.toggle('idle', solarToHome <= 80);
+  const shActive = solarToHome > 80;
+  fSH.classList.toggle('active', shActive);
+  fSH.classList.toggle('idle', !shActive);
+  fSH.setAttribute('stroke-width', shActive ? flowW(solarToHome) : '1.5');
 
-  // Solar → Battery (excess solar charging battery)
+  // Solar → Battery
   const fSB = document.getElementById('flowSolarBat');
-  fSB.classList.toggle('active', remainingSolar > 100 && batCharging);
-  fSB.classList.toggle('idle', !(remainingSolar > 100 && batCharging));
+  const sbActive = remainingSolar > 100 && batCharging;
+  fSB.classList.toggle('active', sbActive);
+  fSB.classList.toggle('idle', !sbActive);
+  fSB.setAttribute('stroke-width', sbActive ? flowW(remainingSolar) : '1.5');
 
-  // Battery → Home (battery discharging to cover home load)
+  // Battery → Home
   const fBH = document.getElementById('flowBatHome');
-  fBH.classList.toggle('active', batDischarging && conW > 50);
-  fBH.classList.toggle('idle', !(batDischarging && conW > 50));
+  const bhActive = batDischarging && conW > 50;
+  fBH.classList.toggle('active', bhActive);
+  fBH.classList.toggle('idle', !bhActive);
+  fBH.setAttribute('stroke-width', bhActive ? flowW(Math.abs(bW)) : '1.5');
 
-  // Grid → Home (importing from grid)
+  // Grid → Home
   const fGH = document.getElementById('flowGridHome');
-  fGH.classList.toggle('active', gridImporting);
-  fGH.classList.toggle('idle', !gridImporting);
+  const ghActive = gridImporting;
+  fGH.classList.toggle('active', ghActive);
+  fGH.classList.toggle('idle', !ghActive);
+  fGH.setAttribute('stroke-width', ghActive ? flowW(Math.abs(gW)) : '1.5');
 
-  // Node glow intensity — brighten the active source(s)
-  const nodeSolarGlow = document.querySelector('#nodeSolar .flow-node-glow');
-  const nodeBatGlow = document.querySelector('#nodeBat .flow-node-glow');
-  const nodeGridGlow = document.querySelector('#nodeGrid .flow-node-glow');
-  nodeSolarGlow.style.opacity = genW > 100 ? '0.5' : '0.15';
-  nodeBatGlow.style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
-  nodeGridGlow.style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
+  // Node glow intensity
+  document.querySelector('#nodeSolar .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
+  document.querySelector('#nodeBat .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
+  document.querySelector('#nodeGrid .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
 
-  // Grid label reflects direction
-  const gridLbl = document.getElementById('nodeGrid').querySelector('.flow-node-lbl');
-  if (gridImporting) gridLbl.textContent = 'GRID · IMPORTING';
-  else if (gridExporting) gridLbl.textContent = 'GRID · EXPORTING';
-  else gridLbl.textContent = 'GRID';
+  // Battery sub-label: kW direction
+  const batSub = document.getElementById('flowBatSub');
+  if (bW > 50) { batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW OUT'; batSub.setAttribute('fill', '#4a9e6e'); }
+  else if (bW < -50) { batSub.textContent = (Math.abs(bW)/1000).toFixed(2) + ' kW IN'; batSub.setAttribute('fill', '#4a9e6e'); }
+  else batSub.textContent = '';
+
+  // Grid sub-label: direction
+  const gridSub = document.getElementById('flowGridSub');
+  if (gridImporting) { gridSub.textContent = 'IMPORTING'; gridSub.setAttribute('fill', '#5b8cb8'); }
+  else if (gridExporting) { gridSub.textContent = 'EXPORTING'; gridSub.setAttribute('fill', '#c2680c'); }
+  else gridSub.textContent = '';
 
   // ── Widgets ──
   const ga = Math.abs(gW), ba = Math.abs(bW);
