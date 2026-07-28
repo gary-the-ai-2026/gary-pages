@@ -316,51 +316,63 @@
           </marker>
         </defs>
 
-        <!-- ── Flow Lines (behind nodes) ── -->
-        <!-- Solar → Home: from solar bottom-right to home top-left -->
+        <!-- ═══════════ NODE BACKGROUNDS (drawn first, behind flow lines) ═══════════ -->
+
+        <!-- Solar bg -->
+        <g id="nodeSolarBg_group">
+          <circle cx="200" cy="90" r="54" fill="#e8a838" opacity="0.15" filter="url(#glowSolar)" class="flow-node-glow"/>
+          <circle cx="200" cy="90" r="46" class="flow-node-bg" stroke="#e8a838" id="nodeSolarBg"/>
+        </g>
+        <!-- Grid bg -->
+        <g id="nodeGridBg_group">
+          <circle cx="95" cy="230" r="54" fill="#5b8cb8" opacity="0.15" filter="url(#glowGrid)" class="flow-node-glow"/>
+          <circle cx="95" cy="230" r="46" class="flow-node-bg" stroke="#5b8cb8" id="nodeGridBg"/>
+        </g>
+        <!-- Home bg -->
+        <g id="nodeHomeBg_group">
+          <circle cx="305" cy="230" r="54" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow"/>
+          <circle cx="305" cy="230" r="46" class="flow-node-bg" stroke="#cc785c" id="nodeHomeBg"/>
+        </g>
+        <!-- Battery bg -->
+        <g id="nodeBatBg_group">
+          <circle cx="200" cy="370" r="54" fill="#4a9e6e" opacity="0.15" filter="url(#glowBat)" class="flow-node-glow"/>
+          <circle cx="200" cy="370" r="46" class="flow-node-bg" stroke="#4a9e6e" id="nodeBatBg"/>
+        </g>
+
+        <!-- ═══════════ FLOW LINES (on top of backgrounds, below icons/text) ═══════════ -->
+        <!-- Solar → Home -->
         <path id="flowSolarHome" class="flow-line" d="M236,128 C276,156 280,190 260,212"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
-        <!-- Solar → Battery: straight down -->
+        <!-- Solar → Battery -->
         <path id="flowSolarBat" class="flow-line" d="M200,140 L200,316"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
-        <!-- Battery → Home: from battery top-right to home bottom-left -->
+        <!-- Battery → Home -->
         <path id="flowBatHome" class="flow-line" d="M236,332 C276,304 280,270 260,248"
               stroke="#4a9e6e" marker-end="url(#arrowBat)"/>
-        <!-- Grid → Home: horizontal -->
+        <!-- Grid → Home -->
         <path id="flowGridHome" class="flow-line" d="M148,230 L250,230"
               stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
 
-        <!-- ═══════════ NODES ═══════════ -->
+        <!-- ═══════════ NODE FOREGROUNDS (icons + text, on top of everything) ═══════════ -->
 
-        <!-- Solar Node (top center: 200, 90) -->
-        <g class="flow-node-group" id="nodeSolar">
-          <circle cx="200" cy="90" r="54" fill="#e8a838" opacity="0.15" filter="url(#glowSolar)" class="flow-node-glow"/>
-          <circle cx="200" cy="90" r="46" class="flow-node-bg" stroke="#e8a838" id="nodeSolarBg"/>
-          <!-- Sun icon with rays -->
+        <!-- Solar fg -->
+        <g id="nodeSolar">
           <g transform="translate(200,65)" class="flow-node-icon" stroke="#e8a838">
             <circle cx="0" cy="3" r="9"/>
-            <line x1="0" y1="-10" x2="0" y2="-7"/>
-            <line x1="0" y1="13" x2="0" y2="16"/>
-            <line x1="-10" y1="3" x2="-7" y2="3"/>
-            <line x1="7" y1="3" x2="10" y2="3"/>
-            <line x1="-7" y1="-4" x2="-5" y2="-2"/>
-            <line x1="5" y1="8" x2="7" y2="10"/>
-            <line x1="7" y1="-4" x2="5" y2="-2"/>
-            <line x1="-5" y1="8" x2="-7" y2="10"/>
+            <line x1="0" y1="-10" x2="0" y2="-7"/><line x1="0" y1="13" x2="0" y2="16"/>
+            <line x1="-10" y1="3" x2="-7" y2="3"/><line x1="7" y1="3" x2="10" y2="3"/>
+            <line x1="-7" y1="-4" x2="-5" y2="-2"/><line x1="5" y1="8" x2="7" y2="10"/>
+            <line x1="7" y1="-4" x2="5" y2="-2"/><line x1="-5" y1="8" x2="-7" y2="10"/>
           </g>
           <text class="flow-node-val" x="200" y="102" id="flowSolarVal">--</text>
           <text class="flow-node-lbl" x="200" y="118" fill="#e8a838">SOLAR</text>
         </g>
 
-        <!-- Grid Node (left center: 95, 230) -->
-        <g class="flow-node-group" id="nodeGrid">
-          <circle cx="95" cy="230" r="54" fill="#5b8cb8" opacity="0.15" filter="url(#glowGrid)" class="flow-node-glow"/>
-          <circle cx="95" cy="230" r="46" class="flow-node-bg" stroke="#5b8cb8" id="nodeGridBg"/>
-          <!-- Transmission tower icon -->
+        <!-- Grid fg -->
+        <g id="nodeGrid">
           <g transform="translate(95,205)" class="flow-node-icon" stroke="#5b8cb8">
             <rect x="-4" y="13" width="8" height="6" fill="#5b8cb8" stroke="none" opacity="0.3"/>
-            <line x1="0" y1="0" x2="0" y2="18"/>
-            <line x1="-12" y1="8" x2="12" y2="8"/>
+            <line x1="0" y1="0" x2="0" y2="18"/><line x1="-12" y1="8" x2="12" y2="8"/>
             <line x1="-8" y1="14" x2="8" y2="14"/>
           </g>
           <text class="flow-node-val" x="95" y="242" id="flowGridVal">--</text>
@@ -368,11 +380,8 @@
           <text class="flow-node-sub" x="95" y="270" fill="#5b8cb8" id="flowGridSub"></text>
         </g>
 
-        <!-- Home Node (right center: 305, 230) -->
-        <g class="flow-node-group" id="nodeHome">
-          <circle cx="305" cy="230" r="54" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow"/>
-          <circle cx="305" cy="230" r="46" class="flow-node-bg" stroke="#cc785c" id="nodeHomeBg"/>
-          <!-- House icon -->
+        <!-- Home fg -->
+        <g id="nodeHome">
           <g transform="translate(305,204)" class="flow-node-icon" stroke="#cc785c">
             <polygon points="0,-10 -14,4 14,4" fill="none"/>
             <rect x="-7" y="4" width="14" height="10" fill="none"/>
@@ -382,11 +391,8 @@
           <text class="flow-node-lbl" x="305" y="258" fill="#cc785c">HOME</text>
         </g>
 
-        <!-- Battery Node (bottom center: 200, 370) -->
-        <g class="flow-node-group" id="nodeBat">
-          <circle cx="200" cy="370" r="54" fill="#4a9e6e" opacity="0.15" filter="url(#glowBat)" class="flow-node-glow"/>
-          <circle cx="200" cy="370" r="46" class="flow-node-bg" stroke="#4a9e6e" id="nodeBatBg"/>
-          <!-- Battery icon -->
+        <!-- Battery fg -->
+        <g id="nodeBat">
           <g transform="translate(200,344)" class="flow-node-icon" stroke="#4a9e6e">
             <rect x="-13" y="-8" width="22" height="16" rx="2" fill="none"/>
             <rect x="9" y="-4" width="4" height="8" rx="1.5" fill="#4a9e6e" stroke="none"/>
@@ -657,9 +663,9 @@ function updateUI(data) {
   fGH.setAttribute('stroke-width', ghActive ? flowW(Math.abs(gW)) : '1.5');
 
   // Node glow intensity
-  document.querySelector('#nodeSolar .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
-  document.querySelector('#nodeBat .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
-  document.querySelector('#nodeGrid .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
+  document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
+  document.querySelector('#nodeBatBg_group .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
+  document.querySelector('#nodeGridBg_group .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
 
   // Battery sub-label: kW direction
   const batSub = document.getElementById('flowBatSub');
