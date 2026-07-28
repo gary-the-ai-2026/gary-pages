@@ -149,9 +149,8 @@
   .pt-card .pt-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; color: var(--ink); line-height: 1; }
   .pt-card .pt-unit { font-size: 0.6rem; color: var(--muted); }
   .pt-card .pt-time { font-size: 11px; color: var(--muted-soft); margin-top: 2px; }
-  .period-badge { text-align: center; margin-bottom: var(--space-md); }
-  .period-badge span { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 14px; border-radius: var(--radius-pill); background: #fef3d5; color: #8b6914; }
-  .price-bars { margin: var(--space-sm) 0; }
+  .insight-box { background: var(--surface-card); border-radius: var(--radius-md); padding: var(--space-sm) var(--space-md); font-size: 12px; color: var(--body); margin-top: var(--space-md); text-align: center; }
+
   .bar-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
   .bar-time { width: 38px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-align: right; flex-shrink: 0; }
   .bar-track { flex: 1; height: 16px; background: var(--surface-card); border-radius: 3px; overflow: hidden; }
@@ -328,9 +327,6 @@
         <div class="pt-time" id="nextTroughTime">--</div>
       </div>
     </div>
-
-    <!-- Period badge -->
-    <div class="period-badge"><span id="periodBadge">--</span></div>
 
     <!-- Forward prices -->
     <div class="card-cream">
@@ -511,10 +507,6 @@ function updateUI(data) {
   if (a.next_trough_c != null && a.next_trough_time) {
     setText('nextTroughVal', a.next_trough_c.toFixed(1));
     setText('nextTroughTime', 'at ' + a.next_trough_time);
-  }
-  if (period) {
-    const badge = document.getElementById('periodBadge');
-    badge.textContent = period === 'solarSponge' ? 'Solar Sponge' : period === 'peak' ? 'Peak' : period === 'offPeak' ? 'Off-Peak' : period;
   }
 
   // Forward price bars
