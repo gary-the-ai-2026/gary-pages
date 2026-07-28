@@ -84,27 +84,6 @@
   /* ── Section label ── */
   .section-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: var(--space-sm); }
 
-  /* ── Live Balance (Home tab hero card) ── */
-  .balance-row { display: flex; align-items: flex-end; justify-content: center; gap: var(--space-lg); margin-bottom: var(--space-md); }
-  .balance-side { text-align: center; flex: 1; }
-  .balance-side .bl-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-  .bl-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .bl-dot.gen { background: var(--solar); }
-  .bl-dot.con { background: var(--home); }
-  .balance-side .bl-value { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--ink); line-height: 1; }
-  .balance-side .bl-unit { font-size: 0.65rem; color: var(--muted); font-family: var(--font-body); margin-top: 2px; }
-  .balance-vs { font-size: 0.7rem; color: var(--muted-soft); padding-bottom: 8px; }
-  .bar-stacked { display: flex; height: 22px; background: var(--hairline); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
-  .bar-seg { height: 100%; transition: width 0.8s ease; display: flex; align-items: center; justify-content: center; }
-  .bar-seg.bar-solar { background: var(--solar); }
-  .bar-seg.bar-battery { background: var(--battery); }
-  .bar-seg.bar-grid { background: var(--home); }
-  .bar-seg .seg-icon { font-size: 12px; line-height: 1; opacity: 0.85; pointer-events: none; user-select: none; }
-  .balance-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--body); }
-  .balance-meta .bm-renewable { color: var(--success); font-weight: 500; }
-  .balance-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .balance-sub span { color: var(--battery); font-weight: 500; }
-
   /* ── Metrics row ── */
   .metrics-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); margin-bottom: var(--space-sm); }
   .metric-card { padding: var(--space-md); }
@@ -208,11 +187,26 @@
   /* ── Yesterday ── */
   .yesterday-row { margin-top: var(--space-md); font-size: 11px; color: var(--muted-soft); text-align: center; }
 
+  /* ── Energy Flow Diagram ── */
+  .flow-card { padding: var(--space-md); overflow: hidden; }
+  .flow-diagram { width: 100%; height: auto; display: block; }
+  .flow-node-group { cursor: default; }
+  .flow-node-glow { opacity: 0.35; transition: opacity 0.8s ease; }
+  .flow-node-bg { fill: #ffffff; stroke-width: 1.5; transition: stroke 0.8s ease; }
+  .flow-node-icon { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
+  .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
+  .flow-line { fill: none; stroke-width: 2.5; stroke-linecap: round; transition: opacity 0.6s ease, stroke 0.6s ease; }
+  .flow-line.active { opacity: 0.9; animation: flowPulse 2s ease-in-out infinite; }
+  .flow-line.idle { opacity: 0.12; animation: none; }
+  .flow-arrow { transition: opacity 0.6s ease; }
+  @keyframes flowPulse { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+
   @media (max-width: 480px) {
-    .balance-side .bl-value { font-size: 2.2rem; }
-    .balance-row { gap: var(--space-md); }
     .daily-tiles { flex-wrap: wrap; }
     .daily-tile { flex: 0 0 30%; }
+    .flow-node-val { font-size: 16px; }
+    .flow-node-lbl { font-size: 8px; }
   }
 </style>
 </head>
@@ -237,32 +231,119 @@
   <!-- ═══════════════ HOME VIEW ═══════════════ -->
   <div class="view active" id="view-home">
 
-    <!-- Live Balance -->
-    <div class="card-cream">
+    <!-- Energy Flow Diagram -->
+    <div class="card-cream flow-card">
       <div class="section-label">Right Now</div>
-      <div class="balance-row">
-        <div class="balance-side">
-          <div class="bl-label"><span class="bl-dot gen"></span> Generating</div>
-          <div class="bl-value" id="t1Gen">--</div>
-          <div class="bl-unit">kW</div>
-        </div>
-        <div class="balance-vs">vs</div>
-        <div class="balance-side">
-          <div class="bl-label"><span class="bl-dot con"></span> Consuming</div>
-          <div class="bl-value" id="t1Con">--</div>
-          <div class="bl-unit">kW</div>
-        </div>
-      </div>
-      <div class="bar-stacked">
-        <div class="bar-seg bar-solar" id="barSolar" style="width:0%"></div>
-        <div class="bar-seg bar-battery" id="barBattery" style="width:0%"></div>
-        <div class="bar-seg bar-grid" id="barGrid" style="width:0%"></div>
-      </div>
-      <div class="balance-meta">
-        <span class="bm-renewable" id="bmSelf">--</span>
-        <span id="bmImport">--</span>
-      </div>
-      <div class="balance-sub" id="balanceSub">--</div>
+      <svg class="flow-diagram" id="flowDiagram" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Glow filters per node colour -->
+          <filter id="glowSolar" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glowGrid" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glowHome" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glowBat" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- Arrow markers -->
+          <marker id="arrowSolar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 L2,4 Z" fill="#e8a838"/>
+          </marker>
+          <marker id="arrowBat" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 L2,4 Z" fill="#4a9e6e"/>
+          </marker>
+          <marker id="arrowGrid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 L2,4 Z" fill="#5b8cb8"/>
+          </marker>
+        </defs>
+
+        <!-- ── Flow Lines (behind nodes) ── -->
+        <!-- Solar → Home: from solar bottom-right to home top-left -->
+        <path id="flowSolarHome" class="flow-line" d="M236,128 C280,168 278,198 262,230"
+              stroke="#e8a838" marker-end="url(#arrowSolar)"/>
+        <!-- Solar → Battery: straight down -->
+        <path id="flowSolarBat" class="flow-line" d="M200,140 L200,316"
+              stroke="#e8a838" marker-end="url(#arrowSolar)"/>
+        <!-- Battery → Home: from battery top-right to home bottom-left -->
+        <path id="flowBatHome" class="flow-line" d="M236,332 C280,292 278,262 262,230"
+              stroke="#4a9e6e" marker-end="url(#arrowBat)"/>
+        <!-- Grid → Home: horizontal -->
+        <path id="flowGridHome" class="flow-line" d="M148,230 L256,230"
+              stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
+
+        <!-- ═══════════ NODES ═══════════ -->
+
+        <!-- Solar Node (top center: 200, 90) -->
+        <g class="flow-node-group" id="nodeSolar">
+          <circle cx="200" cy="90" r="54" fill="#e8a838" opacity="0.15" filter="url(#glowSolar)" class="flow-node-glow"/>
+          <circle cx="200" cy="90" r="46" class="flow-node-bg" stroke="#e8a838" id="nodeSolarBg"/>
+          <!-- Sun icon with rays -->
+          <g transform="translate(200,65)" class="flow-node-icon" stroke="#e8a838">
+            <circle cx="0" cy="3" r="9"/>
+            <line x1="0" y1="-10" x2="0" y2="-7"/>
+            <line x1="0" y1="13" x2="0" y2="16"/>
+            <line x1="-10" y1="3" x2="-7" y2="3"/>
+            <line x1="7" y1="3" x2="10" y2="3"/>
+            <line x1="-7" y1="-4" x2="-5" y2="-2"/>
+            <line x1="5" y1="8" x2="7" y2="10"/>
+            <line x1="7" y1="-4" x2="5" y2="-2"/>
+            <line x1="-5" y1="8" x2="-7" y2="10"/>
+          </g>
+          <text class="flow-node-val" x="200" y="102" id="flowSolarVal">--</text>
+          <text class="flow-node-lbl" x="200" y="118" fill="#e8a838">SOLAR</text>
+        </g>
+
+        <!-- Grid Node (left center: 95, 230) -->
+        <g class="flow-node-group" id="nodeGrid">
+          <circle cx="95" cy="230" r="54" fill="#5b8cb8" opacity="0.15" filter="url(#glowGrid)" class="flow-node-glow"/>
+          <circle cx="95" cy="230" r="46" class="flow-node-bg" stroke="#5b8cb8" id="nodeGridBg"/>
+          <!-- Transmission tower icon -->
+          <g transform="translate(95,205)" class="flow-node-icon" stroke="#5b8cb8">
+            <rect x="-4" y="13" width="8" height="6" fill="#5b8cb8" stroke="none" opacity="0.3"/>
+            <line x1="0" y1="0" x2="0" y2="18"/>
+            <line x1="-12" y1="8" x2="12" y2="8"/>
+            <line x1="-8" y1="14" x2="8" y2="14"/>
+          </g>
+          <text class="flow-node-val" x="95" y="242" id="flowGridVal">--</text>
+          <text class="flow-node-lbl" x="95" y="258" fill="#5b8cb8">GRID</text>
+        </g>
+
+        <!-- Home Node (right center: 305, 230) -->
+        <g class="flow-node-group" id="nodeHome">
+          <circle cx="305" cy="230" r="54" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow"/>
+          <circle cx="305" cy="230" r="46" class="flow-node-bg" stroke="#cc785c" id="nodeHomeBg"/>
+          <!-- House icon -->
+          <g transform="translate(305,204)" class="flow-node-icon" stroke="#cc785c">
+            <polygon points="0,-10 -14,4 14,4" fill="none"/>
+            <rect x="-7" y="4" width="14" height="10" fill="none"/>
+            <rect x="0" y="7" width="5" height="7" fill="#cc785c" stroke="none" opacity="0.3"/>
+          </g>
+          <text class="flow-node-val" x="305" y="242" id="flowHomeVal">--</text>
+          <text class="flow-node-lbl" x="305" y="258" fill="#cc785c">HOME</text>
+        </g>
+
+        <!-- Battery Node (bottom center: 200, 370) -->
+        <g class="flow-node-group" id="nodeBat">
+          <circle cx="200" cy="370" r="54" fill="#4a9e6e" opacity="0.15" filter="url(#glowBat)" class="flow-node-glow"/>
+          <circle cx="200" cy="370" r="46" class="flow-node-bg" stroke="#4a9e6e" id="nodeBatBg"/>
+          <!-- Battery icon -->
+          <g transform="translate(200,344)" class="flow-node-icon" stroke="#4a9e6e">
+            <rect x="-13" y="-8" width="22" height="16" rx="2" fill="none"/>
+            <rect x="9" y="-4" width="4" height="8" rx="1.5" fill="#4a9e6e" stroke="none"/>
+            <rect x="-10" y="-5" width="16" height="10" rx="1" fill="#4a9e6e" stroke="none" opacity="0.3"/>
+          </g>
+          <text class="flow-node-val" x="200" y="382" id="flowBatVal">--</text>
+          <text class="flow-node-lbl" x="200" y="398" fill="#4a9e6e">BATTERY</text>
+        </g>
+      </svg>
     </div>
 
     <!-- Live Power Widgets -->
@@ -437,41 +518,67 @@ function updateUI(data) {
 
   const sW = g.solar_now_w || 0, gW = g.grid_power_w || 0, hW = g.home_consumption_w || 0, bW = g.battery_power_w || 0, soc = g.battery_soc_pct || 0;
 
-  // ── Live Balance ──
+  // ── Energy Flow Diagram ──
   const genW = sW, conW = Math.abs(hW);
-  const genKw = (genW/1000).toFixed(2), conKw = (conW/1000).toFixed(2);
-  setText('t1Gen', genKw);
-  setText('t1Con', conKw);
 
+  // Update node values
+  document.getElementById('flowSolarVal').textContent = (genW/1000).toFixed(2);
+  document.getElementById('flowHomeVal').textContent = (conW/1000).toFixed(2);
+  document.getElementById('flowGridVal').textContent = (Math.abs(gW)/1000).toFixed(2);
+
+  const storedKwh = (soc * 0.32).toFixed(1);
+  const batEl = document.getElementById('flowBatVal');
+  batEl.textContent = soc + '%';
+  // Sub-label shows stored kWh
+  const batLbl = document.getElementById('nodeBat').querySelector('.flow-node-lbl');
+  if (bW > 50) batLbl.textContent = 'BATTERY · ' + (Math.abs(bW)/1000).toFixed(2) + ' kW OUT';
+  else if (bW < -50) batLbl.textContent = 'BATTERY · ' + (Math.abs(bW)/1000).toFixed(2) + ' kW IN';
+  else batLbl.textContent = 'BATTERY';
+
+  // Flow logic
   const solarToHome = Math.min(genW, conW);
-  const batToHome = bW > 0 ? Math.min(bW, Math.max(0, conW - solarToHome)) : 0;
-  const gridToHome = Math.max(0, conW - solarToHome - batToHome);
-  const sPct = conW > 0 ? (solarToHome/conW)*100 : 0;
-  const bPct = conW > 0 ? (batToHome/conW)*100 : 0;
-  const gPct = conW > 0 ? (gridToHome/conW)*100 : 0;
+  const remainingSolar = genW - solarToHome;
+  const batCharging = bW < -50;      // negative = charging
+  const batDischarging = bW > 50;    // positive = discharging
+  const gridImporting = gW < -50;    // negative = importing
+  const gridExporting = gW > 50;     // positive = exporting
 
-  document.getElementById('barSolar').style.width = sPct + '%';
-  document.getElementById('barSolar').innerHTML = sPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="3" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><line x1="8" y1="2" x2="8" y2="4" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="8" y1="12" x2="8" y2="14" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="2" y1="8" x2="4" y2="8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="12" y1="8" x2="14" y2="8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".9"/><line x1="3.8" y1="3.8" x2="5.2" y2="5.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10.8" y1="10.8" x2="12.2" y2="12.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10.8" y1="5.2" x2="12.2" y2="3.8" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="5.2" y1="10.8" x2="3.8" y2="12.2" stroke="#faf9f5" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>' : '';
-  document.getElementById('barBattery').style.width = bPct + '%';
-  document.getElementById('barBattery').innerHTML = bPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><rect x="3" y="5" width="8" height="9" rx="1" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><rect x="5.5" y="3" width="3" height="3" rx=".5" fill="none" stroke="#faf9f5" stroke-width="1" opacity=".9"/><rect x="5" y="7" width="4" height="5" rx=".5" fill="#faf9f5" opacity=".35"/></svg>' : '';
-  document.getElementById('barGrid').style.width = gPct + '%';
-  document.getElementById('barGrid').innerHTML = gPct > 12 ? '<svg class="seg-icon" viewBox="0 0 16 16" width="14" height="14"><rect x="6.5" y="2" width="3" height="12" rx=".5" fill="none" stroke="#faf9f5" stroke-width="1.2" opacity=".9"/><line x1="2" y1="6" x2="6.5" y2="6" stroke="#faf9f5" stroke-width="1.2" stroke-linecap="round" opacity=".9"/><line x1="9.5" y1="6" x2="14" y2="6" stroke="#faf9f5" stroke-width="1.2" stroke-linecap="round" opacity=".9"/></svg>' : '';
+  // Solar → Home (always when solar contributes to home load)
+  const fSH = document.getElementById('flowSolarHome');
+  fSH.classList.toggle('active', solarToHome > 80);
+  fSH.classList.toggle('idle', solarToHome <= 80);
 
-  const renPct = sPct + bPct;
-  setText('bmSelf', renPct.toFixed(0) + '% renewable');
+  // Solar → Battery (excess solar charging battery)
+  const fSB = document.getElementById('flowSolarBat');
+  fSB.classList.toggle('active', remainingSolar > 100 && batCharging);
+  fSB.classList.toggle('idle', !(remainingSolar > 100 && batCharging));
 
-  const ga = Math.abs(gW);
-  if (gW < -50) setText('bmImport', 'Grid: importing ' + fmtW(ga));
-  else if (gW > 50) setText('bmImport', 'Grid: exporting ' + fmtW(ga));
-  else setText('bmImport', 'Grid: balanced');
+  // Battery → Home (battery discharging to cover home load)
+  const fBH = document.getElementById('flowBatHome');
+  fBH.classList.toggle('active', batDischarging && conW > 50);
+  fBH.classList.toggle('idle', !(batDischarging && conW > 50));
 
-  const subEl = document.getElementById('balanceSub');
-  const ba = Math.abs(bW);
-  if (bW > 50) subEl.innerHTML = 'Battery: discharging <span>' + fmtW(ba) + '</span>';
-  else if (bW < -50) subEl.innerHTML = 'Battery: charging <span>' + fmtW(ba) + '</span>';
-  else subEl.textContent = 'Battery: idle';
+  // Grid → Home (importing from grid)
+  const fGH = document.getElementById('flowGridHome');
+  fGH.classList.toggle('active', gridImporting);
+  fGH.classList.toggle('idle', !gridImporting);
+
+  // Node glow intensity — brighten the active source(s)
+  const nodeSolarGlow = document.querySelector('#nodeSolar .flow-node-glow');
+  const nodeBatGlow = document.querySelector('#nodeBat .flow-node-glow');
+  const nodeGridGlow = document.querySelector('#nodeGrid .flow-node-glow');
+  nodeSolarGlow.style.opacity = genW > 100 ? '0.5' : '0.15';
+  nodeBatGlow.style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
+  nodeGridGlow.style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
+
+  // Grid label reflects direction
+  const gridLbl = document.getElementById('nodeGrid').querySelector('.flow-node-lbl');
+  if (gridImporting) gridLbl.textContent = 'GRID · IMPORTING';
+  else if (gridExporting) gridLbl.textContent = 'GRID · EXPORTING';
+  else gridLbl.textContent = 'GRID';
 
   // ── Widgets ──
+  const ga = Math.abs(gW), ba = Math.abs(bW);
   setText('wSolar', fmtW(sW));
   setText('wSolarSub', (g.today_solar_kwh || 0).toFixed(1) + ' kWh today');
   setText('wHome', fmtW(Math.abs(hW)));
@@ -479,8 +586,6 @@ function updateUI(data) {
   setText('wGrid', fmtW(ga));
   setText('wGridSub', gd);
   setText('wBat', soc + '%');
-  const storedKwh = (soc * 0.32).toFixed(1);
-  const bs = bW > 50 ? 'discharging ' + fmtW(ba) : bW < -50 ? 'charging ' + fmtW(ba) : 'idle';
   setText('wBatSub', storedKwh + ' kWh / 32 kWh');
 
   // ── Prices ──
