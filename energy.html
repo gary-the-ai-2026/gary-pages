@@ -285,7 +285,6 @@
 
     <!-- Energy Flow Diagram -->
     <div class="card-cream flow-card">
-      <div class="section-label">Right Now</div>
       <svg class="flow-diagram" id="flowDiagram" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <!-- Glow filters per node colour -->
@@ -617,7 +616,6 @@ function updateUI(data) {
   document.getElementById('flowBatVal').textContent = soc + '%';
 
   // Flow logic
-  const solarToHome = Math.min(genW, conW);
   const remainingSolar = genW - solarToHome;
   const batCharging = bW < -50;      // negative = charging
   const batDischarging = bW > 50;    // positive = discharging
@@ -676,7 +674,6 @@ function updateUI(data) {
   else gridSub.textContent = '';
 
   // ── Widgets ──
-  const ga = Math.abs(gW), ba = Math.abs(bW);
   setText('wSolar', fmtW(sW));
   setText('wSolarSub', (g.today_solar_kwh || 0).toFixed(1) + ' kWh today');
   setText('wHome', fmtW(Math.abs(hW)));
