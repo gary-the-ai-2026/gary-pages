@@ -212,7 +212,7 @@
   .flow-card { padding: var(--space-md); overflow: hidden; }
   .flow-diagram { width: 100%; height: auto; display: block; }
   .flow-node-group { cursor: default; }
-  .flow-node-glow { opacity: 0.35; transition: opacity 0.8s ease; }
+  .flow-node-glow { opacity: 0; transition: opacity 0.8s ease; }
   .flow-node-bg { fill: #ffffff; stroke-width: 1.5; transition: stroke 0.8s ease; }
   .flow-node-val { font-family: 'JetBrains Mono', 'SF Mono', monospace; font-size: 20px; font-weight: 500; fill: #141413; text-anchor: middle; }
   .flow-node-lbl { font-family: 'Inter', -apple-system, sans-serif; font-size: 10px; font-weight: 500; text-anchor: middle; letter-spacing: 0.06em; }
@@ -688,10 +688,11 @@ function updateUI(data) {
   fSG.setAttribute('stroke-width', sgActive ? flowW(Math.abs(gW)) : '1.5');
   if (sgActive) lSG.textContent = (Math.abs(gW)/1000).toFixed(1) + ' kW';
 
-  // Node glow intensity
-  document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0.15';
-  document.querySelector('#nodeBatBg_group .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0.15';
-  document.querySelector('#nodeGridBg_group .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0.15';
+  // Node glow intensity — only active nodes glow
+  document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0';
+  document.querySelector('#nodeBatBg_group .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0';
+  document.querySelector('#nodeGridBg_group .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0';
+  document.querySelector('#nodeHomeBg_group .flow-node-glow').style.opacity = conW > 50 ? '0.5' : '0';
 
   // Battery sub-label: kW direction
   const batSub = document.getElementById('flowBatSub');
