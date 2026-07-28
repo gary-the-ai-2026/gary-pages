@@ -84,6 +84,27 @@
   /* ── Section label ── */
   .section-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: var(--space-sm); }
 
+  /* ── Live Balance ── */
+  .balance-row { display: flex; align-items: flex-end; justify-content: center; gap: var(--space-lg); margin-bottom: var(--space-md); }
+  .balance-side { text-align: center; flex: 1; }
+  .balance-side .bl-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .bl-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .bl-dot.gen { background: var(--solar); }
+  .bl-dot.con { background: var(--home); }
+  .balance-side .bl-value { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .balance-side .bl-unit { font-size: 0.65rem; color: var(--muted); font-family: var(--font-body); margin-top: 2px; }
+  .balance-vs { font-size: 0.7rem; color: var(--muted-soft); padding-bottom: 8px; }
+  .bar-stacked { display: flex; height: 22px; background: var(--hairline); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .bar-seg { height: 100%; transition: width 0.8s ease; display: flex; align-items: center; justify-content: center; }
+  .bar-seg.bar-solar { background: var(--solar); }
+  .bar-seg.bar-battery { background: var(--battery); }
+  .bar-seg.bar-grid { background: var(--home); }
+  .bar-seg .seg-icon { font-size: 12px; line-height: 1; opacity: 0.85; pointer-events: none; user-select: none; }
+  .balance-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--body); }
+  .balance-meta .bm-renewable { color: var(--success); font-weight: 500; }
+  .balance-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .balance-sub span { color: var(--battery); font-weight: 500; }
+
   /* ── Metrics row ── */
   .metrics-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); margin-bottom: var(--space-sm); }
   .metric-card { padding: var(--space-md); }
@@ -203,6 +224,8 @@
   @keyframes flowPulse { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
 
   @media (max-width: 480px) {
+    .balance-side .bl-value { font-size: 2.2rem; }
+    .balance-row { gap: var(--space-md); }
     .daily-tiles { flex-wrap: wrap; }
     .daily-tile { flex: 0 0 30%; }
     .flow-node-val { font-size: 16px; }
@@ -230,6 +253,34 @@
 
   <!-- ═══════════════ HOME VIEW ═══════════════ -->
   <div class="view active" id="view-home">
+
+    <!-- Live Balance -->
+    <div class="card-cream">
+      <div class="section-label">Right Now</div>
+      <div class="balance-row">
+        <div class="balance-side">
+          <div class="bl-label"><span class="bl-dot gen"></span> Generating</div>
+          <div class="bl-value" id="t1Gen">--</div>
+          <div class="bl-unit">kW</div>
+        </div>
+        <div class="balance-vs">vs</div>
+        <div class="balance-side">
+          <div class="bl-label"><span class="bl-dot con"></span> Consuming</div>
+          <div class="bl-value" id="t1Con">--</div>
+          <div class="bl-unit">kW</div>
+        </div>
+      </div>
+      <div class="bar-stacked">
+        <div class="bar-seg bar-solar" id="barSolar" style="width:0%"></div>
+        <div class="bar-seg bar-battery" id="barBattery" style="width:0%"></div>
+        <div class="bar-seg bar-grid" id="barGrid" style="width:0%"></div>
+      </div>
+      <div class="balance-meta">
+        <span class="bm-renewable" id="bmSelf">--</span>
+        <span id="bmImport">--</span>
+      </div>
+      <div class="balance-sub" id="balanceSub">--</div>
+    </div>
 
     <!-- Energy Flow Diagram -->
     <div class="card-cream flow-card">
@@ -518,8 +569,41 @@ function updateUI(data) {
 
   const sW = g.solar_now_w || 0, gW = g.grid_power_w || 0, hW = g.home_consumption_w || 0, bW = g.battery_power_w || 0, soc = g.battery_soc_pct || 0;
 
-  // ── Energy Flow Diagram ──
+  // ── Live Balance ──
   const genW = sW, conW = Math.abs(hW);
+  const genKw = (genW/1000).toFixed(2), conKw = (conW/1000).toFixed(2);
+  setText('t1Gen', genKw);
+  setText('t1Con', conKw);
+
+  const solarToHome = Math.min(genW, conW);
+  const batToHome = bW > 0 ? Math.min(bW, Math.max(0, conW - solarToHome)) : 0;
+  const gridToHome = Math.max(0, conW - solarToHome - batToHome);
+  const sPct = conW > 0 ? (solarToHome/conW)*100 : 0;
+  const bPct = conW > 0 ? (batToHome/conW)*100 : 0;
+  const gPct = conW > 0 ? (gridToHome/conW)*100 : 0;
+
+  document.getElementById('barSolar').style.width = sPct + '%';
+  document.getElementById('barSolar').innerHTML = sPct > 12 ? '<svg class=\"seg-icon\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\"><circle cx=\"8\" cy=\"8\" r=\"3\" fill=\"none\" stroke=\"#faf9f5\" stroke-width=\"1.2\" opacity=\".9\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"4\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".9\"/><line x1=\"8\" y1=\"12\" x2=\"8\" y2=\"14\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".9\"/><line x1=\"2\" y1=\"8\" x2=\"4\" y2=\"8\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".9\"/><line x1=\"12\" y1=\"8\" x2=\"14\" y2=\"8\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".9\"/><line x1=\"3.8\" y1=\"3.8\" x2=\"5.2\" y2=\"5.2\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".6\"/><line x1=\"10.8\" y1=\"10.8\" x2=\"12.2\" y2=\"12.2\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".6\"/><line x1=\"10.8\" y1=\"5.2\" x2=\"12.2\" y2=\"3.8\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".6\"/><line x1=\"5.2\" y1=\"10.8\" x2=\"3.8\" y2=\"12.2\" stroke=\"#faf9f5\" stroke-width=\"1\" stroke-linecap=\"round\" opacity=\".6\"/></svg>' : '';
+  document.getElementById('barBattery').style.width = bPct + '%';
+  document.getElementById('barBattery').innerHTML = bPct > 12 ? '<svg class=\"seg-icon\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\"><rect x=\"3\" y=\"5\" width=\"8\" height=\"9\" rx=\"1\" fill=\"none\" stroke=\"#faf9f5\" stroke-width=\"1.2\" opacity=\".9\"/><rect x=\"5.5\" y=\"3\" width=\"3\" height=\"3\" rx=\".5\" fill=\"none\" stroke=\"#faf9f5\" stroke-width=\"1\" opacity=\".9\"/><rect x=\"5\" y=\"7\" width=\"4\" height=\"5\" rx=\".5\" fill=\"#faf9f5\" opacity=\".35\"/></svg>' : '';
+  document.getElementById('barGrid').style.width = gPct + '%';
+  document.getElementById('barGrid').innerHTML = gPct > 12 ? '<svg class=\"seg-icon\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\"><rect x=\"6.5\" y=\"2\" width=\"3\" height=\"12\" rx=\".5\" fill=\"none\" stroke=\"#faf9f5\" stroke-width=\"1.2\" opacity=\".9\"/><line x1=\"2\" y1=\"6\" x2=\"6.5\" y2=\"6\" stroke=\"#faf9f5\" stroke-width=\"1.2\" stroke-linecap=\"round\" opacity=\".9\"/><line x1=\"9.5\" y1=\"6\" x2=\"14\" y2=\"6\" stroke=\"#faf9f5\" stroke-width=\"1.2\" stroke-linecap=\"round\" opacity=\".9\"/></svg>' : '';
+
+  const renPct = sPct + bPct;
+  setText('bmSelf', renPct.toFixed(0) + '% renewable');
+
+  const ga = Math.abs(gW);
+  if (gW < -50) setText('bmImport', 'Grid: importing ' + fmtW(ga));
+  else if (gW > 50) setText('bmImport', 'Grid: exporting ' + fmtW(ga));
+  else setText('bmImport', 'Grid: balanced');
+
+  const subEl = document.getElementById('balanceSub');
+  const ba = Math.abs(bW);
+  if (bW > 50) subEl.innerHTML = 'Battery: discharging <span>' + fmtW(ba) + '</span>';
+  else if (bW < -50) subEl.innerHTML = 'Battery: charging <span>' + fmtW(ba) + '</span>';
+  else subEl.textContent = 'Battery: idle';
+
+  // ── Energy Flow Diagram ──
 
   // Update node values
   document.getElementById('flowSolarVal').textContent = (genW/1000).toFixed(2);
