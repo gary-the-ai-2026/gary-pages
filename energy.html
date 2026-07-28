@@ -108,6 +108,11 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
 .price-cell .pc-period.offPeak{background:#e8f0fe;color:#1e429f}
 .price-cell.buy{border-left:3px solid var(--grid)}
 .price-cell.sell{border-left:3px solid var(--battery)}
+.price-cell .pc-sub{font-size:.55rem;font-weight:600;margin-top:1px}
+.price-cell .pc-sub.costs{color:#c0392b}
+.price-cell .pc-sub.pays{color:#1b8a3d}
+.price-cell .pc-val.neg{color:#c0392b}
+.price-cell .pc-val.pos{color:#1b8a3d}
 
 /* ═══════════════════════════════════════════
    TIER 4 — Remaining Dashboard
@@ -234,9 +239,10 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
       <div class="pc-period" id="buyPeriod">--</div>
     </div>
     <div class="price-cell sell">
-      <div class="pc-label">Sell Price</div>
+      <div class="pc-label">Feed-in</div>
       <div class="pc-val" id="sellPrice">--</div>
       <div class="pc-unit">c/kWh</div>
+      <div class="pc-sub" id="sellSub">--</div>
       <div class="pc-period" id="sellPeriod">--</div>
     </div>
   </div>
@@ -365,7 +371,12 @@ function updateUI(data){
     const bp=document.getElementById('buyPeriod');bp.textContent=period;bp.className='pc-period '+period;
   }
   if(sellC!=null){
-    setText('sellPrice',sellC.toFixed(1));
+    const sv=document.getElementById('sellPrice');
+    sv.textContent=sellC.toFixed(1);
+    sv.className='pc-val'+(sellC<0?' neg':sellC>0?' pos':'');
+    const ss=document.getElementById('sellSub');
+    ss.textContent=sellC<0?'costs you':sellC>0?'pays you':'break even';
+    ss.className='pc-sub'+(sellC<0?' costs':sellC>0?' pays':'');
     const sp=document.getElementById('sellPeriod');sp.textContent=period;sp.className='pc-period '+period;
   }
 
