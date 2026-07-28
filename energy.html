@@ -530,6 +530,12 @@
       </div>
     </div>
 
+    <!-- Usage Last 24h -->
+    <div class="card-cream chart-card" style="margin-bottom:var(--space-sm)">
+      <div class="section-label">Usage Last 24h</div>
+      <canvas id="usage24hChart"></canvas>
+    </div>
+
     <!-- Yesterday -->
     <div class="yesterday-row" id="yesterdayRow">--</div>
   </div>
@@ -561,7 +567,7 @@ document.querySelectorAll('#navGroup button').forEach(btn => {
     btn.classList.add('active');
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + btn.dataset.view).classList.add('active');
-    if (btn.dataset.view === 'usage') renderDonut();
+    if (btn.dataset.view === 'usage') { renderDonut(); renderUsage24h(); }
   });
 });
 
@@ -890,6 +896,66 @@ function renderChart() {
 document.getElementById('chartPrev').addEventListener('click', () => { chartOffset = Math.max(0, chartOffset - DAYS_PER_PAGE); renderChart(); });
 document.getElementById('chartNext').addEventListener('click', () => { chartOffset += DAYS_PER_PAGE; renderChart(); });
 loadHistory();
+
+// ── Usage Last 24h Chart ──
+const USAGE_URL = 'data/energy-usage.json';
+let usage24hInstance = null;
+
+async function renderUsage24h() {
+  try {
+    const r = await fetch(USAGE_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (!r.ok) return;
+    const data = await r.json();
+    const intervals = data.intervals || [];
+    if (intervals.length === 0) return;
+
+    const labels = intervals.map(i => i.time);
+    const kwhData = intervals.map(i => i.kwh);
+    const colors = intervals.map(i => {
+      if (i.period === 'peak') return '#c0392b';
+      if (i.period === 'solarSponge') return '#c2680c';
+      return '#5b8cb8'; // offPeak
+    });
+
+    const ctx = document.getElementById('usage24hChart').getContext('2d');
+    if (usage24hInstance) usage24hInstance.destroy();
+
+    usage24hInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: kwhData,
+          backgroundColor: colors,
+          borderRadius: 2,
+          borderSkipped: false,
+          barPercentage: 0.95,
+          categoryPercentage: 0.95
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw.toFixed(3) + ' kWh' } } },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              font: { size: 8 },
+              color: '#8e8b82',
+              maxTicksLimit: 12,
+              callback: function(val, idx) { const l = this.getLabelForValue(val); return l.endsWith(':00') ? l : ''; }
+            }
+          },
+          y: {
+            grid: { color: '#e6dfd8' },
+            ticks: { font: { size: 9 }, color: '#8e8b82', callback: v => v.toFixed(2) + ' kWh' }
+          }
+        }
+      }
+    });
+  } catch(e) { /* silent */ }
+}
 </script>
 </body>
 </html>
