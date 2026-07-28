@@ -250,7 +250,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);-we
     <div class="daily-item"><div class="daily-val" id="dailySolar">--</div><div class="daily-lbl">Generated</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyImport">--</div><div class="daily-lbl">Imported</div></div>
     <div class="daily-item"><div class="daily-val" id="dailyExport">--</div><div class="daily-lbl">Exported</div></div>
-    <div class="daily-item"><div class="daily-val" id="dailyBatt">--</div><div class="daily-lbl">Batt Used</div></div>
+    <div class="daily-item"><div class="daily-val" id="dailyLoad">--</div><div class="daily-lbl">Load</div></div>
   </div>
 
   <!-- Consumption chart -->
@@ -377,7 +377,7 @@ function updateUI(data){
   setText('dailySolar',fmtKwh(t.solar_kwh));
   setText('dailyImport',fmtKwh(t.import_kwh));
   setText('dailyExport',fmtKwh(t.export_kwh));
-  setText('dailyBatt',fmtKwh(t.battery_discharge_kwh));
+  setText('dailyLoad',fmtKwh(t.load_kwh));
 
   // Forward price bars
   const bars=document.getElementById('priceBars'),fwd=a.forward_prices||[];
