@@ -64,8 +64,9 @@
   .header-meta .ts { font-size: 11px; color: var(--muted-soft); font-family: var(--font-mono); margin-top: 2px; }
 
   /* ── Nav toggle ── */
-  .nav-group { display: inline-flex; border-radius: var(--radius-md); border: 1px solid var(--hairline); background: var(--canvas); padding: 3px; margin-bottom: var(--space-lg); }
-  .nav-group button { background: none; border: none; padding: 8px 18px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+  .nav-bar { position: sticky; bottom: 0; z-index: 100; background: var(--canvas); border-top: 1px solid var(--hairline); padding: var(--space-sm) var(--space-md); display: flex; justify-content: center; margin: 0 calc(-1 * var(--space-md)); }
+  .nav-group { display: inline-flex; border-radius: var(--radius-md); border: 1px solid var(--hairline); background: var(--canvas); padding: 3px; }
+  .nav-group button { background: none; border: none; padding: 10px 24px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
   .nav-group button:hover { color: var(--ink); }
   .nav-group button.active { background: var(--surface-card); color: var(--ink); }
 
@@ -75,7 +76,7 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ── Hero illustration ── */
-  .hero-illustration { width: 100%; max-height: 140px; object-fit: contain; margin-bottom: var(--space-md); border-radius: var(--radius-md); }
+  .hero-illustration { display: block; max-width: 340px; width: 100%; margin: 0 auto var(--space-md) auto; border-radius: var(--radius-md); }
 
   /* ── Cards ── */
   .card-cream { background: var(--surface-card); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: var(--space-lg); transition: border-color 0.2s ease; margin-bottom: var(--space-sm); }
@@ -234,13 +235,6 @@
       <div class="addr">119 Princes Road</div>
       <div class="ts" id="timestamp">--</div>
     </div>
-  </div>
-
-  <!-- ── Nav Toggle ── -->
-  <div class="nav-group" id="navGroup">
-    <button data-view="home" class="active">Home</button>
-    <button data-view="next4h">Next 4h</button>
-    <button data-view="usage">Usage</button>
   </div>
 
   <!-- ═══════════════ HOME VIEW ═══════════════ -->
@@ -412,6 +406,15 @@
 
   <!-- Refresh -->
   <div class="refresh-bar"><span class="refresh-dot" id="refreshDot"></span><span id="refreshText">Loading...</span></div>
+
+  <!-- ── Bottom Nav ── -->
+  <div class="nav-bar">
+  <div class="nav-group" id="navGroup">
+    <button data-view="home" class="active">Home</button>
+    <button data-view="next4h">Next 4h</button>
+    <button data-view="usage">Usage</button>
+  </div>
+  </div>
 </div>
 
 <script>
@@ -442,7 +445,7 @@ function updateUI(data) {
   const sW = g.solar_now_w || 0, gW = g.grid_power_w || 0, hW = g.home_consumption_w || 0, bW = g.battery_power_w || 0, soc = g.battery_soc_pct || 0;
 
   // ── Live Balance ──
-  const genW = sW, conW = hW;
+  const genW = sW, conW = Math.abs(hW);
   const genKw = (genW/1000).toFixed(2), conKw = (conW/1000).toFixed(2);
   setText('t1Gen', genKw);
   setText('t1Con', conKw);
@@ -475,7 +478,7 @@ function updateUI(data) {
   // ── Widgets ──
   setText('wSolar', fmtW(sW));
   setText('wSolarSub', (g.today_solar_kwh || 0).toFixed(1) + ' kWh today');
-  setText('wHome', fmtW(hW));
+  setText('wHome', fmtW(Math.abs(hW)));
   const gd = gW < -50 ? 'importing' : gW > 50 ? 'exporting' : 'idle';
   setText('wGrid', fmtW(ga));
   setText('wGridSub', gd);
