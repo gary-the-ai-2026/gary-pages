@@ -403,7 +403,7 @@ async function fetchData(){
   try{const r=await fetch(DATA_URL+'?v='+Date.now());if(!r.ok)throw new Error('HTTP '+r.status);updateUI(await r.json())}
   catch(e){console.warn(e.message);showError('Retrying...')}
 }
-fetchData();setInterval(fetchData,30000);
+fetchData();setInterval(fetchData,10000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fetchData()});
 
 // === CONSUMPTION CHART ===
