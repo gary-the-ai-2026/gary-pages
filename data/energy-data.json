@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-07-29T19:55:15.088834+09:30",
-  "timestamp_display": "29 Jul 2026 \u00b7 7:55 PM",
-  "timestamp_short": "7:55:15 PM",
+  "timestamp": "2026-07-29T20:00:27.845034+09:30",
+  "timestamp_display": "29 Jul 2026 \u00b7 8:00 PM",
+  "timestamp_short": "8:00:27 PM",
   "goodwe": {
-    "grid_power_w": 0,
+    "grid_power_w": -6,
     "grid_direction": "Idle",
-    "inverter_temp_c": 47.7,
-    "battery_power_w": 515,
+    "inverter_temp_c": 48.1,
+    "battery_power_w": 502,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 45.1,
     "today_solar_kwh": 23.0,
@@ -17,7 +17,7 @@
     "today_bat_charge_kwh": 15.1,
     "lifetime_bat_discharge_kwh": 30.7,
     "today_bat_discharge_kwh": 6.3,
-    "home_consumption_w": 515,
+    "home_consumption_w": 508,
     "lifetime_export_kwh": 0.0,
     "lifetime_import_kwh": 0.0,
     "battery_temp_c": 18.6,
@@ -33,21 +33,16 @@
     "period": "peak",
     "descriptor": "low",
     "spike_status": "none",
-    "renewables": 14.109,
+    "renewables": 13.625000000000002,
     "forward_prices": [
       {
-        "time": "20:00",
+        "time": "20:05",
         "price": 59.3,
         "period": "peak"
       },
       {
-        "time": "20:05",
-        "price": 56.1,
-        "period": "peak"
-      },
-      {
         "time": "20:10",
-        "price": 48.8,
+        "price": 56.1,
         "period": "peak"
       },
       {
@@ -67,6 +62,31 @@
       },
       {
         "time": "20:30",
+        "price": 56.1,
+        "period": "peak"
+      },
+      {
+        "time": "20:35",
+        "price": 48.8,
+        "period": "peak"
+      },
+      {
+        "time": "20:40",
+        "price": 48.8,
+        "period": "peak"
+      },
+      {
+        "time": "20:45",
+        "price": 48.8,
+        "period": "peak"
+      },
+      {
+        "time": "20:50",
+        "price": 48.8,
+        "period": "peak"
+      },
+      {
+        "time": "20:55",
         "price": 47.7,
         "period": "peak"
       },
@@ -97,7 +117,7 @@
       }
     ],
     "next_peak_c": 59.3,
-    "next_peak_time": "20:00",
+    "next_peak_time": "20:05",
     "next_trough_c": 43.9,
     "next_trough_time": "21:00"
   },
