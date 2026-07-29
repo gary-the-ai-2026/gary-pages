@@ -600,7 +600,7 @@ function updateUI(data) {
   setText('t1Con', conKw);
 
   const solarToHome = Math.min(genW, conW);
-  const batToHome = bW > 0 ? Math.min(bW, Math.max(0, conW - solarToHome)) : 0;
+  const batToHome = bW > 50 ? Math.min(bW, Math.max(0, conW - solarToHome)) : 0;
   const gridToHome = Math.max(0, conW - solarToHome - batToHome);
   const sPct = conW > 0 ? (solarToHome/conW)*100 : 0;
   const bPct = conW > 0 ? (batToHome/conW)*100 : 0;
