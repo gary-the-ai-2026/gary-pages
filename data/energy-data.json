@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-07-29T18:26:03.348393+09:30",
-  "timestamp_display": "29 Jul 2026 \u00b7 6:26 PM",
-  "timestamp_short": "6:26:03 PM",
+  "timestamp": "2026-07-29T18:32:03.767203+09:30",
+  "timestamp_display": "29 Jul 2026 \u00b7 6:32 PM",
+  "timestamp_short": "6:32:03 PM",
   "goodwe": {
-    "grid_power_w": 3,
+    "grid_power_w": -2,
     "grid_direction": "Idle",
-    "inverter_temp_c": 43.4,
-    "battery_power_w": 518,
+    "inverter_temp_c": 41.0,
+    "battery_power_w": 511,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 45.1,
     "today_solar_kwh": 23.0,
     "today_export_kwh": 9.8,
     "today_import_kwh": 1.6,
-    "today_load_kwh": 9.9,
+    "today_load_kwh": 10.0,
     "lifetime_bat_charge_kwh": 32.2,
     "today_bat_charge_kwh": 15.1,
     "lifetime_bat_discharge_kwh": 29.9,
     "today_bat_discharge_kwh": 5.5,
-    "home_consumption_w": 515,
+    "home_consumption_w": 513,
     "lifetime_export_kwh": 0.0,
     "lifetime_import_kwh": 0.0,
     "battery_temp_c": 18.8,
@@ -33,26 +33,21 @@
     "period": "peak",
     "descriptor": "low",
     "spike_status": "none",
-    "renewables": 13.603000000000002,
+    "renewables": 13.418,
     "forward_prices": [
       {
-        "time": "18:30",
-        "price": 48.8,
-        "period": "peak"
-      },
-      {
         "time": "18:35",
-        "price": 48.8,
+        "price": 56.1,
         "period": "peak"
       },
       {
         "time": "18:40",
-        "price": 48.8,
+        "price": 56.1,
         "period": "peak"
       },
       {
         "time": "18:45",
-        "price": 48.8,
+        "price": 56.1,
         "period": "peak"
       },
       {
@@ -124,6 +119,11 @@
         "time": "22:00",
         "price": 59.3,
         "period": "peak"
+      },
+      {
+        "time": "22:30",
+        "price": 51.3,
+        "period": "peak"
       }
     ],
     "next_peak_c": 59.3,
@@ -133,7 +133,7 @@
   },
   "today": {
     "solar_kwh": 23.0,
-    "load_kwh": 9.9,
+    "load_kwh": 10.0,
     "import_kwh": 1.6,
     "export_kwh": 9.8,
     "grid_export_kwh": 0,
