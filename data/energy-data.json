@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-07-30T16:50:56.570012+09:30",
-  "timestamp_display": "30 Jul 2026 \u00b7 4:50 PM",
-  "timestamp_short": "4:50:56 PM",
+  "timestamp": "2026-07-30T16:55:56.130429+09:30",
+  "timestamp_display": "30 Jul 2026 \u00b7 4:55 PM",
+  "timestamp_short": "4:55:56 PM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": 1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 47.7,
-    "battery_power_w": 40,
+    "inverter_temp_c": 49.1,
+    "battery_power_w": 134,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 71.4,
     "today_solar_kwh": 26.3,
@@ -17,52 +17,47 @@
     "today_bat_charge_kwh": 19.4,
     "lifetime_bat_discharge_kwh": 36.5,
     "today_bat_discharge_kwh": 2.6,
-    "home_consumption_w": 533,
+    "home_consumption_w": 583,
     "lifetime_export_kwh": 0.0,
     "lifetime_import_kwh": 0.0,
     "battery_temp_c": 19.8,
     "battery_soc_pct": 60,
     "battery_soh_pct": 100,
-    "solar_now_w": 536,
-    "battery_flow": "idle",
+    "solar_now_w": 515,
+    "battery_flow": "discharging",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 74.1,
-    "sell_price_c": 41.2,
+    "current_price_c": 74.7,
+    "sell_price_c": 41.8,
     "period": "peak",
     "descriptor": "high",
     "spike_status": "none",
-    "renewables": 4.678,
+    "renewables": 4.4319999999999995,
     "forward_prices": [
       {
-        "time": "16:55",
-        "price": 74.1,
-        "period": "peak"
-      },
-      {
         "time": "17:00",
-        "price": 74.1,
+        "price": 71.0,
         "period": "peak"
       },
       {
         "time": "17:05",
-        "price": 74.1,
+        "price": 77.2,
         "period": "peak"
       },
       {
         "time": "17:10",
-        "price": 74.1,
+        "price": 77.2,
         "period": "peak"
       },
       {
         "time": "17:15",
-        "price": 74.1,
+        "price": 77.2,
         "period": "peak"
       },
       {
         "time": "17:20",
-        "price": 74.1,
+        "price": 78.8,
         "period": "peak"
       },
       {
@@ -72,6 +67,31 @@
       },
       {
         "time": "17:30",
+        "price": 77.2,
+        "period": "peak"
+      },
+      {
+        "time": "17:35",
+        "price": 77.2,
+        "period": "peak"
+      },
+      {
+        "time": "17:40",
+        "price": 74.5,
+        "period": "peak"
+      },
+      {
+        "time": "17:45",
+        "price": 74.5,
+        "period": "peak"
+      },
+      {
+        "time": "17:50",
+        "price": 124.3,
+        "period": "peak"
+      },
+      {
+        "time": "17:55",
         "price": 74.5,
         "period": "peak"
       },
@@ -106,8 +126,8 @@
         "period": "peak"
       }
     ],
-    "next_peak_c": 77.2,
-    "next_peak_time": "17:25",
+    "next_peak_c": 124.3,
+    "next_peak_time": "17:50",
     "next_trough_c": 66.1,
     "next_trough_time": "20:00"
   },
