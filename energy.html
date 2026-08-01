@@ -699,13 +699,13 @@ function updateUI(data) {
   if (gbActive) lGB.textContent = (gridToBat/1000).toFixed(1) + ' kW';
 
   // When grid feeds battery, Grid → Home shows only the excess
-  const gridToHome = gridImporting ? Math.abs(gW) - gridToBat : 0;
-  const ghActive = gridToHome > 80;
+  const gridToHomeFlow = gridImporting ? Math.abs(gW) - gridToBat : 0;
+  const ghActive = gridToHomeFlow > 80;
   fGH.classList.toggle('active', ghActive);
   fGH.classList.toggle('idle', !ghActive);
   lGH.classList.toggle('idle', !ghActive);
-  fGH.setAttribute('stroke-width', ghActive ? flowW(gridToHome) : '1.5');
-  if (ghActive) lGH.textContent = (gridToHome/1000).toFixed(1) + ' kW';
+  fGH.setAttribute('stroke-width', ghActive ? flowW(gridToHomeFlow) : '1.5');
+  if (ghActive) lGH.textContent = (gridToHomeFlow/1000).toFixed(1) + ' kW';
 
   // Solar → Grid (exporting)
   const fSG = document.getElementById('flowSolarGrid');
