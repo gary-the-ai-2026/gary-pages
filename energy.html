@@ -215,7 +215,7 @@
   .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 4px; }
   .cal-weekdays span { text-align: center; font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; padding: 4px 0; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-  .cal-day { aspect-ratio: 1; padding: 4px; background: var(--surface-card); border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+  .cal-day { min-height: 62px; padding: 4px 2px; background: var(--surface-card); border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
   .cal-day:hover { border-color: var(--hairline); }
   .cal-day .cal-day-num { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
   .cal-day .cal-day-cost { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--coral); margin-top: 1px; }
@@ -951,14 +951,15 @@ async function loadCalendar() {
   } catch(e) { /* Amber data optional — calendar still works without it */ }
 
   // Compute daily savings: what they'd pay without solar/battery vs actual
+  // Uses Amber blended rate (cost/total_kwh), capped at 50c/kWh
   for (const key of Object.keys(calDataMap)) {
     const e = calDataMap[key];
     const load = e.load_kwh || 0;
     const cost = e.cost_dollars;
-    const gridImp = e.grid_import_kwh || e.amber_import_kwh || 0;
-    if (load > 0 && cost != null && gridImp > 0) {
-      const effRate = cost / gridImp; // $/kWh effective grid rate
-      e.hypothetical_cost = load * effRate;
+    const amberKwh = e.amber_import_kwh || e.grid_import_kwh || 0;
+    if (load > 0 && cost != null && amberKwh > 0.5) {
+      const blendedRate = Math.min(cost / amberKwh, 0.50); // cap at 50c/kWh
+      e.hypothetical_cost = load * blendedRate;
       e.savings_dollars = Math.max(0, e.hypothetical_cost - cost);
     } else {
       e.savings_dollars = 0;
