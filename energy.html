@@ -155,15 +155,6 @@
   .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; display: flex; align-items: center; padding-left: 4px; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.85); }
   .bar-price { width: 42px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--body); text-align: left; flex-shrink: 0; }
 
-  /* ── Usage ── */
-  .daily-tiles { display: flex; justify-content: space-between; gap: 6px; margin-bottom: var(--space-sm); }
-  .daily-tile { flex: 1; text-align: center; padding: var(--space-sm) 4px; background: var(--surface-card); border-radius: var(--radius-md); }
-  .daily-tile .dt-icon { font-size: 14px; margin-bottom: 4px; }
-  .daily-tile .dt-val { font-family: var(--font-mono); font-size: 15px; font-weight: 500; color: var(--ink); }
-  .daily-tile .dt-unit { font-size: 9px; color: var(--muted); }
-  .daily-tile .dt-label { font-size: 8px; color: var(--muted-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
-  .dt-gen { color: var(--solar); } .dt-use { color: var(--home); } .dt-imp { color: var(--grid); } .dt-exp { color: var(--battery); } .dt-bat { color: var(--battery); }
-
   /* ── Donut chart ── */
   .donut-wrap { display: flex; align-items: center; justify-content: center; gap: var(--space-lg); margin: var(--space-md) 0; flex-wrap: wrap; }
   .donut-cont { position: relative; width: 140px; height: 140px; flex-shrink: 0; }
@@ -177,35 +168,10 @@
   .dl-dot.dl-battery { background: var(--battery); }
   .dl-dot.dl-grid { background: var(--grid); }
 
-  /* ── Battery bar ── */
-  .battery-card { margin-bottom: var(--space-sm); }
-  .battery-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-sm); }
-  .battery-header .bh-pct { font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--battery); line-height: 1; }
-  .battery-header .bh-stored { font-size: 13px; color: var(--muted); }
-  .battery-bar { height: 6px; background: var(--hairline); border-radius: 3px; overflow: hidden; margin-bottom: var(--space-sm); }
-  .battery-bar-fill { height: 100%; background: var(--battery); border-radius: 3px; transition: width 0.8s ease; }
-  .battery-stats { display: flex; gap: var(--space-lg); font-size: 11px; color: var(--muted); }
-
-  /* ── Chart ── */
-  .chart-card { margin-top: var(--space-sm); }
-  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
-  .chart-nav { display: flex; align-items: center; gap: 10px; }
-  .chart-nav button { background: none; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 4px 12px; font-size: 11px; font-family: var(--font-body); font-weight: 500; color: var(--body); cursor: pointer; }
-  .chart-nav button:disabled { opacity: 0.3; cursor: default; }
-  .chart-nav .chart-range { font-size: 11px; color: var(--muted); min-width: 100px; text-align: center; font-family: var(--font-mono); }
-  .chart-legend { display: flex; gap: 16px; font-size: 10px; color: var(--muted); margin-top: 6px; }
-  .chart-legend span { display: flex; align-items: center; gap: 4px; }
-  .chart-legend .swatch { width: 8px; height: 8px; border-radius: 2px; }
-  .swatch.renew { background: var(--battery); }
-  .swatch.grid-sw { background: var(--grid); }
-
   /* ── Refresh ── */
   .refresh-bar { text-align: center; padding: 14px; font-size: 10px; color: var(--muted-soft); font-family: var(--font-mono); }
   .refresh-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--success); margin-right: 4px; vertical-align: middle; }
   .refresh-dot.stale { background: var(--warning); }
-
-  /* ── Yesterday ── */
-  .yesterday-row { margin-top: var(--space-md); font-size: 11px; color: var(--muted-soft); text-align: center; }
 
   /* ── Energy Flow Diagram ── */
   .flow-card { padding: var(--space-md); overflow: hidden; }
@@ -225,14 +191,6 @@
   .flow-line.idle { display: none; }
   .flow-label.idle { display: none; }
   @keyframes flowDash { to { stroke-dashoffset: -20; } }
-
-  /* Usage range selector */
-  .usage-range-btn {
-    background: none; border: 1px solid var(--hairline); border-radius: var(--radius-sm);
-    padding: 4px 14px; font-family: var(--font-body); font-size: 11px; font-weight: 500;
-    color: var(--muted); cursor: pointer; transition: all 0.15s ease;
-  }
-  .usage-range-btn.active { background: var(--surface-card); color: var(--ink); border-color: var(--hairline); }
 
   /* ═══════════════ CALENDAR ═══════════════ */
   .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
@@ -297,8 +255,6 @@
   @media (max-width: 480px) {
     .balance-side .bl-value { font-size: 2.2rem; }
     .balance-row { gap: var(--space-md); }
-    .daily-tiles { flex-wrap: wrap; }
-    .daily-tile { flex: 0 0 30%; }
     .flow-node-val { font-size: 32px; }
     .flow-node-lbl { font-size: 16px; }
     .flow-node-sub { font-size: 13px; }
@@ -548,79 +504,6 @@
     <div class="insight-box" id="insightBox">--</div>
   </div>
 
-  <!-- ═══════════════ USAGE VIEW ═══════════════ -->
-  <div class="view" id="view-usage">
-    <!-- Today's Detail -->
-    <div class="section-label">Today's Detail</div>
-    <div class="daily-tiles">
-      <div class="daily-tile"><div class="dt-icon dt-gen">☀</div><div class="dt-val" id="dailySolar">--</div><div class="dt-label">Generated</div></div>
-      <div class="daily-tile"><div class="dt-icon dt-use">⌂</div><div class="dt-val" id="dailyLoad">--</div><div class="dt-label">Used</div></div>
-      <div class="daily-tile"><div class="dt-icon dt-imp">↓</div><div class="dt-val" id="dailyImport">--</div><div class="dt-label">Imported</div></div>
-      <div class="daily-tile"><div class="dt-icon dt-exp">↑</div><div class="dt-val" id="dailyExport">--</div><div class="dt-label">Exported</div></div>
-      <div class="daily-tile"><div class="dt-icon dt-bat">▮</div><div class="dt-val" id="dailyBatCharge">--</div><div class="dt-label">Bat Chg</div></div>
-    </div>
-
-    <!-- Consumption Mix -->
-    <div class="card-cream">
-      <div class="section-label">Where Your Power Came From</div>
-      <div class="donut-wrap">
-        <div class="donut-cont">
-          <canvas id="donutChart" width="140" height="140"></canvas>
-          <div class="donut-center">
-            <div class="dc-val" id="donutTotal">--</div>
-            <div class="dc-lbl">kWh used</div>
-          </div>
-        </div>
-        <div class="donut-legend" id="donutLegend"></div>
-      </div>
-    </div>
-
-    <!-- Battery -->
-    <div class="card-cream battery-card">
-      <div class="section-label">Battery</div>
-      <div class="battery-header">
-        <div class="bh-pct" id="batPct">--</div>
-        <div class="bh-stored" id="batStored">--</div>
-      </div>
-      <div class="battery-bar"><div class="battery-bar-fill" id="batBar" style="width:0%"></div></div>
-      <div class="battery-stats">
-        <span id="batCharged">--</span>
-        <span id="batDischarged">--</span>
-      </div>
-    </div>
-
-    <!-- Consumption Chart -->
-    <div class="card-cream chart-card">
-      <div class="chart-header">
-        <div class="section-label" style="margin:0">Last 7 Days</div>
-        <div class="chart-nav">
-          <button id="chartPrev" disabled>← Newer</button>
-          <span class="chart-range" id="chartRange">--</span>
-          <button id="chartNext" disabled>Older →</button>
-        </div>
-      </div>
-      <canvas id="consumptionChart"></canvas>
-      <div class="chart-legend">
-        <span><span class="swatch renew"></span> Solar + Battery</span>
-        <span><span class="swatch grid-sw"></span> Grid Import</span>
-      </div>
-    </div>
-
-    <!-- Usage Last 24h -->
-    <div class="card-cream chart-card" style="margin-bottom:var(--space-sm)">
-      <div class="section-label">Usage History</div>
-      <div style="display:flex;gap:6px;margin-bottom:var(--space-sm)">
-        <button class="usage-range-btn active" data-range="1h">1h</button>
-        <button class="usage-range-btn" data-range="12h">12h</button>
-        <button class="usage-range-btn" data-range="24h">24h</button>
-      </div>
-      <div style="height:160px"><canvas id="usage24hChart"></canvas></div>
-    </div>
-
-    <!-- Yesterday -->
-    <div class="yesterday-row" id="yesterdayRow">--</div>
-  </div>
-
   <!-- ═══════════════ CALENDAR VIEW ═══════════════ -->
   <div class="view" id="view-calendar">
     <!-- Month Navigation -->
@@ -689,6 +572,20 @@
           <div class="cds-lbl">Grid Export</div>
         </div>
       </div>
+      <!-- Consumption Mix -->
+      <div class="cal-detail-chart-card" style="margin-bottom:var(--space-sm)">
+        <div class="cdc-label">Consumption Mix</div>
+        <div class="donut-wrap" style="margin:var(--space-sm) 0">
+          <div class="donut-cont">
+            <canvas id="calDonutChart" width="120" height="120"></canvas>
+            <div class="donut-center">
+              <div class="dc-val" id="calDonutTotal" style="font-size:22px">--</div>
+              <div class="dc-lbl">kWh used</div>
+            </div>
+          </div>
+          <div class="donut-legend" id="calDonutLegend"></div>
+        </div>
+      </div>
       <div class="cal-detail-charts">
         <div class="cal-detail-chart-card">
           <div class="cdc-label">Hourly Usage (kWh)</div>
@@ -715,7 +612,6 @@
   <div class="nav-group" id="navGroup">
     <button data-view="home" class="active">Live</button>
     <button data-view="next4h">Next 4h</button>
-    <button data-view="usage">Usage</button>
     <button data-view="calendar">Calendar</button>
   </div>
   </div>
@@ -735,7 +631,6 @@ document.querySelectorAll('#navGroup button').forEach(btn => {
     btn.classList.add('active');
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + btn.dataset.view).classList.add('active');
-    if (btn.dataset.view === 'usage') { renderDonut(); renderUsage24h(); }
     if (btn.dataset.view === 'calendar') { loadCalendar(); }
   });
 });
@@ -944,25 +839,6 @@ function updateUI(data) {
     bars.innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:12px">No price data</div>';
   }
 
-  // ── Usage: Daily detail ──
-  setText('dailySolar', fmtKwh(t.solar_kwh));
-  setText('dailyLoad', fmtKwh(t.load_kwh));
-  setText('dailyImport', fmtKwh(t.import_kwh));
-  setText('dailyExport', fmtKwh(t.grid_export_kwh ?? t.export_kwh));
-  setText('dailyBatCharge', fmtKwh(t.battery_charge_kwh));
-
-  // ── Usage: Battery ──
-  setText('batPct', soc + '%');
-  setText('batStored', storedKwh + ' kWh / 32 kWh');
-  document.getElementById('batBar').style.width = soc + '%';
-  setText('batCharged', 'Charged today: ' + fmtKwh(t.battery_charge_kwh));
-  setText('batDischarged', 'Discharged today: ' + fmtKwh(t.battery_discharge_kwh));
-
-  // ── Yesterday ──
-  const y = data.yesterday || {};
-  const yr = document.getElementById('yesterdayRow');
-  yr.textContent = 'Yesterday: Generated ' + (y.solar_kwh||0).toFixed(1) + ' kWh · Imported ' + (y.import_kwh||0).toFixed(1) + ' kWh · Exported ' + (y.export_kwh||0).toFixed(1) + ' kWh';
-
   const dot = document.getElementById('refreshDot'); dot.classList.remove('stale');
   setText('refreshText', 'Live · ' + (data.timestamp_short || 'just now'));
 }
@@ -980,196 +856,9 @@ async function fetchData() {
 fetchData(); setInterval(fetchData, 10000);
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') fetchData(); });
 
-// ── Donut Chart (Usage tab) ──
-let donutInstance = null;
-function renderDonut() {
-  if (!currentData) return;
-  const t = currentData.today || {};
-  const load = t.load_kwh || 0;
-  const solarPct = load > 0 ? Math.min((t.solar_kwh || 0) / load * 100, 100) : 0;
-  const batPct = load > 0 ? Math.min((t.battery_discharge_kwh || 0) / load * 100, 100 - solarPct) : 0;
-  const gridPct = Math.max(0, 100 - solarPct - batPct);
-
-  setText('donutTotal', load.toFixed(1));
-  document.getElementById('donutLegend').innerHTML =
-    '<div class="dl-item"><span class="dl-dot dl-solar"></span> Solar ' + solarPct.toFixed(0) + '%</div>' +
-    '<div class="dl-item"><span class="dl-dot dl-battery"></span> Battery ' + batPct.toFixed(0) + '%</div>' +
-    '<div class="dl-item"><span class="dl-dot dl-grid"></span> Grid ' + gridPct.toFixed(0) + '%</div>';
-
-  const ctx = document.getElementById('donutChart').getContext('2d');
-  if (donutInstance) donutInstance.destroy();
-  const data = [solarPct, batPct, gridPct].filter(v => v > 0);
-  const bg = []; if (solarPct > 0) bg.push('#e8a838'); if (batPct > 0) bg.push('#4a9e6e'); if (gridPct > 0) bg.push('#5b8cb8');
-  if (data.length === 0) { data.push(1); bg.push('#e6dfd8'); }
-
-  donutInstance = new Chart(ctx, {
-    type: 'doughnut',
-    data: { datasets: [{ data, backgroundColor: bg, borderWidth: 0, borderRadius: 4 }] },
-    options: {
-      cutout: '70%',
-      responsive: true, maintainAspectRatio: true,
-      plugins: { legend: { display: false }, tooltip: { enabled: false } }
-    }
-  });
-}
-
-// ── Consumption Chart (Usage tab) ──
+// ── Calendar data shared state ──
 const HISTORY_URL = 'data/energy-history.json';
-let allHistory = [], chartOffset = 0, chartInstance = null;
-const DAYS_PER_PAGE = 7;
-
-function fmtDate(d) { const p = d.split('-'); return p[2] + '/' + p[1]; }
-
-async function loadHistory() {
-  try { const r = await fetch(HISTORY_URL + '?v=' + Date.now(), {cache: 'no-store'}); if (r.ok) allHistory = await r.json(); else allHistory = []; }
-  catch(e) { allHistory = []; }
-  renderChart();
-}
-
-function renderChart() {
-  const totalDays = allHistory.length;
-  if (totalDays === 0) {
-    document.getElementById('chartRange').textContent = 'No data yet';
-    document.getElementById('chartPrev').disabled = true;
-    document.getElementById('chartNext').disabled = true;
-    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
-    return;
-  }
-  if (chartOffset < 0) chartOffset = 0;
-  if (chartOffset + DAYS_PER_PAGE > totalDays) chartOffset = Math.max(0, totalDays - DAYS_PER_PAGE);
-
-  const page = allHistory.slice(chartOffset, chartOffset + DAYS_PER_PAGE).reverse();
-  const labels = page.map(d => fmtDate(d.date));
-  const renewData = page.map(d => (d.solar_kwh || 0) + (d.battery_discharge_kwh || 0));
-  const gridData = page.map(d => d.grid_import_kwh || 0);
-
-  document.getElementById('chartRange').textContent = labels[0] + ' – ' + labels[labels.length - 1];
-  document.getElementById('chartPrev').disabled = chartOffset === 0;
-  document.getElementById('chartNext').disabled = chartOffset + DAYS_PER_PAGE >= totalDays;
-
-  const ctx = document.getElementById('consumptionChart').getContext('2d');
-  if (chartInstance) chartInstance.destroy();
-  chartInstance = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { label: 'Solar + Battery', data: renewData, backgroundColor: '#4a9e6e', borderRadius: 4, borderSkipped: false },
-        { label: 'Grid Import', data: gridData, backgroundColor: '#5b8cb8', borderRadius: 4, borderSkipped: false }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: true,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' kWh' } } },
-      scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, color: '#8e8b82' } },
-        y: { stacked: true, grid: { color: '#e6dfd8' }, ticks: { font: { size: 9 }, color: '#8e8b82', callback: v => v + ' kWh' }, title: { display: true, text: 'kWh', font: { size: 9 }, color: '#8e8b82' } }
-      }
-    }
-  });
-}
-
-document.getElementById('chartPrev').addEventListener('click', () => { chartOffset = Math.max(0, chartOffset - DAYS_PER_PAGE); renderChart(); });
-document.getElementById('chartNext').addEventListener('click', () => { chartOffset += DAYS_PER_PAGE; renderChart(); });
-loadHistory();
-
-// ── Usage History Chart ──
-const USAGE_URL = 'data/energy-usage.json';
-let usage24hInstance = null, usageData = null, usageRange = '1h';
-
-function periodColor(p) {
-  if (p === 'peak') return '#c0392b';
-  if (p === 'solarSponge') return '#c2680c';
-  if (p === 'live') return '#4a9e6e';
-  return '#5b8cb8';
-}
-
-async function renderUsage24h() {
-  try {
-    const r = await fetch(USAGE_URL + '?v=' + Date.now(), {cache: 'no-store'});
-    if (!r.ok) return;
-    usageData = await r.json();
-  } catch(e) { return; }
-  drawUsageChart();
-}
-
-function chartFontSize() {
-  const w = window.innerWidth;
-  if (w >= 768) return 12;
-  if (w >= 480) return 10;
-  return 9;
-}
-
-function drawUsageChart() {
-  if (!usageData) return;
-  let intervals, barPct = 0.95, catPct = 0.95;
-
-  if (usageRange === '1h') {
-    const raw = usageData.raw_5min || [];
-    intervals = raw.slice(-12);
-    barPct = 0.85; catPct = 0.85;
-  } else if (usageRange === '12h') {
-    const all = usageData.intervals || [];
-    intervals = all.slice(-48);
-  } else {
-    const all = usageData.intervals || [];
-    intervals = all.slice(-96);
-  }
-
-  if (intervals.length === 0) return;
-
-  const labels = intervals.map(i => i.time);
-  const kwhData = intervals.map(i => i.kwh);
-  const colors = intervals.map(i => periodColor(i.period));
-
-  const ctx = document.getElementById('usage24hChart').getContext('2d');
-  if (usage24hInstance) usage24hInstance.destroy();
-
-  const fs = chartFontSize();
-
-  usage24hInstance = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        data: kwhData, backgroundColor: colors, borderRadius: 2,
-        borderSkipped: false, barPercentage: barPct, categoryPercentage: catPct
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw.toFixed(3) + ' kWh' } } },
-      scales: {
-        x: {
-          grid: { display: false },
-          ticks: {
-            font: { size: fs }, color: '#8e8b82',
-            maxTicksLimit: usageRange === '1h' ? 6 : 12,
-            callback: function(val, idx) {
-              const l = this.getLabelForValue(val);
-              if (usageRange === '1h') return l;
-              return l.endsWith(':00') ? l : '';
-            }
-          }
-        },
-        y: {
-          grid: { color: '#e6dfd8' },
-          ticks: { font: { size: fs }, color: '#8e8b82', callback: v => v.toFixed(2) + ' kWh' }
-        }
-      }
-    }
-  });
-}
-
-// Range selector buttons
-document.querySelectorAll('.usage-range-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.usage-range-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    usageRange = btn.dataset.range;
-    drawUsageChart();
-  });
-});
+let allHistory = [];
 
 // ═══════════════ CALENDAR LOGIC ═══════════════
 
@@ -1334,42 +1023,48 @@ function selectCalDay(dateKey) {
   setText('calDetImport', fmtKwh(entry.grid_import_kwh));
   setText('calDetExport', fmtKwh(entry.grid_export_kwh));
 
-  // If we have hourly usage data, show it; otherwise show placeholder
-  if (usageData && usageData.intervals) {
-    // Filter intervals for the selected date (approximate — Amber data is UTC-based)
-    // Show all available Amber data as an approximation — refine later
-    renderCalHourly(usageData.intervals);
-  } else {
-    document.getElementById('calHourlyUsage').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly data not yet available — tap Usage tab for live charts</div>';
-    document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Solar hourly breakdown coming soon</div>';
-  }
+  // Render consumption donut
+  renderCalDonut(entry);
+
+  // Hourly usage — show simple bars if Amber data available, else placeholder
+  document.getElementById('calHourlyUsage').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly detail requires Amber daily pull — on roadmap</div>';
+  document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly solar for selected day — on roadmap</div>';
 
   document.getElementById('calDetail').classList.add('open');
 }
 
-function renderCalHourly(intervals) {
-  // Aggregate by hour
-  const hourlyUsage = {};
-  const hourlySolar = {}; // placeholder — solar not in usage data
-  for (const iv of intervals) {
-    const h = iv.hour;
-    if (!hourlyUsage[h]) hourlyUsage[h] = 0;
-    hourlyUsage[h] += iv.kwh || 0;
-  }
+let calDonutInstance = null;
+function renderCalDonut(entry) {
+  const load = entry.load_kwh || 0;
+  const solarKwh = entry.solar_kwh || 0;
+  const batDisKwh = entry.battery_discharge_kwh || 0;
+  const gridImpKwh = entry.grid_import_kwh || 0;
 
-  const hours = Object.keys(hourlyUsage).map(Number).sort((a,b) => a - b);
-  const maxUsage = Math.max(...Object.values(hourlyUsage), 0.01);
+  const solarPct = load > 0 ? Math.min(solarKwh / load * 100, 100) : 0;
+  const batPct = load > 0 ? Math.min(batDisKwh / load * 100, 100 - solarPct) : 0;
+  const gridPct = Math.max(0, 100 - solarPct - batPct);
 
-  let usageHtml = '';
-  for (let h = 0; h < 24; h++) {
-    const v = hourlyUsage[h] || 0;
-    const pct = maxUsage > 0 ? (v / maxUsage) * 100 : 0;
-    const timeLabel = String(h).padStart(2,'0') + ':00';
-    usageHtml += '<div class="cal-hour-row"><span class="ch-time">' + timeLabel + '</span><span class="ch-track"><span class="ch-fill" style="width:' + pct + '%;background:#cc785c;"></span></span><span class="ch-val">' + v.toFixed(2) + '</span></div>';
-  }
+  setText('calDonutTotal', load.toFixed(1));
+  document.getElementById('calDonutLegend').innerHTML =
+    '<div class="dl-item"><span class="dl-dot dl-solar"></span> Solar ' + solarPct.toFixed(0) + '% (' + solarKwh.toFixed(1) + ' kWh)</div>' +
+    '<div class="dl-item"><span class="dl-dot dl-battery"></span> Battery ' + batPct.toFixed(0) + '% (' + batDisKwh.toFixed(1) + ' kWh)</div>' +
+    '<div class="dl-item"><span class="dl-dot dl-grid"></span> Grid ' + gridPct.toFixed(0) + '% (' + gridImpKwh.toFixed(1) + ' kWh)</div>';
 
-  document.getElementById('calHourlyUsage').innerHTML = usageHtml;
-  document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly solar generation for selected day — requires daily Amber usage pull (on roadmap)</div>';
+  const ctx = document.getElementById('calDonutChart').getContext('2d');
+  if (calDonutInstance) calDonutInstance.destroy();
+  const data = [solarPct, batPct, gridPct].filter(v => v > 0);
+  const bg = []; if (solarPct > 0) bg.push('#e8a838'); if (batPct > 0) bg.push('#4a9e6e'); if (gridPct > 0) bg.push('#5b8cb8');
+  if (data.length === 0) { data.push(1); bg.push('#e6dfd8'); }
+
+  calDonutInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: { datasets: [{ data, backgroundColor: bg, borderWidth: 0, borderRadius: 4 }] },
+    options: {
+      cutout: '70%',
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } }
+    }
+  });
 }
 
 // Close detail
