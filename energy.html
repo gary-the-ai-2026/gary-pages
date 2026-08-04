@@ -50,7 +50,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; -webkit-font-smoothing: antialiased; }
   body { background: var(--canvas); color: var(--ink); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
-  .app { max-width: 520px; margin: 0 auto; padding: var(--space-lg) var(--space-md) 40px; }
+  .app { max-width: 520px; margin: 0 auto; padding: var(--space-lg) var(--space-lg) 40px; }
 
   /* ── Header ── */
   .header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: var(--space-sm); }
@@ -231,7 +231,7 @@
   .cal-day.cal-empty:hover { border-color: transparent; }
 
   /* Day detail panel */
-  .cal-detail { margin-top: var(--space-md); display: none; }
+  .cal-detail { margin-top: var(--space-lg); margin-bottom: var(--space-lg); display: none; padding: var(--space-xl); }
   .cal-detail.open { display: block; animation: fadeIn 0.3s ease; }
   .cal-detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
   .cal-detail-header .cdh-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--ink); }
