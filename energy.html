@@ -66,7 +66,7 @@
   /* ── Nav toggle ── */
   .nav-bar { position: sticky; bottom: 0; z-index: 100; background: var(--canvas); border-top: 1px solid var(--hairline); padding: var(--space-sm) var(--space-md); display: flex; justify-content: center; margin: 0 calc(-1 * var(--space-md)); }
   .nav-group { display: inline-flex; border-radius: var(--radius-md); border: 1px solid var(--hairline); background: var(--canvas); padding: 3px; }
-  .nav-group button { background: none; border: none; padding: 10px 24px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+  .nav-group button { background: none; border: none; padding: 10px 16px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
   .nav-group button:hover { color: var(--ink); }
   .nav-group button.active { background: var(--surface-card); color: var(--ink); }
 
@@ -154,7 +154,6 @@
   .bar-track { flex: 1; height: 16px; background: var(--surface-card); border-radius: 3px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; display: flex; align-items: center; padding-left: 4px; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.85); }
   .bar-price { width: 42px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--body); text-align: left; flex-shrink: 0; }
-  .insight-box { background: var(--surface-card); border-radius: var(--radius-md); padding: var(--space-sm) var(--space-md); font-size: 12px; color: var(--body); margin-top: var(--space-md); text-align: center; }
 
   /* ── Usage ── */
   .daily-tiles { display: flex; justify-content: space-between; gap: 6px; margin-bottom: var(--space-sm); }
@@ -235,6 +234,66 @@
   }
   .usage-range-btn.active { background: var(--surface-card); color: var(--ink); border-color: var(--hairline); }
 
+  /* ═══════════════ CALENDAR ═══════════════ */
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
+  .cal-header .cal-month { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
+  .cal-nav { display: flex; align-items: center; gap: 4px; }
+  .cal-nav button { background: none; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 4px 12px; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--body); cursor: pointer; transition: all 0.15s ease; }
+  .cal-nav button:hover { border-color: var(--coral); color: var(--coral); }
+  .cal-nav button:disabled { opacity: 0.3; cursor: default; }
+
+  /* Month summary row */
+  .cal-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: var(--space-sm); }
+  .cal-sum-card { text-align: center; padding: var(--space-sm) 4px; background: var(--surface-card); border-radius: var(--radius-md); border: 1px solid var(--hairline); }
+  .cal-sum-card .cs-icon { font-size: 13px; margin-bottom: 2px; }
+  .cal-sum-card .cs-val { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+  .cal-sum-card .cs-lbl { font-size: 8px; color: var(--muted-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
+  .cal-sum-card.cal-solar { border-top: 2px solid var(--solar); }
+  .cal-sum-card.cal-usage { border-top: 2px solid var(--home); }
+  .cal-sum-card.cal-gridin { border-top: 2px solid var(--grid); }
+  .cal-sum-card.cal-gridout { border-top: 2px solid var(--battery); }
+
+  /* Calendar grid */
+  .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 4px; }
+  .cal-weekdays span { text-align: center; font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; padding: 4px 0; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .cal-day { aspect-ratio: 1; padding: 4px; background: var(--surface-card); border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+  .cal-day:hover { border-color: var(--hairline); }
+  .cal-day .cal-day-num { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .cal-day .cal-day-metrics { display: flex; flex-direction: column; align-items: center; gap: 1px; margin-top: 2px; }
+  .cal-day .cal-day-row { display: flex; align-items: center; gap: 2px; font-size: 9px; font-family: var(--font-mono); font-weight: 500; }
+  .cal-day .cal-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+  .cal-day .cal-dot.solar-dot { background: var(--solar); }
+  .cal-day .cal-dot.usage-dot { background: var(--home); }
+  .cal-day .cal-dot.import-dot { background: var(--grid); }
+  .cal-day.cal-today { border-color: var(--coral); background: rgba(204,120,92,0.06); }
+  .cal-day.cal-selected { border-color: var(--grid); box-shadow: 0 0 0 1px var(--grid); }
+  .cal-day.cal-empty { background: transparent; cursor: default; border: none; }
+  .cal-day.cal-empty:hover { border-color: transparent; }
+
+  /* Day detail panel */
+  .cal-detail { margin-top: var(--space-md); display: none; }
+  .cal-detail.open { display: block; animation: fadeIn 0.3s ease; }
+  .cal-detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
+  .cal-detail-header .cdh-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--ink); }
+  .cal-detail-header .cdh-close { background: none; border: none; font-size: 18px; color: var(--muted); cursor: pointer; padding: 4px 8px; }
+  .cal-detail-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: var(--space-sm); }
+  .cal-detail-stat { padding: var(--space-sm); background: var(--surface-card); border-radius: var(--radius-sm); text-align: center; }
+  .cal-detail-stat .cds-val { font-family: var(--font-mono); font-size: 16px; font-weight: 500; color: var(--ink); }
+  .cal-detail-stat .cds-lbl { font-size: 9px; color: var(--muted-soft); text-transform: uppercase; margin-top: 2px; }
+  .cal-detail-stat .cds-val.solar-v { color: var(--solar); }
+  .cal-detail-stat .cds-val.usage-v { color: var(--home); }
+  .cal-detail-stat .cds-val.grid-v { color: var(--grid); }
+  .cal-detail-stat .cds-val.battery-v { color: var(--battery); }
+  .cal-detail-charts { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); }
+  .cal-detail-chart-card { background: var(--surface-card); border-radius: var(--radius-md); padding: var(--space-sm); }
+  .cal-detail-chart-card .cdc-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
+  .cal-hour-row { display: flex; align-items: center; gap: 6px; padding: 1px 0; }
+  .cal-hour-row .ch-time { width: 34px; font-family: var(--font-mono); font-size: 9px; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .cal-hour-row .ch-track { flex: 1; height: 12px; background: var(--surface-strong); border-radius: 2px; overflow: hidden; }
+  .cal-hour-row .ch-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+  .cal-hour-row .ch-val { width: 28px; font-family: var(--font-mono); font-size: 9px; color: var(--muted-soft); text-align: right; flex-shrink: 0; }
+
   @media (max-width: 480px) {
     .balance-side .bl-value { font-size: 2.2rem; }
     .balance-row { gap: var(--space-md); }
@@ -244,6 +303,12 @@
     .flow-node-lbl { font-size: 16px; }
     .flow-node-sub { font-size: 13px; }
     .flow-label { font-size: 16px; stroke-width: 3px; }
+    .nav-group button { padding: 10px 12px; font-size: 12px; }
+    .cal-day { padding: 3px; }
+    .cal-day .cal-day-num { font-size: 11px; }
+    .cal-day .cal-day-row { font-size: 8px; }
+    .cal-summary { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .cal-sum-card .cs-val { font-size: 12px; }
   }
 </style>
 </head>
@@ -556,6 +621,92 @@
     <div class="yesterday-row" id="yesterdayRow">--</div>
   </div>
 
+  <!-- ═══════════════ CALENDAR VIEW ═══════════════ -->
+  <div class="view" id="view-calendar">
+    <!-- Month Navigation -->
+    <div class="cal-header">
+      <div class="cal-month" id="calMonthLabel">August 2026</div>
+      <div class="cal-nav">
+        <button id="calPrev" title="Previous month">←</button>
+        <button id="calToday" title="This month" style="font-family:var(--font-mono);font-size:10px">Today</button>
+        <button id="calNext" title="Next month">→</button>
+      </div>
+    </div>
+
+    <!-- Monthly Summary -->
+    <div class="cal-summary" id="calSummary">
+      <div class="cal-sum-card cal-solar">
+        <div class="cs-icon" style="color:var(--solar)">☀</div>
+        <div class="cs-val" id="calSumSolar">--</div>
+        <div class="cs-lbl">Generated</div>
+      </div>
+      <div class="cal-sum-card cal-usage">
+        <div class="cs-icon" style="color:var(--home)">⌂</div>
+        <div class="cs-val" id="calSumUsage">--</div>
+        <div class="cs-lbl">Used</div>
+      </div>
+      <div class="cal-sum-card cal-gridin">
+        <div class="cs-icon" style="color:var(--grid)">↓</div>
+        <div class="cs-val" id="calSumImport">--</div>
+        <div class="cs-lbl">Imported</div>
+      </div>
+      <div class="cal-sum-card cal-gridout">
+        <div class="cs-icon" style="color:var(--battery)">↑</div>
+        <div class="cs-val" id="calSumExport">--</div>
+        <div class="cs-lbl">Exported</div>
+      </div>
+    </div>
+
+    <!-- Day-of-week headings -->
+    <div class="cal-weekdays">
+      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="cal-grid" id="calGrid"></div>
+
+    <!-- Day Detail Panel -->
+    <div class="cal-detail card-cream" id="calDetail">
+      <div class="cal-detail-header">
+        <div class="cdh-title" id="calDetailTitle">--</div>
+        <button class="cdh-close" id="calDetailClose">✕</button>
+      </div>
+      <div class="cal-detail-stats">
+        <div class="cal-detail-stat">
+          <div class="cds-val solar-v" id="calDetSolar">--</div>
+          <div class="cds-lbl">Solar Gen</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val usage-v" id="calDetUsage">--</div>
+          <div class="cds-lbl">House Used</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val grid-v" id="calDetImport">--</div>
+          <div class="cds-lbl">Grid Import</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val battery-v" id="calDetExport">--</div>
+          <div class="cds-lbl">Grid Export</div>
+        </div>
+      </div>
+      <div class="cal-detail-charts">
+        <div class="cal-detail-chart-card">
+          <div class="cdc-label">Hourly Usage (kWh)</div>
+          <div id="calHourlyUsage"></div>
+        </div>
+        <div class="cal-detail-chart-card">
+          <div class="cdc-label">Hourly Solar (kWh)</div>
+          <div id="calHourlySolar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No-data placeholder (shown when calendar has no data yet) -->
+    <div class="insight-box" id="calNoData" style="display:none;margin-top:var(--space-md)">
+      No data available for this month. Once daily snapshots start accumulating, they will appear here.
+    </div>
+  </div>
+
   <!-- Refresh -->
   <div class="refresh-bar"><span class="refresh-dot" id="refreshDot"></span><span id="refreshText">Loading...</span></div>
 
@@ -565,6 +716,7 @@
     <button data-view="home" class="active">Live</button>
     <button data-view="next4h">Next 4h</button>
     <button data-view="usage">Usage</button>
+    <button data-view="calendar">Calendar</button>
   </div>
   </div>
 </div>
@@ -584,6 +736,7 @@ document.querySelectorAll('#navGroup button').forEach(btn => {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + btn.dataset.view).classList.add('active');
     if (btn.dataset.view === 'usage') { renderDonut(); renderUsage24h(); }
+    if (btn.dataset.view === 'calendar') { loadCalendar(); }
   });
 });
 
@@ -642,12 +795,11 @@ function updateUI(data) {
 
   // Flow logic
   const remainingSolar = genW - solarToHome;
-  const batCharging = bW < -50;      // negative = charging
-  const batDischarging = bW > 50;    // positive = discharging
-  const gridImporting = gW < -50;    // negative = importing
-  const gridExporting = gW > 50;     // positive = exporting
+  const batCharging = bW < -50;
+  const batDischarging = bW > 50;
+  const gridImporting = gW < -50;
+  const gridExporting = gW > 50;
 
-  // Line weight: scale 1.5px–5px based on power up to 10kW
   function flowW(watts) {
     const w = Math.min(Math.max(watts, 0), 10000);
     return (1.5 + (w / 10000) * 3.5).toFixed(1);
@@ -687,7 +839,7 @@ function updateUI(data) {
   const fGH = document.getElementById('flowGridHome');
   const lGH = document.getElementById('flowLabelGH');
 
-  // Grid → Battery  (importing grid power into battery)
+  // Grid → Battery
   const fGB = document.getElementById('flowGridBat');
   const lGB = document.getElementById('flowLabelGB');
   const gridToBat = gridImporting && batCharging ? Math.min(Math.abs(gW), Math.abs(bW)) : 0;
@@ -698,7 +850,6 @@ function updateUI(data) {
   fGB.setAttribute('stroke-width', gbActive ? flowW(gridToBat) : '1.5');
   if (gbActive) lGB.textContent = (gridToBat/1000).toFixed(1) + ' kW';
 
-  // When grid feeds battery, Grid → Home shows only the excess
   const gridToHomeFlow = gridImporting ? Math.abs(gW) - gridToBat : 0;
   const ghActive = gridToHomeFlow > 80;
   fGH.classList.toggle('active', ghActive);
@@ -707,7 +858,7 @@ function updateUI(data) {
   fGH.setAttribute('stroke-width', ghActive ? flowW(gridToHomeFlow) : '1.5');
   if (ghActive) lGH.textContent = (gridToHomeFlow/1000).toFixed(1) + ' kW';
 
-  // Solar → Grid (exporting)
+  // Solar → Grid
   const fSG = document.getElementById('flowSolarGrid');
   const lSG = document.getElementById('flowLabelSG');
   const sgActive = gridExporting && genW > 50;
@@ -717,18 +868,14 @@ function updateUI(data) {
   fSG.setAttribute('stroke-width', sgActive ? flowW(Math.abs(gW)) : '1.5');
   if (sgActive) lSG.textContent = (Math.abs(gW)/1000).toFixed(1) + ' kW';
 
-  // Node glow intensity — only active nodes glow
+  // Node glows
   document.querySelector('#nodeSolarBg_group .flow-node-glow').style.opacity = genW > 100 ? '0.5' : '0';
   document.querySelector('#nodeBatBg_group .flow-node-glow').style.opacity = (batCharging || batDischarging) ? '0.5' : '0';
   document.querySelector('#nodeGridBg_group .flow-node-glow').style.opacity = (gridImporting || gridExporting) ? '0.5' : '0';
   document.querySelector('#nodeHomeBg_group .flow-node-glow').style.opacity = conW > 50 ? '0.5' : '0';
 
-  // Status sub-labels
-  const solarSub = document.getElementById('flowSolarSub');
-  solarSub.textContent = genW > 100 ? 'Generating' : 'Idle';
-
-  const homeSub = document.getElementById('flowHomeSub');
-  homeSub.textContent = conW > 50 ? 'Consuming' : 'Idle';
+  document.getElementById('flowSolarSub').textContent = genW > 100 ? 'Generating' : 'Idle';
+  document.getElementById('flowHomeSub').textContent = conW > 50 ? 'Consuming' : 'Idle';
 
   const gridSub = document.getElementById('flowGridSub');
   if (gridImporting) gridSub.textContent = 'Importing';
@@ -787,7 +934,6 @@ function updateUI(data) {
       return '<div class="bar-row"><span class="bar-time">' + f.time + '</span><span class="bar-track"><span class="bar-fill" style="width:' + Math.max((f.price/mx)*100, 4) + '%;background:' + c + '"> </span></span><span class="bar-price">' + f.price.toFixed(1) + 'c</span></div>';
     }).join('');
 
-    // Insight
     const pk = a.next_peak_c, pkTime = a.next_peak_time;
     let insight = '';
     if (pk != null && pk > 20) insight = 'Prices spike to <strong>' + pk.toFixed(1) + 'c</strong> at ' + pkTime + '. Charge battery before peak.';
@@ -934,7 +1080,7 @@ let usage24hInstance = null, usageData = null, usageRange = '1h';
 function periodColor(p) {
   if (p === 'peak') return '#c0392b';
   if (p === 'solarSponge') return '#c2680c';
-  if (p === 'live') return '#4a9e6e';    // green for live GoodWe data
+  if (p === 'live') return '#4a9e6e';
   return '#5b8cb8';
 }
 
@@ -949,9 +1095,9 @@ async function renderUsage24h() {
 
 function chartFontSize() {
   const w = window.innerWidth;
-  if (w >= 768) return 12;    // desktop
-  if (w >= 480) return 10;    // tablet
-  return 9;                    // phone
+  if (w >= 768) return 12;
+  if (w >= 480) return 10;
+  return 9;
 }
 
 function drawUsageChart() {
@@ -959,17 +1105,13 @@ function drawUsageChart() {
   let intervals, barPct = 0.95, catPct = 0.95;
 
   if (usageRange === '1h') {
-    // 5-min raw data, last 12 intervals (1 hour)
-    // Prefer recent data: find the latest 12 entries that span ~1h
     const raw = usageData.raw_5min || [];
     intervals = raw.slice(-12);
     barPct = 0.85; catPct = 0.85;
   } else if (usageRange === '12h') {
-    // 15-min blocks, last 48 blocks (12 hours)
     const all = usageData.intervals || [];
     intervals = all.slice(-48);
   } else {
-    // 24h — last 96 blocks (15-min × 96 = 24 hours)
     const all = usageData.intervals || [];
     intervals = all.slice(-96);
   }
@@ -1005,7 +1147,7 @@ function drawUsageChart() {
             maxTicksLimit: usageRange === '1h' ? 6 : 12,
             callback: function(val, idx) {
               const l = this.getLabelForValue(val);
-              if (usageRange === '1h') return l; // show all 5-min labels
+              if (usageRange === '1h') return l;
               return l.endsWith(':00') ? l : '';
             }
           }
@@ -1027,6 +1169,234 @@ document.querySelectorAll('.usage-range-btn').forEach(btn => {
     usageRange = btn.dataset.range;
     drawUsageChart();
   });
+});
+
+// ═══════════════ CALENDAR LOGIC ═══════════════
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calYear, calMonth, calDataMap = {}, calSelectedDate = null;
+
+// Get Adelaide "today" as YYYY-MM-DD
+function adelaideToday() {
+  const now = new Date(Date.now() + 9.5*60*60*1000);
+  const y = now.getUTCFullYear();
+  const m = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const d = String(now.getUTCDate()).padStart(2, '0');
+  return y + '-' + m + '-' + d;
+}
+
+// Mon=0 ... Sun=6
+function dayOfWeek(year, month, day) {
+  let d = new Date(Date.UTC(year, month - 1, day));
+  let jsDay = d.getUTCDay(); // 0=Sun
+  return jsDay === 0 ? 6 : jsDay - 1;
+}
+
+function daysInMonth(year, month) {
+  return new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+async function loadCalendar() {
+  // Fetch history data if not already loaded
+  if (allHistory.length === 0) {
+    try {
+      const r = await fetch(HISTORY_URL + '?v=' + Date.now(), {cache: 'no-store'});
+      if (r.ok) allHistory = await r.json();
+    } catch(e) { allHistory = []; }
+  }
+
+  // Build data map: merge by date, taking latest snapshot per day
+  calDataMap = {};
+  const today = adelaideToday();
+
+  // Also inject today's data from currentData if available
+  if (currentData) {
+    const t = currentData.today || {};
+    calDataMap[today] = {
+      date: today,
+      solar_kwh: t.solar_kwh || (currentData.goodwe ? currentData.goodwe.today_solar_kwh : 0) || 0,
+      load_kwh: t.load_kwh || (currentData.goodwe ? currentData.goodwe.today_load_kwh : 0) || 0,
+      grid_import_kwh: t.import_kwh || (currentData.goodwe ? currentData.goodwe.today_import_kwh : 0) || 0,
+      grid_export_kwh: t.grid_export_kwh || t.export_kwh || (currentData.goodwe ? currentData.goodwe.today_export_kwh : 0) || 0,
+      battery_charge_kwh: t.battery_charge_kwh || (currentData.goodwe ? currentData.goodwe.today_bat_charge_kwh : 0) || 0,
+      battery_discharge_kwh: t.battery_discharge_kwh || (currentData.goodwe ? currentData.goodwe.today_bat_discharge_kwh : 0) || 0
+    };
+  }
+
+  // Merge history entries — take the LAST entry per date for the most complete snapshot
+  for (const d of allHistory) {
+    if (!d.date) continue;
+    // Keep the latest snapshot for each date (later entries override)
+    calDataMap[d.date] = d;
+  }
+
+  // Default to current month
+  const now = new Date(Date.now() + 9.5*60*60*1000);
+  calYear = now.getUTCFullYear();
+  calMonth = now.getUTCMonth() + 1;
+
+  // If a day was previously selected, try to keep it
+  if (calSelectedDate) {
+    const parts = calSelectedDate.split('-');
+    calYear = parseInt(parts[0]);
+    calMonth = parseInt(parts[1]);
+  }
+
+  renderCalendar();
+}
+
+function renderCalendar() {
+  document.getElementById('calMonthLabel').textContent = MONTHS[calMonth - 1] + ' ' + calYear;
+
+  const today = adelaideToday();
+  const dim = daysInMonth(calYear, calMonth);
+  const firstDow = dayOfWeek(calYear, calMonth, 1);
+
+  // Month summary
+  let sumSolar = 0, sumUsage = 0, sumImport = 0, sumExport = 0;
+  for (let d = 1; d <= dim; d++) {
+    const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const entry = calDataMap[key];
+    if (entry) {
+      sumSolar += entry.solar_kwh || 0;
+      sumUsage += entry.load_kwh || 0;
+      sumImport += entry.grid_import_kwh || 0;
+      sumExport += entry.grid_export_kwh || 0;
+    }
+  }
+
+  setText('calSumSolar', sumSolar.toFixed(1) + ' kWh');
+  setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
+  setText('calSumImport', sumImport.toFixed(1) + ' kWh');
+  setText('calSumExport', sumExport.toFixed(1) + ' kWh');
+
+  // Build grid
+  const grid = document.getElementById('calGrid');
+  let html = '';
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDow; i++) {
+    html += '<div class="cal-day cal-empty"></div>';
+  }
+
+  // Day cells
+  for (let d = 1; d <= dim; d++) {
+    const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const entry = calDataMap[key];
+    const isToday = key === today;
+    const isSelected = key === calSelectedDate;
+
+    let cls = 'cal-day';
+    if (isToday) cls += ' cal-today';
+    if (isSelected) cls += ' cal-selected';
+
+    const solar = entry ? (entry.solar_kwh || 0).toFixed(1) : '--';
+    const usage = entry ? (entry.load_kwh || 0).toFixed(1) : '--';
+
+    html += '<div class="' + cls + '" data-date="' + key + '" onclick="selectCalDay(\'' + key + '\')">';
+    html += '<div class="cal-day-num">' + d + '</div>';
+    html += '<div class="cal-day-metrics">';
+    html += '<div class="cal-day-row"><span class="cal-dot solar-dot"></span>' + solar + '</div>';
+    html += '<div class="cal-day-row"><span class="cal-dot usage-dot"></span>' + usage + '</div>';
+    html += '</div>';
+    html += '</div>';
+  }
+
+  grid.innerHTML = html;
+
+  // Hide detail panel when switching months
+  document.getElementById('calDetail').classList.remove('open');
+  calSelectedDate = null;
+
+  // Show/hide no-data
+  const hasData = Object.keys(calDataMap).some(k => k.startsWith(calYear + '-' + String(calMonth).padStart(2,'0')));
+  document.getElementById('calNoData').style.display = hasData ? 'none' : 'block';
+}
+
+function selectCalDay(dateKey) {
+  calSelectedDate = dateKey;
+
+  // Update selection styling
+  document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('cal-selected'));
+  const sel = document.querySelector('.cal-day[data-date="' + dateKey + '"]');
+  if (sel) sel.classList.add('cal-selected');
+
+  // Show detail
+  const entry = calDataMap[dateKey];
+  if (!entry) return;
+
+  const parts = dateKey.split('-');
+  const label = parseInt(parts[2]) + ' ' + MONTHS[parseInt(parts[1]) - 1] + ' ' + parts[0];
+  document.getElementById('calDetailTitle').textContent = label;
+
+  setText('calDetSolar', fmtKwh(entry.solar_kwh));
+  setText('calDetUsage', fmtKwh(entry.load_kwh));
+  setText('calDetImport', fmtKwh(entry.grid_import_kwh));
+  setText('calDetExport', fmtKwh(entry.grid_export_kwh));
+
+  // If we have hourly usage data, show it; otherwise show placeholder
+  if (usageData && usageData.intervals) {
+    // Filter intervals for the selected date (approximate — Amber data is UTC-based)
+    // Show all available Amber data as an approximation — refine later
+    renderCalHourly(usageData.intervals);
+  } else {
+    document.getElementById('calHourlyUsage').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly data not yet available — tap Usage tab for live charts</div>';
+    document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Solar hourly breakdown coming soon</div>';
+  }
+
+  document.getElementById('calDetail').classList.add('open');
+}
+
+function renderCalHourly(intervals) {
+  // Aggregate by hour
+  const hourlyUsage = {};
+  const hourlySolar = {}; // placeholder — solar not in usage data
+  for (const iv of intervals) {
+    const h = iv.hour;
+    if (!hourlyUsage[h]) hourlyUsage[h] = 0;
+    hourlyUsage[h] += iv.kwh || 0;
+  }
+
+  const hours = Object.keys(hourlyUsage).map(Number).sort((a,b) => a - b);
+  const maxUsage = Math.max(...Object.values(hourlyUsage), 0.01);
+
+  let usageHtml = '';
+  for (let h = 0; h < 24; h++) {
+    const v = hourlyUsage[h] || 0;
+    const pct = maxUsage > 0 ? (v / maxUsage) * 100 : 0;
+    const timeLabel = String(h).padStart(2,'0') + ':00';
+    usageHtml += '<div class="cal-hour-row"><span class="ch-time">' + timeLabel + '</span><span class="ch-track"><span class="ch-fill" style="width:' + pct + '%;background:#cc785c;"></span></span><span class="ch-val">' + v.toFixed(2) + '</span></div>';
+  }
+
+  document.getElementById('calHourlyUsage').innerHTML = usageHtml;
+  document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly solar generation for selected day — requires daily Amber usage pull (on roadmap)</div>';
+}
+
+// Close detail
+document.getElementById('calDetailClose').addEventListener('click', () => {
+  document.getElementById('calDetail').classList.remove('open');
+  calSelectedDate = null;
+  document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('cal-selected'));
+});
+
+// Navigation
+document.getElementById('calPrev').addEventListener('click', () => {
+  calMonth--;
+  if (calMonth < 1) { calMonth = 12; calYear--; }
+  renderCalendar();
+});
+
+document.getElementById('calNext').addEventListener('click', () => {
+  calMonth++;
+  if (calMonth > 12) { calMonth = 1; calYear++; }
+  renderCalendar();
+});
+
+document.getElementById('calToday').addEventListener('click', () => {
+  const now = new Date(Date.now() + 9.5*60*60*1000);
+  calYear = now.getUTCFullYear();
+  calMonth = now.getUTCMonth() + 1;
+  renderCalendar();
 });
 </script>
 </body>
