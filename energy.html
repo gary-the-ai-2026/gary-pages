@@ -50,7 +50,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; -webkit-font-smoothing: antialiased; }
   body { background: var(--canvas); color: var(--ink); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
-  .app { max-width: 520px; margin: 0 auto; padding: var(--space-lg) var(--space-lg) 40px; }
+  .app { max-width: 520px; margin: 0 auto; padding: var(--space-lg) var(--space-xl) 40px; }
 
   /* ── Header ── */
   .header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: var(--space-lg); flex-wrap: wrap; gap: var(--space-sm); }
@@ -64,7 +64,7 @@
   .header-meta .ts { font-size: 11px; color: var(--muted-soft); font-family: var(--font-mono); margin-top: 2px; }
 
   /* ── Nav toggle ── */
-  .nav-bar { position: sticky; bottom: 0; z-index: 100; background: var(--canvas); border-top: 1px solid var(--hairline); padding: var(--space-sm) var(--space-md); display: flex; justify-content: center; margin: 0 calc(-1 * var(--space-md)); }
+  .nav-bar { position: sticky; bottom: 0; z-index: 100; background: var(--canvas); border-top: 1px solid var(--hairline); padding: var(--space-sm) var(--space-xl); display: flex; justify-content: center; margin: 0 calc(-1 * var(--space-xl)); }
   .nav-group { display: inline-flex; border-radius: var(--radius-md); border: 1px solid var(--hairline); background: var(--canvas); padding: 3px; }
   .nav-group button { background: none; border: none; padding: 10px 16px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
   .nav-group button:hover { color: var(--ink); }
