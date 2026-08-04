@@ -229,6 +229,7 @@
   .cal-day.cal-selected { border-color: var(--grid); box-shadow: 0 0 0 1px var(--grid); }
   .cal-day.cal-empty { background: transparent; cursor: default; border: none; }
   .cal-day.cal-empty:hover { border-color: transparent; }
+  .cal-day.cal-milestone { border-left: 3px solid var(--success); }
 
   /* Day detail panel */
   .cal-detail { margin-top: var(--space-lg); margin-bottom: var(--space-lg); display: none; padding: var(--space-xl); }
@@ -539,6 +540,12 @@
         <div class="cs-val" id="calSumCost">--</div>
         <div class="cs-lbl">Cost</div>
       </div>
+    </div>
+
+    <!-- CT fix milestone note -->
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:var(--space-sm);font-size:10px;color:var(--muted)">
+      <span style="width:10px;height:10px;border-radius:2px;background:var(--success);flex-shrink:0;"></span>
+      Accurate GoodWe readings from Aug 5 (post-CT fix)
     </div>
 
     <!-- Day-of-week headings -->
@@ -1025,6 +1032,8 @@ function renderCalendar() {
     let cls = 'cal-day';
     if (isToday) cls += ' cal-today';
     if (isSelected) cls += ' cal-selected';
+    // Mark Aug 5 2026 as first day of accurate GoodWe readings (post-CT fix)
+    if (key === '2026-08-05') cls += ' cal-milestone';
 
     const solar = entry ? (entry.solar_kwh || 0).toFixed(1) : '--';
     const usage = entry ? (entry.load_kwh || 0).toFixed(1) : '--';
