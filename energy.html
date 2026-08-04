@@ -208,7 +208,7 @@
   .cal-sum-card .cs-lbl { font-size: 8px; color: var(--muted-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
   .cal-sum-card.cal-solar { border-top: 2px solid var(--solar); }
   .cal-sum-card.cal-usage { border-top: 2px solid var(--home); }
-  .cal-sum-card.cal-gridin { border-top: 2px solid var(--grid); }
+  .cal-sum-card.cal-gridin { border-top: 2px solid var(--success); }
   .cal-sum-card.cal-gridout { border-top: 2px solid var(--coral); }
 
   /* Calendar grid */
@@ -530,9 +530,9 @@
         <div class="cs-lbl">Used</div>
       </div>
       <div class="cal-sum-card cal-gridin">
-        <div class="cs-icon" style="color:var(--grid)">↓</div>
+        <div class="cs-icon" style="color:var(--success)">♻</div>
         <div class="cs-val" id="calSumImport">--</div>
-        <div class="cs-lbl">Imported</div>
+        <div class="cs-lbl">Saved</div>
       </div>
       <div class="cal-sum-card cal-gridout">
         <div class="cs-icon" style="color:var(--coral)">$</div>
@@ -561,8 +561,8 @@
           <div class="cds-lbl">Solar Gen</div>
         </div>
         <div class="cal-detail-stat">
-          <div class="cds-val usage-v" id="calDetUsage">--</div>
-          <div class="cds-lbl">House Used</div>
+          <div class="cds-val usage-v" id="calDetSaved" style="color:var(--success)">--</div>
+          <div class="cds-lbl">Saved</div>
         </div>
         <div class="cal-detail-stat">
           <div class="cds-val grid-v" id="calDetImport">--</div>
@@ -950,6 +950,21 @@ async function loadCalendar() {
     }
   } catch(e) { /* Amber data optional — calendar still works without it */ }
 
+  // Compute daily savings: what they'd pay without solar/battery vs actual
+  for (const key of Object.keys(calDataMap)) {
+    const e = calDataMap[key];
+    const load = e.load_kwh || 0;
+    const cost = e.cost_dollars;
+    const gridImp = e.grid_import_kwh || e.amber_import_kwh || 0;
+    if (load > 0 && cost != null && gridImp > 0) {
+      const effRate = cost / gridImp; // $/kWh effective grid rate
+      e.hypothetical_cost = load * effRate;
+      e.savings_dollars = Math.max(0, e.hypothetical_cost - cost);
+    } else {
+      e.savings_dollars = 0;
+    }
+  }
+
   // Default to current month
   const now = new Date(Date.now() + 9.5*60*60*1000);
   calYear = now.getUTCFullYear();
@@ -973,22 +988,22 @@ function renderCalendar() {
   const firstDow = dayOfWeek(calYear, calMonth, 1);
 
   // Month summary
-  let sumSolar = 0, sumUsage = 0, sumImport = 0, sumCost = 0;
+  let sumSolar = 0, sumUsage = 0, sumCost = 0, sumSaved = 0;
   for (let d = 1; d <= dim; d++) {
     const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
     const entry = calDataMap[key];
     if (entry) {
       sumSolar += entry.solar_kwh || 0;
       sumUsage += entry.load_kwh || 0;
-      sumImport += entry.grid_import_kwh || 0;
       sumCost += entry.cost_dollars || 0;
+      sumSaved += entry.savings_dollars || 0;
     }
   }
 
-  setText('calSumCost', '$' + sumCost.toFixed(2));
   setText('calSumSolar', sumSolar.toFixed(1) + ' kWh');
   setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
-  setText('calSumImport', sumImport.toFixed(1) + ' kWh');
+  setText('calSumCost', '$' + sumCost.toFixed(2));
+  setText('calSumImport', '$' + sumSaved.toFixed(2));
 
   // Build grid
   const grid = document.getElementById('calGrid');
@@ -1052,7 +1067,8 @@ function selectCalDay(dateKey) {
   document.getElementById('calDetailTitle').textContent = label;
 
   setText('calDetSolar', fmtKwh(entry.solar_kwh));
-  setText('calDetUsage', fmtKwh(entry.load_kwh));
+  const savedStr = entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--';
+  setText('calDetSaved', savedStr);
   setText('calDetImport', fmtKwh(entry.grid_import_kwh));
   const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
   setText('calDetExport', costStr);
