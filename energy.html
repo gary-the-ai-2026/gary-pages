@@ -221,6 +221,9 @@
   .cal-day .cal-day-cost { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--coral); margin-top: 1px; }
   .cal-day .cal-day-metrics { display: flex; flex-direction: column; align-items: center; gap: 1px; margin-top: 2px; }
   .cal-day .cal-day-row { display: flex; align-items: center; gap: 2px; font-size: 9px; font-family: var(--font-mono); font-weight: 500; }
+  .cal-day .cal-weather { display: flex; align-items: center; gap: 2px; margin-top: 3px; font-size: 10px; }
+  .cal-day .cal-weather .cw-icon { font-size: 12px; line-height: 1; }
+  .cal-day .cal-weather .cw-temp { font-family: var(--font-mono); font-size: 9px; font-weight: 600; color: var(--body); }
   .cal-day .cal-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
   .cal-day .cal-dot.solar-dot { background: var(--solar); }
   .cal-day .cal-dot.usage-dot { background: var(--home); }
@@ -562,6 +565,7 @@
         <div class="cdh-title" id="calDetailTitle">--</div>
         <button class="cdh-close" id="calDetailClose">✕</button>
       </div>
+      <div class="cal-detail-weather" id="calDetailWeather" style="display:none;text-align:center;font-size:12px;color:var(--body);margin:-4px 0 var(--space-sm) 0;font-family:var(--font-body)"></div>
       <div class="cal-detail-stats">
         <div class="cal-detail-stat">
           <div class="cds-val solar-v" id="calDetSolar">--</div>
@@ -867,6 +871,7 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 // ── Calendar data shared state ──
 const HISTORY_URL = 'data/energy-history.json';
 const AMBER_DAILY_URL = 'data/amber-daily.json';
+const WEATHER_DAILY_URL = 'data/weather-daily.json';
 let allHistory = [];
 
 // ═══════════════ CALENDAR LOGIC ═══════════════
@@ -957,6 +962,24 @@ async function loadCalendar() {
     }
   } catch(e) { /* Amber data optional — calendar still works without it */ }
 
+  // Merge weather data (icons + temps)
+  try {
+    const wr = await fetch(WEATHER_DAILY_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (wr.ok) {
+      const weatherDaily = await wr.json();
+      for (const w of weatherDaily) {
+        if (!w.date) continue;
+        if (calDataMap[w.date]) {
+          calDataMap[w.date].weather_icon = w.weather_icon;
+          calDataMap[w.date].weather_label = w.weather_label;
+          calDataMap[w.date].temp_max = w.temp_max;
+          calDataMap[w.date].temp_min = w.temp_min;
+          calDataMap[w.date].sunshine_hours = w.sunshine_hours;
+        }
+      }
+    }
+  } catch(e) { /* Weather data optional */ }
+
   // Compute daily savings: what they'd pay without solar/battery vs actual
   // Uses Amber blended rate (cost/total_kwh), capped at 50c/kWh
   for (const key of Object.keys(calDataMap)) {
@@ -1046,6 +1069,11 @@ function renderCalendar() {
     html += '<div class="cal-day-row"><span class="cal-dot solar-dot"></span>' + solar + '</div>';
     html += '<div class="cal-day-row"><span class="cal-dot usage-dot"></span>' + usage + '</div>';
     html += '</div>';
+    // Weather row
+    if (entry && entry.weather_icon) {
+      const tempStr = entry.temp_max != null ? Math.round(entry.temp_max) + '°' : '';
+      html += '<div class="cal-weather"><span class="cw-icon">' + entry.weather_icon + '</span><span class="cw-temp">' + tempStr + '</span></div>';
+    }
     html += '</div>';
   }
 
@@ -1075,6 +1103,18 @@ function selectCalDay(dateKey) {
   const parts = dateKey.split('-');
   const label = parseInt(parts[2]) + ' ' + MONTHS[parseInt(parts[1]) - 1] + ' ' + parts[0];
   document.getElementById('calDetailTitle').textContent = label;
+
+  // Weather detail line
+  const weatherDiv = document.getElementById('calDetailWeather');
+  if (entry.weather_icon) {
+    const tempStr = entry.temp_max != null ? Math.round(entry.temp_max) + '°' : '--';
+    const minStr = entry.temp_min != null ? Math.round(entry.temp_min) + '°' : '--';
+    const sunStr = entry.sunshine_hours != null ? entry.sunshine_hours.toFixed(1) + 'h sun' : '';
+    weatherDiv.innerHTML = '<span>' + entry.weather_icon + '</span> <strong>' + (entry.weather_label || '') + '</strong> · ' + tempStr + ' / ' + minStr + (sunStr ? ' · ' + sunStr : '');
+    weatherDiv.style.display = 'block';
+  } else {
+    weatherDiv.style.display = 'none';
+  }
 
   setText('calDetSolar', fmtKwh(entry.solar_kwh));
   const savedStr = entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--';
