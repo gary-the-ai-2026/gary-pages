@@ -209,7 +209,7 @@
   .cal-sum-card.cal-solar { border-top: 2px solid var(--solar); }
   .cal-sum-card.cal-usage { border-top: 2px solid var(--home); }
   .cal-sum-card.cal-gridin { border-top: 2px solid var(--grid); }
-  .cal-sum-card.cal-gridout { border-top: 2px solid var(--battery); }
+  .cal-sum-card.cal-gridout { border-top: 2px solid var(--coral); }
 
   /* Calendar grid */
   .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 4px; }
@@ -218,6 +218,7 @@
   .cal-day { aspect-ratio: 1; padding: 4px; background: var(--surface-card); border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
   .cal-day:hover { border-color: var(--hairline); }
   .cal-day .cal-day-num { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .cal-day .cal-day-cost { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--coral); margin-top: 1px; }
   .cal-day .cal-day-metrics { display: flex; flex-direction: column; align-items: center; gap: 1px; margin-top: 2px; }
   .cal-day .cal-day-row { display: flex; align-items: center; gap: 2px; font-size: 9px; font-family: var(--font-mono); font-weight: 500; }
   .cal-day .cal-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
@@ -534,9 +535,9 @@
         <div class="cs-lbl">Imported</div>
       </div>
       <div class="cal-sum-card cal-gridout">
-        <div class="cs-icon" style="color:var(--battery)">↑</div>
-        <div class="cs-val" id="calSumExport">--</div>
-        <div class="cs-lbl">Exported</div>
+        <div class="cs-icon" style="color:var(--coral)">$</div>
+        <div class="cs-val" id="calSumCost">--</div>
+        <div class="cs-lbl">Cost</div>
       </div>
     </div>
 
@@ -569,7 +570,7 @@
         </div>
         <div class="cal-detail-stat">
           <div class="cds-val battery-v" id="calDetExport">--</div>
-          <div class="cds-lbl">Grid Export</div>
+          <div class="cds-lbl">Cost</div>
         </div>
       </div>
       <!-- Consumption Mix -->
@@ -858,6 +859,7 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 
 // ── Calendar data shared state ──
 const HISTORY_URL = 'data/energy-history.json';
+const AMBER_DAILY_URL = 'data/amber-daily.json';
 let allHistory = [];
 
 // ═══════════════ CALENDAR LOGIC ═══════════════
@@ -915,9 +917,38 @@ async function loadCalendar() {
   // Merge history entries — take the LAST entry per date for the most complete snapshot
   for (const d of allHistory) {
     if (!d.date) continue;
-    // Keep the latest snapshot for each date (later entries override)
     calDataMap[d.date] = d;
   }
+
+  // Merge Amber daily data (cost, tariff breakdowns) — fetched async
+  try {
+    const ar = await fetch(AMBER_DAILY_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (ar.ok) {
+      const amberDaily = await ar.json();
+      for (const a of amberDaily) {
+        if (!a.date) continue;
+        if (calDataMap[a.date]) {
+          // Merge Amber fields into existing GoodWe entry
+          calDataMap[a.date].cost_dollars = a.total_cost_dollars;
+          calDataMap[a.date].amber_import_kwh = a.grid_import_kwh;
+          calDataMap[a.date].amber_export_kwh = a.grid_export_kwh;
+          calDataMap[a.date].peak_cost_dollars = a.peak_cost_dollars;
+          calDataMap[a.date].offPeak_cost_dollars = a.offPeak_cost_dollars;
+          calDataMap[a.date].solarSponge_cost_dollars = a.solarSponge_cost_dollars;
+        } else {
+          // Pure Amber entry (no GoodWe data yet — e.g. pre-solar days)
+          calDataMap[a.date] = {
+            date: a.date,
+            cost_dollars: a.total_cost_dollars,
+            amber_import_kwh: a.grid_import_kwh,
+            amber_export_kwh: a.grid_export_kwh,
+            solar_kwh: 0, load_kwh: 0, grid_import_kwh: a.grid_import_kwh, grid_export_kwh: a.grid_export_kwh,
+            battery_charge_kwh: 0, battery_discharge_kwh: 0
+          };
+        }
+      }
+    }
+  } catch(e) { /* Amber data optional — calendar still works without it */ }
 
   // Default to current month
   const now = new Date(Date.now() + 9.5*60*60*1000);
@@ -942,7 +973,7 @@ function renderCalendar() {
   const firstDow = dayOfWeek(calYear, calMonth, 1);
 
   // Month summary
-  let sumSolar = 0, sumUsage = 0, sumImport = 0, sumExport = 0;
+  let sumSolar = 0, sumUsage = 0, sumImport = 0, sumCost = 0;
   for (let d = 1; d <= dim; d++) {
     const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
     const entry = calDataMap[key];
@@ -950,14 +981,14 @@ function renderCalendar() {
       sumSolar += entry.solar_kwh || 0;
       sumUsage += entry.load_kwh || 0;
       sumImport += entry.grid_import_kwh || 0;
-      sumExport += entry.grid_export_kwh || 0;
+      sumCost += entry.cost_dollars || 0;
     }
   }
 
+  setText('calSumCost', '$' + sumCost.toFixed(2));
   setText('calSumSolar', sumSolar.toFixed(1) + ' kWh');
   setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
   setText('calSumImport', sumImport.toFixed(1) + ' kWh');
-  setText('calSumExport', sumExport.toFixed(1) + ' kWh');
 
   // Build grid
   const grid = document.getElementById('calGrid');
@@ -981,9 +1012,11 @@ function renderCalendar() {
 
     const solar = entry ? (entry.solar_kwh || 0).toFixed(1) : '--';
     const usage = entry ? (entry.load_kwh || 0).toFixed(1) : '--';
+    const cost = entry && entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
 
     html += '<div class="' + cls + '" data-date="' + key + '" onclick="selectCalDay(\'' + key + '\')">';
     html += '<div class="cal-day-num">' + d + '</div>';
+    if (entry && entry.cost_dollars != null) html += '<div class="cal-day-cost">' + cost + '</div>';
     html += '<div class="cal-day-metrics">';
     html += '<div class="cal-day-row"><span class="cal-dot solar-dot"></span>' + solar + '</div>';
     html += '<div class="cal-day-row"><span class="cal-dot usage-dot"></span>' + usage + '</div>';
@@ -1021,13 +1054,22 @@ function selectCalDay(dateKey) {
   setText('calDetSolar', fmtKwh(entry.solar_kwh));
   setText('calDetUsage', fmtKwh(entry.load_kwh));
   setText('calDetImport', fmtKwh(entry.grid_import_kwh));
-  setText('calDetExport', fmtKwh(entry.grid_export_kwh));
+  const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
+  setText('calDetExport', costStr);
 
   // Render consumption donut
   renderCalDonut(entry);
 
-  // Hourly usage — show simple bars if Amber data available, else placeholder
-  document.getElementById('calHourlyUsage').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly detail requires Amber daily pull — on roadmap</div>';
+  // Hourly usage — show summary if we have Amber tariff data
+  const peakCost = entry.peak_cost_dollars != null ? '$' + entry.peak_cost_dollars.toFixed(2) : '--';
+  const offPeakCost = entry.offPeak_cost_dollars != null ? '$' + entry.offPeak_cost_dollars.toFixed(2) : '--';
+  const ssCost = entry.solarSponge_cost_dollars != null ? '$' + entry.solarSponge_cost_dollars.toFixed(2) : '--';
+  document.getElementById('calHourlyUsage').innerHTML =
+    '<div style="padding:8px;font-size:11px;color:var(--body)">' +
+    '<div class="cal-hour-row"><span class="ch-time" style="width:auto;font-family:var(--font-body);font-weight:600;color:#c0392b">Peak</span><span class="ch-track" style="flex:0.3"></span><span class="ch-val" style="width:auto">' + peakCost + '</span></div>' +
+    '<div class="cal-hour-row"><span class="ch-time" style="width:auto;font-family:var(--font-body);font-weight:600;color:#c2680c">Sponge</span><span class="ch-track" style="flex:0.3"></span><span class="ch-val" style="width:auto">' + ssCost + '</span></div>' +
+    '<div class="cal-hour-row"><span class="ch-time" style="width:auto;font-family:var(--font-body);font-weight:600;color:#1e429f">Off-peak</span><span class="ch-track" style="flex:0.3"></span><span class="ch-val" style="width:auto">' + offPeakCost + '</span></div>' +
+    '</div>';
   document.getElementById('calHourlySolar').innerHTML = '<div style="padding:12px;text-align:center;color:var(--muted);font-size:11px">Hourly solar for selected day — on roadmap</div>';
 
   document.getElementById('calDetail').classList.add('open');
