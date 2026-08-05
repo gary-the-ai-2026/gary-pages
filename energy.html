@@ -221,8 +221,10 @@ async function openSocModal() {
   .metric-card.solar-card { border-left: 3px solid var(--solar); }
   .metric-card.home-card { border-left: 3px solid var(--home); }
   .metric-card.grid-card { border-left: 3px solid var(--grid); }
-  .metric-card.battery-card { border-left: 3px solid var(--battery); cursor: pointer; }
+  .metric-card.battery-card { border-left: 3px solid var(--battery); cursor: pointer; position: relative; }
   .metric-card.battery-card:hover { border-color: #3d8a5e; }
+  .battery-cta { position: absolute; top: 12px; right: 12px; font-size: 9px; font-weight: 600; color: #fff; background: var(--battery); padding: 3px 8px; border-radius: var(--radius-pill); letter-spacing: 0.04em; opacity: 0.85; }
+  .metric-card.battery-card:hover .battery-cta { opacity: 1; }
   .metric-value.solar-c { color: var(--solar); }
   .metric-value.battery-c { color: var(--battery); }
   .metric-value.grid-c { color: var(--grid); }
@@ -579,6 +581,7 @@ async function openSocModal() {
         <div class="metric-sub" id="wGridSub">--</div>
       </div>
       <div class="metric-card card-cream battery-card">
+        <div class="battery-cta">24h ▸</div>
         <div class="metric-label">Battery</div>
         <div class="metric-value battery-c" id="wBat">--</div>
         <div class="metric-sub" id="wBatSub">--</div>
