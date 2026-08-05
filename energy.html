@@ -10,7 +10,114 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+// ═══════════════ BATTERY SOC WORM MODAL ═══════════════
+
+const SOC_URL = 'data/battery-soc-history.json';
+let socWormInstance = null;
+
+// Open modal when battery widget card is clicked
+document.querySelector('.battery-card').addEventListener('click', openSocModal);
+
+// Close modal
+document.getElementById('socModalClose').addEventListener('click', closeSocModal);
+document.getElementById('socModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('socModal')) closeSocModal();
+});
+
+function closeSocModal() {
+  document.getElementById('socModal').classList.remove('open');
+}
+
+async function openSocModal() {
+  const overlay = document.getElementById('socModal');
+  overlay.classList.add('open');
+
+  // Show current SOC immediately
+  if (currentData && currentData.goodwe) {
+    const soc = currentData.goodwe.battery_soc_pct || 0;
+    document.getElementById('socModalBadge').textContent = soc + '%';
+  }
+
+  // Fetch SOC history
+  let history = [];
+  try {
+    const r = await fetch(SOC_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (r.ok) history = await r.json();
+  } catch(e) { console.warn('SOC history fetch failed:', e.message); }
+
+  if (!history.length) {
+    // No history yet — show message
+    document.getElementById('socModalSub').innerHTML = '<span class="soc-badge" id="socModalBadge">--%</span> Collecting data...';
+    return;
+  }
+
+  // Parse data
+  const labels = history.map(d => d.ts_display);
+  const values = history.map(d => d.soc);
+
+  // Stats
+  const high = Math.max(...values);
+  const low = Math.min(...values);
+  const avg = (values.reduce((a,b) => a + b, 0) / values.length).toFixed(0);
+  document.getElementById('socModalHigh').textContent = high + '%';
+  document.getElementById('socModalLow').textContent = low + '%';
+  document.getElementById('socModalAvg').textContent = avg + '%';
+
+  // Update badge
+  const latest = values[values.length - 1];
+  document.getElementById('socModalBadge').textContent = latest + '%';
+
+  // Render chart — thin labels for readability
+  const showLabels = history.length <= 50;
+  const ctx = document.getElementById('socWormChart').getContext('2d');
+  if (socWormInstance) socWormInstance.destroy();
+
+  socWormInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        borderColor: '#4a9e6e',
+        backgroundColor: 'rgba(74,158,110,0.08)',
+        borderWidth: 2.5,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#4a9e6e',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          display: showLabels,
+          ticks: { maxTicksLimit: 8, font: { size: 9 }, color: '#8e8b82', maxRotation: 0 },
+          grid: { display: false }
+        },
+        y: {
+          min: 0, max: 100,
+          ticks: {
+            stepSize: 20,
+            font: { size: 10 },
+            color: '#8e8b82',
+            callback: (v) => v + '%'
+          },
+          grid: { color: '#e6dfd8', drawBorder: false }
+        }
+      }
+    }
+  });
+}
+
+</script>
 <style>
   :root {
     --canvas: #faf9f5;
@@ -114,7 +221,8 @@
   .metric-card.solar-card { border-left: 3px solid var(--solar); }
   .metric-card.home-card { border-left: 3px solid var(--home); }
   .metric-card.grid-card { border-left: 3px solid var(--grid); }
-  .metric-card.battery-card { border-left: 3px solid var(--battery); }
+  .metric-card.battery-card { border-left: 3px solid var(--battery); cursor: pointer; }
+  .metric-card.battery-card:hover { border-color: #3d8a5e; }
   .metric-value.solar-c { color: var(--solar); }
   .metric-value.battery-c { color: var(--battery); }
   .metric-value.grid-c { color: var(--grid); }
@@ -131,6 +239,20 @@
   .price-cell .pc-sub { font-size: 10px; font-weight: 600; margin-top: 1px; }
   .price-cell .pc-sub.costs { color: var(--danger); }
   .price-cell .pc-sub.pays { color: var(--success); }
+
+  /* ── Battery SOC Worm Modal ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(20,20,19,0.55); z-index: 200; justify-content: center; align-items: flex-start; padding: 60px var(--space-md) var(--space-md); }
+  .modal-overlay.open { display: flex; }
+  .modal-card { background: var(--canvas); border-radius: var(--radius-lg); padding: var(--space-lg); width: 100%; max-width: 480px; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.15); animation: modalSlideIn 0.25s ease; }
+  @keyframes modalSlideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-close { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--hairline); background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; padding: 0; transition: all 0.15s ease; }
+  .modal-close:hover { background: var(--surface-alt); color: var(--ink); border-color: var(--muted); }
+  .modal-title { font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ink); margin-bottom: 2px; }
+  .modal-subtitle { font-size: 12px; color: var(--muted); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px; }
+  .modal-subtitle .soc-badge { background: var(--battery); color: #fff; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: var(--radius-pill); font-weight: 500; }
+  .battery-worm-wrap { height: 280px; margin-bottom: var(--space-sm); }
+  .modal-soc-stats { display: flex; gap: var(--space-md); font-size: 11px; color: var(--muted); }
+  .modal-soc-stats span { font-weight: 600; color: var(--body); }
   .price-cell .pc-val.neg { color: var(--danger); }
   .price-cell .pc-val.pos { color: var(--success); }
   .price-cell .pc-period { display: inline-block; font-size: 9px; font-weight: 600; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-pill); margin-top: 4px; }
@@ -477,6 +599,21 @@
         <div class="pc-unit">c/kWh</div>
         <div class="pc-sub" id="sellSub">--</div>
         <div class="pc-period" id="sellPeriod">--</div>
+      </div>
+    </div>
+
+    <!-- Battery SOC Worm Modal -->
+    <div class="modal-overlay" id="socModal">
+      <div class="modal-card">
+        <button class="modal-close" id="socModalClose">&times;</button>
+        <div class="modal-title">Battery Charge</div>
+        <div class="modal-subtitle" id="socModalSub"><span class="soc-badge" id="socModalBadge">--%</span> Last 24 hours</div>
+        <div class="battery-worm-wrap">
+          <canvas id="socWormChart"></canvas>
+        </div>
+        <div class="modal-soc-stats">
+          High <span id="socModalHigh">--</span> &middot; Low <span id="socModalLow">--</span> &middot; Avg <span id="socModalAvg">--</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1201,6 +1338,113 @@ document.getElementById('calToday').addEventListener('click', () => {
   calMonth = now.getUTCMonth() + 1;
   renderCalendar();
 });
+
+// ═══════════════ BATTERY SOC WORM MODAL ═══════════════
+
+const SOC_URL = 'data/battery-soc-history.json';
+let socWormInstance = null;
+
+// Open modal when battery widget card is clicked
+document.querySelector('.battery-card').addEventListener('click', openSocModal);
+
+// Close modal
+document.getElementById('socModalClose').addEventListener('click', closeSocModal);
+document.getElementById('socModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('socModal')) closeSocModal();
+});
+
+function closeSocModal() {
+  document.getElementById('socModal').classList.remove('open');
+}
+
+async function openSocModal() {
+  const overlay = document.getElementById('socModal');
+  overlay.classList.add('open');
+
+  // Show current SOC immediately
+  if (currentData && currentData.goodwe) {
+    const soc = currentData.goodwe.battery_soc_pct || 0;
+    document.getElementById('socModalBadge').textContent = soc + '%';
+  }
+
+  // Fetch SOC history
+  let history = [];
+  try {
+    const r = await fetch(SOC_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (r.ok) history = await r.json();
+  } catch(e) { console.warn('SOC history fetch failed:', e.message); }
+
+  if (!history.length) {
+    // No history yet — show message
+    document.getElementById('socModalSub').innerHTML = '<span class="soc-badge" id="socModalBadge">--%</span> Collecting data...';
+    return;
+  }
+
+  // Parse data
+  const labels = history.map(d => d.ts_display);
+  const values = history.map(d => d.soc);
+
+  // Stats
+  const high = Math.max(...values);
+  const low = Math.min(...values);
+  const avg = (values.reduce((a,b) => a + b, 0) / values.length).toFixed(0);
+  document.getElementById('socModalHigh').textContent = high + '%';
+  document.getElementById('socModalLow').textContent = low + '%';
+  document.getElementById('socModalAvg').textContent = avg + '%';
+
+  // Update badge
+  const latest = values[values.length - 1];
+  document.getElementById('socModalBadge').textContent = latest + '%';
+
+  // Render chart — thin labels for readability
+  const showLabels = history.length <= 50;
+  const ctx = document.getElementById('socWormChart').getContext('2d');
+  if (socWormInstance) socWormInstance.destroy();
+
+  socWormInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        borderColor: '#4a9e6e',
+        backgroundColor: 'rgba(74,158,110,0.08)',
+        borderWidth: 2.5,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#4a9e6e',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          display: showLabels,
+          ticks: { maxTicksLimit: 8, font: { size: 9 }, color: '#8e8b82', maxRotation: 0 },
+          grid: { display: false }
+        },
+        y: {
+          min: 0, max: 100,
+          ticks: {
+            stepSize: 20,
+            font: { size: 10 },
+            color: '#8e8b82',
+            callback: (v) => v + '%'
+          },
+          grid: { color: '#e6dfd8', drawBorder: false }
+        }
+      }
+    }
+  });
+}
+
 </script>
 </body>
 </html>
