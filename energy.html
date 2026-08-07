@@ -794,7 +794,7 @@ let currentData = null;
 function updateUI(data) {
   currentData = data;
   const g = data.goodwe, a = data.amber, t = data.today || {};
-  setText('timestamp', data.timestamp_display || '--');
+  setText('timestamp', 'Live · 5-min updates');
 
   const sW = g.solar_now_w || 0, gW = g.grid_power_w || 0, hW = g.home_consumption_w || 0, bW = g.battery_power_w || 0, soc = g.battery_soc_pct || 0;
 
@@ -998,7 +998,7 @@ function updateUI(data) {
 }
 
 function showError(msg) {
-  setText('timestamp', 'Unable to connect');
+  setText('timestamp', 'Unable to fetch data');
   document.getElementById('refreshDot').classList.add('stale');
   setText('refreshText', msg || 'Connection lost');
 }
