@@ -721,8 +721,12 @@ async function openSocModal() {
           <div class="cds-lbl">Grid Import</div>
         </div>
         <div class="cal-detail-stat">
-          <div class="cds-val battery-v" id="calDetExport">--</div>
+          <div class="cds-val battery-v" id="calDetCost">--</div>
           <div class="cds-lbl">Cost</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val grid-v" id="calDetExport">--</div>
+          <div class="cds-lbl">Exported</div>
         </div>
       </div>
       <!-- Consumption Mix -->
@@ -1162,7 +1166,7 @@ function renderCalendar() {
   const firstDow = dayOfWeek(calYear, calMonth, 1);
 
   // Month summary
-  let sumSolar = 0, sumUsage = 0, sumCost = 0, sumSaved = 0;
+  let sumSolar = 0, sumUsage = 0, sumCost = 0, sumSaved = 0, sumExport = 0;
   for (let d = 1; d <= dim; d++) {
     const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
     const entry = calDataMap[key];
@@ -1171,6 +1175,7 @@ function renderCalendar() {
       sumUsage += entry.load_kwh || 0;
       sumCost += entry.cost_dollars || 0;
       sumSaved += entry.savings_dollars || 0;
+      sumExport += entry.grid_export_kwh || 0;
     }
   }
 
@@ -1178,6 +1183,7 @@ function renderCalendar() {
   setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
   setText('calSumCost', '$' + sumCost.toFixed(2));
   setText('calSumImport', '$' + sumSaved.toFixed(2));
+  setText('calSumCost', '$' + sumCost.toFixed(2) + ' · ' + sumExport.toFixed(1) + 'kWh out');
 
   // Build grid
   const grid = document.getElementById('calGrid');
@@ -1264,7 +1270,8 @@ function selectCalDay(dateKey) {
   setText('calDetSaved', savedStr);
   setText('calDetImport', fmtKwh(entry.grid_import_kwh));
   const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
-  setText('calDetExport', costStr);
+  setText('calDetCost', costStr);
+  setText('calDetExport', fmtKwh(entry.grid_export_kwh));
 
   // Render consumption donut
   renderCalDonut(entry);
