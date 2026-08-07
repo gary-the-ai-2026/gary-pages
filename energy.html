@@ -1175,7 +1175,7 @@ function renderCalendar() {
       sumUsage += entry.load_kwh || 0;
       sumCost += entry.cost_dollars || 0;
       sumSaved += entry.savings_dollars || 0;
-      sumExport += entry.grid_export_kwh || 0;
+      sumExport += entry.amber_export_kwh || entry.grid_export_kwh || 0;
     }
   }
 
@@ -1271,7 +1271,7 @@ function selectCalDay(dateKey) {
   setText('calDetImport', fmtKwh(entry.grid_import_kwh));
   const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
   setText('calDetCost', costStr);
-  setText('calDetExport', fmtKwh(entry.grid_export_kwh));
+  setText('calDetExport', fmtKwh(entry.amber_export_kwh));
 
   // Render consumption donut
   renderCalDonut(entry);
