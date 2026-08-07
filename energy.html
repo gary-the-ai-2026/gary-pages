@@ -771,6 +771,7 @@ async function openSocModal() {
 </div>
 
 <script>
+const RAW_BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/main';
 const DATA_URL = `${RAW_BASE}/data/energy-data.json`;
 
 function fmtW(v) { const a = Math.abs(v); return a >= 100 ? (a/1000).toFixed(2) + ' kW' : (a/1000).toFixed(3) + ' kW'; }
