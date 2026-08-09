@@ -1,78 +1,73 @@
 {
-  "timestamp": "2026-08-10T08:30:00.480671+09:30",
-  "timestamp_display": "10 Aug 2026 \u00b7 8:30 AM",
-  "timestamp_short": "8:30:00 AM",
+  "timestamp": "2026-08-10T08:35:01.136851+09:30",
+  "timestamp_display": "10 Aug 2026 \u00b7 8:35 AM",
+  "timestamp_short": "8:35:01 AM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": -1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 44.8,
-    "battery_power_w": -3586,
+    "inverter_temp_c": 46.9,
+    "battery_power_w": -3263,
     "battery_mode": "Charge",
-    "lifetime_solar_kwh": 356.4,
-    "today_solar_kwh": 0.8,
+    "lifetime_solar_kwh": 356.6,
+    "today_solar_kwh": 1.0,
     "today_export_kwh": 0.2,
     "today_import_kwh": 1.0,
     "today_load_kwh": 2.0,
-    "lifetime_bat_charge_kwh": 232.9,
-    "today_bat_charge_kwh": 0.1,
+    "lifetime_bat_charge_kwh": 233.0,
+    "today_bat_charge_kwh": 0.2,
     "lifetime_bat_discharge_kwh": 223.1,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 360,
+    "home_consumption_w": 569,
     "lifetime_export_kwh": 4.4,
     "lifetime_import_kwh": 13.2,
     "battery_temp_c": 16.6,
     "battery_soc_pct": 5,
     "battery_soh_pct": 100,
-    "solar_now_w": 4279,
+    "solar_now_w": 1803,
     "battery_flow": "charging",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 27.0,
-    "sell_price_c": -0.7,
+    "current_price_c": 34.2,
+    "sell_price_c": 5.7,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 120.37800000000001,
+    "renewables": 122.235,
     "forward_prices": [
       {
-        "time": "08:35",
-        "price": 36.7,
-        "period": "peak"
-      },
-      {
         "time": "08:40",
-        "price": 34.5,
+        "price": 27.2,
         "period": "peak"
       },
       {
         "time": "08:45",
-        "price": 27.2,
-        "period": "peak"
-      },
-      {
-        "time": "08:50",
-        "price": 27.0,
-        "period": "peak"
-      },
-      {
-        "time": "08:55",
-        "price": 27.0,
-        "period": "peak"
-      },
-      {
-        "time": "09:00",
         "price": 27.8,
         "period": "peak"
       },
       {
+        "time": "08:50",
+        "price": 27.8,
+        "period": "peak"
+      },
+      {
+        "time": "08:55",
+        "price": 28.0,
+        "period": "peak"
+      },
+      {
+        "time": "09:00",
+        "price": 28.4,
+        "period": "peak"
+      },
+      {
         "time": "09:05",
-        "price": 27.2,
+        "price": 28.0,
         "period": "peak"
       },
       {
         "time": "09:10",
-        "price": 27.0,
+        "price": 27.8,
         "period": "peak"
       },
       {
@@ -92,12 +87,12 @@
       },
       {
         "time": "09:30",
-        "price": 27.0,
+        "price": 27.6,
         "period": "peak"
       },
       {
         "time": "10:00",
-        "price": 9.4,
+        "price": 9.6,
         "period": "solarSponge"
       },
       {
@@ -107,17 +102,17 @@
       },
       {
         "time": "11:00",
-        "price": 9.3,
+        "price": 9.4,
         "period": "solarSponge"
       },
       {
         "time": "11:30",
-        "price": 9.3,
+        "price": 9.4,
         "period": "solarSponge"
       },
       {
         "time": "12:00",
-        "price": 9.4,
+        "price": 9.3,
         "period": "solarSponge"
       },
       {
@@ -126,13 +121,13 @@
         "period": "solarSponge"
       }
     ],
-    "next_peak_c": 36.7,
-    "next_peak_time": "08:35",
+    "next_peak_c": 28.4,
+    "next_peak_time": "09:00",
     "next_trough_c": 9.3,
-    "next_trough_time": "11:00"
+    "next_trough_time": "12:00"
   },
   "today": {
-    "solar_kwh": 0.8,
+    "solar_kwh": 1.0,
     "load_kwh": 2.0,
     "import_kwh": 1.0,
     "export_kwh": 0.2,
@@ -140,7 +135,7 @@
     "grid_import_kwh": 4.52,
     "grid_import_cost_dollars": 1.32,
     "grid_export_revenue_dollars": -0.0,
-    "battery_charge_kwh": 0.1,
+    "battery_charge_kwh": 0.2,
     "battery_discharge_kwh": 0.0
   },
   "yesterday": {
