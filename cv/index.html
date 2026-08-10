@@ -30,7 +30,7 @@
         font-family: 'Playfair Display', serif;
       }
       
-      /* Global Noise Overlay */
+      /* Global Noise Overlay — static CSS grain (no SVG filter, no GPU recompute) */
       .bg-noise {
         position: fixed;
         top: 0;
@@ -39,8 +39,8 @@
         height: 100vh;
         pointer-events: none;
         z-index: 50;
-        opacity: 0.04;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='g' width='4' height='4' patternUnits='userSpaceOnUse'%3E%3Crect width='1' height='1' fill='%23000' opacity='0.35'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23000' opacity='0.25'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='64' height='64' fill='url(%23g)'/%3E%3C/svg%3E");
       }
       
       /* Stylish Scrollbar */
@@ -65,10 +65,10 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "wn8a8f64ah");
     </script>
-    <script type="module" crossorigin src="/gary-pages/cv/assets/index-WlGqMFVr.js"></script>
+    <script type="module" crossorigin src="/gary-pages/cv/assets/index-3bku5ON7.js"></script>
     <link rel="modulepreload" crossorigin href="/gary-pages/cv/assets/animation-vendor-DIb4xsdA.js">
     <link rel="modulepreload" crossorigin href="/gary-pages/cv/assets/chart-vendor-CBOOD3hj.js">
-    <link rel="stylesheet" crossorigin href="/gary-pages/cv/assets/index-BqFf9KRg.css">
+    <link rel="stylesheet" crossorigin href="/gary-pages/cv/assets/index-C8vdc_69.css">
   </head>
   <body>
     <div id="root"></div>
