@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-08-11T23:10:44.295395+09:30",
-  "timestamp_display": "11 Aug 2026 \u00b7 11:10 PM",
-  "timestamp_short": "11:10:44 PM",
+  "timestamp": "2026-08-11T23:15:45.103541+09:30",
+  "timestamp_display": "11 Aug 2026 \u00b7 11:15 PM",
+  "timestamp_short": "11:15:45 PM",
   "goodwe": {
-    "grid_power_w": 3,
+    "grid_power_w": 2,
     "grid_direction": "Idle",
-    "inverter_temp_c": 46.8,
+    "inverter_temp_c": 45.3,
     "battery_power_w": 471,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 410.2,
@@ -15,9 +15,9 @@
     "today_load_kwh": 15.7,
     "lifetime_bat_charge_kwh": 269.5,
     "today_bat_charge_kwh": 10.2,
-    "lifetime_bat_discharge_kwh": 241.4,
-    "today_bat_discharge_kwh": 7.9,
-    "home_consumption_w": 468,
+    "lifetime_bat_discharge_kwh": 241.5,
+    "today_bat_discharge_kwh": 8.0,
+    "home_consumption_w": 469,
     "lifetime_export_kwh": 4.6,
     "lifetime_import_kwh": 20.7,
     "battery_temp_c": 20.2,
@@ -33,28 +33,23 @@
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 111.825,
+    "renewables": 110.82600000000001,
     "forward_prices": [
       {
-        "time": "23:15",
-        "price": 28.8,
-        "period": "peak"
-      },
-      {
         "time": "23:20",
-        "price": 28.4,
+        "price": 28.3,
         "period": "peak"
       },
       {
         "time": "23:25",
-        "price": 28.7,
+        "price": 27.8,
         "period": "peak"
       }
     ],
-    "next_peak_c": 28.8,
-    "next_peak_time": "23:15",
-    "next_trough_c": 28.4,
-    "next_trough_time": "23:20"
+    "next_peak_c": 28.3,
+    "next_peak_time": "23:20",
+    "next_trough_c": 27.8,
+    "next_trough_time": "23:25"
   },
   "today": {
     "solar_kwh": 24.8,
@@ -66,7 +61,7 @@
     "grid_import_cost_dollars": 2.17,
     "grid_export_revenue_dollars": 0.0,
     "battery_charge_kwh": 10.2,
-    "battery_discharge_kwh": 7.9
+    "battery_discharge_kwh": 8.0
   },
   "yesterday": {
     "solar_kwh": 29.8,
