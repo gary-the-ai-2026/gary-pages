@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-12T01:05:01.834920+09:30",
-  "timestamp_display": "12 Aug 2026 \u00b7 1:05 AM",
-  "timestamp_short": "1:05:01 AM",
+  "timestamp": "2026-08-12T01:10:02.629547+09:30",
+  "timestamp_display": "12 Aug 2026 \u00b7 1:10 AM",
+  "timestamp_short": "1:10:02 AM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": 0,
     "grid_direction": "Idle",
-    "inverter_temp_c": 42.1,
-    "battery_power_w": 432,
+    "inverter_temp_c": 44.2,
+    "battery_power_w": 424,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 410.2,
     "today_solar_kwh": 0.0,
@@ -15,9 +15,9 @@
     "today_load_kwh": 0.2,
     "lifetime_bat_charge_kwh": 269.5,
     "today_bat_charge_kwh": 0.0,
-    "lifetime_bat_discharge_kwh": 242.3,
-    "today_bat_discharge_kwh": 0.4,
-    "home_consumption_w": 430,
+    "lifetime_bat_discharge_kwh": 242.4,
+    "today_bat_discharge_kwh": 0.5,
+    "home_consumption_w": 424,
     "lifetime_export_kwh": 4.6,
     "lifetime_import_kwh": 20.7,
     "battery_temp_c": 19.9,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 16.1,
-    "sell_price_c": 0.1,
+    "current_price_c": 16.0,
+    "sell_price_c": 0.0,
     "period": "offPeak",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 113.568,
+    "renewables": 116.16899999999998,
     "forward_prices": [
-      {
-        "time": "01:10",
-        "price": 16.1,
-        "period": "offPeak"
-      },
       {
         "time": "01:15",
         "price": 16.0,
@@ -121,8 +116,8 @@
         "period": "offPeak"
       }
     ],
-    "next_peak_c": 16.1,
-    "next_peak_time": "01:10",
+    "next_peak_c": 16.0,
+    "next_peak_time": "01:15",
     "next_trough_c": 15.4,
     "next_trough_time": "03:00"
   },
@@ -136,7 +131,7 @@
     "grid_import_cost_dollars": 2.17,
     "grid_export_revenue_dollars": 0.0,
     "battery_charge_kwh": 0.0,
-    "battery_discharge_kwh": 0.4
+    "battery_discharge_kwh": 0.5
   },
   "yesterday": {
     "solar_kwh": 24.8,
