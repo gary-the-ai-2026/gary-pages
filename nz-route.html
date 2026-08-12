@@ -229,23 +229,23 @@ const DAY_COLORS = [
 const days = [
   {
     num: 1,
-    route: 'Christchurch → Castle Hill',
+    route: 'Christchurch → Castle Hill → Cave Stream',
     stops: [
       { name: 'Christchurch', lat: -43.5320, lng: 172.6306, type: 'start' },
-      { name: 'Springfield', lat: -43.3376, lng: 171.9276, note: 'pass through' },
-      { name: 'Castle Hill', lat: -43.2167, lng: 171.7167, type: 'stay' }
+      { name: 'Castle Hill', lat: -43.2167, lng: 171.7167, type: 'stop' },
+      { name: 'Cave Stream', lat: -43.2007, lng: 171.7469, type: 'activity' },
+      { name: 'Springfield', lat: -43.3376, lng: 171.9276, type: 'stay', note: 'or Castle Hill' }
     ],
-    note: 'Late start ~4pm, short drive'
+    note: 'Pick up car 11am Sunday. Easy afternoon — Castle Hill then Cave Stream.'
   },
   {
     num: 2,
-    route: 'Cave Stream → Arthur\'s Pass → Hokitika',
+    route: 'Arthur\'s Pass → Hokitika',
     stops: [
-      { name: 'Cave Stream', lat: -43.2007, lng: 171.7469, type: 'activity' },
       { name: 'Arthur\'s Pass', lat: -42.9476, lng: 171.5666, type: 'stop' },
       { name: 'Hokitika', lat: -42.7170, lng: 170.9619, type: 'stay' }
     ],
-    note: 'Full day — start early'
+    note: 'Lighter day — Arthur\'s Pass then down to Hokitika'
   },
   {
     num: 3,
