@@ -236,7 +236,8 @@ const days = [
       { name: 'Cave Stream', lat: -43.2007, lng: 171.7469, type: 'activity' },
       { name: 'Springfield', lat: -43.3376, lng: 171.9276, type: 'stay', note: 'or Castle Hill' }
     ],
-    note: 'Pick up car 11am Sunday. Easy afternoon — Castle Hill then Cave Stream.'
+    note: 'Pick up car 11am Sunday. Easy afternoon — Castle Hill then Cave Stream.',
+    drive: '1h 40m'
   },
   {
     num: 2,
@@ -245,7 +246,8 @@ const days = [
       { name: 'Arthur\'s Pass', lat: -42.9476, lng: 171.5666, type: 'stop' },
       { name: 'Hokitika', lat: -42.7170, lng: 170.9619, type: 'stay' }
     ],
-    note: 'Lighter day — Arthur\'s Pass then down to Hokitika'
+    note: 'Lighter day — Arthur\'s Pass then down to Hokitika',
+    drive: '2h 20m'
   },
   {
     num: 3,
@@ -255,7 +257,8 @@ const days = [
       { name: 'Okarito', lat: -43.2060, lng: 170.1620, type: 'stop' },
       { name: 'Franz Josef', lat: -43.3875, lng: 170.1826, type: 'stay' }
     ],
-    note: 'Coastal scenery and glacier town'
+    note: 'Coastal scenery and glacier town',
+    drive: '2h'
   },
   {
     num: 4,
@@ -263,7 +266,8 @@ const days = [
     stops: [
       { name: 'Franz Josef', lat: -43.3875, lng: 170.1826, type: 'stay' }
     ],
-    note: 'Full day for glacier activities / weather buffer'
+    note: 'Full day for glacier activities / weather buffer',
+    drive: null
   },
   {
     num: 5,
@@ -274,7 +278,8 @@ const days = [
       { name: 'Ship Creek', lat: -43.7580, lng: 169.2290, type: 'stop' },
       { name: 'Haast', lat: -43.8810, lng: 169.0424, type: 'stay' }
     ],
-    note: 'West Coast scenery day'
+    note: 'West Coast scenery day',
+    drive: '2h'
   },
   {
     num: 6,
@@ -285,7 +290,8 @@ const days = [
       { name: 'Lake Hawea', lat: -44.4960, lng: 169.2870, type: 'stop' },
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Haast Pass and alpine lakes'
+    note: 'Haast Pass and alpine lakes',
+    drive: '2h'
   },
   {
     num: 7,
@@ -293,7 +299,8 @@ const days = [
     stops: [
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Two nights — explore Wanaka'
+    note: 'Two nights — explore Wanaka',
+    drive: null
   },
   {
     num: 8,
@@ -301,15 +308,18 @@ const days = [
     stops: [
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Two nights — explore Wanaka'
+    note: 'Two nights — explore Wanaka',
+    drive: null
   },
   {
     num: 9,
     route: 'Queenstown',
     stops: [
+      { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'start' },
       { name: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'stay' }
     ],
-    note: 'Two nights — adventure capital'
+    note: 'Drive over from Wanaka in the morning, then two nights',
+    drive: '1h'
   },
   {
     num: 10,
@@ -317,7 +327,8 @@ const days = [
     stops: [
       { name: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'stay' }
     ],
-    note: 'Two nights — adventure capital'
+    note: 'Two nights — adventure capital',
+    drive: null
   },
   {
     num: 11,
@@ -326,7 +337,8 @@ const days = [
       { name: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'start' },
       { name: 'Te Anau', lat: -45.4145, lng: 167.7181, type: 'stay' }
     ],
-    note: 'Gateway to Milford Sound'
+    note: 'Gateway to Milford Sound',
+    drive: '2h'
   },
   {
     num: 12,
@@ -335,7 +347,8 @@ const days = [
       { name: 'Te Anau', lat: -45.4145, lng: 167.7181, type: 'start' },
       { name: 'Milford Sound', lat: -44.6560, lng: 167.9240, type: 'activity' }
     ],
-    note: 'Full day — return to Te Anau'
+    note: 'Full day — return to Te Anau',
+    drive: '4h return'
   },
   {
     num: 13,
@@ -345,7 +358,8 @@ const days = [
       { name: 'Lake Pukaki', lat: -43.9880, lng: 170.4650, type: 'stop' },
       { name: 'Mt Cook Village', lat: -43.7330, lng: 170.0960, type: 'stay' }
     ],
-    note: 'Longish driving day but spectacular scenery'
+    note: 'Longish driving day but spectacular scenery',
+    drive: '4h 15m'
   },
   {
     num: 14,
@@ -355,7 +369,8 @@ const days = [
       { name: 'Lake Tekapo', lat: -44.0047, lng: 170.4771, type: 'stop' },
       { name: 'Christchurch', lat: -43.5320, lng: 172.6306, type: 'end' }
     ],
-    note: 'Mackenzie Country — home via Tekapo'
+    note: 'Mackenzie Country — home via Tekapo',
+    drive: '4h 15m'
   }
 ];
 
@@ -390,7 +405,7 @@ days.forEach((day, idx) => {
     const isKey = stop.type === 'start' || stop.type === 'end' || stop.type === 'stay' || stop.type === 'activity';
     const icon = isKey ? makeIcon(color, String(dayKey)) : makeIcon(color);
     const marker = L.marker([stop.lat, stop.lng], { icon }).addTo(map);
-    marker.bindPopup(`<b>Day ${dayKey}</b><br>${stop.name}${stop.note ? ' — <em>' + stop.note + '</em>' : ''}`);
+    marker.bindPopup(`<b>Day ${dayKey}</b><br>${stop.name}${stop.note ? ' — <em>' + stop.note + '</em>' : ''}${day.drive ? '<br>🚗 <b>' + day.drive + '</b> driving' : ''}`);
     marker._dayKey = dayKey;
     markers.push(marker);
   });
@@ -476,7 +491,7 @@ days.forEach((day, idx) => {
   card.innerHTML = `
     <div class="day-num" style="color:${color}">${idx+1}</div>
     <div class="day-info">
-      <div class="day-route">${day.route}</div>
+      <div class="day-route">${day.route}${day.drive ? ' <span style="font-weight:500;font-size:12px;color:var(--muted)">· 🚗 ' + day.drive + '</span>' : ''}</div>
       <div class="day-stops">${day.note}</div>
     </div>
   `;
