@@ -242,6 +242,67 @@ body {
 }
 
 /* Footer */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.stat-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-rest);
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-card .stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.stat-card.highlight {
+  border: 2px solid var(--coral);
+}
+.stat-card.highlight .stat-value { color: var(--coral); }
+
+/* Elevation chart */
+.elevation-chart {
+  margin-top: 10px;
+  width: 100%;
+  height: 48px;
+  background: var(--surface-alt);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.elevation-chart svg { width: 100%; height: 100%; }
+.elevation-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.elevation-label span { font-weight: 600; color: var(--ink); }
+
+.hike-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  margin-top: 4px;
+}
 .footer {
   text-align: center;
   padding: var(--space-lg) 0;
@@ -266,6 +327,29 @@ body {
   <h1>14-Day Route</h1>
   <p class="subtitle">Christchurch loop via the West Coast, Queenstown, Milford Sound &amp; Aoraki. Tap the map markers or legend to explore each day.</p>
 </section>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-card">
+    <div class="stat-value">14</div>
+    <div class="stat-label">Days</div>
+  </div>
+  <div class="stat-card highlight">
+    <div class="stat-value">25.5h</div>
+    <div class="stat-label">Total Driving</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">7</div>
+    <div class="stat-label">Hiking Days</div>
+  </div>
+  <div class="stat-card highlight">
+    <div class="stat-value">1,076m</div>
+    <div class="stat-label">Highest Road</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">10</div>
+    <div class="stat-label">Mountain Passes</div>
+  </div>
+</div>
 
 <div class="map-card">
   <div id="map"></div>
@@ -462,6 +546,54 @@ const DAY_COLORS = [
   '#e64a19', '#455a64'
 ];
 
+// ── ELEVATION DATA (Open-Meteo, metres) ─────
+const ELEVATIONS = {
+  'Christchurch': 8, 'Castle Hill': 869, 'Cave Stream': 712,
+  'Springfield': 388, 'Arthurs Pass': 743, 'Otira': 438,
+  'Hokitika': 6, 'Hokitika Gorge': 98, 'Okarito': 0,
+  'Franz Josef': 143, 'Fox Glacier': 160, 'Bruce Bay': 0,
+  'Ship Creek': 140, 'Haast': 12, 'Haast Pass': 606,
+  'Blue Pools': 382, 'Lake Hawea': 345, 'Wanaka': 297,
+  'Crown Range Summit': 1076, 'Queenstown': 322, 'Te Anau': 215,
+  'Eglington Valley': 838, 'Homer Tunnel': 917, 'Milford Sound': 684,
+  'Lake Pukaki': 996, 'Mt Cook Village': 745, 'Lake Tekapo': 724,
+  'Burkes Pass': 846, 'Geraldine': 179,
+};
+
+// ── ELEVATION CHART RENDERER ────────────────
+function renderElevationChart(stopNames, color) {
+  const points = stopNames.map(n => ELEVATIONS[n] || 0).filter(e => e > 0);
+  if (points.length < 2) return '';
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const range = max - min || 1;
+  const w = 200, h = 44, pad = 4;
+  const xs = points.map((_, i) => pad + (i / (points.length - 1)) * (w - pad * 2));
+  const ys = points.map(e => h - pad - ((e - min) / range) * (h - pad * 2));
+
+  let path = `M${xs[0]},${ys[0]}`;
+  for (let i = 1; i < xs.length; i++) {
+    const cx1 = (xs[i-1] + xs[i]) / 2;
+    path += ` C${cx1},${ys[i-1]} ${cx1},${ys[i]} ${xs[i]},${ys[i]}`;
+  }
+  // Fill area
+  let fillPath = path + ` L${xs[xs.length-1]},${h} L${xs[0]},${h} Z`;
+
+  const ascent = points.reduce((a, e, i) => i > 0 && e > points[i-1] ? a + (e - points[i-1]) : a, 0);
+
+  return `
+    <div class="elevation-chart">
+      <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <path d="${fillPath}" fill="${color}15" />
+        <path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>
+    <div class="elevation-label">
+      <span>${min}m – ${max}m</span>
+      <span>⬆ ${ascent}m ascent</span>
+    </div>`;
+}
+
 // ── ROUTE DATA ─────────────────────────────
 const days = [
   {
@@ -473,8 +605,9 @@ const days = [
       { name: 'Cave Stream', lat: -43.2007, lng: 171.7469, type: 'activity' },
       { name: 'Springfield', lat: -43.3376, lng: 171.9276, type: 'stay', note: 'or Castle Hill' }
     ],
-    note: 'Pick up car 11am Sunday. Easy afternoon — Castle Hill then Cave Stream.',
-    drive: '1h 40m'
+    note: 'Pick up car 11am Sunday. Easy afternoon — Castle Hill then Cave Stream.<br><span class="hike-badge">🥾 Castle Hill boulders — easy walk among massive limestone formations</span>',
+    drive: '1h 40m',
+    elevStops: ['Springfield', 'Castle Hill', 'Cave Stream']
   },
   {
     num: 2,
@@ -483,8 +616,9 @@ const days = [
       { name: 'Arthur\'s Pass', lat: -42.9476, lng: 171.5666, type: 'stop' },
       { name: 'Hokitika', lat: -42.7170, lng: 170.9619, type: 'stay' }
     ],
-    note: 'Lighter day — Arthur\'s Pass then down to Hokitika',
-    drive: '2h 20m'
+    note: 'Lighter day — Arthur\'s Pass then down to Hokitika.<br><span class="hike-badge">🥾 Devil\'s Punchbowl Falls (1h return) or Bealey Spur Track from Arthur\'s Pass village</span>',
+    drive: '2h 20m',
+    elevStops: ['Springfield', 'Arthurs Pass', 'Otira', 'Hokitika']
   },
   {
     num: 3,
@@ -495,7 +629,8 @@ const days = [
       { name: 'Franz Josef', lat: -43.3875, lng: 170.1826, type: 'stay' }
     ],
     note: 'Coastal scenery and glacier town',
-    drive: '2h'
+    drive: '2h',
+    elevStops: ['Hokitika', 'Hokitika Gorge', 'Okarito', 'Franz Josef']
   },
   {
     num: 4,
@@ -503,7 +638,7 @@ const days = [
     stops: [
       { name: 'Franz Josef', lat: -43.3875, lng: 170.1826, type: 'stay' }
     ],
-    note: 'Full day for glacier activities / weather buffer',
+    note: 'Full day for glacier activities / weather buffer.<br><span class="hike-badge">🥾 Franz Josef Glacier Walk (1.5h return) or Roberts Point Track (5h, challenging)</span>',
     drive: null
   },
   {
@@ -515,8 +650,9 @@ const days = [
       { name: 'Ship Creek', lat: -43.7580, lng: 169.2290, type: 'stop' },
       { name: 'Haast', lat: -43.8810, lng: 169.0424, type: 'stay' }
     ],
-    note: 'West Coast scenery day',
-    drive: '2h'
+    note: 'West Coast scenery day.<br><span class="hike-badge">🥾 Ship Creek Dune Lake Walk (30min, easy) & Fox Glacier Valley Walk</span>',
+    drive: '2h',
+    elevStops: ['Franz Josef', 'Fox Glacier', 'Bruce Bay', 'Haast']
   },
   {
     num: 6,
@@ -527,8 +663,9 @@ const days = [
       { name: 'Lake Hawea', lat: -44.4960, lng: 169.2870, type: 'stop' },
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Haast Pass and alpine lakes',
-    drive: '2h'
+    note: 'Haast Pass and alpine lakes.<br><span class="hike-badge">🥾 Blue Pools Track (1h return) — crystal-clear glacial water, swing bridge</span>',
+    drive: '2h',
+    elevStops: ['Haast', 'Haast Pass', 'Blue Pools', 'Lake Hawea', 'Wanaka']
   },
   {
     num: 7,
@@ -536,7 +673,7 @@ const days = [
     stops: [
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Two nights — explore Wanaka',
+    note: 'Two nights — explore Wanaka.<br><span class="hike-badge">🥾 Roys Peak (5-6h return, 1,578m) — iconic Instagram shot, or shorter Diamond Lake Track</span>',
     drive: null
   },
   {
@@ -545,7 +682,7 @@ const days = [
     stops: [
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'stay' }
     ],
-    note: 'Two nights — explore Wanaka',
+    note: 'Two nights — explore Wanaka.<br><span class="hike-badge">🥾 Rob Roy Glacier Track (3-4h return) or Isthmus Peak (5h)</span>',
     drive: null
   },
   {
@@ -555,8 +692,9 @@ const days = [
       { name: 'Wanaka', lat: -44.7032, lng: 169.1322, type: 'start' },
       { name: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'stay' }
     ],
-    note: 'Drive over from Wanaka in the morning, then two nights',
-    drive: '1h'
+    note: 'Drive over from Wanaka in the morning, then two nights.<br><span class="hike-badge">🥾 Queenstown Hill (3h return) or Ben Lomond (6-8h, 1,748m)</span>',
+    drive: '1h',
+    elevStops: ['Wanaka', 'Crown Range Summit', 'Queenstown']
   },
   {
     num: 10,
@@ -564,7 +702,7 @@ const days = [
     stops: [
       { name: 'Queenstown', lat: -45.0312, lng: 168.6626, type: 'stay' }
     ],
-    note: 'Two nights — adventure capital',
+    note: 'Two nights — adventure capital.<br><span class="hike-badge">🥾 Routeburn Track day walk or Glenorchy trails (1h drive from QT)</span>',
     drive: null
   },
   {
@@ -575,7 +713,8 @@ const days = [
       { name: 'Te Anau', lat: -45.4145, lng: 167.7181, type: 'stay' }
     ],
     note: 'Gateway to Milford Sound',
-    drive: '2h'
+    drive: '2h',
+    elevStops: ['Queenstown', 'Te Anau']
   },
   {
     num: 12,
@@ -584,8 +723,9 @@ const days = [
       { name: 'Te Anau', lat: -45.4145, lng: 167.7181, type: 'start' },
       { name: 'Milford Sound', lat: -44.6560, lng: 167.9240, type: 'activity' }
     ],
-    note: 'Full day — return to Te Anau',
-    drive: '4h return'
+    note: 'Full day — return to Te Anau.<br><span class="hike-badge">🥾 Lake Marian Track (3h return, alpine lake) or Key Summit (3h, panoramic views) — both on Milford Road</span>',
+    drive: '4h return',
+    elevStops: ['Te Anau', 'Eglington Valley', 'Homer Tunnel', 'Milford Sound']
   },
   {
     num: 13,
@@ -595,8 +735,9 @@ const days = [
       { name: 'Lake Pukaki', lat: -43.9880, lng: 170.4650, type: 'stop' },
       { name: 'Mt Cook Village', lat: -43.7330, lng: 170.0960, type: 'stay' }
     ],
-    note: 'Longish driving day but spectacular scenery',
-    drive: '4h 15m'
+    note: 'Longish driving day but spectacular scenery.<br><span class="hike-badge">🥾 Hooker Valley Track (3h return, easy) — swing bridges, glacier lake, Aoraki views</span>',
+    drive: '4h 15m',
+    elevStops: ['Te Anau', 'Lake Pukaki', 'Mt Cook Village']
   },
   {
     num: 14,
@@ -606,8 +747,9 @@ const days = [
       { name: 'Lake Tekapo', lat: -44.0047, lng: 170.4771, type: 'stop' },
       { name: 'Christchurch', lat: -43.5320, lng: 172.6306, type: 'end' }
     ],
-    note: 'Mackenzie Country — home via Tekapo',
-    drive: '4h 15m'
+    note: 'Mackenzie Country — home via Tekapo.<br><span class="hike-badge">🥾 Mt John Summit (1.5h return from Tekapo) — 360° views over turquoise lakes, observatory at top</span>',
+    drive: '4h 15m',
+    elevStops: ['Mt Cook Village', 'Lake Tekapo', 'Burkes Pass', 'Geraldine', 'Christchurch']
   }
 ];
 
@@ -742,6 +884,7 @@ days.forEach((day, idx) => {
     <div class="day-info">
       <div class="day-route">${day.route}${day.drive ? ' <span style="font-weight:500;font-size:12px;color:var(--muted)">· 🚗 ' + day.drive + '</span>' : ''}</div>
       <div class="day-stops">${day.note}</div>
+      ${day.elevStops ? renderElevationChart(day.elevStops, color) : ''}
     </div>
   `;
   card.addEventListener('click', () => {
