@@ -172,6 +172,75 @@ body {
   line-height: 1.5;
 }
 
+/* Campsite table */
+.campsites-section {
+  margin-bottom: var(--space-xl);
+}
+.campsites-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-rest);
+}
+.campsites-table thead {
+  background: var(--surface-alt);
+}
+.campsites-table th {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: left;
+  padding: 14px var(--space-md);
+  border-bottom: 1px solid var(--hairline);
+}
+.campsites-table td {
+  padding: 12px var(--space-md);
+  border-bottom: 1px solid var(--hairline-soft);
+  color: var(--body);
+  vertical-align: top;
+  line-height: 1.45;
+}
+.campsites-table tr:last-child td { border-bottom: none; }
+.campsites-table .day-col {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  min-width: 72px;
+}
+.campsites-table .name-col {
+  font-weight: 600;
+  color: var(--ink);
+}
+.campsites-table .type-col {
+  font-size: 11px;
+  white-space: nowrap;
+}
+.campsites-table .note-col {
+  color: var(--muted);
+  font-size: 12px;
+}
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.badge-doc { background: #e8f5e9; color: #2e7d32; }
+.badge-park { background: #e3f2fd; color: #1565c0; }
+.badge-free { background: #fff3e0; color: #e65100; }
+
+@media (max-width: 600px) {
+  .campsites-table { font-size: 12px; }
+  .campsites-table th, .campsites-table td { padding: 10px; }
+}
+
 /* Footer */
 .footer {
   text-align: center;
