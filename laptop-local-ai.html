@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local-AI Laptop Comparison — Hancock Family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --blue: #1a73e8;
+  --purple: #7c3aed;
+  --grey: #6b7280;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+.hero { padding: 64px 0 40px; text-align: center; }
+.hero .kicker { color: var(--coral); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 14px; }
+.hero h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.1; margin-bottom: 12px; }
+.hero .subtitle { font-size: 1.1rem; color: var(--body); max-width: 640px; margin: 0 auto; }
+.hero .date { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+
+.verdict {
+  background: var(--surface); border: 2px solid var(--coral); border-radius: var(--radius);
+  padding: 28px 32px; margin-bottom: 28px; box-shadow: var(--shadow);
+}
+.verdict-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--coral); color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 6px; margin-bottom: 10px; }
+.verdict h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.7rem; font-weight: 900; line-height: 1.2; margin-bottom: 8px; }
+.verdict p { color: var(--body); font-size: 0.95rem; }
+.verdict .price { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.3rem; color: var(--success); margin: 10px 0 4px; }
+
+.insight {
+  background: var(--surface-alt); border-radius: var(--radius); padding: 22px 26px; margin-bottom: 40px;
+  font-size: 0.92rem; color: var(--body);
+}
+.insight.good { border-left: 4px solid var(--success); }
+.insight.warn { border-left: 4px solid var(--warning); }
+.insight h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; }
+.insight ul { margin: 8px 0 0 18px; }
+.insight li { margin: 4px 0; }
+
+/* 4-column cards */
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; }
+@media (max-width: 1080px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius);
+  padding: 20px 18px; box-shadow: var(--shadow); transition: box-shadow 0.2s ease;
+  display: flex; flex-direction: column; font-size: 0.85rem;
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.card.top-pick { border-color: var(--coral); border-width: 2px; }
+
+.card-color { width: 100%; height: 5px; border-radius: 3px; margin-bottom: 14px; }
+.card-color.coral { background: var(--coral); }
+.card-color.blue { background: var(--blue); }
+.card-color.purple { background: var(--purple); }
+.card-color.grey { background: var(--grey); }
+
+.card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 900; line-height: 1.2; margin-bottom: 2px; }
+.card .tagline { font-size: 0.78rem; color: var(--body); margin-bottom: 12px; min-height: 2.2em; }
+.card .specs { list-style: none; font-size: 0.8rem; margin-bottom: 14px; flex: 1; }
+.card .specs li { padding: 5px 0; border-bottom: 1px solid var(--hairline-soft); display: flex; justify-content: space-between; gap: 8px; }
+.card .specs li:last-child { border-bottom: none; }
+.card .specs .label { color: var(--body); }
+.card .specs .value { font-weight: 600; text-align: right; }
+.card .specs .value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; }
+
+.card .pricing { border-top: 1px solid var(--hairline); padding-top: 12px; margin-bottom: 12px; }
+.card .pricing .current { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+.card .pricing .rrp { font-size: 0.78rem; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
+.card .pricing .retailer { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+
+.card .buy-btn { display: block; text-align: center; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s ease; }
+.card .buy-btn.primary { background: var(--coral); color: #fff; }
+.card .buy-btn.primary:hover { background: var(--coral-hover); }
+.card .buy-btn.secondary { background: var(--surface-alt); color: var(--ink); }
+.card .buy-btn.secondary:hover { background: var(--hairline); }
+.card .caveat { font-size: 0.73rem; color: var(--warning); margin-top: 10px; padding: 8px; background: #fdf6ed; border-radius: 6px; line-height: 1.4; }
+
+/* Table */
+.table-section { margin-bottom: 48px; }
+.table-section h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 18px; }
+.table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius); border: 1px solid var(--hairline);
+}
+.comparison-table { width: 100%; min-width: 720px; border-collapse: separate; border-spacing: 0; background: var(--surface); font-size: 0.82rem; }
+.comparison-table th, .comparison-table td { padding: 12px 14px; text-align: left; white-space: nowrap; }
+.comparison-table th:first-child, .comparison-table td:first-child { white-space: normal; min-width: 170px; }
+.comparison-table th { background: var(--surface-alt); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--body); }
+.comparison-table td { border-top: 1px solid var(--hairline-soft); }
+.comparison-table tr:first-child td { border-top: none; }
+.comparison-table .winner { color: var(--success); font-weight: 600; }
+.comparison-table .label-col { font-weight: 600; color: var(--ink); }
+.comparison-table .over { color: var(--muted); }
+.comparison-table .warn-text { color: var(--danger); font-weight: 600; }
+
+.sources { margin-bottom: 64px; padding: 24px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius); }
+.sources h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
+.sources ul { list-style: none; font-size: 0.82rem; color: var(--body); }
+.sources li { padding: 3px 0; }
+.sources a { color: var(--coral); text-decoration: none; }
+.sources a:hover { text-decoration: underline; }
+
+.footer { text-align: center; padding: 32px 0 48px; color: var(--muted); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<section class="hero">
+  <div class="kicker">Hancock Family · August 2026</div>
+  <h1>Local-AI Laptop Comparison</h1>
+  <p class="subtitle">Dual-display machines for running strong local LLMs in Ollama — MacBook Air &amp; Pro vs two top-tier Windows alternatives</p>
+  <p class="date">Researched 13 August 2026 · Australian pricing (AUD, inc. GST) · $4,000 budget</p>
+</section>
+
+<!-- Verdict -->
+<div class="verdict">
+  <span class="verdict-badge">Our Pick</span>
+  <h2>MacBook Pro 14″ — M5 Pro chip, 48GB unified memory</h2>
+  <p>Three external displays, and 48GB of unified memory that comfortably runs <strong>70-billion-parameter models</strong> (Llama 3.3 70B, Qwen 72B) entirely on-device via Ollama. No Windows laptop anywhere near $4,000 can fit a 70B model — this is the single best local-LLM machine you can buy at this budget.</p>
+  <div class="price">$3,999</div>
+  <p style="font-size:0.85rem;color:var(--muted)">Apple AU · 18-core CPU, 20-core GPU, 48GB unified, 2TB SSD</p>
+</div>
+
+<!-- Key insight -->
+<div class="insight good">
+  <h3>Why the Mac wins for local AI at this price</h3>
+  <p>The number that matters for Ollama is <strong>how much memory a model needs to sit in</strong> — not raw clock speed:</p>
+  <ul>
+    <li><strong>7–8B model (4-bit)</strong> ≈ 5 GB · <strong>14B</strong> ≈ 9 GB · <strong>32B</strong> ≈ 20 GB · <strong>70B</strong> ≈ 40 GB</li>
+    <li>Apple Silicon shares one <strong>unified memory</strong> pool between CPU and GPU — so 48GB means a 70B model actually fits.</li>
+    <li>NVIDIA laptops split memory: a <strong>16GB RTX 5080</strong> can only hold ~14B comfortably; 32B+ spills to slow system RAM.</li>
+  </ul>
+</div>
+
+<div class="insight warn">
+  <h3>The one honest trade-off</h3>
+  <p>On <em>small</em> models (7B–14B), a Windows RTX 5080/5090 generates tokens <strong>faster</strong> (higher memory bandwidth). But at $4,000 AUD, every RTX 5080 laptop is $4,500–5,900 — over budget — and none can run a 70B model at all. The Mac trades a little speed on small models for the ability to run <em>much bigger</em> models.</p>
+</div>
+
+<!-- Cards -->
+<div class="cards">
+
+  <!-- MacBook Pro M5 Pro (winner) -->
+  <div class="card top-pick">
+    <div class="card-color coral"></div>
+    <h3>MacBook Pro 14″ M5 Pro</h3>
+    <p class="tagline">★ Best local-LLM machine under $4k</p>
+    <ul class="specs">
+      <li><span class="label">Chip</span><span class="value">M5 Pro (18C/20G)</span></li>
+      <li><span class="label">Unified memory</span><span class="value mono" style="color:var(--success)">48 GB</span></li>
+      <li><span class="label">External displays</span><span class="value" style="color:var(--success)">3</span></li>
+      <li><span class="label">Storage</span><span class="value mono">2 TB</span></li>
+      <li><span class="label">Largest model</span><span class="value" style="color:var(--success)">70B Q4</span></li>
+      <li><span class="label">Memory bandwidth</span><span class="value mono">~273 GB/s</span></li>
+      <li><span class="label">Battery</span><span class="value">up to 22 hrs</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current">$3,999</span>
+      <div class="retailer">Apple AU · inc. GST</div>
+    </div>
+    <a href="https://www.apple.com/au/shop/buy-mac/macbook-pro/14-inch-m5-pro" target="_blank" rel="nofollow" class="buy-btn primary">Buy at Apple →</a>
+    <div class="caveat">⚠ 24GB base is $3,499 — but 48GB is the config that unlocks 70B models. Don't save the $500 here.</div>
+  </div>
+
+  <!-- MacBook Air M5 -->
+  <div class="card">
+    <div class="card-color blue"></div>
+    <h3>MacBook Air 15″ M5</h3>
+    <p class="tagline">Mac value · lightest option</p>
+    <ul class="specs">
+      <li><span class="label">Chip</span><span class="value">M5 (10C/10G)</span></li>
+      <li><span class="label">Unified memory</span><span class="value mono">24 GB (max 32)</span></li>
+      <li><span class="label">External displays</span><span class="value" style="color:var(--success)">2</span></li>
+      <li><span class="label">Storage</span><span class="value mono">512 GB</span></li>
+      <li><span class="label">Largest model</span><span class="value">32B (tight) / 14B comfy</span></li>
+      <li><span class="label">Cooling</span><span class="value" style="color:var(--warning)">Fanless</span></li>
+      <li><span class="label">Weight</span><span class="value mono">1.24 kg</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current">$2,499</span>
+      <div class="retailer">Apple AU (24GB config)</div>
+    </div>
+    <a href="https://www.apple.com/au/shop/buy-mac/macbook-air" target="_blank" rel="nofollow" class="buy-btn secondary">Buy at Apple →</a>
+    <div class="caveat">⚠ Fanless = throttles under sustained LLM load. Fine for 14B, but a Pro is better for long generations.</div>
+  </div>
+
+  <!-- Razer Blade 16 -->
+  <div class="card">
+    <div class="card-color purple"></div>
+    <h3>Razer Blade 16 (2026)</h3>
+    <p class="tagline">PC flagship · cheapest RTX 5080 in AU</p>
+    <ul class="specs">
+      <li><span class="label">GPU / VRAM</span><span class="value mono">RTX 5080 · 16 GB</span></li>
+      <li><span class="label">RAM</span><span class="value mono">64 GB DDR5</span></li>
+      <li><span class="label">Storage</span><span class="value mono">2 TB</span></li>
+      <li><span class="label">CPU</span><span class="value">Ryzen AI 9 HX 370</span></li>
+      <li><span class="label">Display</span><span class="value">16″ QHD+ 240Hz OLED</span></li>
+      <li><span class="label">Largest model (GPU)</span><span class="value">14B comfy · 32B partial</span></li>
+      <li><span class="label">External displays</span><span class="value">up to 4</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current">$4,538</span>
+      <div class="retailer">PB Tech · ~$540 over budget</div>
+    </div>
+    <a href="https://www.pbtech.com/au" target="_blank" rel="nofollow" class="buy-btn secondary">Buy at PB Tech →</a>
+    <div class="caveat">⚠ 16GB VRAM can't hold a 70B model. The 64GB RAM helps offload, but tokens slow to ~2–3/s on 70B.</div>
+  </div>
+
+  <!-- ASUS ROG Strix G16 -->
+  <div class="card">
+    <div class="card-color grey"></div>
+    <h3>ASUS ROG Strix G16</h3>
+    <p class="tagline">PC value · comfortably under budget</p>
+    <ul class="specs">
+      <li><span class="label">GPU / VRAM</span><span class="value mono">RTX 5070 Ti · 12 GB</span></li>
+      <li><span class="label">RAM</span><span class="value mono">32 GB</span></li>
+      <li><span class="label">Storage</span><span class="value mono">1 TB</span></li>
+      <li><span class="label">CPU</span><span class="value">Core Ultra 9 275HX</span></li>
+      <li><span class="label">Display</span><span class="value">16″ 2.5K 240Hz</span></li>
+      <li><span class="label">Largest model (GPU)</span><span class="value">14B comfy · 32B partial</span></li>
+      <li><span class="label">External displays</span><span class="value">up to 4</span></li>
+    </ul>
+    <div class="pricing">
+      <span class="current">~$3,300</span>
+      <div class="retailer">Mwave / JB Hi-Fi (approx)</div>
+    </div>
+    <a href="https://www.mwave.com.au/laptops/geforce-rtx-laptops" target="_blank" rel="nofollow" class="buy-btn secondary">Browse at Mwave →</a>
+    <div class="caveat">⚠ 12GB VRAM is the practical floor for local LLMs — 14B fits, 32B doesn't. Good gaming value, weaker AI ceiling.</div>
+  </div>
+
+</div>
+
+<!-- Display support -->
+<div class="table-section">
+  <h2>Display support — fixing the original problem</h2>
+  <p style="color:var(--body);font-size:0.9rem;margin:-8px 0 16px;">Your current Mac caps at one external screen. Every machine below drives <strong>at least two</strong>. Source: Apple Support (Mar 2026).</p>
+  <div class="table-wrap">
+  <table class="comparison-table">
+    <thead><tr><th>Machine</th><th>External displays</th><th>Max res (dual)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="label-col">MacBook Air M5</td><td class="winner">2</td><td>2× 6K@60 / 4K@144</td><td>Lid open; closing lid doesn't add more</td></tr>
+      <tr><td class="label-col">MacBook Pro M5</td><td class="winner">2</td><td>2× 6K@60 / 4K@144</td><td>Thunderbolt 4</td></tr>
+      <tr><td class="label-col">MacBook Pro M5 Pro</td><td class="winner">3</td><td>up to 3× 6K@60</td><td>Thunderbolt 5 + HDMI</td></tr>
+      <tr><td class="label-col">MacBook Pro M5 Max</td><td class="winner">4</td><td>up to 4× 6K@60</td><td>$6,399+ — over budget</td></tr>
+      <tr><td class="label-col">Razer Blade 16 / ASUS Strix</td><td class="winner">up to 4</td><td>4K@60+ each</td><td>HDMI + Thunderbolt 5 / USB-C DP</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Full comparison -->
+<div class="table-section">
+  <h2>Side-by-side</h2>
+  <div class="table-wrap">
+  <table class="comparison-table">
+    <thead><tr><th>Spec</th><th>MBP 14″ M5 Pro</th><th>Air 15″ M5</th><th>Razer Blade 16</th><th>ASUS Strix G16</th></tr></thead>
+    <tbody>
+      <tr><td class="label-col">Price (AUD)</td><td class="winner">$3,999</td><td>$2,499</td><td>$4,538</td><td>~$3,300</td></tr>
+      <tr><td class="label-col">LLM memory pool</td><td class="winner">48 GB unified</td><td>24 GB unified</td><td>16 GB VRAM</td><td>12 GB VRAM</td></tr>
+      <tr><td class="label-col">Largest comfortable model</td><td class="winner">70B (Q4)</td><td>14B–32B</td><td>14B (32B partial)</td><td>14B (32B partial)</td></tr>
+      <tr><td class="label-col">External displays</td><td>3</td><td>2</td><td>4</td><td>4</td></tr>
+      <tr><td class="label-col">OS</td><td>macOS</td><td>macOS</td><td>Windows 11</td><td>Windows 11</td></tr>
+      <tr><td class="label-col">RAM</td><td>48 GB</td><td>24 GB</td><td>64 GB</td><td>32 GB</td></tr>
+      <tr><td class="label-col">Storage</td><td>2 TB</td><td>512 GB</td><td>2 TB</td><td>1 TB</td></tr>
+      <tr><td class="label-col">Cooling</td><td class="winner">Active (quiet)</td><td class="warn-text">Fanless</td><td>Active</td><td>Active</td></tr>
+      <tr><td class="label-col">Battery (light use)</td><td class="winner">~22 hrs</td><td>~18 hrs</td><td>~6–8 hrs</td><td>~5–7 hrs</td></tr>
+      <tr><td class="label-col">Weight</td><td>1.60 kg</td><td>1.24 kg</td><td>~2.1 kg</td><td>~2.5 kg</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Sources -->
+<div class="sources">
+  <h2>Sources &amp; method</h2>
+  <ul>
+    <li><strong>Display limits:</strong> <a href="https://support.apple.com/en-us/101571">Apple Support — MacBook Pro displays</a>, <a href="https://support.apple.com/en-us/122212">MacBook Air displays</a> (both Mar 2026)</li>
+    <li><strong>Mac pricing:</strong> Apple AU store (M5 Pro 48GB = $3,999, M5 Pro 24GB = $3,499, Air 15″ 24GB = $2,499); <a href="https://www.pickr.com.au/reviews/2026/apple-macbook-pro-14-inch-m5-pro/">Pickr M5 Pro review</a>; JB Hi-Fi (M5 Max 36GB = $6,399)</li>
+    <li><strong>PC pricing:</strong> PB Tech (Razer Blade 16 RTX 5080 = $4,538), Centre Com (Legion Pro 7i 5080 = $5,299), Mwave/JW (Zephyrus G14 5080 = $5,599), Mwave (Strix G16 5070 Ti)</li>
+    <li><strong>Local-LLM guidance:</strong> r/LocalLLaMA community consensus on VRAM/quantisation sizes; 4-bit model-size figures are standard Ollama quant estimates</li>
+    <li><strong>Review signals:</strong> Ultrabookreview (Strix G16 5070 Ti "runs cool &amp; quiet"), Notebookcheck (Razer Blade 16), Mashable (MacBook Air M5)</li>
+  </ul>
+</div>
+
+<div class="footer">Researched by Gary · Hancock Family · Prices are live retailer quotes as at 13 Aug 2026 — verify before purchase</div>
+
+</div>
+</body>
+</html>
