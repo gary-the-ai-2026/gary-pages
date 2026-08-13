@@ -1,30 +1,30 @@
 {
-  "timestamp": "2026-08-13T13:00:25.047364+09:30",
-  "timestamp_display": "13 Aug 2026 \u00b7 1:00 PM",
-  "timestamp_short": "1:00:25 PM",
+  "timestamp": "2026-08-13T13:05:25.437283+09:30",
+  "timestamp_display": "13 Aug 2026 \u00b7 1:05 PM",
+  "timestamp_short": "1:05:25 PM",
   "goodwe": {
-    "grid_power_w": -10,
+    "grid_power_w": 0,
     "grid_direction": "Idle",
-    "inverter_temp_c": 41.6,
-    "battery_power_w": 610,
-    "battery_mode": "Discharge",
-    "lifetime_solar_kwh": 459.4,
-    "today_solar_kwh": 18.6,
-    "today_export_kwh": 12.4,
+    "inverter_temp_c": 49.2,
+    "battery_power_w": -2971,
+    "battery_mode": "Charge",
+    "lifetime_solar_kwh": 459.9,
+    "today_solar_kwh": 19.1,
+    "today_export_kwh": 12.8,
     "today_import_kwh": 0.0,
-    "today_load_kwh": 12.4,
+    "today_load_kwh": 12.7,
     "lifetime_bat_charge_kwh": 297.1,
     "today_bat_charge_kwh": 8.4,
     "lifetime_bat_discharge_kwh": 266.5,
     "today_bat_discharge_kwh": 6.0,
-    "home_consumption_w": 4422,
+    "home_consumption_w": 4545,
     "lifetime_export_kwh": 5.8,
     "lifetime_import_kwh": 20.8,
     "battery_temp_c": 21.7,
-    "battery_soc_pct": 64,
+    "battery_soc_pct": 65,
     "battery_soh_pct": 100,
-    "solar_now_w": 3791,
-    "battery_flow": "discharging",
+    "solar_now_w": 7929,
+    "battery_flow": "charging",
     "grid_flow": "balanced"
   },
   "amber": {
@@ -33,16 +33,11 @@
     "period": "solarSponge",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 84.68299999999999,
+    "renewables": 83.757,
     "forward_prices": [
       {
-        "time": "13:05",
-        "price": 19.0,
-        "period": "solarSponge"
-      },
-      {
         "time": "13:10",
-        "price": 20.1,
+        "price": 20.6,
         "period": "solarSponge"
       },
       {
@@ -52,17 +47,17 @@
       },
       {
         "time": "13:20",
-        "price": 20.6,
+        "price": 20.7,
         "period": "solarSponge"
       },
       {
         "time": "13:25",
-        "price": 20.7,
+        "price": 20.6,
         "period": "solarSponge"
       },
       {
         "time": "13:30",
-        "price": 20.7,
+        "price": 20.6,
         "period": "solarSponge"
       },
       {
@@ -72,12 +67,12 @@
       },
       {
         "time": "13:40",
-        "price": 17.6,
+        "price": 20.6,
         "period": "solarSponge"
       },
       {
         "time": "13:45",
-        "price": 20.7,
+        "price": 18.0,
         "period": "solarSponge"
       },
       {
@@ -87,55 +82,55 @@
       },
       {
         "time": "13:55",
-        "price": 17.7,
+        "price": 21.0,
         "period": "solarSponge"
       },
       {
         "time": "14:00",
-        "price": 20.6,
+        "price": 18.8,
         "period": "solarSponge"
       },
       {
         "time": "14:30",
-        "price": 20.6,
+        "price": 19.2,
         "period": "solarSponge"
       },
       {
         "time": "15:00",
-        "price": 20.8,
+        "price": 20.4,
         "period": "solarSponge"
       },
       {
         "time": "15:30",
-        "price": 19.9,
+        "price": 20.4,
         "period": "solarSponge"
       },
       {
         "time": "16:00",
-        "price": 38.5,
+        "price": 37.7,
         "period": "peak"
       },
       {
         "time": "16:30",
-        "price": 41.5,
+        "price": 41.6,
         "period": "peak"
       },
       {
         "time": "17:00",
-        "price": 44.8,
+        "price": 45.2,
         "period": "peak"
       }
     ],
-    "next_peak_c": 44.8,
+    "next_peak_c": 45.2,
     "next_peak_time": "17:00",
-    "next_trough_c": 17.6,
-    "next_trough_time": "13:40"
+    "next_trough_c": 18.0,
+    "next_trough_time": "13:45"
   },
   "today": {
-    "solar_kwh": 18.6,
-    "load_kwh": 12.4,
+    "solar_kwh": 19.1,
+    "load_kwh": 12.7,
     "import_kwh": 0.0,
-    "export_kwh": 12.4,
+    "export_kwh": 12.8,
     "grid_export_kwh": 0.11,
     "grid_import_kwh": 0.08,
     "grid_import_cost_dollars": 0.03,
