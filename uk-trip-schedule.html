@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Hancock Family · While Mum's Away</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-sm: 10px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.05);
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 56px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--canvas);
+  font-family: var(--font-body);
+  color: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 920px; margin: 0 auto; padding: var(--space-lg) 20px var(--space-xl); }
+
+/* Hero */
+.hero { text-align: center; padding: var(--space-xl) 0 var(--space-lg); }
+.hero .kicker {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: var(--space-sm);
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(34px, 6vw, 52px);
+  font-weight: 900; color: var(--ink); line-height: 1.1; letter-spacing: -0.02em;
+}
+.hero .subtitle { font-size: 16px; color: var(--muted); margin-top: var(--space-sm); max-width: 540px; margin-left: auto; margin-right: auto; }
+
+/* Section header */
+.section { margin-top: var(--space-lg); }
+.section-header { margin-bottom: var(--space-md); }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 4px;
+}
+.section-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+
+/* Badges */
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 6px;
+}
+.badge-noah { background: #e3ecf5; color: #2b5d8c; }
+.badge-toby { background: #f6e8de; color: #a9583e; }
+.badge-family { background: #e2f0e4; color: #1b6d30; }
+.badge-josh { background: #ece9e4; color: #8c887e; }
+
+/* Quick facts */
+.insights { display: grid; gap: var(--space-sm); grid-template-columns: 1fr; }
+@media (min-width: 600px) { .insights { grid-template-columns: 1fr 1fr; } }
+.insight {
+  background: var(--surface-alt); border-radius: var(--radius-sm);
+  padding: var(--space-md); display: flex; gap: var(--space-sm); align-items: flex-start;
+}
+.insight .insight-icon { font-size: 24px; flex-shrink: 0; line-height: 1.2; }
+.insight .insight-body h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.insight .insight-body p { font-size: 13px; color: var(--body); line-height: 1.5; }
+
+/* Schedule grid */
+.schedule-grid { display: grid; gap: var(--space-sm); grid-template-columns: 1fr; }
+@media (min-width: 640px) { .schedule-grid { grid-template-columns: 1fr 1fr; } }
+.day-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: var(--space-md);
+  box-shadow: var(--shadow-rest); display: flex; flex-direction: column; gap: 2px;
+}
+.day-card .day-label { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--ink); }
+.day-card .day-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.day-card .day-divider { border: none; border-top: 1px solid var(--hairline-soft); margin: 8px 0 4px; }
+.event { display: flex; align-items: flex-start; gap: 10px; padding: 5px 0; }
+.event-time {
+  font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+  min-width: 74px; padding-top: 3px; flex-shrink: 0;
+}
+.event-body { font-size: 14px; color: var(--body); line-height: 1.5; }
+.event-body strong { color: var(--ink); font-weight: 600; }
+.event-body .badge { margin-right: 6px; vertical-align: 1px; }
+.event.free .event-body { color: var(--muted); font-style: italic; }
+
+/* Data tables */
+.table-wrap { margin-top: var(--space-sm); }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--hairline);
+}
+tbody td { padding: 12px 14px; border-bottom: 1px solid var(--hairline-soft); color: var(--body); vertical-align: top; }
+tbody td strong { color: var(--ink); font-weight: 600; }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Notes list */
+.notes-list { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-card); padding: var(--space-md); box-shadow: var(--shadow-rest); }
+.note-item { display: flex; gap: var(--space-sm); align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--hairline-soft); }
+.note-item:first-child { padding-top: 0; }
+.note-item:last-child { border-bottom: none; padding-bottom: 0; }
+.note-icon { font-size: 20px; flex-shrink: 0; line-height: 1.4; }
+.note-body h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.note-body p { font-size: 13px; color: var(--body); line-height: 1.55; }
+.note-body .chip {
+  display: inline-block; font-size: 12px; color: var(--body);
+  background: var(--surface-alt); border-radius: 6px; padding: 1px 8px; margin: 2px 4px 2px 0;
+}
+
+/* Footnote */
+.footnote { margin-top: var(--space-lg); text-align: center; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="kicker">Sunday 23 August → Wednesday 2 September 2026</div>
+  <h1>While Mum's Away</h1>
+  <p class="subtitle">The full family schedule while Amy's in the UK — school runs, childcare, swimming, and everything in between.</p>
+</section>
+
+<!-- Quick facts -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">At a Glance</div>
+    <div class="section-title">The Things to Remember</div>
+  </div>
+  <div class="insights">
+    <div class="insight">
+      <div class="insight-icon">✈️</div>
+      <div class="insight-body"><h4>Airport pickup — Wed 2 Sep, 3:00pm</h4><p>Pick Amy up with the boys. Noah will need an early collect from school (usual is 3:15pm).</p></div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📚</div>
+      <div class="insight-body"><h4>Book Week</h4><p>Toby's childcare Book Week (Mon 24) and Noah's school parade + dress-up (Fri 28, 9am).</p></div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🏊</div>
+      <div class="insight-body"><h4>Swimming Thursday</h4><p>Toby 9:30am · Noah 4:30pm. Also Noah's reception assembly at 9am — bring snacks for Toby.</p></div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">🎂</div>
+      <div class="insight-body"><h4>Archie's birthday</h4><p>Sat 29 Aug, 2:00pm at Mitcham Reserve. Noah's invited too — remember a gift.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Day by day -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Day by Day</div>
+    <div class="section-title">The Schedule</div>
+  </div>
+  <div class="schedule-grid">
+
+    <div class="day-card">
+      <span class="day-label">Sunday 23 August</span>
+      <div class="day-badges"><span class="badge badge-family">Family Day</span></div>
+      <hr class="day-divider">
+      <div class="event free"><span class="event-time">all day</span><span class="event-body">No fixed plans — a relaxed day together.</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Monday 24 August</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Childcare — drop &amp; collect</span></div>
+      <div class="event"><span class="event-time">📖</span><span class="event-body"><span class="badge badge-toby">Toby</span>Book Week at childcare</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Tuesday 25 August</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Donna has him — no childcare</span></div>
+      <div class="event"><span class="event-time">eve</span><span class="event-body"><span class="badge badge-family">Family</span>Collect Toby — family night at Donna's</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Wednesday 26 August</span>
+      <div class="day-badges"><span class="badge badge-josh">Josh · On Leave</span></div>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">📚</span><span class="event-body"><span class="badge badge-noah">Noah</span>Library day — send his books to school for exchange</span></div>
+      <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-toby">Toby</span>Mitcham Village playgroup (9:00–10:30am)</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Thursday 27 August</span>
+      <div class="day-badges"><span class="badge badge-josh">Josh · On Leave</span></div>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-noah">Noah</span>🎤 Reception assembly — try to attend, bring snacks for Toby</span></div>
+      <div class="event"><span class="event-time">9:30am</span><span class="event-body"><span class="badge badge-toby">Toby</span>🏊 Swimming</span></div>
+      <div class="event"><span class="event-time">4:30pm</span><span class="event-body"><span class="badge badge-noah">Noah</span>🏊 Swimming</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Friday 28 August</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-noah">Noah</span>🎉 Book Week school parade — dress up!</span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Childcare — drop &amp; collect</span></div>
+      <div class="event"><span class="event-time">4:30pm</span><span class="event-body"><span class="badge badge-noah">Noah</span>⚽ Footy (4:30–5:30pm)</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Saturday 29 August</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">2:00pm</span><span class="event-body"><span class="badge badge-family">Family</span>🎂 Archie's birthday — Mitcham Reserve. Noah invited too · <strong>gift?</strong></span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Sunday 30 August</span>
+      <div class="day-badges"><span class="badge badge-family">Free Day</span></div>
+      <hr class="day-divider">
+      <div class="event free"><span class="event-time">all day</span><span class="event-body">No fixed plans.</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Monday 31 August</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Childcare — drop &amp; collect</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Tuesday 1 September</span>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Childcare — drop &amp; collect</span></div>
+      <div class="event"><span class="event-time">☕</span><span class="event-body"><span class="badge badge-toby">Toby</span>Coffee van at childcare — Father's Day</span></div>
+    </div>
+
+    <div class="day-card">
+      <span class="day-label">Wednesday 2 September</span>
+      <div class="day-badges"><span class="badge badge-josh">Josh · On Leave</span></div>
+      <hr class="day-divider">
+      <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>early</strong> (for airport)</span></div>
+      <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>With Josh today</span></div>
+      <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-toby">Toby</span>Mitcham Village playgroup (9:00–10:30am)</span></div>
+      <div class="event"><span class="event-time">📚</span><span class="event-body"><span class="badge badge-noah">Noah</span>Mitcham Library visit with school</span></div>
+      <div class="event"><span class="event-time">3:00pm</span><span class="event-body"><span class="badge badge-family">Family</span>✈️ Pick up Mum from the airport — with the boys 😊</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Dinner -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Dinner Plan</div>
+    <div class="section-title">What's for Tea</div>
+  </div>
+  <div class="table-wrap"><div class="table-scroll">
+  <table>
+    <thead><tr><th>Day</th><th>Dinner</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sun 23 Aug</strong></td><td>Family day — easy / takeaway or roast</td></tr>
+      <tr><td><strong>Mon 24 Aug</strong></td><td>Spaghetti bolognese (make extra)</td></tr>
+      <tr><td><strong>Tue 25 Aug</strong></td><td>Josh + Noah (Toby at Donna's) — chicken, rice &amp; veg</td></tr>
+      <tr><td><strong>Wed 26 Aug</strong></td><td>Tacos / wraps</td></tr>
+      <tr><td><strong>Thu 27 Aug</strong></td><td>Swim-night quick — fish &amp; chips or nuggets + salad</td></tr>
+      <tr><td><strong>Fri 28 Aug</strong></td><td>Homemade pizza</td></tr>
+      <tr><td><strong>Sat 29 Aug</strong></td><td>BBQ / leftovers (Archie's party at 2pm)</td></tr>
+      <tr><td><strong>Sun 30 Aug</strong></td><td>Batch cook — pasta bake or roast</td></tr>
+      <tr><td><strong>Mon 31 Aug</strong></td><td>Freezer meal / leftovers</td></tr>
+      <tr><td><strong>Tue 1 Sep</strong></td><td>Josh's pick — Father's Day eve</td></tr>
+      <tr><td><strong>Wed 2 Sep</strong></td><td>Welcome-home — Amy's favourite</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+  <p class="footnote" style="margin-top:10px;text-align:left;">Starter plan — swap any night as you like.</p>
+</section>
+
+<!-- Additional notes -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Additional Notes</div>
+    <div class="section-title">From Amy</div>
+  </div>
+  <div class="notes-list">
+    <div class="note-item">
+      <div class="note-icon">🍱</div>
+      <div class="note-body"><h4>Lunch boxes</h4><p>Refer to Amy's pictures for what to pack.</p></div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">🐰</div>
+      <div class="note-body"><h4>Toby's bunny</h4><p>Give Toby his bunny for childcare — he might be a little more out of sorts with Mum away.</p></div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">🍳</div>
+      <div class="note-body"><h4>Breakfast options</h4>
+        <p>
+          <span class="chip">Porridge sachets + hemp seeds / nut butter</span>
+          <span class="chip">Egg bread — 2 eggs in a bowl + hemp seeds (1 person)</span>
+          <span class="chip">Eggs on toast — cheese / avocado</span>
+          <span class="chip">Muesli + yoghurt</span>
+          <span class="chip">Fried eggs on toast — Noah's go-to</span>
+        </p>
+      </div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">📞</div>
+      <div class="note-body"><h4>Health concerns</h4><p>Call <strong>Di — 0402 289 621</strong> if you're worried about the boys' health. Amy will likely be asleep with the time difference.</p></div>
+    </div>
+  </div>
+</section>
+
+<p class="footnote">Prepared by Gary · 14 August 2026 · <span style="color:var(--ink);">Hancock Family</span></p>
+
+</div>
+
+</body>
+</html>
