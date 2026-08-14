@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-15T06:50:46.079920+09:30",
-  "timestamp_display": "15 Aug 2026 \u00b7 6:50 AM",
-  "timestamp_short": "6:50:46 AM",
+  "timestamp": "2026-08-15T06:55:46.913738+09:30",
+  "timestamp_display": "15 Aug 2026 \u00b7 6:55 AM",
+  "timestamp_short": "6:55:46 AM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": -3,
     "grid_direction": "Idle",
-    "inverter_temp_c": 42.7,
-    "battery_power_w": 398,
+    "inverter_temp_c": 44.1,
+    "battery_power_w": 388,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 494.5,
     "today_solar_kwh": 0.0,
@@ -17,13 +17,13 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 287.7,
     "today_bat_discharge_kwh": 5.2,
-    "home_consumption_w": 400,
+    "home_consumption_w": 397,
     "lifetime_export_kwh": 6.4,
     "lifetime_import_kwh": 20.9,
     "battery_temp_c": 17.2,
     "battery_soc_pct": 35,
     "battery_soh_pct": 100,
-    "solar_now_w": 25,
+    "solar_now_w": 35,
     "battery_flow": "discharging",
     "grid_flow": "balanced"
   },
@@ -33,16 +33,11 @@
     "period": "peak",
     "descriptor": "low",
     "spike_status": "none",
-    "renewables": 13.736,
+    "renewables": 13.461,
     "forward_prices": [
       {
-        "time": "06:55",
-        "price": 47.8,
-        "period": "peak"
-      },
-      {
         "time": "07:00",
-        "price": 52.3,
+        "price": 47.8,
         "period": "peak"
       },
       {
@@ -52,17 +47,17 @@
       },
       {
         "time": "07:10",
-        "price": 60.4,
+        "price": 52.6,
         "period": "peak"
       },
       {
         "time": "07:15",
-        "price": 60.4,
+        "price": 52.6,
         "period": "peak"
       },
       {
         "time": "07:20",
-        "price": 55.1,
+        "price": 52.4,
         "period": "peak"
       },
       {
@@ -106,7 +101,7 @@
         "period": "solarSponge"
       }
     ],
-    "next_peak_c": 60.4,
+    "next_peak_c": 52.6,
     "next_peak_time": "07:10",
     "next_trough_c": 13.5,
     "next_trough_time": "10:00"
