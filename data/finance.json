@@ -1,13 +1,13 @@
 {
-  "updated": "2026-07-15",
-  "currentPeriod": "2026-07",
+  "updated": "2026-08-14",
+  "currentPeriod": "2026-08",
   "periods": {
     "2026-05": {
       "label": "May 2026",
       "income": {
         "total": 6543,
         "monthlyEquivalent": 12700,
-        "note": "Actual cash deposits \u2014 1 Josh pay + 1 Amy AccessPay. Second pay landed 2 Jun.",
+        "note": "Actual cash deposits — 1 Josh pay + 1 Amy AccessPay. Second pay landed 2 Jun.",
         "sources": [
           {
             "name": "Josh Salary (1 pay)",
@@ -118,7 +118,7 @@
         "paidPrincipal": 5582,
         "paidInterest": 4571,
         "monthlyRepayment": null,
-        "note": "April interest was high ($4,571) \u2014 $120K house proceeds didn't land until 24 Apr so full $860K accrued interest most of the month"
+        "note": "April interest was high ($4,571) — $120K house proceeds didn't land until 24 Apr so full $860K accrued interest most of the month"
       },
       "supplierData": {
         "totalSpend": 13259.93,
@@ -427,12 +427,12 @@
       "income": {
         "total": 10398,
         "monthlyEquivalent": 12700,
-        "note": "Actual cash deposits 1\u201314 Jun. Second half of month not yet landed.",
+        "note": "Actual cash deposits 1–14 Jun. Second half of month not yet landed.",
         "sources": [
           {
             "name": "Josh Salary (1 pay so far)",
             "amount": 4608,
-            "detail": "$4,608 on 2 Jun \u00b7 next ~17 Jun",
+            "detail": "$4,608 on 2 Jun · next ~17 Jun",
             "color": "#cc785c"
           },
           {
@@ -538,7 +538,7 @@
         "paidPrincipal": 1127,
         "paidInterest": 3581,
         "monthlyRepayment": 5046,
-        "note": "Interest lower than April ($3,581 vs $4,571) \u2014 $120K house proceeds now reducing balance. Run rate: ~$3,780/mo interest at current balance."
+        "note": "Interest lower than April ($3,581 vs $4,571) — $120K house proceeds now reducing balance. Run rate: ~$3,780/mo interest at current balance."
       },
       "supplierData": {
         "totalSpend": 49011.62,
@@ -835,7 +835,7 @@
       "income": {
         "total": 7066,
         "monthlyEquivalent": 12700,
-        "note": "Partial month (1\u201315 Jul). 2 Josh pays expected by month end.",
+        "note": "Partial month (1–15 Jul). 2 Josh pays expected by month end.",
         "sources": [
           {
             "name": "Josh Salary (est. 1 pay)",
@@ -858,7 +858,7 @@
           {
             "name": "Car Sale Proceeds",
             "amount": 23500,
-            "detail": "David + Dave \u2014 not regular income",
+            "detail": "David + Dave — not regular income",
             "color": "#e6c5b9",
             "oneOff": true
           },
@@ -1069,6 +1069,319 @@
           }
         ]
       }
+    },
+    "2026-08": {
+      "label": "August 2026",
+      "income": {
+        "total": 6158,
+        "monthlyEquivalent": 12700,
+        "note": "Estimated — pay lands in NAB savings (36-971-8653), not this spending statement. 1 Josh pay + 1 Amy AccessPay expected by mid-Aug. Verify against savings statement.",
+        "sources": [
+          {
+            "name": "Josh Salary (est. 1 pay)",
+            "amount": 4633,
+            "detail": "~$4,633",
+            "color": "#cc785c"
+          },
+          {
+            "name": "Amy AccessPay (est.)",
+            "amount": 1025,
+            "detail": "~$1,025",
+            "color": "#d1896f"
+          },
+          {
+            "name": "Amy Base Pay (est.)",
+            "amount": 500,
+            "detail": "Randle & Taylor",
+            "color": "#d89d87"
+          }
+        ]
+      },
+      "expenseCategories": [
+        {
+          "name": "Groceries",
+          "amount": 1892.0,
+          "color": "#cc785c"
+        },
+        {
+          "name": "Shopping",
+          "amount": 1660.0,
+          "color": "#d1896f"
+        },
+        {
+          "name": "Insurance",
+          "amount": 2276.0,
+          "color": "#d89d87"
+        },
+        {
+          "name": "Utilities",
+          "amount": 235.0,
+          "color": "#dfb1a0"
+        },
+        {
+          "name": "Health",
+          "amount": 937.0,
+          "color": "#e6c5b9"
+        },
+        {
+          "name": "Transport",
+          "amount": 292.0,
+          "color": "#edd9d2"
+        },
+        {
+          "name": "Kids",
+          "amount": 1130.0,
+          "color": "#f2e8e5"
+        },
+        {
+          "name": "Eating Out",
+          "amount": 148.0,
+          "color": "#dcab98"
+        },
+        {
+          "name": "Subscriptions",
+          "amount": 80.0,
+          "color": "#d4957a"
+        },
+        {
+          "name": "Bills & Fees",
+          "amount": 1388.0,
+          "color": "#ebd9d4"
+        },
+        {
+          "name": "Other",
+          "amount": 1417.0,
+          "color": "#c9a690"
+        }
+      ],
+      "snapshot": {
+        "savings": 54560,
+        "loan": -802875.67,
+        "redraw": 49124.17
+      },
+      "loanBreakdown": {
+        "paidPrincipal": null,
+        "paidInterest": null,
+        "monthlyRepayment": 5160,
+        "note": "Loan balance ROSE $21,322 over the month (net redraws > principal). P&I instalment now active at 6.04%. Solar system (~$19.5K) funded via redraw. Interest ~$4,040/mo at current balance."
+      },
+      "supplierData": {
+        "totalSpend": 30916.41,
+        "suppliers": [
+          {
+            "name": "Solar System (capital)",
+            "amount": 19460.0
+          },
+          {
+            "name": "EzyReg (rego)",
+            "amount": 1387.04
+          },
+          {
+            "name": "Woolworths",
+            "amount": 1212.42
+          },
+          {
+            "name": "Car Insurance",
+            "amount": 1200.0
+          },
+          {
+            "name": "Budget Direct",
+            "amount": 1076.5
+          },
+          {
+            "name": "Patricia Holdings",
+            "amount": 1065.0
+          },
+          {
+            "name": "Nappcol (nappies)",
+            "amount": 565.55
+          },
+          {
+            "name": "Coles",
+            "amount": 518.24
+          },
+          {
+            "name": "Rachel Mead (chairs)",
+            "amount": 400.0
+          },
+          {
+            "name": "David Jones",
+            "amount": 343.96
+          },
+          {
+            "name": "Shyamala Claire",
+            "amount": 308.5
+          },
+          {
+            "name": "Cornes Toyota",
+            "amount": 292.03
+          },
+          {
+            "name": "Adelaide Eastern Healthcare",
+            "amount": 274.02
+          },
+          {
+            "name": "Amber Electric",
+            "amount": 235.22
+          },
+          {
+            "name": "Payrix (Purruna YMCA)",
+            "amount": 214.0
+          },
+          {
+            "name": "Mastery Football",
+            "amount": 180.0
+          },
+          {
+            "name": "Dr Nusrat Nadia",
+            "amount": 170.1
+          },
+          {
+            "name": "Nourished Life",
+            "amount": 166.05
+          },
+          {
+            "name": "HealthyLife",
+            "amount": 164.76
+          },
+          {
+            "name": "Chalk Hill Wines",
+            "amount": 150.0
+          },
+          {
+            "name": "Foodland",
+            "amount": 140.49
+          },
+          {
+            "name": "Amazon",
+            "amount": 124.24
+          },
+          {
+            "name": "Chief Nutrition",
+            "amount": 120.6
+          },
+          {
+            "name": "Target",
+            "amount": 110.0
+          },
+          {
+            "name": "Parlour Hair",
+            "amount": 100.8
+          },
+          {
+            "name": "Northern Light Theatre",
+            "amount": 98.0
+          },
+          {
+            "name": "Afterpay",
+            "amount": 88.99
+          },
+          {
+            "name": "UberEats",
+            "amount": 71.01
+          },
+          {
+            "name": "Ariya Group",
+            "amount": 69.76
+          },
+          {
+            "name": "Mecca",
+            "amount": 64.0
+          },
+          {
+            "name": "PlayHQ",
+            "amount": 55.99
+          },
+          {
+            "name": "Dan Murphy",
+            "amount": 55.0
+          },
+          {
+            "name": "Vera Pizza",
+            "amount": 50.0
+          },
+          {
+            "name": "Flip TV",
+            "amount": 44.45
+          },
+          {
+            "name": "Bounce",
+            "amount": 41.37
+          },
+          {
+            "name": "Mitcham Village Kindy",
+            "amount": 40.0
+          },
+          {
+            "name": "Kmart",
+            "amount": 30.5
+          },
+          {
+            "name": "Remote Pro",
+            "amount": 28.0
+          },
+          {
+            "name": "Flagstaff Hill",
+            "amount": 24.35
+          },
+          {
+            "name": "Plaster Fun House",
+            "amount": 23.38
+          },
+          {
+            "name": "Shein",
+            "amount": 22.84
+          },
+          {
+            "name": "Bakers Delight",
+            "amount": 20.7
+          },
+          {
+            "name": "T J Sullivan (skin)",
+            "amount": 20.0
+          },
+          {
+            "name": "Soonta",
+            "amount": 15.69
+          },
+          {
+            "name": "Google Health",
+            "amount": 14.99
+          },
+          {
+            "name": "M and M Razum",
+            "amount": 11.26
+          },
+          {
+            "name": "Netherby Kindergarten",
+            "amount": 10.0
+          },
+          {
+            "name": "The Trustee for Bonc",
+            "amount": 10.0
+          },
+          {
+            "name": "Oura Ring",
+            "amount": 9.99
+          },
+          {
+            "name": "Google One",
+            "amount": 5.98
+          },
+          {
+            "name": "Reject Shop",
+            "amount": 5.0
+          },
+          {
+            "name": "Apple",
+            "amount": 4.49
+          },
+          {
+            "name": "Intl Transaction Fees",
+            "amount": 1.15
+          }
+        ]
+      }
     }
   },
   "allTime": {
@@ -1093,10 +1406,17 @@
         "loan": -781554,
         "redraw": 73711,
         "nab": 5668
+      },
+      {
+        "date": "2026-08-14",
+        "savings": 54560,
+        "loan": -802875.67,
+        "redraw": 49124.17,
+        "nab": 5436
       }
     ],
     "loanBreakdown": {
-      "period": "27 Mar \u2013 15 Jul 2026",
+      "period": "27 Mar – 15 Jul 2026",
       "interestRate": 6.04,
       "paidPrincipal": 7969,
       "paidInterest": 12053,
@@ -1107,12 +1427,12 @@
     }
   },
   "currentPosition": {
-    "nabSavings": 4401,
-    "nabSpending": 1267,
-    "bosRedraw": 73711,
+    "nabSavings": 5376.46,
+    "nabSpending": 59.41,
+    "bosRedraw": 49124.17,
     "bosEveryday": 1234,
-    "totalTracked": 79379,
-    "homeLoan": -781554,
+    "totalTracked": 54560,
+    "homeLoan": -802875.67,
     "interestRate": 6.04,
     "netWorth": 768413
   }
