@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plaud AI vs Pocket AI — AI Voice Recorder Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --amber: #c2680c;
+  --danger: #c0392b;
+  --blue: #1a73e8;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--canvas);
+  color: var(--body);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 700px) { .container { padding: 0 32px; } }
+
+/* Hero */
+.hero { padding: 80px 0 60px; text-align: center; }
+.hero .kicker {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 3.2rem); font-weight: 900;
+  color: var(--ink); line-height: 1.1; margin-bottom: 16px;
+}
+.hero .subtitle { font-size: 1rem; color: var(--body); max-width: 560px; margin: 0 auto; }
+@media (min-width: 700px) { .hero { padding: 100px 0 80px; } }
+
+/* Section */
+.section { padding: 60px 0; }
+.section-header { margin-bottom: 40px; }
+.section-label {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900;
+  color: var(--ink); line-height: 1.15;
+}
+
+/* Verdict */
+.verdict {
+  background: rgba(204,120,92,0.06);
+  border: 1px solid rgba(204,120,92,0.2);
+  border-radius: var(--radius-card);
+  padding: 32px 28px; text-align: center; position: relative;
+}
+.verdict-badge {
+  display: inline-block; font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--coral); margin-bottom: 12px;
+}
+.verdict h2 {
+  font-family: var(--font-display); font-size: 1.8rem; font-weight: 900;
+  color: var(--ink); margin-bottom: 8px;
+}
+.verdict .price { font-size: 2.6rem; font-weight: 900; color: var(--success); line-height: 1; margin-bottom: 4px; }
+.verdict .per { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
+.verdict .reasons { display: grid; gap: 8px; text-align: left; max-width: 480px; margin: 0 auto 24px; }
+.verdict .reasons li {
+  font-size: 0.88rem; color: var(--body); list-style: none;
+  padding-left: 20px; position: relative;
+}
+.verdict .reasons li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+.verdict .caveat {
+  font-size: 0.8rem; color: var(--body); max-width: 480px; margin: 0 auto;
+  padding-top: 18px; border-top: 1px solid rgba(204,120,92,0.18);
+}
+
+/* Cards */
+.cards { display: grid; gap: 24px; }
+@media (min-width: 700px) { .cards { grid-template-columns: 1fr 1fr; } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 28px 24px;
+  box-shadow: var(--shadow-rest);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex; flex-direction: column;
+}
+@media (min-width: 700px) { .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); } }
+.card.winner { border-color: var(--success); }
+.card.highlight { border-color: var(--coral); }
+
+.card-img { margin: -28px -24px 20px; }
+.card-img img {
+  width: 100%; height: 220px; object-fit: contain;
+  background: #f5f3ef; border-radius: var(--radius-card) var(--radius-card) 0 0;
+  padding: 12px;
+}
+.card-winner-tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--success); margin-bottom: 10px;
+}
+.card-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.card-subtitle { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+.card-price { font-size: 2rem; font-weight: 900; color: var(--ink); margin-bottom: 2px; }
+.card-price .mono { font-family: var(--font-mono); }
+.card-price-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 20px; }
+
+.specs { display: grid; gap: 10px; border-top: 1px solid var(--hairline-soft); padding-top: 20px; margin-top: auto; }
+.spec { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.84rem; }
+.spec-label { color: var(--body); }
+.spec-value { font-weight: 600; color: var(--ink); text-align: right; }
+.spec-value.good { color: var(--success); }
+.spec-value.warn { color: var(--amber); }
+
+.card-cta { display: block; margin-top: 20px; text-align: center; }
+.card-link {
+  display: inline-block; color: var(--coral); font-weight: 600; font-size: 0.88rem;
+  text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s ease;
+}
+.card-link:hover { border-color: var(--coral); }
+.card-link::after { content: ' →'; }
+
+/* Data table */
+.table-wrap {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-rest);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+thead th {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); text-align: left;
+  padding: 18px 20px 12px; border-bottom: 1px solid var(--hairline);
+}
+thead th:not(:first-child) { text-align: center; }
+tbody td { padding: 14px 20px; border-bottom: 1px solid var(--hairline-soft); vertical-align: top; }
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+tbody td:first-child { color: var(--body); font-weight: 500; }
+tbody td:not(:first-child) { text-align: center; font-weight: 600; color: var(--ink); }
+tbody td.win { color: var(--success); font-weight: 700; }
+tbody td.warn { color: var(--danger); }
+.mono { font-family: var(--font-mono); }
+.table-scroll { overflow-x: auto; }
+
+/* Insight / note boxes */
+.insight {
+  background: var(--surface-alt); border-radius: var(--radius-card);
+  padding: 24px 28px; font-size: 0.88rem; color: var(--body); margin-top: 24px;
+}
+.insight strong { color: var(--ink); }
+.insight.good { border-left: 3px solid var(--success); }
+.insight.warn { border-left: 3px solid var(--amber); }
+.insight.blue { border-left: 3px solid var(--blue); }
+.insight h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: var(--ink); margin-bottom: 8px; }
+
+/* Cost cards */
+.cost-grid { display: grid; gap: 16px; }
+@media (min-width: 700px) { .cost-grid { grid-template-columns: 1fr 1fr; } }
+.cost-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 24px; box-shadow: var(--shadow-rest);
+}
+.cost-card h4 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: var(--ink); margin-bottom: 12px; }
+.cost-row { display: flex; justify-content: space-between; font-size: 0.84rem; padding: 8px 0; border-bottom: 1px solid var(--hairline-soft); }
+.cost-row:last-child { border-bottom: none; }
+.cost-row .lbl { color: var(--body); }
+.cost-row .val { font-weight: 600; color: var(--ink); }
+.cost-row.total { font-weight: 800; color: var(--ink); font-size: 0.9rem; }
+.cost-row.total .val { font-family: var(--font-mono); font-size: 1.05rem; }
+
+/* Decision guide */
+.decision { display: grid; gap: 16px; }
+@media (min-width: 700px) { .decision { grid-template-columns: 1fr 1fr; } }
+.decision-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 28px 24px; box-shadow: var(--shadow-rest);
+}
+.decision-card h4 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.decision-card .sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; }
+.decision-card ul { list-style: none; display: grid; gap: 8px; }
+.decision-card li { font-size: 0.86rem; color: var(--body); padding-left: 18px; position: relative; }
+.decision-card li::before { content: '·'; position: absolute; left: 4px; color: var(--coral); font-weight: 700; }
+.decision-card.pocket { border-top: 3px solid var(--coral); }
+.decision-card.plaud { border-top: 3px solid var(--success); }
+
+/* Footer */
+.site-footer { text-align: center; padding: 20px 0 40px; font-size: 0.78rem; color: var(--muted); }
+.site-footer a { color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="kicker">AI Voice Recorders · August 2026</div>
+  <h1>Plaud AI vs Pocket AI</h1>
+  <p class="subtitle">Two pocket-sized devices that record, transcribe and summarise real-world conversations. Which one fits your stack?</p>
+</section>
+
+<!-- Verdict -->
+<section class="section">
+  <div class="verdict">
+    <div class="verdict-badge">Our Pick</div>
+    <h2>Pocket — for an AI-native stack</h2>
+    <div class="price"><span class="mono">~A$150</span></div>
+    <div class="per">US$99 intro (reg. US$199) · free tier transcribes for life</div>
+    <ul class="reasons">
+      <li>You pick the AI model behind every summary (Claude, GPT, etc.) — Plaud locks you to its own pipeline</li>
+      <li>MCP server since day one — transcripts queryable from Claude Code</li>
+      <li>Cheapest to run: unlimited transcription on the free tier, no forced subscription</li>
+    </ul>
+    <div class="caveat">
+      <strong>The safer turnkey pick is Plaud Note Pro.</strong> It's more established, has real Australian distribution (au.plaud.ai + Kogan), stronger compliance (SOC 2, HIPAA) and better battery. Pocket ships from Hong Kong and is the newer product. Choose Plaud if you want zero-fuss — choose Pocket if you already live in Claude and want control over the AI doing the work.
+    </div>
+  </div>
+</section>
+
+<!-- Cards -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Devices</div>
+    <div class="section-title">Pocket vs Plaud Note Pro</div>
+  </div>
+
+  <div class="cards">
+    <!-- Pocket -->
+    <div class="card highlight">
+      <div class="card-img"><img src="images/pocket.jpg" alt="Pocket AI device" onerror="this.style.display='none'"></div>
+      <div class="card-winner-tag" style="color:var(--coral)">AI-Native Pick</div>
+      <div class="card-name">Pocket</div>
+      <div class="card-subtitle">HeyPocket — wearable clip / MagSafe</div>
+      <div class="card-price"><span class="mono">US$99</span></div>
+      <div class="card-price-label">intro price · reg. US$199 · ≈ A$150 + intl shipping from HK</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Form factor</span><span class="spec-value">Wearable clip, MagSafe</span></div>
+        <div class="spec"><span class="spec-label">AI model choice</span><span class="spec-value good">Yes — pick your model</span></div>
+        <div class="spec"><span class="spec-label">MCP server</span><span class="spec-value good">Since day one</span></div>
+        <div class="spec"><span class="spec-label">Storage</span><span class="spec-value">64GB + unlimited cloud</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">~4 days (claimed)</span></div>
+        <div class="spec"><span class="spec-label">Free tier</span><span class="spec-value good">Unlimited transcription</span></div>
+        <div class="spec"><span class="spec-label">Compliance</span><span class="spec-value warn">E2E encryption only</span></div>
+      </div>
+      <div class="card-cta"><a class="card-link" href="https://heypocket.com/" target="_blank" rel="nofollow">Buy from HeyPocket</a></div>
+    </div>
+
+    <!-- Plaud Note Pro -->
+    <div class="card winner">
+      <div class="card-img"><img src="images/plaud-note-pro.jpg" alt="Plaud Note Pro" onerror="this.style.display='none'"></div>
+      <div class="card-winner-tag">Safest Turnkey</div>
+      <div class="card-name">Plaud Note Pro</div>
+      <div class="card-subtitle">Plaud AI — card, magnets to phone</div>
+      <div class="card-price"><span class="mono">A$309</span></div>
+      <div class="card-price-label">AU direct · Note A$269 · NotePin A$299</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Form factor</span><span class="spec-value">Card, 2.99mm / 30g</span></div>
+        <div class="spec"><span class="spec-label">AI model choice</span><span class="spec-value warn">No — fixed pipeline</span></div>
+        <div class="spec"><span class="spec-label">MCP server</span><span class="spec-value">Yes (May 2026)</span></div>
+        <div class="spec"><span class="spec-label">Storage</span><span class="spec-value">64GB</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value good">30h record · 60d standby</span></div>
+        <div class="spec"><span class="spec-label">Free tier</span><span class="spec-value">300 min/mo (Starter)</span></div>
+        <div class="spec"><span class="spec-label">Compliance</span><span class="spec-value good">SOC 2, HIPAA, ISO 27001</span></div>
+      </div>
+      <div class="card-cta"><a class="card-link" href="https://au.plaud.ai/products/plaud-note-pro" target="_blank" rel="nofollow">Buy from Plaud AU</a></div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Plaud also sells the NotePin (A$299)</strong> — a wearable pill-shaped recorder for hands-free capture. If you want Plaud's mature app but prefer a clip to a card, the NotePin is the version that competes head-to-head with Pocket on form factor. It shares Plaud's fixed AI pipeline and 300-min free tier.
+  </div>
+</section>
+
+<!-- Full comparison -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Spec vs Spec</div>
+    <div class="section-title">The full picture</div>
+  </div>
+
+  <div class="table-wrap"><div class="table-scroll">
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th>Pocket</th><th>Plaud Note Pro</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Form factor</td><td>Wearable clip / MagSafe</td><td>Credit-card, magnets to phone</td></tr>
+      <tr><td>Best for</td><td>Wear-and-forget all day</td><td>Phone calls + table meetings</td></tr>
+      <tr><td>Device price</td><td class="win">US$99 (≈A$150)</td><td>A$309</td></tr>
+      <tr><td>AI model choice</td><td class="win">Yes — any model</td><td>No — fixed pipeline</td></tr>
+      <tr><td>MCP server</td><td class="win">Day one</td><td>Added May 2026</td></tr>
+      <tr><td>Battery</td><td>~4 days (claimed)</td><td class="win">30h record · 60d standby</td></tr>
+      <tr><td>Storage</td><td class="win">64GB + unlimited cloud</td><td>64GB</td></tr>
+      <tr><td>Phone-call capture</td><td>Clip near speaker</td><td class="win">Magnetic, purpose-built</td></tr>
+      <tr><td>Free tier</td><td class="win">Unlimited transcription</td><td>300 min/mo</td></tr>
+      <tr><td>Exports &amp; workflows</td><td>Notes, search, action items</td><td class="win">27+ formats, templates, Zapier</td></tr>
+      <tr><td>Compliance</td><td>E2E encryption, no training</td><td class="win">SOC 2, HIPAA, ISO 27001/27701</td></tr>
+      <tr><td>Track record</td><td>Newer, smaller review trail</td><td class="win">Established, deep history</td></tr>
+      <tr><td>AU availability</td><td>International ship from HK</td><td class="win">au.plaud.ai + Kogan</td></tr>
+    </tbody>
+  </table>
+  </div></div>
+</section>
+
+<!-- Year one cost -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Running Cost</div>
+    <div class="section-title">Year-one, all in</div>
+  </div>
+
+  <div class="cost-grid">
+    <div class="cost-card">
+      <h4>Pocket (US$)</h4>
+      <div class="cost-row"><span class="lbl">Device</span><span class="val">$99</span></div>
+      <div class="cost-row"><span class="lbl">Free tier</span><span class="val">$0 — unlimited transcription</span></div>
+      <div class="cost-row"><span class="lbl">Pro (optional, annual)</span><span class="val">$199/yr</span></div>
+      <div class="cost-row total"><span class="lbl">Light use — year 1</span><span class="val">$99</span></div>
+      <div class="cost-row total"><span class="lbl">With Pro — year 1</span><span class="val">~$298</span></div>
+    </div>
+    <div class="cost-card">
+      <h4>Plaud Note Pro (A$)</h4>
+      <div class="cost-row"><span class="lbl">Device</span><span class="val">$309</span></div>
+      <div class="cost-row"><span class="lbl">Starter (free)</span><span class="val">$0 — 300 min/mo</span></div>
+      <div class="cost-row"><span class="lbl">Pro (optional, annual)</span><span class="val">~US$100/yr (1,200 min/mo)</span></div>
+      <div class="cost-row"><span class="lbl">Unlimited (optional)</span><span class="val">~US$240/yr</span></div>
+      <div class="cost-row total"><span class="lbl">Light use — year 1</span><span class="val">$309</span></div>
+      <div class="cost-row total"><span class="lbl">With Unlimited — year 1</span><span class="val">~$549</span></div>
+    </div>
+  </div>
+
+  <div class="insight warn">
+    <strong>Plaud's real cost climbs with volume.</strong> The free 300 min/mo is ~10 meetings. Heavy users who want templates, more minutes and translation get pushed to Pro or Unlimited — at which point Plaud's year-one total exceeds Pocket's even with Pocket Pro. Pocket's free tier is the more generous default.
+  </div>
+</section>
+
+<!-- Community -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">What Owners Say</div>
+    <div class="section-title">Community sentiment (Reddit)</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-card pocket">
+      <h4>Pocket</h4>
+      <div class="sub">r/heypocketai + r/ProductivityApps</div>
+      <ul>
+        <li>“Hate to admit it, but it's actually useful” — common refrain from sceptics</li>
+        <li>Recurring debate: Pocket AI vs Plaud Pro, with monthly cost the main hesitation</li>
+        <li>Positive on offline recording + clean transcription + simple charging</li>
+        <li>Complaints: proprietary early hardware quirks, shipping wait times</li>
+      </ul>
+    </div>
+    <div class="decision-card plaud">
+      <h4>Plaud</h4>
+      <div class="sub">r/PlaudNoteUsers + r/PlaudNote</div>
+      <ul>
+        <li>Note Pro owners report AI-enhancer noise on some recordings</li>
+        <li>“6 months later, still underwhelmed” — friction in the daily workflow</li>
+        <li>Occasional “summary not generating” failures on important meetings</li>
+        <li>Proprietary charging cable a noted inconvenience</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight good">
+    <strong>Both devices produce usable transcripts on clean one-on-one audio.</strong> Every source — including the affiliate reviews — agrees the raw audio is at parity. The gap is the layer above: which AI writes the summary, and how fast you can retrieve it. That's where Pocket's model choice and MCP shine, and where Plaud's fixed pipeline shows its ceiling.
+  </div>
+</section>
+
+<!-- Decision guide -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Call</div>
+    <div class="section-title">Which one should you buy?</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-card pocket">
+      <h4>Buy Pocket if…</h4>
+      <div class="sub">the AI-native option</div>
+      <ul>
+        <li>You already run Claude Code, MCP, or an agentic workflow</li>
+        <li>You want a vote in which model writes your summaries</li>
+        <li>You want the cheapest year-one cost and unlimited transcription</li>
+        <li>You prefer a clip-on wearable to a card</li>
+      </ul>
+    </div>
+    <div class="decision-card plaud">
+      <h4>Buy Plaud Note Pro if…</h4>
+      <div class="sub">the turnkey option</div>
+      <ul>
+        <li>You want the established device with a deep review history</li>
+        <li>You need real AU distribution (direct store, Kogan) and fast local shipping</li>
+        <li>Compliance matters — SOC 2, HIPAA, ISO for work/health use</li>
+        <li>Phone-call capture is your main use case (magnetic attachment)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>A note on recording consent</h3>
+    Recording conversations is legal in most Australian jurisdictions with one-party consent, but the safe habit is to disclose recording up front — every meeting, regardless of jurisdiction. Both devices make the act invisible to the other party, which is precisely why the disclosure matters.
+  </div>
+</section>
+
+<div class="site-footer">
+  Prepared by Gary · sources: manufacturer sites, ticnote.com, Market Correct (disclosed Pocket affiliate), Reddit community threads · prices checked 14 Aug 2026
+</div>
+
+</div>
+</body>
+</html>
