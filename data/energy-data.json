@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-14T16:40:36.227549+09:30",
-  "timestamp_display": "14 Aug 2026 \u00b7 4:40 PM",
-  "timestamp_short": "4:40:36 PM",
+  "timestamp": "2026-08-14T16:45:36.988490+09:30",
+  "timestamp_display": "14 Aug 2026 \u00b7 4:45 PM",
+  "timestamp_short": "4:45:36 PM",
   "goodwe": {
-    "grid_power_w": 20,
+    "grid_power_w": 4,
     "grid_direction": "Idle",
-    "inverter_temp_c": 46.4,
-    "battery_power_w": -189,
-    "battery_mode": "Charge",
+    "inverter_temp_c": 48.1,
+    "battery_power_w": 21,
+    "battery_mode": "Standby",
     "lifetime_solar_kwh": 494.2,
     "today_solar_kwh": 23.0,
     "today_export_kwh": 12.9,
@@ -17,62 +17,57 @@
     "today_bat_charge_kwh": 2.9,
     "lifetime_bat_discharge_kwh": 276.2,
     "today_bat_discharge_kwh": 3.1,
-    "home_consumption_w": 275,
+    "home_consumption_w": 409,
     "lifetime_export_kwh": 6.4,
     "lifetime_import_kwh": 20.9,
     "battery_temp_c": 21.2,
     "battery_soc_pct": 70,
     "battery_soh_pct": 100,
-    "solar_now_w": 520,
-    "battery_flow": "charging",
+    "solar_now_w": 418,
+    "battery_flow": "idle",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 64.5,
-    "sell_price_c": 32.7,
+    "current_price_c": 60.4,
+    "sell_price_c": 29.1,
     "period": "peak",
-    "descriptor": "high",
+    "descriptor": "neutral",
     "spike_status": "none",
-    "renewables": 14.853,
+    "renewables": 16.156000000000002,
     "forward_prices": [
       {
-        "time": "16:45",
-        "price": 53.6,
-        "period": "peak"
-      },
-      {
         "time": "16:50",
-        "price": 54.4,
+        "price": 60.4,
         "period": "peak"
       },
       {
         "time": "16:55",
-        "price": 56.1,
+        "price": 60.4,
         "period": "peak"
       },
       {
         "time": "17:00",
-        "price": 54.4,
-        "period": "peak"
-      },
-      {
-        "time": "17:05",
-        "price": 54.4,
-        "period": "peak"
-      },
-      {
-        "time": "17:10",
         "price": 56.1,
         "period": "peak"
       },
       {
+        "time": "17:05",
+        "price": 59.3,
+        "period": "peak"
+      },
+      {
+        "time": "17:10",
+        "price": 59.3,
+        "period": "peak"
+      },
+      {
         "time": "17:15",
-        "price": 54.4,
+        "price": 56.1,
         "period": "peak"
       },
       {
         "time": "17:20",
-        "price": 59.3,
+        "price": 60.4,
         "period": "peak"
       },
       {
