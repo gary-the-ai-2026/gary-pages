@@ -133,6 +133,19 @@ tbody tr:last-child td { border-bottom: none; }
   background: var(--surface-alt); border-radius: 6px; padding: 1px 8px; margin: 2px 4px 2px 0;
 }
 
+/* Amy's to-do */
+.todo-card {
+  background: #fdf6ec;
+  border: 1px solid #f0ddbf;
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-rest);
+}
+.todo-item { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; }
+.todo-check { font-size: 18px; color: var(--warning); line-height: 1.4; flex-shrink: 0; }
+.todo-body { font-size: 15px; color: var(--ink); font-weight: 600; }
+.todo-sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+
 /* Footnote */
 .footnote { margin-top: var(--space-lg); text-align: center; font-size: 12px; color: var(--muted); }
 </style>
@@ -146,6 +159,24 @@ tbody tr:last-child td { border-bottom: none; }
   <div class="kicker">Sunday 23 August → Wednesday 2 September 2026</div>
   <h1>While Mum's Away</h1>
   <p class="subtitle">The full family schedule while Amy's in the UK — school runs, childcare, swimming, and everything in between.</p>
+</section>
+
+<!-- Before You Leave -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Before You Leave</div>
+    <div class="section-title">Amy's To-Do</div>
+  </div>
+  <div class="todo-card">
+    <div class="todo-item">
+      <span class="todo-check">☐</span>
+      <span class="todo-body">Pick a gift for Archie's birthday <span class="todo-sub">· Sat 29 Aug</span></span>
+    </div>
+    <div class="todo-item">
+      <span class="todo-check">☐</span>
+      <span class="todo-body">Choose Noah's Book Week outfit <span class="todo-sub">· school parade, Fri 28 Aug</span></span>
+    </div>
+  </div>
 </section>
 
 <!-- Quick facts -->
@@ -208,6 +239,7 @@ tbody tr:last-child td { border-bottom: none; }
       <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
       <div class="event"><span class="event-time">📚</span><span class="event-body"><span class="badge badge-noah">Noah</span>Library day — send his books to school for exchange</span></div>
       <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-toby">Toby</span>Mitcham Village playgroup (9:00–10:30am)</span></div>
+      <div class="event"><span class="event-time">eve</span><span class="event-body"><span class="badge badge-josh">Josh</span>🗑️ Bin night — put bins out</span></div>
     </div>
 
     <div class="day-card">
@@ -226,7 +258,7 @@ tbody tr:last-child td { border-bottom: none; }
       <div class="event"><span class="event-time">8:45am</span><span class="event-body"><span class="badge badge-noah">Noah</span>School drop-off · collect <strong>3:15pm</strong></span></div>
       <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-noah">Noah</span>🎉 Book Week school parade — dress up!</span></div>
       <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>Childcare — drop &amp; collect</span></div>
-      <div class="event"><span class="event-time">4:30pm</span><span class="event-body"><span class="badge badge-noah">Noah</span>⚽ Footy (4:30–5:30pm)</span></div>
+      <div class="event"><span class="event-time">4:30pm</span><span class="event-body"><span class="badge badge-noah">Noah</span>⚽ Footy (4:30–5:30pm) — bring Noah's football &amp; boots</span></div>
     </div>
 
     <div class="day-card">
@@ -265,6 +297,7 @@ tbody tr:last-child td { border-bottom: none; }
       <div class="event"><span class="event-time">day</span><span class="event-body"><span class="badge badge-toby">Toby</span>With Josh today</span></div>
       <div class="event"><span class="event-time">9:00am</span><span class="event-body"><span class="badge badge-toby">Toby</span>Mitcham Village playgroup (9:00–10:30am)</span></div>
       <div class="event"><span class="event-time">📚</span><span class="event-body"><span class="badge badge-noah">Noah</span>Mitcham Library visit with school</span></div>
+      <div class="event"><span class="event-time">eve</span><span class="event-body"><span class="badge badge-josh">Josh</span>🗑️ Bin night — put bins out</span></div>
       <div class="event"><span class="event-time">3:00pm</span><span class="event-body"><span class="badge badge-family">Family</span>✈️ Pick up Mum from the airport — with the boys 😊</span></div>
     </div>
 
