@@ -1268,7 +1268,7 @@ function selectCalDay(dateKey) {
   setText('calDetSolar', fmtKwh(entry.solar_kwh));
   const savedStr = entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--';
   setText('calDetSaved', savedStr);
-  setText('calDetImport', fmtKwh(entry.grid_import_kwh));
+  setText('calDetImport', fmtKwh(entry.amber_import_kwh != null ? entry.amber_import_kwh : entry.grid_import_kwh));
   const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
   setText('calDetCost', costStr);
   setText('calDetExport', fmtKwh(entry.amber_export_kwh));
