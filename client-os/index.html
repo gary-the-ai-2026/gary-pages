@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gary Client OS - Gary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #141413; --green: #cc785c;
+  --heading-ink: #141413; --warm: #f0eeea; --muted: #94918a;
+  --hairline: #e4e1db;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #faf9f5; color: #141413;
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6; font-synthesis: none; }
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 280px; flex: 0 0 280px; background: var(--warm);
+  border-right: 1px solid var(--hairline); padding: 28px 20px;
+  display: flex; flex-direction: column; position: sticky; top: 0;
+  height: 100vh; overflow-y: auto; }
+.side-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.snowark-logo { height: 26px; width: auto; display: block; }
+.side-brand .eyebrow { font-family: var(--font-body); font-size: 0.66rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin: 0; }
+.side-head { margin-bottom: 26px; }
+.client-logo { max-height: 46px; max-width: 160px; width: auto; display: block; margin-bottom: 10px; }
+.client-wordmark { font-family: var(--font-heading); font-size: 1.6rem; color: var(--heading-ink);
+  line-height: 1.15; display: block; margin-bottom: 8px; text-wrap: balance; }
+.side-head .sub { color: var(--muted); font-size: 0.82rem; margin: 0; }
+.tabs { display: flex; flex-direction: column; gap: 2px; flex: 1; margin-bottom: 20px; }
+.tab { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 8px;
+  color: var(--heading-ink); text-decoration: none; font-size: 0.95rem; }
+.tab .icon { width: 17px; height: 17px; flex: 0 0 17px; display: inline-block; }
+.tab .icon svg { width: 100%; height: 100%; display: block; }
+.tab:hover { background: rgba(20,20,19,0.06); color: var(--heading-ink); }
+.tab.active { background: var(--teal); color: #fff; font-weight: 700; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.chip { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+  padding: 5px 14px; border-radius: 10px; border: 1px solid var(--hairline);
+  background: #fff; color: var(--heading-ink); cursor: pointer; }
+.chip:hover { background: var(--warm); }
+.chip.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+.date-select { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+  padding: 5px 12px; border-radius: 10px; border: 1px solid var(--hairline);
+  background: #fff; color: var(--heading-ink); cursor: pointer; margin-right: 4px; }
+.c-err { display: block; color: #a4442f; font-family: var(--font-body); font-size: 0.78rem; margin-top: 2px; }
+.session { border: 1px solid var(--hairline); border-radius: 10px; margin-bottom: 12px;
+  background: #fff; overflow: hidden; }
+.session summary { display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  cursor: pointer; list-style: none; font-weight: 700; color: var(--heading-ink); }
+.session summary::-webkit-details-marker { display: none; }
+.session summary::before { content: "\25B8"; color: var(--green); transition: transform 0.15s; }
+.session[open] summary::before { transform: rotate(90deg); }
+.sess-label { font-size: 0.9rem; }
+.sess-meta { font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: auto; }
+.call-row { display: grid; grid-template-columns: 52px 92px 1fr 72px 72px; gap: 10px;
+  align-items: baseline; padding: 8px 16px; border-top: 1px solid var(--hairline); }
+.call-row.hidden { display: none; }
+.session.hidden { display: none; }
+.c-time { color: var(--muted); white-space: nowrap; }
+.c-action { font-family: var(--font-mono); font-size: 0.82rem; color: #141413; word-break: break-word; }
+.c-dur { text-align: right; color: var(--muted); white-space: nowrap; }
+.c-status { text-align: right; }
+.content { flex: 1; min-width: 0; padding: 40px 44px 96px; }
+.panel { display: none; }
+.panel.active { display: block; }
+section { margin-bottom: 0; }
+h2 { font-family: var(--font-heading); font-weight: 400; color: var(--heading-ink);
+  font-size: 1.6rem; margin: 0 0 4px; text-wrap: balance; }
+.section-note { color: var(--muted); font-size: 0.9rem; margin: 0 0 20px; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+thead th { font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--hairline); }
+tbody td { padding: 10px 12px; border-bottom: 1px solid var(--hairline);
+  font-size: 0.92rem; vertical-align: top; }
+tbody tr:hover { background: var(--warm); }
+.mono { font-family: var(--font-mono); font-size: 0.85rem; }
+td.num { text-align: right; }
+.tag { display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+  padding: 2px 8px; border-radius: 6px; background: rgba(20,20,19,0.08); color: var(--teal); }
+.badge { display: inline-block; font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
+  padding: 1px 8px; border-radius: 6px; background: rgba(0,0,0,0.05); color: var(--heading-ink);
+  text-transform: uppercase; letter-spacing: 0.06em; }
+.badge.ok { background: rgba(204,120,92,0.12); color: var(--green); }
+.badge.err { background: rgba(192,90,74,0.12); color: #a4442f; }
+.pillrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.conn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-body);
+  font-size: 0.85rem; font-weight: 700; padding: 5px 12px 5px 9px; border-radius: 10px;
+  background: #fff; border: 1px solid var(--hairline); color: var(--heading-ink); }
+.conn-logo { width: 18px; height: 18px; border-radius: 4px; display: block; }
+.conn-mono { display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--teal); color: #fff;
+  font-size: 0.68rem; font-weight: 700; }
+.conn-name { line-height: 1; }
+.kind-block { margin-bottom: 32px; }
+.kind-block h3 { font-family: var(--font-body); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.card { background: #fff; border: 1px solid var(--hairline); border-radius: 12px;
+  padding: 16px 18px; }
+.card .t { color: var(--heading-ink); font-size: 1rem; font-weight: 700; line-height: 1.35; margin: 0 0 8px; }
+.card .u { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.client-block { margin-bottom: 40px; }
+.client-label { font-family: var(--font-heading); font-size: 1.25rem; color: var(--teal); margin: 0 0 20px; }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.metric { background: #fff; border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 16px; }
+.metric .m-num { font-family: var(--font-heading); font-size: 1.5rem; color: var(--teal); }
+.metric .m-lbl { font-size: 0.78rem; color: var(--muted); }
+.brain-wrap { position: relative; margin: 20px 0 0; }
+.brain-hint { font-size: 0.75rem; color: var(--muted); margin: 0 0 8px; }
+.brain-graph { position: relative; border-radius: 16px; overflow: hidden;
+  background: #081416; border: 1px solid rgba(42,127,128,0.35);
+  box-shadow: inset 0 0 80px rgba(204,120,92,0.10), 0 4px 24px rgba(8,20,22,0.30); }
+.brain-graph canvas { display: block; width: 100%; height: auto; }
+.brain-label { position: absolute; top: 12px; left: 16px; font-family: var(--font-body);
+  font-size: 0.8rem; font-weight: 700; color: #e9e7e3; background: rgba(8,20,22,0.78);
+  padding: 3px 10px; border-radius: 8px; opacity: 0; transition: opacity 0.15s;
+  pointer-events: none; max-width: 70%; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.bar-lbl { width: 180px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--heading-ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track { flex: 1; height: 8px; background: var(--warm); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--green); border-radius: 4px; }
+.bar-val { width: 70px; text-align: right; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+footer { border-top: 1px solid var(--hairline); padding-top: 24px; color: var(--muted); font-size: 0.85rem; }
+.empty { color: var(--muted); font-style: italic; padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+  <div class="side-brand"><img src="data:image/png;base64,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" alt="Gary" class="snowark-logo"><p class="eyebrow">Gary Client OS</p></div>
+  <div class="side-head">
+    <span class="client-wordmark">Gary</span>
+    <p class="sub">Personal assistant (internal) - read-only view. Ledger-backed.</p>
+  </div>
+  <div class="tabs"><a class="tab active" href="#activity"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Activity feed</a><a class="tab" href="#recommendations"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>Recommendations</a><a class="tab" href="#connections"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>Connections</a><a class="tab" href="#usage"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg></span>Model usage</a><a class="tab" href="#context"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>Context</a><a class="tab" href="#trends"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>Trends</a><a class="tab" href="#jobs"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Jobs</a><a class="tab" href="#skills"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Skills</a><a class="tab" href="#memory"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg></span>Memory</a><a class="tab" href="#graph"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="12" y1="8" x2="5" y2="16"/><line x1="12" y1="8" x2="19" y2="16"/><line x1="5" y1="16" x2="19" y2="16"/></svg></span>Knowledge Graph</a><a class="tab" href="#pages"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>Published pages</a></div>
+</nav>
+<main class="content">
+<section id="activity" class="panel active"><h2>Activity feed</h2><p class="section-note">Factual tool-call stream, captured by the post_tool_call hook. Times in Adelaide (ACST).</p><p class="empty">No tool calls recorded yet.</p></section><section id="recommendations" class="panel"><h2>Recommendations</h2><p class="empty">Nothing outstanding.</p></section><section id="connections" class="panel">
+<h2>Connections</h2>
+<p class="section-note">Integrations and platforms currently connected.</p>
+<div class="pillrow"><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/deepseek/4D6BFE" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">DeepSeek</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/googlegemini/8E75B2" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">Gemini</span></span><span class="conn"><span class="conn-mono">G</span><span class="conn-name">Google</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/openrouter/262626" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">OpenRouter</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/telegram/26A5E4" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">Telegram</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/whatsapp/25D366" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">WhatsApp</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/github/181717" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">GitHub</span></span><span class="conn"><img class="conn-logo" src="https://cdn.simpleicons.org/asana/F06A6A" alt="" loading="lazy" onerror="this.style.display='none'"><span class="conn-name">Asana</span></span><span class="conn"><span class="conn-mono">Y</span><span class="conn-name">Yoto</span></span><span class="conn"><span class="conn-mono">A</span><span class="conn-name">Amber</span></span><span class="conn"><span class="conn-mono">G</span><span class="conn-name">GoodWe</span></span></div>
+</section>
+<section id="usage" class="panel">
+<h2>Model usage</h2>
+<p class="section-note">Token volume by model, from session_model_usage. Costs are estimates converted from USD at A$1.55; refer to the provider billing dashboard as the source of truth.</p>
+<style>.tl { background:#fff; border:1px solid #e4e1db; border-radius:12px; padding:16px 18px; margin-bottom:24px; }
+.tl-title { font-size:12px; font-weight:600; color:#33404d; }
+.tl-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.tl-select { font-size:12px; color:#33404d; border:1px solid #e4e1db; border-radius:6px; padding:4px 8px; background:#fff; cursor:pointer; }
+.tl-legend { display:flex; flex-wrap:wrap; gap:12px; margin-top:10px; font-size:11px; color:#66727e; }
+.tl-legend span { display:inline-flex; align-items:center; gap:5px; }
+.tl-legend i { width:9px; height:9px; border-radius:2px; display:inline-block; }
+</style>
+<div class="tl-head"><span class="tl-title">Input tokens over time, by model</span>
+<select id="model-range" class="tl-select">
+<option value="7">Last 7 days</option>
+<option value="30" selected>Last 30 days</option>
+<option value="90">Last 90 days</option>
+<option value="180">Last 180 days</option>
+<option value="0">All time</option>
+</select></div>
+<div id="model-tl-svg"></div>
+<div class="tl-legend" id="model-tl-legend"></div>
+<div id="model-agg"></div>
+</section>
+<script type="application/json" id="model-tl-data">[{"day": "2026-05-25", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-05-25", "model": "deepseek-v4-pro", "in": 1960734, "calls": 227, "out": 0, "cost": 0}, {"day": "2026-05-26", "model": "deepseek-v4-pro", "in": 1524090, "calls": 398, "out": 0, "cost": 0}, {"day": "2026-05-27", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-05-27", "model": "deepseek-v4-pro", "in": 4129808, "calls": 401, "out": 0, "cost": 0}, {"day": "2026-05-28", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-05-28", "model": "deepseek-v4-pro", "in": 2108116, "calls": 397, "out": 0, "cost": 0}, {"day": "2026-05-29", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-05-29", "model": "deepseek-v4-pro", "in": 1788446, "calls": 332, "out": 0, "cost": 0}, {"day": "2026-05-30", "model": "deepseek-v4-pro", "in": 1788962, "calls": 306, "out": 0, "cost": 0}, {"day": "2026-05-31", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-05-31", "model": "deepseek-v4-pro", "in": 1695753, "calls": 303, "out": 0, "cost": 0}, {"day": "2026-06-01", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-01", "model": "deepseek-v4-pro", "in": 1377104, "calls": 302, "out": 0, "cost": 0}, {"day": "2026-06-02", "model": null, "in": 0, "calls": 3, "out": 0, "cost": 0}, {"day": "2026-06-02", "model": "deepseek-v4-pro", "in": 1612347, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-06-03", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-03", "model": "deepseek-v4-pro", "in": 1203547, "calls": 304, "out": 0, "cost": 0}, {"day": "2026-06-04", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-04", "model": "deepseek-v4-pro", "in": 1044914, "calls": 133, "out": 0, "cost": 0}, {"day": "2026-06-05", "model": "deepseek-v4-pro", "in": 501003, "calls": 16, "out": 0, "cost": 0}, {"day": "2026-06-06", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-06", "model": "deepseek-v4-pro", "in": 304560, "calls": 10, "out": 0, "cost": 0}, {"day": "2026-06-07", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-07", "model": "deepseek-v4-pro", "in": 543925, "calls": 11, "out": 0, "cost": 0}, {"day": "2026-06-08", "model": "deepseek-v4-pro", "in": 547267, "calls": 12, "out": 0, "cost": 0}, {"day": "2026-06-09", "model": null, "in": 0, "calls": 3, "out": 0, "cost": 0}, {"day": "2026-06-09", "model": "deepseek-v4-pro", "in": 641017, "calls": 21, "out": 0, "cost": 0}, {"day": "2026-06-10", "model": "deepseek-v4-pro", "in": 434771, "calls": 13, "out": 0, "cost": 0}, {"day": "2026-06-11", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-11", "model": "deepseek-v4-pro", "in": 1047691, "calls": 21, "out": 0, "cost": 0}, {"day": "2026-06-12", "model": "deepseek-v4-pro", "in": 816504, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-13", "model": "deepseek-v4-pro", "in": 347875, "calls": 11, "out": 0, "cost": 0}, {"day": "2026-06-14", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-14", "model": "deepseek-v4-pro", "in": 1283045, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-15", "model": "deepseek-v4-pro", "in": 1139935, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-16", "model": "deepseek-v4-pro", "in": 863421, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-17", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-17", "model": "deepseek-v4-pro", "in": 642872, "calls": 19, "out": 0, "cost": 0}, {"day": "2026-06-18", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-18", "model": "deepseek-v4-pro", "in": 1324889, "calls": 24, "out": 0, "cost": 0}, {"day": "2026-06-19", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-19", "model": "deepseek-v4-pro", "in": 588972, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-20", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-20", "model": "deepseek-v4-pro", "in": 957337, "calls": 15, "out": 0, "cost": 0}, {"day": "2026-06-21", "model": "deepseek-v4-pro", "in": 529099, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-22", "model": null, "in": 0, "calls": 4, "out": 0, "cost": 0}, {"day": "2026-06-22", "model": "deepseek-v4-pro", "in": 1442847, "calls": 44, "out": 0, "cost": 0}, {"day": "2026-06-23", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-23", "model": "deepseek-v4-pro", "in": 826280, "calls": 18, "out": 0, "cost": 0}, {"day": "2026-06-24", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-24", "model": "deepseek-v4-pro", "in": 462462, "calls": 11, "out": 0, "cost": 0}, {"day": "2026-06-25", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-06-25", "model": "deepseek-v4-pro", "in": 565614, "calls": 185, "out": 0, "cost": 0}, {"day": "2026-06-26", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-26", "model": "deepseek-v4-pro", "in": 570064, "calls": 299, "out": 0, "cost": 0}, {"day": "2026-06-27", "model": "deepseek-v4-pro", "in": 487021, "calls": 253, "out": 0, "cost": 0}, {"day": "2026-06-28", "model": "deepseek-v4-pro", "in": 502373, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-06-29", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-06-29", "model": "deepseek-v4-pro", "in": 856652, "calls": 301, "out": 0, "cost": 0}, {"day": "2026-06-30", "model": "deepseek-v4-pro", "in": 657187, "calls": 297, "out": 0, "cost": 0}, {"day": "2026-07-01", "model": "deepseek-v4-pro", "in": 556307, "calls": 299, "out": 0, "cost": 0}, {"day": "2026-07-02", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-02", "model": "deepseek-v4-pro", "in": 406672, "calls": 293, "out": 0, "cost": 0}, {"day": "2026-07-03", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-03", "model": "deepseek-v4-pro", "in": 1007759, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-07-04", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-07-04", "model": "deepseek-v4-pro", "in": 1191252, "calls": 308, "out": 0, "cost": 0}, {"day": "2026-07-05", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-05", "model": "deepseek-v4-pro", "in": 834348, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-07-06", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-06", "model": "deepseek-v4-pro", "in": 663417, "calls": 296, "out": 0, "cost": 0}, {"day": "2026-07-07", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-07", "model": "deepseek-v4-pro", "in": 547592, "calls": 296, "out": 0, "cost": 0}, {"day": "2026-07-08", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-08", "model": "deepseek-v4-pro", "in": 1038508, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-07-09", "model": "deepseek-v4-pro", "in": 1352557, "calls": 146, "out": 0, "cost": 0}, {"day": "2026-07-10", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-10", "model": "deepseek-v4-pro", "in": 624741, "calls": 15, "out": 0, "cost": 0}, {"day": "2026-07-11", "model": "deepseek-v4-pro", "in": 857339, "calls": 19, "out": 0, "cost": 0}, {"day": "2026-07-12", "model": "deepseek-v4-pro", "in": 330473, "calls": 10, "out": 0, "cost": 0}, {"day": "2026-07-13", "model": "deepseek-v4-pro", "in": 355995, "calls": 12, "out": 0, "cost": 0}, {"day": "2026-07-14", "model": "deepseek-v4-pro", "in": 598119, "calls": 16, "out": 0, "cost": 0}, {"day": "2026-07-15", "model": "deepseek-v4-pro", "in": 979687, "calls": 22, "out": 0, "cost": 0}, {"day": "2026-07-16", "model": "deepseek-v4-pro", "in": 495361, "calls": 16, "out": 0, "cost": 0}, {"day": "2026-07-17", "model": "deepseek-v4-pro", "in": 964298, "calls": 13, "out": 0, "cost": 0}, {"day": "2026-07-18", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-18", "model": "deepseek-v4-pro", "in": 827043, "calls": 188, "out": 0, "cost": 0}, {"day": "2026-07-19", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-07-19", "model": "deepseek-v4-pro", "in": 600772, "calls": 298, "out": 0, "cost": 0}, {"day": "2026-07-20", "model": "deepseek-v4-pro", "in": 465964, "calls": 283, "out": 0, "cost": 0}, {"day": "2026-07-21", "model": "deepseek-v4-pro", "in": 476334, "calls": 296, "out": 0, "cost": 0}, {"day": "2026-07-22", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-22", "model": "deepseek-v4-pro", "in": 404005, "calls": 293, "out": 0, "cost": 0}, {"day": "2026-07-23", "model": "deepseek-v4-pro", "in": 604203, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-07-24", "model": "deepseek-v4-pro", "in": 504192, "calls": 293, "out": 0, "cost": 0}, {"day": "2026-07-25", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-25", "model": "deepseek-v4-pro", "in": 1802772, "calls": 303, "out": 0, "cost": 0}, {"day": "2026-07-26", "model": null, "in": 0, "calls": 4, "out": 0, "cost": 0}, {"day": "2026-07-26", "model": "deepseek-v4-pro", "in": 480737, "calls": 162, "out": 0, "cost": 0}, {"day": "2026-07-27", "model": "deepseek-v4-pro", "in": 1157908, "calls": 243, "out": 0, "cost": 0}, {"day": "2026-07-28", "model": "deepseek-v4-pro", "in": 1824247, "calls": 627, "out": 0, "cost": 0}, {"day": "2026-07-29", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-07-29", "model": "deepseek-v4-pro", "in": 810573, "calls": 289, "out": 0, "cost": 0}, {"day": "2026-07-30", "model": "deepseek-v4-pro", "in": 722845, "calls": 293, "out": 0, "cost": 0}, {"day": "2026-07-31", "model": "deepseek-v4-pro", "in": 863334, "calls": 211, "out": 0, "cost": 0}, {"day": "2026-08-01", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-08-01", "model": "deepseek-v4-pro", "in": 1291284, "calls": 19, "out": 0, "cost": 0}, {"day": "2026-08-02", "model": "deepseek-v4-pro", "in": 8485313, "calls": 24, "out": 0, "cost": 0}, {"day": "2026-08-03", "model": "deepseek-v4-pro", "in": 6330352, "calls": 20, "out": 0, "cost": 0}, {"day": "2026-08-04", "model": null, "in": 0, "calls": 1, "out": 0, "cost": 0}, {"day": "2026-08-04", "model": "deepseek-v4-pro", "in": 5960407, "calls": 25, "out": 0, "cost": 0}, {"day": "2026-08-05", "model": "deepseek-v4-pro", "in": 3350145, "calls": 187, "out": 0, "cost": 0}, {"day": "2026-08-06", "model": "deepseek-v4-pro", "in": 1076695, "calls": 290, "out": 0, "cost": 0}, {"day": "2026-08-07", "model": "deepseek-v4-pro", "in": 447644, "calls": 289, "out": 0, "cost": 0}, {"day": "2026-08-08", "model": "deepseek-v4-pro", "in": 353386, "calls": 298, "out": 0, "cost": 0}, {"day": "2026-08-09", "model": "deepseek-v4-pro", "in": 1315714, "calls": 297, "out": 0, "cost": 0}, {"day": "2026-08-10", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-08-10", "model": "deepseek-v4-pro", "in": 968336, "calls": 297, "out": 0, "cost": 0}, {"day": "2026-08-11", "model": "deepseek-v4-pro", "in": 1227655, "calls": 94, "out": 0, "cost": 0}, {"day": "2026-08-12", "model": "deepseek-v4-pro", "in": 359102, "calls": 184, "out": 0, "cost": 0}, {"day": "2026-08-13", "model": "deepseek-v4-pro", "in": 1222869, "calls": 300, "out": 0, "cost": 0}, {"day": "2026-08-14", "model": "deepseek-v4-pro", "in": 835545, "calls": 295, "out": 0, "cost": 0}, {"day": "2026-08-15", "model": null, "in": 0, "calls": 2, "out": 0, "cost": 0}, {"day": "2026-08-15", "model": "deepseek-v4-pro", "in": 460509, "calls": 301, "out": 0, "cost": 0}, {"day": "2026-08-16", "model": "deepseek-v4-pro", "in": 547775, "calls": 279, "out": 0, "cost": 0}, {"day": "2026-08-17", "model": "deepseek-v4-pro", "in": 440940, "calls": 170, "out": 0, "cost": 0}]</script>
+<script>
+(function () {
+  var dataEl = document.getElementById('model-tl-data');
+  var box = document.getElementById('model-tl-svg');
+  var legend = document.getElementById('model-tl-legend');
+  var sel = document.getElementById('model-range');
+  var agg = document.getElementById('model-agg');
+  if (!dataEl || !box) return;
+  var tl = [];
+  try { tl = JSON.parse(dataEl.textContent); } catch (e) { return; }
+  if (!tl.length) return;
+  var useTokens = tl.some(function (t) { return (t.in || 0) > 0; });
+  function val(t) { return useTokens ? (t.in || 0) : (t.calls || 0); }
+  var AUD = 1.55;
+  function hum(n) {
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+    return String(Math.round(n));
+  }
+  var PALETTE = ["#cc785c", "#141413", "#2a7f80", "#7fb8b9", "#4cc296", "#e9a23b", "#e07b5f", "#8a6bb5"];
+  var W = 760, H = 230, PAD_L = 46, PAD_R = 12, PAD_T = 12, PAD_B = 24;
+
+  function render(rangeDays) {
+    var cutoff = rangeDays ? Date.now() - rangeDays * 86400000 : 0;
+    var kept = tl.filter(function (t) {
+      if (!rangeDays) return true;
+      var d = Date.parse(t.day);
+      return isNaN(d) ? true : d >= cutoff;
+    });
+    if (agg) {
+      var by = {};
+      kept.forEach(function (t) {
+        var a = by[t.model] = by[t.model] || { calls: 0, in: 0, out: 0, cost: 0 };
+        a.calls += (t.calls || 0); a.in += (t.in || 0); a.out += (t.out || 0); a.cost += (t.cost || 0);
+      });
+      var ms = Object.keys(by).sort(function (a, b) { return by[b].in - by[a].in; });
+      var rows = ms.map(function (m) {
+        var a = by[m];
+        return '<tr><td class="mono">' + m + '</td><td class="num mono">' + hum(a.calls) + '</td><td class="num mono">' + hum(a.in) + '</td><td class="num mono">' + hum(a.out) + '</td><td class="num mono">A$' + (a.cost * AUD).toFixed(2) + '</td></tr>';
+      }).join('');
+      var tc = 0, ti = 0, to = 0, tco = 0;
+      ms.forEach(function (m) { tc += by[m].calls; ti += by[m].in; to += by[m].out; tco += by[m].cost; });
+      rows += '<tr><td><strong>Total</strong></td><td class="num mono"><strong>' + hum(tc) + '</strong></td><td class="num mono"><strong>' + hum(ti) + '</strong></td><td class="num mono"><strong>' + hum(to) + '</strong></td><td class="num mono"><strong>A$' + (tco * AUD).toFixed(2) + '</strong></td></tr>';
+      agg.innerHTML = '<table><thead><tr><th>Model</th><th style="text-align:right">Calls</th><th style="text-align:right">Input tokens</th><th style="text-align:right">Output tokens</th><th style="text-align:right">Cost (AUD, est.)</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+    var daySet = {};
+    kept.forEach(function (t) { daySet[t.day] = true; });
+    var days = Object.keys(daySet).sort();
+    if (days.length < 2) { box.innerHTML = '<p class="empty">Not enough history in this range.</p>'; legend.innerHTML = ''; return; }
+    var totals = {};
+    kept.forEach(function (t) { totals[t.model] = (totals[t.model] || 0) + val(t); });
+    var models = Object.keys(totals).sort(function (a, b) { return totals[b] - totals[a]; });
+    var top = models.slice(0, 6);
+    var cmap = {};
+    top.forEach(function (m, i) { cmap[m] = PALETTE[i % PALETTE.length]; });
+    cmap['__other__'] = '#b9c1cc';
+    var perDay = {};
+    days.forEach(function (d) { perDay[d] = {}; });
+    kept.forEach(function (t) {
+      var m = top.indexOf(t.model) >= 0 ? t.model : '__other__';
+      perDay[t.day][m] = (perDay[t.day][m] || 0) + val(t);
+    });
+    var maxTotal = 1;
+    days.forEach(function (d) { var s = 0; for (var k in perDay[d]) s += perDay[d][k]; if (s > maxTotal) maxTotal = s; });
+    var bw = (W - PAD_L - PAD_R) / days.length;
+    var innerH = H - PAD_T - PAD_B;
+    var rects = [];
+    days.forEach(function (d, di) {
+      var x = PAD_L + di * bw;
+      var y = PAD_T + innerH;
+      top.forEach(function (m) {
+        var v = perDay[d][m] || 0;
+        if (v) { var h = (v / maxTotal) * innerH; rects.push('<rect x="' + x.toFixed(1) + '" y="' + (y - h).toFixed(1) + '" width="' + Math.max(bw - 1.5, 0.5).toFixed(1) + '" height="' + h.toFixed(1) + '" fill="' + cmap[m] + '" opacity="0.9"><title>' + m + ': ' + v.toLocaleString() + '</title></rect>'); y -= h; }
+      });
+      var vo = perDay[d]['__other__'] || 0;
+      if (vo) { var ho = (vo / maxTotal) * innerH; rects.push('<rect x="' + x.toFixed(1) + '" y="' + (y - ho).toFixed(1) + '" width="' + Math.max(bw - 1.5, 0.5).toFixed(1) + '" height="' + ho.toFixed(1) + '" fill="#b9c1cc" opacity="0.9"><title>Other: ' + vo.toLocaleString() + '</title></rect>'); }
+    });
+    var step = Math.max(1, Math.floor(days.length / 9));
+    var labels = '';
+    days.forEach(function (d, di) {
+      if (di % step === 0 || di === days.length - 1) {
+        labels += '<text x="' + (PAD_L + di * bw + bw / 2).toFixed(1) + '" y="' + (H - 7) + '" font-size="9" fill="#9aa3b0" text-anchor="middle">' + d.slice(5) + '</text>';
+      }
+    });
+    box.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" style="width:100%;height:auto;display:block">' + rects.join('') + labels + '</svg>';
+    legend.innerHTML = top.map(function (m) { return '<span><i style="background:' + cmap[m] + '"></i>' + m + '</span>'; }).join('');
+  }
+
+  if (sel) sel.addEventListener('change', function () { render(parseInt(sel.value, 10) || 0); });
+  render(30);
+})();
+</script><section id="context" class="panel">
+<h2>Context</h2>
+<p class="section-note">Files this agent reads into the model context, sized by character count. Tokens are estimated at 4 chars each.</p>
+<div style="display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:8px"><div style="width:0.83%;background:#141413" title="System (SOUL): 3.8K est tokens"></div><div style="width:99.17%;background:#e9a23b" title="Skills: 456.8K est tokens"></div></div>
+<div style="margin-bottom:14px"><span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px;font-size:11px;color:#5b6868"><i style="width:9px;height:9px;border-radius:2px;background:#141413;display:inline-block"></i>System (SOUL)</span><span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px;font-size:11px;color:#5b6868"><i style="width:9px;height:9px;border-radius:2px;background:#e9a23b;display:inline-block"></i>Skills</span></div>
+<div style="margin-bottom:16px;color:#5b6868">Total 1.8M chars, about 460.6K estimated tokens.</div>
+<table>
+<thead><tr><th>File</th><th style="text-align:right">Chars</th><th style="text-align:right">Est. tokens</th></tr></thead>
+<tbody><tr><td class="mono">skills/research/research-paper-writing/SKILL.md</td><td class="num mono">102.4K</td><td class="num mono">25.6K</td></tr><tr><td class="mono">skills/personal-assistant/pt-gary/SKILL.md</td><td class="num mono">99.9K</td><td class="num mono">25.0K</td></tr><tr><td class="mono">skills/personal-assistant/product-research/SKILL.md</td><td class="num mono">58.9K</td><td class="num mono">14.7K</td></tr><tr><td class="mono">skills/personal-assistant/gary-pages/SKILL.md</td><td class="num mono">55.7K</td><td class="num mono">13.9K</td></tr><tr><td class="mono">skills/autonomous-ai-agents/hermes-agent/SKILL.md</td><td class="num mono">46.1K</td><td class="num mono">11.5K</td></tr><tr><td class="mono">skills/personal-assistant/fb-marketplace-renew/SKILL.md</td><td class="num mono">44.3K</td><td class="num mono">11.1K</td></tr><tr><td class="mono">skills/smart-home/goodwe-inverter/SKILL.md</td><td class="num mono">36.6K</td><td class="num mono">9.2K</td></tr><tr><td class="mono">skills/autonomous-ai-agents/claude-code/SKILL.md</td><td class="num mono">34.4K</td><td class="num mono">8.6K</td></tr><tr><td class="mono">skills/personal-assistant/arr-stack/SKILL.md</td><td class="num mono">31.1K</td><td class="num mono">7.8K</td></tr><tr><td class="mono">skills/creative/humanizer/SKILL.md</td><td class="num mono">30.1K</td><td class="num mono">7.5K</td></tr><tr><td class="mono">skills/creative/p5js/SKILL.md</td><td class="num mono">27.5K</td><td class="num mono">6.9K</td></tr><tr><td class="mono">skills/personal-assistant/hancock-finance/SKILL.md</td><td class="num mono">26.2K</td><td class="num mono">6.5K</td></tr><tr><td class="mono">skills/personal-assistant/personal-assistant-setup/SKILL.md</td><td class="num mono">24.9K</td><td class="num mono">6.2K</td></tr><tr><td class="mono">skills/personal-assistant/email-inbound/SKILL.md</td><td class="num mono">24.8K</td><td class="num mono">6.2K</td></tr><tr><td class="mono">skills/creative/claude-design/SKILL.md</td><td class="num mono">24.6K</td><td class="num mono">6.2K</td></tr><tr><td class="mono">skills/snowark-design/SKILL.md</td><td class="num mono">24.2K</td><td class="num mono">6.1K</td></tr><tr><td class="mono">skills/creative/comfyui/SKILL.md</td><td class="num mono">23.8K</td><td class="num mono">6.0K</td></tr><tr><td class="mono">skills/personal-assistant/gary-system-health/SKILL.md</td><td class="num mono">23.0K</td><td class="num mono">5.7K</td></tr><tr><td class="mono">skills/personal-assistant/yoto-mp3/SKILL.md</td><td class="num mono">22.9K</td><td class="num mono">5.7K</td></tr><tr><td class="mono">skills/personal-assistant/amber-energy/SKILL.md</td><td class="num mono">21.7K</td><td class="num mono">5.4K</td></tr><tr><td class="mono">skills/research/llm-wiki/SKILL.md</td><td class="num mono">20.0K</td><td class="num mono">5.0K</td></tr><tr><td class="mono">skills/red-teaming/godmode/SKILL.md</td><td class="num mono">20.0K</td><td class="num mono">5.0K</td></tr><tr><td class="mono">skills/personal-assistant/stealth-browser/SKILL.md</td><td class="num mono">19.4K</td><td class="num mono">4.9K</td></tr><tr><td class="mono">skills/personal-assistant/fb-marketplace-publish/SKILL.md</td><td class="num mono">19.3K</td><td class="num mono">4.8K</td></tr><tr><td class="mono">skills/github/github-repo-management/SKILL.md</td><td class="num mono">16.4K</td><td class="num mono">4.1K</td></tr><tr><td class="mono">skills/creative/touchdesigner-mcp/SKILL.md</td><td class="num mono">15.6K</td><td class="num mono">3.9K</td></tr><tr><td class="mono">skills/mlops/models/audiocraft/SKILL.md</td><td class="num mono">15.5K</td><td class="num mono">3.9K</td></tr><tr><td class="mono">skills/apple/macos-computer-use/SKILL.md</td><td class="num mono">15.5K</td><td class="num mono">3.9K</td></tr><tr><td class="mono">skills/mlops/inference/obliteratus/SKILL.md</td><td class="num mono">15.4K</td><td class="num mono">3.9K</td></tr><tr><td class="mono">skills/personal-assistant/hancock-life-admin/SKILL.md</td><td class="num mono">15.4K</td><td class="num mono">3.8K</td></tr><tr><td class="mono">skills/mlops/research/dspy/SKILL.md</td><td class="num mono">15.4K</td><td class="num mono">3.8K</td></tr><tr><td class="mono">SOUL.md</td><td class="num mono">15.2K</td><td class="num mono">3.8K</td></tr><tr><td class="mono">skills/personal-assistant/recipe-book/SKILL.md</td><td class="num mono">15.2K</td><td class="num mono">3.8K</td></tr><tr><td class="mono">skills/productivity/linear/SKILL.md</td><td class="num mono">15.0K</td><td class="num mono">3.7K</td></tr><tr><td class="mono">skills/creative/ascii-video/SKILL.md</td><td class="num mono">14.9K</td><td class="num mono">3.7K</td></tr><tr><td class="mono">skills/creative/baoyu-comic/SKILL.md</td><td class="num mono">14.7K</td><td class="num mono">3.7K</td></tr><tr><td class="mono">skills/productivity/notion/SKILL.md</td><td class="num mono">14.7K</td><td class="num mono">3.7K</td></tr><tr><td class="mono">skills/creative/pretext/SKILL.md</td><td class="num mono">14.3K</td><td class="num mono">3.6K</td></tr><tr><td class="mono">skills/devops/kanban-orchestrator/SKILL.md</td><td class="num mono">14.1K</td><td class="num mono">3.5K</td></tr><tr><td class="mono">skills/social-media/xurl/SKILL.md</td><td class="num mono">14.0K</td><td class="num mono">3.5K</td></tr><tr><td class="mono">skills/personal-assistant/pdf-form-filler/SKILL.md</td><td class="num mono">14.0K</td><td class="num mono">3.5K</td></tr><tr><td class="mono">skills/github/github-code-review/SKILL.md</td><td class="num mono">13.6K</td><td class="num mono">3.4K</td></tr><tr><td class="mono">skills/software-development/python-debugpy/SKILL.md</td><td class="num mono">13.5K</td><td class="num mono">3.4K</td></tr><tr><td class="mono">skills/productivity/google-workspace/SKILL.md</td><td class="num mono">13.4K</td><td class="num mono">3.4K</td></tr><tr><td class="mono">skills/client-os-dashboard/SKILL.md</td><td class="num mono">13.3K</td><td class="num mono">3.3K</td></tr><tr><td class="mono">skills/mlops/models/segment-anything/SKILL.md</td><td class="num mono">13.1K</td><td class="num mono">3.3K</td></tr><tr><td class="mono">skills/github/github-pr-workflow/SKILL.md</td><td class="num mono">13.0K</td><td class="num mono">3.3K</td></tr><tr><td class="mono">skills/autonomous-ai-agents/kanban-codex-lane/SKILL.md</td><td class="num mono">13.0K</td><td class="num mono">3.2K</td></tr><tr><td class="mono">skills/mlops/evaluation/weights-and-biases/SKILL.md</td><td class="num mono">12.6K</td><td class="num mono">3.1K</td></tr><tr><td class="mono">skills/mcp/native-mcp/SKILL.md</td><td class="num mono">12.4K</td><td class="num mono">3.1K</td></tr><tr><td class="mono">skills/mlops/evaluation/lm-evaluation-harness/SKILL.md</td><td class="num mono">12.2K</td><td class="num mono">3.1K</td></tr><tr><td class="mono">skills/creative/manim-video/SKILL.md</td><td class="num mono">12.1K</td><td class="num mono">3.0K</td></tr><tr><td class="mono">skills/personal-assistant/ingest/SKILL.md</td><td class="num mono">11.8K</td><td class="num mono">3.0K</td></tr><tr><td class="mono">skills/smart-home/home-assistant/SKILL.md</td><td class="num mono">11.6K</td><td class="num mono">2.9K</td></tr><tr><td class="mono">skills/productivity/airtable/SKILL.md</td><td class="num mono">11.4K</td><td class="num mono">2.8K</td></tr><tr><td class="mono">skills/software-development/node-inspect-debugger/SKILL.md</td><td class="num mono">11.2K</td><td class="num mono">2.8K</td></tr><tr><td class="mono">skills/personal-assistant/weekly-briefing/SKILL.md</td><td class="num mono">11.1K</td><td class="num mono">2.8K</td></tr><tr><td class="mono">skills/personal-assistant/gemini-api/SKILL.md</td><td class="num mono">11.1K</td><td class="num mono">2.8K</td></tr><tr><td class="mono">skills/software-development/subagent-driven-development/SKILL.md</td><td class="num mono">11.0K</td><td class="num mono">2.7K</td></tr><tr><td class="mono">skills/software-development/simplify-code/SKILL.md</td><td class="num mono">10.9K</td><td class="num mono">2.7K</td></tr><tr><td class="mono">skills/software-development/systematic-debugging/SKILL.md</td><td class="num mono">10.7K</td><td class="num mono">2.7K</td></tr><tr><td class="mono">skills/devops/kanban-worker/SKILL.md</td><td class="num mono">10.5K</td><td class="num mono">2.6K</td></tr><tr><td class="mono">skills/personal-assistant/amy-health-logging/SKILL.md</td><td class="num mono">10.5K</td><td class="num mono">2.6K</td></tr><tr><td class="mono">skills/creative/ascii-art/SKILL.md</td><td class="num mono">10.5K</td><td class="num mono">2.6K</td></tr><tr><td class="mono">skills/creative/baoyu-infographic/SKILL.md</td><td class="num mono">10.4K</td><td class="num mono">2.6K</td></tr><tr><td class="mono">skills/creative/songwriting-and-ai-music/SKILL.md</td><td class="num mono">10.2K</td><td class="num mono">2.6K</td></tr><tr><td class="mono">skills/research/arxiv/SKILL.md</td><td class="num mono">10.2K</td><td class="num mono">2.5K</td></tr><tr><td class="mono">skills/creative/baoyu-article-illustrator/SKILL.md</td><td class="num mono">10.2K</td><td class="num mono">2.5K</td></tr><tr><td class="mono">skills/personal-assistant/flight-booking-management/SKILL.md</td><td class="num mono">9.9K</td><td class="num mono">2.5K</td></tr><tr><td class="mono">skills/creative/popular-web-designs/SKILL.md</td><td class="num mono">9.8K</td><td class="num mono">2.5K</td></tr><tr><td class="mono">skills/software-development/test-driven-development/SKILL.md</td><td class="num mono">9.8K</td><td class="num mono">2.5K</td></tr><tr><td class="mono">skills/creative/sketch/SKILL.md</td><td class="num mono">9.4K</td><td class="num mono">2.4K</td></tr><tr><td class="mono">skills/github/github-issues/SKILL.md</td><td class="num mono">9.4K</td><td class="num mono">2.4K</td></tr><tr><td class="mono">skills/productivity/powerpoint/SKILL.md</td><td class="num mono">9.3K</td><td class="num mono">2.3K</td></tr><tr><td class="mono">skills/mlops/inference/vllm/SKILL.md</td><td class="num mono">9.3K</td><td class="num mono">2.3K</td></tr><tr><td class="mono">skills/smart-home/home-assistant-setup/SKILL.md</td><td class="num mono">9.2K</td><td class="num mono">2.3K</td></tr><tr><td class="mono">skills/mlops/inference/llama-cpp/SKILL.md</td><td class="num mono">9.1K</td><td class="num mono">2.3K</td></tr><tr><td class="mono">skills/personal-assistant/email-sending/SKILL.md</td><td class="num mono">9.0K</td><td class="num mono">2.3K</td></tr><tr><td class="mono">skills/software-development/spike/SKILL.md</td><td class="num mono">8.9K</td><td class="num mono">2.2K</td></tr><tr><td class="mono">skills/software-development/requesting-code-review/SKILL.md</td><td class="num mono">8.8K</td><td class="num mono">2.2K</td></tr><tr><td class="mono">skills/gaming/pokemon-player/SKILL.md</td><td class="num mono">8.7K</td><td class="num mono">2.2K</td></tr><tr><td class="mono">skills/personal-assistant/plex-media-server/SKILL.md</td><td class="num mono">8.6K</td><td class="num mono">2.2K</td></tr><tr><td class="mono">skills/software-development/debugging-hermes-tui-commands/SKILL.md</td><td class="num mono">8.2K</td><td class="num mono">2.0K</td></tr><tr><td class="mono">skills/github/github-auth/SKILL.md</td><td class="num mono">7.8K</td><td class="num mono">2.0K</td></tr><tr><td class="mono">skills/software-development/hermes-agent-skill-authoring/SKILL.md</td><td class="num mono">7.8K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/.archive/claude-code-migration/SKILL.md</td><td class="num mono">7.7K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/note-taking/obsidian/SKILL.md</td><td class="num mono">7.6K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/creative/pixel-art/SKILL.md</td><td class="num mono">7.6K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/personal-assistant/plex-server/SKILL.md</td><td class="num mono">7.6K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/software-development/writing-plans/SKILL.md</td><td class="num mono">7.5K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/autonomous-ai-agents/opencode/SKILL.md</td><td class="num mono">7.5K</td><td class="num mono">1.9K</td></tr><tr><td class="mono">skills/creative/design-md/SKILL.md</td><td class="num mono">7.3K</td><td class="num mono">1.8K</td></tr><tr><td class="mono">skills/creative/excalidraw/SKILL.md</td><td class="num mono">7.3K</td><td class="num mono">1.8K</td></tr><tr><td class="mono">skills/creative/landing-page-optimisation/SKILL.md</td><td class="num mono">7.2K</td><td class="num mono">1.8K</td></tr><tr><td class="mono">skills/productivity/ocr-and-documents/SKILL.md</td><td class="num mono">7.1K</td><td class="num mono">1.8K</td></tr><tr><td class="mono">skills/email/himalaya/SKILL.md</td><td class="num mono">7.1K</td><td class="num mono">1.8K</td></tr><tr><td class="mono">skills/productivity/teams-meeting-pipeline/SKILL.md</td><td class="num mono">7.0K</td><td class="num mono">1.7K</td></tr><tr><td class="mono">skills/devops/webhook-subscriptions/SKILL.md</td><td class="num mono">6.9K</td><td class="num mono">1.7K</td></tr><tr><td class="mono">skills/productivity/maps/SKILL.md</td><td class="num mono">6.7K</td><td class="num mono">1.7K</td></tr><tr><td class="mono">skills/smart-home/roborock-home-assistant/SKILL.md</td><td class="num mono">6.7K</td><td class="num mono">1.7K</td></tr><tr><td class="mono">skills/gaming/minecraft-modpack-server/SKILL.md</td><td class="num mono">6.6K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/media/heartmula/SKILL.md</td><td class="num mono">6.5K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/creative/creative-ideation/SKILL.md</td><td class="num mono">6.4K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/personal-assistant/professional-advisory/SKILL.md</td><td class="num mono">6.4K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/dogfood/SKILL.md</td><td class="num mono">6.4K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/media/spotify/SKILL.md</td><td class="num mono">6.3K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/dream/SKILL.md</td><td class="num mono">6.3K</td><td class="num mono">1.6K</td></tr><tr><td class="mono">skills/creative/architecture-diagram/SKILL.md</td><td class="num mono">5.9K</td><td class="num mono">1.5K</td></tr><tr><td class="mono">skills/personal-assistant/asana-task-management/SKILL.md</td><td class="num mono">5.6K</td><td class="num mono">1.4K</td></tr><tr><td class="mono">skills/personal-assistant/product-watch/SKILL.md</td><td class="num mono">5.5K</td><td class="num mono">1.4K</td></tr><tr><td class="mono">skills/data-science/jupyter-live-kernel/SKILL.md</td><td class="num mono">5.5K</td><td class="num mono">1.4K</td></tr><tr><td class="mono">skills/personal-assistant/google-calendar/SKILL.md</td><td class="num mono">5.4K</td><td class="num mono">1.3K</td></tr><tr><td class="mono">skills/research/blogwatcher/SKILL.md</td><td class="num mono">5.2K</td><td class="num mono">1.3K</td></tr><tr><td class="mono">skills/autonomous-ai-agents/codex/SKILL.md</td><td class="num mono">4.7K</td><td class="num mono">1.2K</td></tr><tr><td class="mono">skills/personal-assistant/web-form-filling/SKILL.md</td><td class="num mono">4.4K</td><td class="num mono">1.1K</td></tr><tr><td class="mono">skills/.archive/claude-os-hermes-dashboard/SKILL.md</td><td class="num mono">4.3K</td><td class="num mono">1.1K</td></tr><tr><td class="mono">skills/creative/design-review/SKILL.md</td><td class="num mono">4.2K</td><td class="num mono">1.0K</td></tr><tr><td class="mono">skills/personal-assistant/telegram-group-setup/SKILL.md</td><td class="num mono">3.9K</td><td class="num mono">969</td></tr><tr><td class="mono">skills/mlops/huggingface-hub/SKILL.md</td><td class="num mono">3.9K</td><td class="num mono">969</td></tr><tr><td class="mono">skills/apple/findmy/SKILL.md</td><td class="num mono">3.8K</td><td class="num mono">958</td></tr><tr><td class="mono">skills/yuanbao/SKILL.md</td><td class="num mono">3.7K</td><td class="num mono">933</td></tr><tr><td class="mono">skills/research/competitor-seo-research/SKILL.md</td><td class="num mono">3.7K</td><td class="num mono">925</td></tr><tr><td class="mono">skills/github/codebase-inspection/SKILL.md</td><td class="num mono">3.7K</td><td class="num mono">924</td></tr><tr><td class="mono">skills/whatsapp-outbound/SKILL.md</td><td class="num mono">3.3K</td><td class="num mono">835</td></tr><tr><td class="mono">skills/media/youtube-content/SKILL.md</td><td class="num mono">3.3K</td><td class="num mono">819</td></tr><tr><td class="mono">skills/apple/apple-reminders/SKILL.md</td><td class="num mono">3.3K</td><td class="num mono">818</td></tr><tr><td class="mono">skills/research/polymarket/SKILL.md</td><td class="num mono">3.0K</td><td class="num mono">761</td></tr><tr><td class="mono">skills/media/gif-search/SKILL.md</td><td class="num mono">2.8K</td><td class="num mono">696</td></tr><tr><td class="mono">skills/smart-home/openhue/SKILL.md</td><td class="num mono">2.8K</td><td class="num mono">694</td></tr><tr><td class="mono">skills/apple/imessage/SKILL.md</td><td class="num mono">2.6K</td><td class="num mono">641</td></tr><tr><td class="mono">skills/media/songsee/SKILL.md</td><td class="num mono">2.5K</td><td class="num mono">622</td></tr><tr><td class="mono">skills/apple/apple-notes/SKILL.md</td><td class="num mono">2.2K</td><td class="num mono">558</td></tr><tr><td class="mono">skills/software-development/plan/SKILL.md</td><td class="num mono">2.2K</td><td class="num mono">552</td></tr><tr><td class="mono">skills/productivity/nano-pdf/SKILL.md</td><td class="num mono">1.6K</td><td class="num mono">393</td></tr></tbody>
+</table>
+<p class="section-note">System prompt and tool definitions are injected by the Hermes runtime and are not included in these numbers.</p>
+</section><section id="trends" class="panel">
+<h2>Trends</h2>
+<p class="section-note">Daily activity with day-over-day change. Tokens, calls, and cost are summed from session_model_usage; errors are counted from the tool-call ledger.</p>
+<style>.trend-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+.trend-tile { background:#fff; border:1px solid #e4e1db; border-radius:12px; padding:14px 16px; }
+.trend-label { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:#8a93a3; margin-bottom:4px; }
+.trend-value { font-size:22px; font-weight:700; line-height:1.1; font-variant-numeric:tabular-nums; }
+.trend-delta { margin:2px 0 6px; }
+.trend-spark { height:34px; }
+</style>
+<div class="trend-grid"><div class="trend-tile"><div class="trend-label">Input tokens</div><div class="trend-value" style="color:#cc785c">440.9K</div><div class="trend-delta"><span style="font-size:10px;color:#a4442f">&#9660; 106.8K</span></div><div class="trend-spark"><svg viewBox="0 0 120 32" style="width:100%;height:100%"><polyline points="2.0,24.3 3.4,25.8 4.8,16.9 6.1,23.8 7.5,24.9 8.9,24.9 10.3,25.2 11.7,26.3 13.0,25.5 14.4,26.9 15.8,27.5 17.2,29.3 18.6,30.0 20.0,29.2 21.3,29.2 22.7,28.8 24.1,29.6 25.5,27.5 26.9,28.2 28.2,29.9 29.6,26.7 31.0,27.1 32.4,28.1 33.8,28.8 35.1,26.5 36.5,29.0 37.9,27.8 39.3,29.2 40.7,26.1 42.0,28.2 43.4,29.5 44.8,29.1 46.2,29.1 47.6,29.4 49.0,29.3 50.3,28.1 51.7,28.8 53.1,29.1 54.5,29.7 55.9,27.6 57.2,27.0 58.6,28.2 60.0,28.8 61.4,29.2 62.8,27.5 64.1,26.4 65.5,28.9 66.9,28.1 68.3,29.9 69.7,29.8 71.0,29.0 72.4,27.7 73.8,29.3 75.2,27.7 76.6,28.2 78.0,29.0 79.3,29.4 80.7,29.4 82.1,29.7 83.5,29.0 84.9,29.3 86.2,24.9 87.6,29.4 89.0,27.1 90.4,24.8 91.8,28.3 93.1,28.6 94.5,28.1 95.9,26.6 97.3,2.0 98.7,9.4 100.0,10.6 101.4,19.6 102.8,27.4 104.2,29.5 105.6,29.8 107.0,26.5 108.3,27.7 109.7,26.8 111.1,29.8 112.5,26.9 113.9,28.2 115.2,29.5 116.6,29.2 118.0,29.5" fill="none" stroke="#cc785c" stroke-width="1.5"/></svg></div></div><div class="trend-tile"><div class="trend-label">API calls</div><div class="trend-value" style="color:#2a7f80">170</div><div class="trend-delta"><span style="font-size:10px;color:#a4442f">&#9660; 109</span></div><div class="trend-spark"><svg viewBox="0 0 120 32" style="width:100%;height:100%"><polyline points="2.0,20.1 3.4,12.4 4.8,12.2 6.1,12.3 7.5,15.3 8.9,16.6 10.3,16.7 11.7,16.7 13.0,16.7 14.4,16.6 15.8,24.3 17.2,29.7 18.6,30.0 20.0,29.9 21.3,29.9 22.7,29.4 24.1,29.9 25.5,29.4 26.9,29.6 28.2,30.0 29.6,29.5 31.0,29.6 32.4,29.6 33.8,29.5 35.1,29.3 36.5,29.6 37.9,29.7 39.3,29.6 40.7,28.3 42.0,29.5 43.4,29.9 44.8,22.0 46.2,16.8 47.6,19.0 49.0,16.8 50.3,16.7 51.7,17.0 53.1,16.9 54.5,17.1 55.9,16.8 57.2,16.4 58.6,16.8 60.0,17.0 61.4,17.0 62.8,16.8 64.1,23.8 65.5,29.7 66.9,29.6 68.3,30.0 69.7,29.9 71.0,29.7 72.4,29.5 73.8,29.7 75.2,29.9 76.6,21.9 78.0,16.8 79.3,17.6 80.7,17.0 82.1,17.1 83.5,16.8 84.9,17.2 86.2,16.7 87.6,22.9 89.0,19.4 90.4,2.0 91.8,17.3 93.1,17.2 94.5,20.9 95.9,29.5 97.3,29.4 98.7,29.5 100.0,29.3 101.4,22.0 102.8,17.3 104.2,17.3 105.6,16.9 107.0,17.0 108.3,16.9 109.7,26.2 111.1,22.1 112.5,16.8 113.9,17.1 115.2,16.7 116.6,17.8 118.0,22.7" fill="none" stroke="#2a7f80" stroke-width="1.5"/></svg></div></div><div class="trend-tile"><div class="trend-label">Est. cost (AUD)</div><div class="trend-value" style="color:#e9a23b">A$0.00</div><div class="trend-delta"><span style="font-size:10px;color:#9aa3b0">flat</span></div><div class="trend-spark"><svg viewBox="0 0 120 32" style="width:100%;height:100%"><polyline points="2.0,30.0 3.4,30.0 4.8,30.0 6.1,30.0 7.5,30.0 8.9,30.0 10.3,30.0 11.7,30.0 13.0,30.0 14.4,30.0 15.8,30.0 17.2,30.0 18.6,30.0 20.0,30.0 21.3,30.0 22.7,30.0 24.1,30.0 25.5,30.0 26.9,30.0 28.2,30.0 29.6,30.0 31.0,30.0 32.4,30.0 33.8,30.0 35.1,30.0 36.5,30.0 37.9,30.0 39.3,30.0 40.7,30.0 42.0,30.0 43.4,30.0 44.8,30.0 46.2,30.0 47.6,30.0 49.0,30.0 50.3,30.0 51.7,30.0 53.1,30.0 54.5,30.0 55.9,30.0 57.2,30.0 58.6,30.0 60.0,30.0 61.4,30.0 62.8,30.0 64.1,30.0 65.5,30.0 66.9,30.0 68.3,30.0 69.7,30.0 71.0,30.0 72.4,30.0 73.8,30.0 75.2,30.0 76.6,30.0 78.0,30.0 79.3,30.0 80.7,30.0 82.1,30.0 83.5,30.0 84.9,30.0 86.2,30.0 87.6,30.0 89.0,30.0 90.4,30.0 91.8,30.0 93.1,30.0 94.5,30.0 95.9,30.0 97.3,30.0 98.7,30.0 100.0,30.0 101.4,30.0 102.8,30.0 104.2,30.0 105.6,30.0 107.0,30.0 108.3,30.0 109.7,30.0 111.1,30.0 112.5,30.0 113.9,30.0 115.2,30.0 116.6,30.0 118.0,30.0" fill="none" stroke="#e9a23b" stroke-width="1.5"/></svg></div></div><div class="trend-tile"><div class="trend-label">Errors</div><div class="trend-value" style="color:#e07b5f">0</div><div class="trend-delta"><span style="font-size:10px;color:#9aa3b0">flat</span></div><div class="trend-spark"><svg viewBox="0 0 120 32" style="width:100%;height:100%"><polyline points="2.0,30.0 3.4,30.0 4.8,30.0 6.1,30.0 7.5,30.0 8.9,30.0 10.3,30.0 11.7,30.0 13.0,30.0 14.4,30.0 15.8,30.0 17.2,30.0 18.6,30.0 20.0,30.0 21.3,30.0 22.7,30.0 24.1,30.0 25.5,30.0 26.9,30.0 28.2,30.0 29.6,30.0 31.0,30.0 32.4,30.0 33.8,30.0 35.1,30.0 36.5,30.0 37.9,30.0 39.3,30.0 40.7,30.0 42.0,30.0 43.4,30.0 44.8,30.0 46.2,30.0 47.6,30.0 49.0,30.0 50.3,30.0 51.7,30.0 53.1,30.0 54.5,30.0 55.9,30.0 57.2,30.0 58.6,30.0 60.0,30.0 61.4,30.0 62.8,30.0 64.1,30.0 65.5,30.0 66.9,30.0 68.3,30.0 69.7,30.0 71.0,30.0 72.4,30.0 73.8,30.0 75.2,30.0 76.6,30.0 78.0,30.0 79.3,30.0 80.7,30.0 82.1,30.0 83.5,30.0 84.9,30.0 86.2,30.0 87.6,30.0 89.0,30.0 90.4,30.0 91.8,30.0 93.1,30.0 94.5,30.0 95.9,30.0 97.3,30.0 98.7,30.0 100.0,30.0 101.4,30.0 102.8,30.0 104.2,30.0 105.6,30.0 107.0,30.0 108.3,30.0 109.7,30.0 111.1,30.0 112.5,30.0 113.9,30.0 115.2,30.0 116.6,30.0 118.0,30.0" fill="none" stroke="#e07b5f" stroke-width="1.5"/></svg></div></div></div>
+</section><section id="jobs" class="panel">
+<h2>Scheduled jobs</h2>
+<p class="section-note">Cron jobs running against this agent.</p>
+<table>
+<thead><tr><th>Job</th><th>Schedule</th><th>State</th></tr></thead>
+<tbody><tr><td>Amber Daily Summary</td><td class="mono">50 23 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Amy 8pm food log prompt</td><td class="mono">2 20 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Amy Mounjaro reminder</td><td class="mono">30 7 * * 4</td><td><span class="badge ok">on</span></td></tr><tr><td>Amy Qatar Flight Monitor</td><td class="mono">5 8,20 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Cron Output Cleanup (4-day rolling)</td><td class="mono">55 23 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Daily Briefing</td><td class="mono">30 6 * * 1-6</td><td><span class="badge ok">on</span></td></tr><tr><td>Energy Daily Cost Alerter ($5 thresholds)</td><td class="mono">*/1 * * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Energy Dashboard Refresh</td><td class="mono">*/5 * * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Gmail Check</td><td class="mono">*/5 * * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>GoodWe Daily Snapshot</td><td class="mono">55 23 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Josh gym-equipment reminder (daily email)</td><td class="mono">0 9 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Monthly Savings Check Prompt</td><td class="mono">0 8 14 * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Nightly Backup</td><td class="mono">0 2 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Nightly Consolidation</td><td class="mono">0 20 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Target - Throne of Glass Box Set price watch</td><td class="mono">0 9,18 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Target - Throne of Glass price drop alerter</td><td class="mono">5 9,18 * * *</td><td><span class="badge ok">on</span></td></tr><tr><td>Weekly Briefing</td><td class="mono">30 6 * * 0</td><td><span class="badge ok">on</span></td></tr><tr><td>Weekly Contradiction Audit</td><td class="mono">0 17 * * 0</td><td><span class="badge ok">on</span></td></tr></tbody>
+</table>
+</section>
+<section id="skills" class="panel">
+<h2>Skills</h2>
+<p class="section-note">879 skill files. Most-used below.</p>
+<div class="bar-row"><span class="bar-lbl">email-inbound</span><span class="bar-track"><span class="bar-fill" style="width:100.0%"></span></span><span class="bar-val">4220 uses</span></div><div class="bar-row"><span class="bar-lbl">pt-gary</span><span class="bar-track"><span class="bar-fill" style="width:12.8%"></span></span><span class="bar-val">539 uses</span></div><div class="bar-row"><span class="bar-lbl">stealth-browser</span><span class="bar-track"><span class="bar-fill" style="width:5.6%"></span></span><span class="bar-val">235 uses</span></div><div class="bar-row"><span class="bar-lbl">gary-pages</span><span class="bar-track"><span class="bar-fill" style="width:3.8%"></span></span><span class="bar-val">160 uses</span></div><div class="bar-row"><span class="bar-lbl">amber-energy</span><span class="bar-track"><span class="bar-fill" style="width:3.0%"></span></span><span class="bar-val">127 uses</span></div><div class="bar-row"><span class="bar-lbl">product-research</span><span class="bar-track"><span class="bar-fill" style="width:2.2%"></span></span><span class="bar-val">91 uses</span></div><div class="bar-row"><span class="bar-lbl">google-calendar</span><span class="bar-track"><span class="bar-fill" style="width:1.5%"></span></span><span class="bar-val">65 uses</span></div><div class="bar-row"><span class="bar-lbl">arr-stack</span><span class="bar-track"><span class="bar-fill" style="width:1.5%"></span></span><span class="bar-val">63 uses</span></div><div class="bar-row"><span class="bar-lbl">weekly-briefing</span><span class="bar-track"><span class="bar-fill" style="width:1.4%"></span></span><span class="bar-val">61 uses</span></div><div class="bar-row"><span class="bar-lbl">ingest</span><span class="bar-track"><span class="bar-fill" style="width:1.4%"></span></span><span class="bar-val">57 uses</span></div>
+</section>
+<section id="memory" class="panel">
+<style>#memory { background:#080810; color:#e0e0e0; border-radius:16px; padding:28px 30px; }
+#memory .mem-eyebrow { display:flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8a93a3; }
+#memory .mem-eyebrow .dot { width:6px; height:6px; border-radius:50%; background:#3ddc97; box-shadow:0 0 8px rgba(61,220,151,.7); }
+#memory .mem-title { font-family:var(--font-heading); font-size:2.3rem; font-weight:400; color:#fff; margin:12px 0 6px; }
+#memory .mem-title .num { font-variant-numeric:tabular-nums; }
+#memory .mem-title .dim { color:rgba(255,255,255,.5); font-size:1.5rem; }
+#memory .mem-sub { color:#8a93a3; font-size:14px; max-width:640px; line-height:1.6; margin:0; }
+#memory .mem-filters { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
+#memory .mem-pill { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#c7cdd6; font-size:12px; cursor:pointer; transition:all .15s; font-family:var(--font-body); }
+#memory .mem-pill .sw { width:8px; height:8px; border-radius:50%; }
+#memory .mem-pill.active { border-color:rgba(255,255,255,.4); color:#fff; }
+#memory .mem-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; margin-bottom:20px; }
+#memory .mem-stat { background:#0d1117; padding:14px 18px; }
+#memory .mem-stat .lbl { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#8a93a3; }
+#memory .mem-stat .num { font-size:1.55rem; font-weight:600; color:#fff; font-variant-numeric:tabular-nums; margin-top:4px; }
+#memory .mem-stat.red .num { color:#ef5a5a; }
+#memory .mem-graph-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:2px 4px 10px; }
+#memory .mem-graph-head .gtitle { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a93a3; }
+#memory .mem-graph-head .gtitle b { color:#e0e0e0; font-weight:600; letter-spacing:0; text-transform:none; }
+#memory .mem-legend { display:flex; flex-wrap:wrap; gap:12px; font-size:10px; color:#8a93a3; }
+#memory .mem-legend span { display:inline-flex; align-items:center; gap:5px; }
+#memory .mem-legend i { width:8px; height:8px; border-radius:50%; display:inline-block; }
+#memory .mem-graph { position:relative; border-radius:12px; overflow:hidden; height:560px; background:radial-gradient(ellipse at 50% 40%, rgba(61,220,151,.28) 0%, rgba(12,20,22,.9) 55%, #0d1315 100%); box-shadow:inset 0 0 160px rgba(61,220,151,.12); }
+#memory .mem-graph canvas { display:block; }
+#memory .mem-info { position:absolute; bottom:16px; left:16px; background:rgba(20,20,19,.94); border:1px solid rgba(204,120,92,.35); border-radius:10px; padding:12px 16px; max-width:340px; opacity:0; transition:opacity .2s; pointer-events:none; }
+#memory .mem-info.visible { opacity:1; }
+#memory .mem-info .name { font-family:var(--font-heading); font-size:14px; color:#fff; padding-right:20px; }
+#memory .mem-info .detail { font-size:10px; color:#a0c4c4; margin-top:2px; text-transform:uppercase; letter-spacing:.08em; }
+#memory .mem-info-close { position:absolute; top:6px; right:8px; width:20px; height:20px; border-radius:5px; border:1px solid rgba(255,255,255,.22); background:transparent; color:#c7e8e8; cursor:pointer; font-size:14px; line-height:1; pointer-events:auto; padding:0; }
+#memory .mem-info-close:hover { background:rgba(204,120,92,.3); color:#fff; }
+#memory .mem-file { position:absolute; top:0; right:0; bottom:0; width:46%; max-width:560px; background:rgba(13,17,23,.97); border-left:1px solid rgba(255,255,255,.1); transform:translateX(100%); transition:transform .28s ease; z-index:5; display:flex; flex-direction:column; }
+#memory .mem-file.open { transform:translateX(0); }
+#memory .mem-file-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.08); }
+#memory .mem-file-head .name { font-family:var(--font-heading); font-size:16px; color:#fff; line-height:1.3; }
+#memory .mem-file-head .meta { font-size:10px; color:#8a93a3; text-transform:uppercase; letter-spacing:.08em; margin-top:4px; word-break:break-all; }
+#memory .mem-file-close { flex:0 0 auto; width:24px; height:24px; border-radius:6px; border:1px solid rgba(255,255,255,.2); background:transparent; color:#c7cdd6; cursor:pointer; font-size:16px; line-height:1; }
+#memory .mem-file-close:hover { background:rgba(204,120,92,.3); color:#fff; }
+#memory .mem-file .body { flex:1; overflow:auto; padding:16px 18px 24px; color:#c7cdd6; font-size:13px; line-height:1.65; }
+#memory .mem-file .body .empty { color:#8a93a3; font-style:italic; }
+#memory .mem-file .body h1,#memory .mem-file .body h2,#memory .mem-file .body h3 { color:#fff; font-family:var(--font-heading); margin:16px 0 6px; line-height:1.25; }
+#memory .mem-file .body p { margin:8px 0; }
+#memory .mem-file .body a { color:#3ddc97; }
+#memory .mem-file .body code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:4px; font-size:12px; }
+#memory .mem-file .body pre { background:rgba(255,255,255,.05); padding:12px; border-radius:8px; overflow:auto; }
+#memory .mem-file .body ul { margin:8px 0; padding-left:20px; }
+#memory .mem-file .body li { margin:4px 0; }
+#memory .mem-controls { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px 4px 0; color:#8a93a3; font-size:11px; }
+#memory .mem-controls .vbtn { padding:6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:transparent; color:#c7cdd6; cursor:pointer; font-size:10px; text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-body); transition:all .15s; }
+#memory .mem-controls .vbtn.active { border-color:#3ddc97; color:#3ddc97; background:rgba(61,220,151,.1); }
+#memory .mem-controls .cnt { margin-left:auto; font-variant-numeric:tabular-nums; color:#8a93a3; }
+#memory .mem-breakdown { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; margin-top:20px; }
+#memory .mem-panel { background:#0d1117; min-height:120px; }
+#memory .mem-panel h4 { font-size:13px; font-weight:600; color:#fff; padding:14px 18px 10px; margin:0; }
+#memory .mem-panel ul { list-style:none; margin:0; padding:0 0 8px; }
+#memory .mem-panel li { display:flex; justify-content:space-between; gap:10px; padding:7px 18px; font-size:12px; color:#c7cdd6; }
+#memory .mem-panel li .k { color:#8a93a3; font-size:10px; text-transform:uppercase; letter-spacing:.1em; flex-shrink:0; }
+#memory .mem-panel li .nm { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#memory .mem-empty { padding:0 18px 14px; font-size:12px; color:#5b6868; }
+</style>
+<div class="mem-eyebrow"><span class="dot"></span>Memory graph</div>
+<h2 class="mem-title"><span class="num">8</span> <span class="dim">files indexed</span></h2>
+<p class="mem-sub">Drag to rotate. Hover a node to trace its links. Click to inspect. The map clusters by source, then connects shared decisions and skills across them.</p>
+<div class="mem-filters"><button class="mem-pill active" data-memsource="all"><span class="sw" style="background:#9aa3b0"></span>All</button><button class="mem-pill" data-memsource="ws-knowledge"><span class="sw" style="background:#3ddc97"></span>Knowledge</button></div>
+<div class="mem-stats">
+  <div class="mem-stat"><div class="lbl">Active</div><div class="num">5</div></div>
+  <div class="mem-stat"><div class="lbl">Connections</div><div class="num">4</div></div>
+  <div class="mem-stat"><div class="lbl">Memory sources</div><div class="num">1</div></div>
+  <div class="mem-stat red"><div class="lbl">Missing</div><div class="num">0</div></div>
+</div>
+<div class="mem-graph-head">
+  <div class="gtitle">Memory graph · 3D · <b>18 nodes · 21 links</b></div>
+  <div class="mem-legend"><span><i style="background:#3ddc97"></i>Core</span><span><i style="background:#e6ebf2"></i>Workspace</span><span><i style="background:#8a93a3"></i>File</span><span><i style="background:#a78bfa"></i>Decision</span><span><i style="background:#60a5fa"></i>Session</span><span><i style="background:#f472b6"></i>Skill</span></div>
+</div>
+<div class="mem-graph"><div id="mem-canvas" style="width:100%;height:100%"></div>
+  <div class="mem-file" id="mem-file">
+    <div class="mem-file-head">
+      <div><div class="name"></div><div class="meta"></div></div>
+      <button class="mem-file-close" onclick="document.getElementById('mem-file').classList.remove('open')" title="Close">×</button>
+    </div>
+    <div class="body"></div>
+  </div>
+</div>
+<div class="mem-controls">
+  <span style="margin-right:4px">View</span><button class="vbtn" data-memview="macro">Macro</button><button class="vbtn active" data-memview="mid">Mid</button><button class="vbtn" data-memview="micro">Micro</button><button class="vbtn" data-memview="full">Full</button>
+  <button class="vbtn" id="mem-pause">Pause</button>
+  <button class="vbtn" id="mem-reset">Reset view</button>
+  <span class="cnt">18 nodes · 21 edges</span>
+</div>
+<div class="mem-breakdown">
+  <div class="mem-panel"><h4>Most connected</h4><ul><li><span class="nm">feedback_no_time_greetings</span><span class="k">3 links</span></li><li><span class="nm">feedback_telegram_formatting</span><span class="k">3 links</span></li><li><span class="nm">feedback_draft_approval</span><span class="k">3 links</span></li><li><span class="nm">user_josh</span><span class="k">2 links</span></li><li><span class="nm">project_finances</span><span class="k">2 links</span></li><li><span class="nm">feedback_technical_learnings</span><span class="k">1 links</span></li></ul></div>
+  <div class="mem-panel"><h4>Unlinked</h4><ul><div class="mem-empty">None.</div></ul></div>
+  <div class="mem-panel"><h4>Sources</h4><ul><li><span class="nm">Knowledge</span><span class="k">8 files</span></li></ul></div>
+</div>
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1.73.5/dist/3d-force-graph.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="application/json" id="mem-data">{"nodes": [{"id": "hub", "name": "Memory Core", "kind": "hub", "val": 60, "color": "#3ddc97"}, {"id": "ws-knowledge", "name": "Knowledge", "kind": "workspace", "val": 20, "count": 8, "color": "#f2f6fb"}, {"id": "n0", "name": "user_josh", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/user_josh.md", "content": "---\nname: user-josh\ndescription: \"Josh Hancock \u2014 identity-critical snapshot. Full detail in people/Josh Hancock.md\"\nmetadata:\n  node_type: memory\n  type: user\n---\n\n# Josh Hancock (Snapshot)\n\n**Full profile:** [[Josh Hancock]] (knowledge/people/Josh Hancock.md)\n\n## Contact\n- **Email (personal):** hancockjluke@gmail.com\n- **Telegram:** `8348712782`\n- **Mobile:** 0419 836 366\n- **Timezone:** Australia/Adelaide\n- **Gary's inbox:** lovefromthekids@gmail.com\n\n## Family\n- **Wife:** [[Amy Hancock]] (knowledge/people/Amy Hancock.md) \u2014 part-time nurse (~$24.8k), RVCL diagnosis\n- **Kids:** Two boys (b. 2020, 2022)\n- **Dad:** [[David Hancock]] (knowledge/people/David Hancock.md) \u2014 MND, limited time\n- **Sister:** [[Jess Hancock]] (knowledge/people/Jess Hancock.md)\n- **Auntie:** [[Donna]] (knowledge/people/Donna.md) \u2014 babysits\n- **Dad's wife:** [[Netty]] (knowledge/people/Netty.md)\n\n## Work\n- **Role:** CMO, minority shareholder at AFS Group / Gym and Fitness\n- **Salary:** $175k + super\n- **5-year vision:** 4-day week, passive income, present for school drop-offs\n- **Work = The First Domino** \u2014 constraint on everything else\n\n## Financial (Framework: Barefoot Investor)\n- **Household:** ~$199.8k ($175k Josh + $24.8k Amy) + super\n- **Mortgage:** ~$751K loan (BoS, 6.04% p.a.), ~$105K redraw\n- **Investments:** ~$12,800 stocks (shares+crypto total ~$24,650 per bank-verified June figure), $40k business loan (recoverable)\n- **Inheritance:** ~$2.35M expected (investment property + holiday home share + cash)\n- **Strategy:** Pay down primary mortgage first with inheritance \u2192 build passive portfolio\n- **Full detail:** [[Financial Position June 2026]] (knowledge/vault/Finance/Financial Position June 2026.md)\n\n## Key Context\n- **Amy's RVCL = emotional undercurrent.** No traditional retirement. Colours financial decisions.\n- **Work is the bottleneck.** If Josh sounds drained \u2192 almost certainly work. Don't add mental load.\n- **Redefining success:** career achievement \u2192 family presence. Support this.\n- **Inheritance = pivotal.** Financial modelling, property research increasingly important.\n- **Conflict avoidant. Direct, action-first comms.** Prefers solutions over talk.\n\n## Related\n- [[Josh Hancock]] (knowledge/people/Josh Hancock.md) \u2014 full profile incl. personality, parenting, lifestyle goals\n- [[Amy Hancock]] (knowledge/people/Amy Hancock.md)\n- [[Financial Position June 2026]] (knowledge/vault/Finance/Financial Position June 2026.md)\n\n---\n\n_Last updated: 2026-06-01 \u2014 trimmed to identity-critical snapshot._\n", "color": "#cdd7e4"}, {"id": "n1", "name": "feedback_no_time_greetings", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/feedback_no_time_greetings.md", "content": "---\nname: feedback-no-time-greetings\ndescription: Never use time-of-day greetings \u2014 good morning/afternoon/evening are unreliable without checking the clock\nmetadata:\n  node_type: memory\n  type: feedback\n  originSessionId: hermes-migration-2026-05-25\n---\n\nNever say \"Good morning\", \"Good afternoon\", or \"Good evening\".\n\n**Why:** Gary doesn't reliably know the current time of day, so these greetings are frequently wrong \u2014 which is worse than no greeting at all.\n\n**How to apply:** Greet without time references. Use \"Hello, sir.\", \"Of course, sir.\", or lead directly into the response. This applies to all channels \u2014 Telegram, email preamble, direct conversation.\n\n## Related\n\n- [[SOPs]] (knowledge/SOPs.md) \u2014 Telegram Communication Rules\n- [[feedback_draft_approval]] (knowledge/memory/feedback_draft_approval.md) \u2014 draft approval (also a Telegram rule)\n- [[feedback_telegram_formatting]] (knowledge/memory/feedback_telegram_formatting.md)\n", "color": "#cdd7e4"}, {"id": "n2", "name": "feedback_telegram_formatting", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/feedback_telegram_formatting.md", "content": "---\nname: feedback-telegram-formatting\ndescription: \"How to format messages sent via Telegram \u2014 use plain text with simple formatting, avoid tables\"\nmetadata:\n  node_type: memory\n  type: feedback\n  originSessionId: hermes-migration-2026-05-25\n---\n\nUse plain text with simple formatting on all Telegram replies via `send_message()`.\n\n**Why:** Josh asked for better formatting when conversing via Telegram. Hermes gateway handles delivery natively.\n\n**How to apply:**\n- Use `*bold*` for headings/emphasis (single asterisks)\n- Use `_italic_` sparingly\n- Use `` `code` `` for values, numbers, commands\n- Use bullet points (`\u00b7` or `-`) for structured info\n- Use `>` for blockquotes when quoting content\n- **NO markdown tables** \u2014 pipe characters do not render as tables in Telegram; use bullet lists instead\n\n## Related\n\n- [[SOPs]] (knowledge/SOPs.md) \u2014 Telegram Reply Formatting (full spec)\n- [[feedback_draft_approval]] (knowledge/memory/feedback_draft_approval.md) \u2014 draft approval protocol\n- [[feedback_no_time_greetings]] (knowledge/memory/feedback_no_time_greetings.md)\n", "color": "#cdd7e4"}, {"id": "n3", "name": "feedback_technical_learnings", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/feedback_technical_learnings.md", "content": "---\nname: feedback-technical-learnings\ndescription: \"TRIGGER CATALOGUE \u2014 known pitfalls by domain. Load relevant vault card before operating in any domain below.\"\nmetadata:\n  node_type: memory\n  type: feedback\n---\n\n# Technical Learnings (Trigger Catalogue)\n\n**Before using any tool/API below, load the corresponding vault card.** This file confirms that pitfalls exist; the vault cards contain the fix.\n\n| Domain | Trigger | Vault Card |\n|---|---|---|\n| Shell/exec | `terminal()`, `$` in strings, `&` backgrounding | [[Shell & Exec Pitfalls]] (knowledge/vault/Technical/Shell-Escaping.md) |\n| Browser/CDP | `browser_navigate`, Chrome, Facebook Marketplace | [[Browser & CDP Setup]] (knowledge/vault/Technical/Browser-CDP.md) |\n| Asana API | `asana_create_task`, Asana comments | [[Asana API Rules]] (knowledge/vault/Technical/Asana-API.md) |\n| Google Calendar | `gog calendar`, daily/weekly briefing | [[Google Calendar API]] (knowledge/vault/Technical/Google-Calendar.md) |\n| Hermes internals | `cronjob`, `memory` tool, LaunchAgents, cron prompts | [[Hermes Cron & Memory]] (knowledge/vault/Technical/Hermes-Cron.md) |\n| File surveying | `search_files` directory scan, \"what files exist\" | [[File Surveying]] (knowledge/vault/Technical/File-Surveying.md) |\n| Telegram | `send_message`, outbound comms, sender ID | [[Telegram Communications]] (knowledge/vault/Technical/Telegram-Comms.md) |\n| YouTube/yt-dlp | `yt-dlp`, Yoto MP3, audio download | [[YouTube & yt-dlp]] (knowledge/vault/Technical/YouTube-YTDLP.md) |\n| Product images | Product research, image sourcing | [[Product Image Sourcing]] (knowledge/vault/Technical/Product-Images.md) |\n| Vision | `vision_analyze`, screenshot analysis | [[Vision Analyze Bug]] (knowledge/vault/Technical/Vision-Analyze.md) |\n| Computer Use | `computer_use`, cua-driver, desktop capture | [[Computer Use & cua-driver]] (knowledge/vault/Technical/Computer-Use.md) |\n| GitHub push | `git push`, large repo, HTTP 400 | See Shell & Exec vault card |\n|| Bash quoting | Embedded Python in `\"\"` + osascript in `''` in same script | See Shell & Exec vault card |\n|| AppleScript JS | Chrome JS execution fails mid-session | [[Computer Use & cua-driver]] (knowledge/vault/Technical/Computer-Use.md) \u2014 see AppleScript JS section |\n\n**GitHub HTTPS push quick fix:** `git gc --quiet && git config --global http.postBuffer 524288000` (already applied).\n\n**Bash quoting quick fix:** When a shell script embeds both a Python script in double quotes AND an osascript in single quotes, bash's parser can lose track of quote boundaries (even when they appear correct to a human). Fix: extract embedded scripts to separate files and call them. For osascript, use a quoted heredoc (`<<'EOF'`) instead of `-e '...'`.\n\n## How This Works\n\nThe trigger catalogue tells me *what categories of mistakes exist* \u2014 enough signal to load the vault card *before* operating in that domain. When I'm about to use yt-dlp, I see the trigger, load the vault card, and apply the `--js-runtimes node` fix *before* the command fails. The 13,235 chars of full detail are only loaded on-demand, not on every message.\n\n## Related\n\n- [[Technical INDEX]] (knowledge/vault/Technical/INDEX.md) \u2014 full vault index\n- [[General Tools Reference]] (knowledge/vault/General/Tools Reference.md) \u2014 API keys, GIDs, endpoints\n\n---\n\n_Last updated: 2026-06-17 \u2014 added Computer Use & cua-driver (Monterey .app incompatibility, in-process MCP workaround)._\n", "color": "#cdd7e4"}, {"id": "n4", "name": "feedback_draft_approval", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/feedback_draft_approval.md", "content": "---\nname: feedback_draft_approval\ndescription: Always send draft approvals to Telegram \u2014 never just print in terminal\nmetadata:\n  node_type: memory\n  type: feedback\n  originSessionId: hermes-migration-2026-05-25\n---\n\nEvery response to a Telegram-initiated conversation must be sent back to Telegram via `send_message()` \u2014 status updates, drafts, results, confirmations, everything. Terminal output is invisible to Josh.\n\n**Why:** Josh reads Telegram, not the terminal transcript. He had to correct this twice in one session: first for a draft not sent to Telegram, then to clarify the rule applies to all replies, not just drafts.\n\n**How to apply:** For any message arriving via Telegram gateway, every substantive reply goes to the originating chat_id via `send_message(target='telegram:<chat_id>', ...)`. Terminal text is internal only.\n\n## Related\n\n- [[SOPs]] (knowledge/SOPs.md) \u2014 Draft Approval Protocol\n- [[feedback_telegram_formatting]] (knowledge/memory/feedback_telegram_formatting.md) \u2014 how to format those replies\n- [[feedback_no_time_greetings]] (knowledge/memory/feedback_no_time_greetings.md) \u2014 greeting rules\n", "color": "#cdd7e4"}, {"id": "n5", "name": "project_memory_life_admin", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/project_memory_life_admin.md", "content": "---\nname: project-memory-life-admin\ndescription: \"Life admin snapshot \u2014 address changes, Amy's cycle, school contacts. Full detail in vault.\"\nmetadata:\n  node_type: memory\n  type: project\n---\n\n# Life Admin (Snapshot)\n\n## Address Changes (Apr 2026)\n\n**Done:** NAB \u00b7 Centrelink/myGov/Medicare \u00b7 sa.gov.au licence (Ref: 753 491 359) \u00b7 Hostplus \u00b7 WCH (Amy) \u00b7 Accessory Salary Sacrifice (Amy) \u00b7 REST Super (Amy) \u00b7 Stylist Living Trust \u00b7 Flinders Private Eye Clinic (Amy) \u00b7 Bank of Sydney \u00b7 All banks \u00b7 Accountant James \u00b7 RAH (Amy)\n\n**Outstanding:** Budget Direct car insurance (Amy), CSL Shares (Amy)\n\n---\n\n## Amy's Health & Cycle\n\n- **RVCL diagnosis** \u2014 defining health context. No traditional retirement.\n- **Cycle:** ~25 days. Last: 4 Aug 2026. Next est: ~29 Aug 2026. **SSOT:** [[Amy Cycle]] (knowledge/vault/Health/Amy Cycle.md)\n- **Eye surgery:** Laser both eyes ~mid-2022 (successful). Right eye 29/05/26 (unsuccessful).\n- **Full health profile:** [[Amy Hancock Comprehensive Health Profile]] (knowledge/vault/Health/Amy Hancock Comprehensive Health Profile.md)\n\n---\n\n## Noah's School\n\n**Current (Term 2+ 2026):** Mitcham Primary School\n**Term 1 2026:** Rose Park Primary School \u2014 Reception\n\u2192 [[Noah's Schooling]] (knowledge/vault/Kids/Noah's Schooling.md) \u2014 full detail (teacher, Seesaw, term dates, routines, parent contacts)\n**Rose Park email:** dl.0169.info@schools.sa.edu.au \u00b7 Phone: (08) 8331 7521\n**Telegram group:** `-5154584348` (https://t.me/+KVXLhmmZIHZlMDk1)\n\n---\n\n## Related\n\n- [[Amy Hancock]] (knowledge/people/Amy Hancock.md)\n- [[Amy Hancock Comprehensive Health Profile]] (knowledge/vault/Health/Amy Hancock Comprehensive Health Profile.md)\n\n---\n\n_Last updated: 2026-06-01 \u2014 trimmed to snapshot; school table simplified to list._\n", "color": "#cdd7e4"}, {"id": "n6", "name": "project_finances", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/project_finances.md", "content": "---\nname: project-finances\ndescription: \"Snapshot: Josh & Amy's key financial figures. Full detail \u2192 vault/Finance/\"\nmetadata:\n  node_type: memory\n  type: project\n  originSessionId: hermes-migration-2026-05-25\n---\n\n# Finances \u2014 Snapshot\n\n**Last updated:** 2026-06-14\n**Live data:** Fortnightly Savings Tracker (2-source: NAB statement + BoS redraw screenshot)\n**Budget sheet:** Google Sheet `A+J LIFE BUDGET` (ID `1X9Lu3QRe5Am0LktPj3GHXSuW9l4K_pBhMMsTiQeqfHo`)\n\n## Key Figures\n\n- **Cash savings (14 Jun):** $105,391 tracked (NAB $681 + BoS redraw $104,711). Full cash ~$134K.\n- **Home loan:** -$751,443 @ 6.04% p.a. (BoS). Net of redraw: -$647K.\n- **Net worth:** $783,347 (per Balance Sheet FY26)\n- **Household income:** $175k Josh + $24.8k Amy = ~$200k gross\n- **Net cash flow (pre-tax):** $6,538/mo | $78,461/yr\n- **Investments:** $12,800 shares (per sheet; crypto not tracked in sheet)\n- **Expected inheritance:** ~$2.35M (split 50/50 with Jess)\n- **Childcare:** ~$17,500/yr (CCS dependent on Amy's hours)\n\n## Accounts Tracked\n\n| Account | Bank | BSB | Number | Purpose |\n|---|---|---|---|---|\n| Transaction | NAB | 085-232 | 36-971-8653 | Pay in, bills out, splurge sweeps |\n| Home Loan | BoS | 942-501 | 2244929 | Mortgage + redraw (primary savings vehicle) |\n| Everyday | BoS | 942-501 | 1547132 | Pass-through for Amy's pay, redraw pulls (excluded from fortnightly tracker) |\n\n## Full Detail\n\n\u2192 [[Savings Tracker]] (vault/Finance/Savings Tracker.md) \u2014 fortnightly cash savings trend\n\u2192 [[Financial Position June 2026]] (vault/Finance/Financial Position June 2026.md) \u2014 full balance sheet, P&L, super, Barefoot buckets (current)\n\u2192 [[Financial Position May 2026]] (vault/Finance/Financial Position May 2026.md) \u2014 historical baseline\n\u2192 [[Childcare Costs]] (vault/Finance/Childcare Costs.md) \u2014 Rose Park CCC rates, CCS, enrolment IDs\n\u2192 [[user_josh]] (knowledge/memory/user_josh.md) \u2014 inheritance strategy, mortgage, work context\n", "color": "#cdd7e4"}, {"id": "n7", "name": "reference_tools", "kind": "file", "val": 4, "workspace": "ws-knowledge", "file": "knowledge/memory/reference_tools.md", "content": "---\nname: reference-tools\ndescription: \"SNAPSHOT \u2014 critical identifiers only. Full detail in vault.\"\nmetadata:\n  node_type: memory\n  type: reference\n---\n\n# Tools & Credentials (Snapshot)\n\n**Full detail:** [[General Tools Reference]] (knowledge/vault/General/Tools Reference.md) \u2014 API keys, GIDs, endpoints, ARRR stack, cron jobs.\n\n## Critical Identifiers\n\n- **GitHub:** `gary-the-ai-2026`\n- **Google Account:** `lovefromthekids@gmail.com` (gog CLI: `GOG_KEYRING_PASSWORD=secret`)\n- **Asana Workspace:** Snowark (`1114640954507044`), Josh GID `1114640967819714`\n- **Asana Board:** Josh & Gary `1201072685785033`, To Do section `1201072685785034`\n- **Amber:** Site `01KK36ABK90FHP773WWY4R65AR`, NMI `2002121745`\n- **ARRR Stack:** Pi `192.168.86.197`, Radarr `:7878`, Sonarr `:8989`\n- **Python:** `/Users/gary/.claude/venv/bin/python3`\n- **Chrome Profile:** `/Users/gary/.claude/chrome_profile/main`\n\n**Calendar IDs:**\n- Josh: `hancockjluke@gmail.com`\n- Gary/Family: `lovefromthekids@gmail.com`\n- Hancock Family: `7b0vi27gig0mo6hh6jrjp0fg7rqla7fk@import.calendar.google.com`\n\n**Telegram Group IDs:**\n- Main: `-5135407829`, Shopping: `-5278838139`, FB Marketplace: `-5135141658`\n- Energy Alerts: `-5241681377`, Amy's Health: `-5048299072`, People Notes: `-5006684354`\n- Email Inbox: `-5124350753`, Josh+Gary+Amy: `-1003891671469`\n- Noah's School Parents: `-5154584348`, PT: `-1003949502327`\n- Amy PT: `-5596537114`, Amy Food Log: `-5303815393`\n\n## Related\n\n- [[General Tools Reference]] (knowledge/vault/General/Tools Reference.md) \u2014 full detail\n- [[Technical Learnings]] (knowledge/memory/feedback_technical_learnings.md) \u2014 trigger catalogue for pitfalls\n- [[Infrastructure]] (knowledge/Infrastructure.md) \u2014 cron jobs, MCP servers, paths\n\n---\n\n_Last updated: 2026-06-01 \u2014 trimmed to snapshot; full detail \u2192 vault/General/Tools Reference.md_\n", "color": "#cdd7e4"}, {"id": "sk0", "name": "email-inbound", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk1", "name": "pt-gary", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk2", "name": "stealth-browser", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk3", "name": "gary-pages", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk4", "name": "amber-energy", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk5", "name": "product-research", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk6", "name": "google-calendar", "kind": "skill", "val": 8, "color": "#fb83c2"}, {"id": "sk7", "name": "arr-stack", "kind": "skill", "val": 8, "color": "#fb83c2"}], "links": [{"source": "hub", "target": "ws-knowledge", "kind": "core"}, {"source": "ws-knowledge", "target": "n0", "kind": "file"}, {"source": "ws-knowledge", "target": "n1", "kind": "file"}, {"source": "ws-knowledge", "target": "n2", "kind": "file"}, {"source": "ws-knowledge", "target": "n3", "kind": "file"}, {"source": "ws-knowledge", "target": "n4", "kind": "file"}, {"source": "ws-knowledge", "target": "n5", "kind": "file"}, {"source": "ws-knowledge", "target": "n6", "kind": "file"}, {"source": "ws-knowledge", "target": "n7", "kind": "file"}, {"source": "n2", "target": "n4", "kind": "cross"}, {"source": "n1", "target": "n2", "kind": "cross"}, {"source": "n1", "target": "n4", "kind": "cross"}, {"source": "n0", "target": "n6", "kind": "cross"}, {"source": "sk0", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk1", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk2", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk3", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk4", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk5", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk6", "target": "ws-knowledge", "kind": "skill"}, {"source": "sk7", "target": "ws-knowledge", "kind": "skill"}]}</script>
+<script>(function () {
+  var canvas = document.getElementById('mem-canvas');
+  var dataEl = document.getElementById('mem-data');
+  if (!canvas || !dataEl) return;
+  var raw;
+  try { raw = JSON.parse(dataEl.textContent); } catch (e) { return; }
+  var fullNodes = raw.nodes || [], fullLinks = raw.links || [];
+  if (!fullNodes.length) return;
+
+  var deg = {};
+  fullLinks.forEach(function (l) { deg[l.source] = (deg[l.source] || 0) + 1; deg[l.target] = (deg[l.target] || 0) + 1; });
+
+  var mode = 'mid';
+  var activeSource = 'all';
+  var Graph = null;
+
+  function currentData() {
+    var nodes = fullNodes.filter(function (n) {
+      if (activeSource !== 'all') {
+        if (n.kind === 'hub') return true;
+        if (n.kind === 'workspace') return n.id === activeSource;
+        if (n.kind === 'skill' || n.kind === 'session') return true;
+        return n.workspace === activeSource;
+      }
+      if (n.kind === 'file') {
+        if (mode === 'macro') return false;
+        if (mode === 'mid') return (deg[n.id] || 0) >= 1;
+        return true;
+      }
+      return true;
+    });
+    var keep = {};
+    nodes.forEach(function (n) { keep[n.id] = true; });
+    var links = fullLinks.filter(function (l) { return keep[l.source] && keep[l.target]; });
+    return { nodes: nodes, links: links };
+  }
+
+  function build() {
+    if (Graph) return;
+    var rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width < 20 || rect.height < 20) return;
+
+    Graph = ForceGraph3D()(canvas)
+      .width(rect.width).height(rect.height)
+      .graphData(currentData())
+      .backgroundColor('rgba(0,0,0,0)')
+      .showNavInfo(false)
+      .nodeRelSize(6)
+      .nodeColor(function (n) { return n.color; })
+      .nodeVal(function (n) { return n.kind === 'file' ? 2 : (n.val || 5); })
+      .nodeThreeObject(function (n) {
+        var r;
+        if (n.kind === 'hub') r = 30;
+        else if (n.kind === 'workspace') r = 18;
+        else if (n.kind === 'skill') r = 14;
+        else if (n.kind === 'decision') r = 12;
+        else if (n.kind === 'session') r = 10;
+        else r = 8;
+        var mat = new THREE.MeshStandardMaterial({
+          color: n.color, emissive: n.color,
+          emissiveIntensity: n.kind === 'hub' ? 1.8 : (n.kind === 'workspace' ? 1.0 : 0.9),
+          roughness: 0.35, metalness: 0.1
+        });
+        var geom;
+        if (n.kind === 'decision') geom = new THREE.OctahedronGeometry(r, 0);
+        else if (n.kind === 'skill') geom = new THREE.IcosahedronGeometry(r, 0);
+        else if (n.kind === 'session') geom = new THREE.TetrahedronGeometry(r, 0);
+        else geom = new THREE.SphereGeometry(r, 26, 26);
+        var g = new THREE.Group();
+        g.add(new THREE.Mesh(geom, mat));
+        return g;
+      })
+      .nodeLabel(function (n) {
+        var cap = (n.kind || 'memory').toUpperCase();
+        return '<div style="font:500 11px ui-sans-serif,system-ui;padding:9px 11px;background:rgba(11,14,19,0.94);border:1px solid #2a2f3a;border-radius:10px;color:#fff;max-width:280px">'
+          + '<div style="font-size:9px;letter-spacing:.18em;color:#8a93a3;margin-bottom:3px">' + cap + '</div>'
+          + '<div style="font-weight:600">' + (n.name || n.id) + '</div>'
+          + (n.file ? '<div style="color:#9aa3b0;margin-top:3px;font-size:10px">' + n.file + '</div>' : '')
+          + '</div>';
+      })
+      .linkColor(function (l) {
+        if (l.kind === 'skill') return 'rgba(244,114,182,0.75)';
+        if (l.kind === 'cross') return 'rgba(123,224,200,0.75)';
+        if (l.kind === 'decision') return 'rgba(167,139,250,0.75)';
+        if (l.kind === 'session') return 'rgba(96,165,250,0.7)';
+        return 'rgba(61,220,151,0.75)';
+      })
+      .linkWidth(function (l) { return l.kind === 'core' ? 2.4 : 1.3; })
+      .linkDirectionalParticles(1)
+      .linkDirectionalParticleWidth(0.8)
+      .linkCurvature(0.1)
+      .onNodeHover(function (n) {
+        if (n) {
+          Graph.linkWidth(function (l) {
+            var s = l.source.id || l.source, t = l.target.id || l.target;
+            return (s === n.id || t === n.id) ? 2.2 : 0.2;
+          });
+        } else {
+          Graph.linkWidth(function (l) { return l.kind === 'core' ? 2.4 : 1.3; });
+        }
+      })
+      .onNodeClick(function (n) {
+        Graph.controls().autoRotate = false;
+        var dist = 60;
+        Graph.cameraPosition(
+          { x: n.x + dist * 1.2, y: n.y + dist * 0.4, z: n.z + dist * 1.2 },
+          { x: n.x, y: n.y, z: n.z }, 1000
+        );
+        openFile(n);
+      })
+      .onBackgroundClick(function () {
+        resetView();
+      });
+
+    Graph.d3Force('charge').strength(-40);
+    Graph.d3Force('link').distance(function (l) {
+      if (l.kind === 'core') return 70;
+      if (l.kind === 'file') return 20;
+      if (l.kind === 'skill') return 80;
+      if (l.kind === 'decision') return 50;
+      if (l.kind === 'session') return 35;
+      return 60;
+    });
+
+    var scene = Graph.scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.0012);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    var key = new THREE.PointLight(0x3ddc97, 1.4, 1200); key.position.set(120, 180, 200); scene.add(key);
+    var rim = new THREE.PointLight(0x60a5fa, 0.9, 1000); rim.position.set(-220, -120, -160); scene.add(rim);
+    var starGeom = new THREE.BufferGeometry();
+    var N = 1000, pos = new Float32Array(N * 3);
+    for (var i = 0; i < N; i++) {
+      var rr = 700 + Math.random() * 600, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
+      pos[i * 3] = rr * Math.sin(ph) * Math.cos(th);
+      pos[i * 3 + 1] = rr * Math.sin(ph) * Math.sin(th);
+      pos[i * 3 + 2] = rr * Math.cos(ph);
+    }
+    starGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    scene.add(new THREE.Points(starGeom, new THREE.PointsMaterial({ color: 0xa9b4c2, size: 1.1, transparent: true, opacity: 0.5, sizeAttenuation: true, depthWrite: false })));
+
+    var controls = Graph.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.8;
+  }
+
+  var ro = new ResizeObserver(function () {
+    build();
+    if (Graph) {
+      var r = canvas.parentElement.getBoundingClientRect();
+      if (r.width > 20) Graph.width(r.width).height(r.height);
+    }
+  });
+  ro.observe(canvas.parentElement);
+  build();
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function openFile(n) {
+    var p = document.getElementById('mem-file');
+    if (!p) return;
+    p.querySelector('.name').textContent = n.name || n.id;
+    p.querySelector('.meta').textContent = (n.file || ((n.kind || '') + ' node')).toUpperCase();
+    var body = p.querySelector('.body');
+    var content = n.content || '';
+    if (content) {
+      body.innerHTML = (typeof marked !== 'undefined' && marked.parse)
+        ? marked.parse(content)
+        : '<pre>' + escapeHtml(content) + '</pre>';
+    } else {
+      body.innerHTML = '<div class="empty">No content captured for this node.</div>';
+    }
+    p.classList.add('open');
+    var i = document.getElementById('mem-info');
+    if (i) i.classList.remove('visible');
+  }
+  function closeFile() {
+    var p = document.getElementById('mem-file');
+    if (p) p.classList.remove('open');
+    var i = document.getElementById('mem-info');
+    if (i) i.classList.remove('visible');
+  }
+  function resetView() {
+    if (!Graph) return;
+    Graph.controls().autoRotate = true;
+    Graph.zoomToFit(900, 40);
+    closeFile();
+  }
+
+  // view switcher
+  var vbtns = document.querySelectorAll('#memory [data-memview]');
+  vbtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      mode = b.getAttribute('data-memview');
+      vbtns.forEach(function (x) { x.classList.toggle('active', x === b); });
+      if (Graph) Graph.graphData(currentData());
+    });
+  });
+
+  // source filter pills
+  var pills = document.querySelectorAll('#memory [data-memsource]');
+  pills.forEach(function (b) {
+    b.addEventListener('click', function () {
+      activeSource = b.getAttribute('data-memsource') || 'all';
+      pills.forEach(function (x) { x.classList.toggle('active', x === b); });
+      if (Graph) Graph.graphData(currentData());
+    });
+  });
+
+  var pauseBtn = document.getElementById('mem-pause');
+  if (pauseBtn) pauseBtn.addEventListener('click', function () {
+    var c = Graph.controls();
+    if (c) c.autoRotate = !c.autoRotate;
+  });
+  var resetBtn = document.getElementById('mem-reset');
+  if (resetBtn) resetBtn.addEventListener('click', resetView);
+})();
+</script>
+</section>
+<section id="graph" class="panel">
+<style>#graph { background:#080810; color:#e0e0e0; border-radius:16px; padding:28px 30px; }
+#graph .mem-eyebrow { display:flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8a93a3; }
+#graph .mem-eyebrow .dot { width:6px; height:6px; border-radius:50%; background:#3ddc97; box-shadow:0 0 8px rgba(61,220,151,.7); }
+#graph .mem-title { font-family:var(--font-heading); font-size:2.3rem; font-weight:400; color:#fff; margin:12px 0 6px; }
+#graph .mem-title .num { font-variant-numeric:tabular-nums; }
+#graph .mem-title .dim { color:rgba(255,255,255,.5); font-size:1.5rem; }
+#graph .mem-sub { color:#8a93a3; font-size:14px; max-width:680px; line-height:1.6; margin:0 0 18px; }
+#graph .mem-legend { display:flex; flex-wrap:wrap; gap:12px; font-size:11px; color:#8a93a3; margin-bottom:16px; }
+#graph .mem-legend span { display:inline-flex; align-items:center; gap:5px; }
+#graph .mem-legend i { width:9px; height:9px; border-radius:50%; display:inline-block; }
+#graph .mem-legend .c { color:#5b6868; }
+#graph .mem-graph { position:relative; border-radius:12px; overflow:hidden; height:560px; background:radial-gradient(ellipse at 50% 40%, rgba(61,220,151,.28) 0%, rgba(12,20,22,.9) 55%, #0d1315 100%); box-shadow:inset 0 0 160px rgba(61,220,151,.12); }
+#graph .mem-graph canvas { display:block; }
+#graph .mem-info { position:absolute; bottom:16px; left:16px; background:rgba(20,20,19,.94); border:1px solid rgba(204,120,92,.35); border-radius:10px; padding:12px 16px; max-width:340px; opacity:0; transition:opacity .2s; pointer-events:none; }
+#graph .mem-info.visible { opacity:1; }
+#graph .mem-info .name { font-family:var(--font-heading); font-size:14px; color:#fff; padding-right:20px; }
+#graph .mem-info .detail { font-size:10px; color:#a0c4c4; margin-top:2px; text-transform:uppercase; letter-spacing:.08em; }
+#graph .mem-info-close { position:absolute; top:6px; right:8px; width:20px; height:20px; border-radius:5px; border:1px solid rgba(255,255,255,.22); background:transparent; color:#c7e8e8; cursor:pointer; font-size:14px; line-height:1; pointer-events:auto; padding:0; }
+#graph .mem-info-close:hover { background:rgba(204,120,92,.3); color:#fff; }
+#graph .mem-file { position:absolute; top:0; right:0; bottom:0; width:46%; max-width:560px; background:rgba(13,17,23,.97); border-left:1px solid rgba(255,255,255,.1); transform:translateX(100%); transition:transform .28s ease; z-index:5; display:flex; flex-direction:column; }
+#graph .mem-file.open { transform:translateX(0); }
+#graph .mem-file-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.08); }
+#graph .mem-file-head .name { font-family:var(--font-heading); font-size:16px; color:#fff; line-height:1.3; }
+#graph .mem-file-head .meta { font-size:10px; color:#8a93a3; text-transform:uppercase; letter-spacing:.08em; margin-top:4px; word-break:break-all; }
+#graph .mem-file-close { flex:0 0 auto; width:24px; height:24px; border-radius:6px; border:1px solid rgba(255,255,255,.2); background:transparent; color:#c7cdd6; cursor:pointer; font-size:16px; line-height:1; }
+#graph .mem-file-close:hover { background:rgba(204,120,92,.3); color:#fff; }
+#graph .mem-file .body { flex:1; overflow:auto; padding:16px 18px 24px; color:#c7cdd6; font-size:13px; line-height:1.65; }
+#graph .mem-file .body .empty { color:#8a93a3; font-style:italic; }
+#graph .mem-file .body h1,#graph .mem-file .body h2,#graph .mem-file .body h3 { color:#fff; font-family:var(--font-heading); margin:16px 0 6px; line-height:1.25; }
+#graph .mem-file .body p { margin:8px 0; }
+#graph .mem-file .body a { color:#3ddc97; }
+#graph .mem-file .body code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:4px; font-size:12px; }
+#graph .mem-file .body pre { background:rgba(255,255,255,.05); padding:12px; border-radius:8px; overflow:auto; }
+#graph .mem-file .body ul { margin:8px 0; padding-left:20px; }
+#graph .mem-file .body li { margin:4px 0; }
+#graph .mem-controls { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px 4px 0; color:#8a93a3; font-size:11px; }
+#graph .mem-controls .vbtn { padding:6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:transparent; color:#c7cdd6; cursor:pointer; font-size:10px; text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-body); transition:all .15s; }
+#graph .mem-controls .vbtn.active { border-color:#3ddc97; color:#3ddc97; background:rgba(61,220,151,.1); }
+#graph .mem-controls .cnt { margin-left:auto; font-variant-numeric:tabular-nums; color:#8a93a3; }
+</style>
+<div class="mem-eyebrow"><span class="dot"></span>Knowledge graph</div>
+<h2 class="mem-title"><span class="num">0</span> <span class="dim">nodes · 0 links</span></h2>
+<p class="mem-sub">Drag to rotate. Hover to trace links. Click to inspect. Nodes are clustered by Graphify community, coloured by topic.</p>
+<div class="mem-legend"></div>
+<div class="mem-graph"><div id="graph-canvas" style="width:100%;height:100%"></div>
+  <div class="mem-file" id="graph-file">
+    <div class="mem-file-head">
+      <div><div class="name"></div><div class="meta"></div></div>
+      <button class="mem-file-close" onclick="document.getElementById('graph-file').classList.remove('open')" title="Close">×</button>
+    </div>
+    <div class="body"></div>
+  </div>
+</div>
+<div class="mem-controls">
+  <span style="margin-right:4px">Density</span><button class="vbtn active" data-gdensity="full">Full</button><button class="vbtn" data-gdensity="core">Core</button>
+  <button class="vbtn" id="graph-pause">Pause</button>
+  <button class="vbtn" id="graph-reset">Reset view</button>
+  <span class="cnt">0 nodes · 0 edges</span>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="application/json" id="graph-data">{"nodes": [], "links": [], "communities": []}</script>
+<script>(function () {
+  var canvas = document.getElementById('graph-canvas');
+  var dataEl = document.getElementById('graph-data');
+  if (!canvas || !dataEl) return;
+  var raw;
+  try { raw = JSON.parse(dataEl.textContent); } catch (e) { return; }
+  var fullNodes = raw.nodes || [], fullLinks = raw.links || [];
+  if (!fullNodes.length) return;
+  var Graph = null, density = 'full';
+
+  function currentData() {
+    var nodes = fullNodes;
+    if (density === 'core' && fullNodes.length > 24) {
+      var ranked = fullNodes.slice().sort(function (a, b) { return (b.degree || 0) - (a.degree || 0); });
+      var keepN = Math.max(24, Math.round(ranked.length * 0.35));
+      nodes = ranked.slice(0, keepN).filter(function (n) { return (n.degree || 0) >= 2; });
+    }
+    var keep = {};
+    nodes.forEach(function (n) { keep[n.id] = true; });
+    var links = fullLinks.filter(function (l) { return keep[l.source] && keep[l.target]; });
+    return { nodes: nodes, links: links };
+  }
+
+  function build() {
+    if (Graph) return;
+    var rect = canvas.parentElement.getBoundingClientRect();
+    if (rect.width < 20 || rect.height < 20) return;
+    Graph = ForceGraph3D()(canvas)
+      .width(rect.width).height(rect.height)
+      .graphData(currentData())
+      .backgroundColor('rgba(0,0,0,0)')
+      .showNavInfo(false)
+      .nodeRelSize(5)
+      .nodeColor(function (n) { return n.color; })
+      .nodeVal(function (n) { return 2 + Math.min(12, (n.degree || 0) * 0.6); })
+      .nodeThreeObject(function (n) {
+        var r = 4 + Math.min(12, (n.degree || 0) * 0.6);
+        var mat = new THREE.MeshStandardMaterial({ color: n.color, emissive: n.color, emissiveIntensity: 0.9, roughness: 0.35, metalness: 0.1 });
+        var g = new THREE.Group();
+        g.add(new THREE.Mesh(new THREE.SphereGeometry(r, 22, 22), mat));
+        return g;
+      })
+      .nodeLabel(function (n) {
+        var cap = n.community_name || n.file_type || 'node';
+        return '<div style="font:500 11px ui-sans-serif,system-ui;padding:9px 11px;background:rgba(11,14,19,0.94);border:1px solid #2a2f3a;border-radius:10px;color:#fff;max-width:280px">'
+          + '<div style="font-size:9px;letter-spacing:.18em;color:#8a93a3;margin-bottom:3px">' + cap.toUpperCase() + '</div>'
+          + '<div style="font-weight:600">' + (n.name || n.id) + '</div>'
+          + (n.file ? '<div style="color:#9aa3b0;margin-top:3px;font-size:10px">' + n.file + '</div>' : '')
+          + '</div>';
+      })
+      .linkColor(function () { return 'rgba(61,220,151,0.7)'; })
+      .linkWidth(function (l) { return Math.max(0.6, (l.weight || 1) * 0.8); })
+      .linkDirectionalParticles(1)
+      .linkDirectionalParticleWidth(0.8)
+      .linkCurvature(0.12)
+      .onNodeHover(function (n) {
+        if (n) {
+          Graph.linkWidth(function (l) {
+            var s = l.source.id || l.source, t = l.target.id || l.target;
+            return (s === n.id || t === n.id) ? 2.2 : 0.3;
+          });
+        } else {
+          Graph.linkWidth(function (l) { return Math.max(0.6, (l.weight || 1) * 0.8); });
+        }
+      })
+      .onNodeClick(function (n) {
+        Graph.controls().autoRotate = false;
+        var dist = 60;
+        Graph.cameraPosition(
+          { x: n.x + dist * 1.2, y: n.y + dist * 0.4, z: n.z + dist * 1.2 },
+          { x: n.x, y: n.y, z: n.z }, 1000
+        );
+        openFile(n);
+      })
+      .onBackgroundClick(function () {
+        resetView();
+      });
+
+    Graph.d3Force('charge').strength(-30);
+    Graph.d3Force('link').distance(function (l) { return (l.confidence === 'EXTRACTED' ? 12 : 26); }).strength(0.7);
+    var comms = [];
+    fullNodes.forEach(function (n) { if (comms.indexOf(n.community) < 0) comms.push(n.community); });
+    var anchors = {};
+    comms.forEach(function (c, i) {
+      var t = (i + 0.5) / comms.length;
+      var phi = Math.acos(1 - 2 * t);
+      var theta = Math.PI * (1 + Math.sqrt(5)) * i;
+      anchors[c] = { x: 320 * Math.sin(phi) * Math.cos(theta), y: 320 * Math.sin(phi) * Math.sin(theta), z: 320 * Math.cos(phi) };
+    });
+    Graph.d3Force('cluster', function (alpha) {
+      Graph.graphData().nodes.forEach(function (n) {
+        var a = anchors[n.community];
+        if (!a) return;
+        n.vx = (n.vx || 0) + (a.x - (n.x || 0)) * 0.18 * alpha;
+        n.vy = (n.vy || 0) + (a.y - (n.y || 0)) * 0.18 * alpha;
+        n.vz = (n.vz || 0) + (a.z - (n.z || 0)) * 0.18 * alpha;
+      });
+    });
+
+    var scene = Graph.scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.0012);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    var key = new THREE.PointLight(0xffffff, 1.5, 1400); key.position.set(140, 200, 220); scene.add(key);
+    var rim = new THREE.PointLight(0x6366f1, 0.8, 1100); rim.position.set(-240, -140, -180); scene.add(rim);
+    var starGeom = new THREE.BufferGeometry();
+    var N = 1000, pos = new Float32Array(N * 3);
+    for (var i = 0; i < N; i++) {
+      var rr = 700 + Math.random() * 600, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
+      pos[i * 3] = rr * Math.sin(ph) * Math.cos(th);
+      pos[i * 3 + 1] = rr * Math.sin(ph) * Math.sin(th);
+      pos[i * 3 + 2] = rr * Math.cos(ph);
+    }
+    starGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    scene.add(new THREE.Points(starGeom, new THREE.PointsMaterial({ color: 0xa9b4c2, size: 1.1, transparent: true, opacity: 0.5, sizeAttenuation: true, depthWrite: false })));
+
+    var controls = Graph.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.8;
+  }
+
+  var ro = new ResizeObserver(function () {
+    build();
+    if (Graph) {
+      var r = canvas.parentElement.getBoundingClientRect();
+      if (r.width > 20) Graph.width(r.width).height(r.height);
+    }
+  });
+  ro.observe(canvas.parentElement);
+  build();
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function openFile(n) {
+    var p = document.getElementById('graph-file');
+    if (!p) return;
+    p.querySelector('.name').textContent = n.name || n.id;
+    p.querySelector('.meta').textContent = (n.file || ((n.community_name || n.file_type || '') + ' node')).toUpperCase();
+    var body = p.querySelector('.body');
+    var content = n.content || '';
+    if (content) {
+      body.innerHTML = (typeof marked !== 'undefined' && marked.parse)
+        ? marked.parse(content)
+        : '<pre>' + escapeHtml(content) + '</pre>';
+    } else {
+      body.innerHTML = '<div class="empty">No content captured for this node.</div>';
+    }
+    p.classList.add('open');
+  }
+  function closeFile() {
+    var p = document.getElementById('graph-file');
+    if (p) p.classList.remove('open');
+  }
+  function resetView() {
+    if (!Graph) return;
+    Graph.controls().autoRotate = true;
+    Graph.zoomToFit(900, 40);
+    closeFile();
+  }
+
+  var dbtns = document.querySelectorAll('#graph [data-gdensity]');
+  dbtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      density = b.getAttribute('data-gdensity');
+      dbtns.forEach(function (x) { x.classList.toggle('active', x === b); });
+      if (Graph) Graph.graphData(currentData());
+    });
+  });
+  var pauseBtn = document.getElementById('graph-pause');
+  if (pauseBtn) pauseBtn.addEventListener('click', function () {
+    var c = Graph.controls();
+    if (c) c.autoRotate = !c.autoRotate;
+  });
+  var resetBtn = document.getElementById('graph-reset');
+  if (resetBtn) resetBtn.addEventListener('click', resetView);
+})();
+</script>
+</section>
+<section id="pages" class="panel">
+<h2>Published pages</h2>
+<p class="section-note">Pages published to GitHub Pages for this client.</p>
+<p class="empty">No pages indexed yet.</p>
+</section>
+<footer>Read-only. Gary dashboard. Generated 17 Aug 2026, 13:51 ACST. Gary.</footer>
+</main>
+</div>
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = tab.getAttribute('href').slice(1);
+      tabs.forEach(function (t) { t.classList.toggle('active', t === tab); });
+      panels.forEach(function (p) { p.classList.toggle('active', p.id === id); });
+    });
+  });
+  var adate = document.getElementById('activity-date');
+  var achips = document.querySelectorAll('#activity .chip');
+  var arows = document.querySelectorAll('#activity .call-row');
+  var activeTool = 'all';
+  function applyFilter() {
+    var d = adate ? adate.value : 'all';
+    arows.forEach(function (r) {
+      var showDate = (d === 'all') || (r.getAttribute('data-date') === d);
+      var showTool;
+      if (activeTool === 'all') showTool = true;
+      else if (activeTool === 'error') showTool = r.getAttribute('data-status') !== 'ok';
+      else showTool = r.getAttribute('data-tool') === activeTool;
+      r.classList.toggle('hidden', !(showDate && showTool));
+    });
+    document.querySelectorAll('#activity .session').forEach(function (s) {
+      var any = Array.prototype.some.call(s.querySelectorAll('.call-row'),
+        function (r) { return !r.classList.contains('hidden'); });
+      s.classList.toggle('hidden', !any);
+    });
+  }
+  if (adate) adate.addEventListener('change', applyFilter);
+  achips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      achips.forEach(function (c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      activeTool = chip.getAttribute('data-filter');
+      applyFilter();
+    });
+  });
+})();
+</script>
+</body>
+</html>
