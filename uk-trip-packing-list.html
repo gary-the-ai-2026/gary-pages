@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Hancock Family · UK Trip Packing List</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-sm: 10px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.05);
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 56px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--canvas);
+  font-family: var(--font-body);
+  color: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 720px; margin: 0 auto; padding: var(--space-lg) 20px var(--space-xl); }
+
+/* Hero */
+.hero { text-align: center; padding: var(--space-xl) 0 var(--space-lg); }
+.hero .kicker {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: var(--space-sm);
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(34px, 6vw, 52px);
+  font-weight: 900; color: var(--ink); line-height: 1.1; letter-spacing: -0.02em;
+}
+.hero .subtitle { font-size: 16px; color: var(--muted); margin-top: var(--space-sm); }
+.progress-chip {
+  display: inline-block; margin-top: var(--space-sm);
+  font-family: var(--font-mono); font-size: 13px; color: var(--coral);
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 999px; padding: 5px 14px;
+}
+
+/* Sections */
+.section { margin-top: var(--space-lg); }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 4px;
+}
+.section-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; margin-bottom: var(--space-sm); }
+
+/* Pack card */
+.pack-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: var(--space-sm) var(--space-md);
+  box-shadow: var(--shadow-rest);
+}
+.pack-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 11px 0; border-bottom: 1px solid var(--hairline-soft);
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+}
+.pack-item:last-child { border-bottom: none; }
+.pack-box {
+  width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--hairline);
+  flex-shrink: 0; margin-top: 2px; background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: transparent; transition: all 0.15s ease;
+}
+.pack-label { font-size: 15px; color: var(--ink); font-weight: 500; line-height: 1.5; }
+.pack-sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+.pack-item.done .pack-box {
+  background: var(--success); border-color: var(--success); color: #fff;
+}
+.pack-item.done .pack-label { color: var(--muted); text-decoration: line-through; }
+.pack-item.done .pack-sub { text-decoration: line-through; }
+.pack-item.warn .pack-label::after {
+  content: '· to decide'; font-size: 12px; color: var(--warning); font-weight: 500;
+  margin-left: 4px; text-transform: none;
+}
+
+/* Footnote */
+.footnote { margin-top: var(--space-lg); text-align: center; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<section class="hero">
+  <div class="kicker">UK Trip · Amy</div>
+  <h1>Packing List</h1>
+  <p class="subtitle">Everything for the UK — tap items off as you pack. Your progress saves on this device.</p>
+  <span class="progress-chip" id="progressChip">0 packed</span>
+</section>
+
+<section class="section">
+  <div class="section-label">Clothing</div>
+  <div class="section-title">To Wear</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="nudeLucy"><span class="pack-box">✓</span><span class="pack-label">Nude Lucy jumper</span></div>
+    <div class="pack-item" data-k="shorts"><span class="pack-box">✓</span><span class="pack-label">Shorts</span></div>
+    <div class="pack-item" data-k="pjs"><span class="pack-box">✓</span><span class="pack-label">PJs</span></div>
+    <div class="pack-item" data-k="jeans"><span class="pack-box">✓</span><span class="pack-label">Jeans (another pair)</span></div>
+    <div class="pack-item" data-k="samJacket"><span class="pack-box">✓</span><span class="pack-label">Sam's beige lightweight jacket</span></div>
+    <div class="pack-item" data-k="weddingBreakfast"><span class="pack-box">✓</span><span class="pack-label">Nice outfit — breakfast day after wedding</span></div>
+    <div class="pack-item" data-k="dinnerOutfit"><span class="pack-box">✓</span><span class="pack-label">Outfit for dinner / West End shows</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Shoes</div>
+  <div class="section-title">On Your Feet</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="trainers"><span class="pack-box">✓</span><span class="pack-label">Trainers</span></div>
+    <div class="pack-item warn" data-k="birks"><span class="pack-box">✓</span><span class="pack-label">Birks</span></div>
+    <div class="pack-item warn" data-k="heels"><span class="pack-box">✓</span><span class="pack-label">Heels</span><span class="pack-sub"> — wedding?</span></div>
+    <div class="pack-item warn" data-k="boots"><span class="pack-box">✓</span><span class="pack-label">Boots</span><span class="pack-sub"> — RM Williams or black</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Outerwear / UK weather</div>
+  <div class="section-title">Weatherproofing</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="raincoat"><span class="pack-box">✓</span><span class="pack-label">North Face raincoat</span></div>
+    <div class="pack-item warn" data-k="umbrella"><span class="pack-box">✓</span><span class="pack-label">Umbrella</span></div>
+    <div class="pack-item" data-k="handWarmers"><span class="pack-box">✓</span><span class="pack-label">Hand warmers</span></div>
+    <div class="pack-item" data-k="sunhat"><span class="pack-box">✓</span><span class="pack-label">Sunhat</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Toiletries</div>
+  <div class="section-title">The Bag</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="cleanser"><span class="pack-box">✓</span><span class="pack-label">Cleanser</span></div>
+    <div class="pack-item" data-k="moisturiser"><span class="pack-box">✓</span><span class="pack-label">Moisturiser</span></div>
+    <div class="pack-item" data-k="toothbrush"><span class="pack-box">✓</span><span class="pack-label">Toothbrush</span></div>
+    <div class="pack-item" data-k="lip"><span class="pack-box">✓</span><span class="pack-label">Lip stuff</span></div>
+    <div class="pack-item" data-k="handCream"><span class="pack-box">✓</span><span class="pack-label">Hand cream</span></div>
+    <div class="pack-item" data-k="dryShampoo"><span class="pack-box">✓</span><span class="pack-label">Dry shampoo</span></div>
+    <div class="pack-item" data-k="brush"><span class="pack-box">✓</span><span class="pack-label">Brush</span></div>
+    <div class="pack-item" data-k="shampoo"><span class="pack-box">✓</span><span class="pack-label">Shampoo + conditioner</span></div>
+    <div class="pack-item" data-k="hairTie"><span class="pack-box">✓</span><span class="pack-label">Hair tie</span></div>
+    <div class="pack-item" data-k="tampons"><span class="pack-box">✓</span><span class="pack-label">Tampons</span></div>
+    <div class="pack-item" data-k="liners"><span class="pack-box">✓</span><span class="pack-label">Liners</span></div>
+    <div class="pack-item" data-k="shaver"><span class="pack-box">✓</span><span class="pack-label">Shaver</span></div>
+    <div class="pack-item" data-k="makeup"><span class="pack-box">✓</span><span class="pack-label">Makeup</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Medication &amp; health</div>
+  <div class="section-title">The Essentials</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="mounjaro"><span class="pack-box">✓</span><span class="pack-label">Injection + needle</span><span class="pack-sub"> — enough doses, carry-on</span></div>
+    <div class="pack-item" data-k="coloxyl"><span class="pack-box">✓</span><span class="pack-label">Coloxyl</span></div>
+    <div class="pack-item" data-k="buscopan"><span class="pack-box">✓</span><span class="pack-label">Buscopan</span></div>
+    <div class="pack-item" data-k="ondansetron"><span class="pack-box">✓</span><span class="pack-label">Ondansetron</span></div>
+    <div class="pack-item" data-k="painRelief"><span class="pack-box">✓</span><span class="pack-label">Pain relief</span></div>
+    <div class="pack-item" data-k="sleepTab"><span class="pack-box">✓</span><span class="pack-label">Sleeping tablet</span></div>
+    <div class="pack-item" data-k="pooTabs"><span class="pack-box">✓</span><span class="pack-label">Poo tabs</span></div>
+    <div class="pack-item" data-k="nac"><span class="pack-box">✓</span><span class="pack-label">NAC</span></div>
+    <div class="pack-item" data-k="electrolytes"><span class="pack-box">✓</span><span class="pack-label">Electrolytes</span></div>
+    <div class="pack-item" data-k="magnesium"><span class="pack-box">✓</span><span class="pack-label">Magnesium</span></div>
+    <div class="pack-item" data-k="alcoholGel"><span class="pack-box">✓</span><span class="pack-label">Alcohol gel</span></div>
+    <div class="pack-item" data-k="compression"><span class="pack-box">✓</span><span class="pack-label">Compression stockings</span></div>
+    <div class="pack-item" data-k="creatine"><span class="pack-box">✓</span><span class="pack-label">Creatine</span></div>
+    <div class="pack-item" data-k="proteinPowder"><span class="pack-box">✓</span><span class="pack-label">Protein powder</span></div>
+    <div class="pack-item" data-k="proteinBalls"><span class="pack-box">✓</span><span class="pack-label">Protein balls</span></div>
+    <div class="pack-item warn" data-k="chia"><span class="pack-box">✓</span><span class="pack-label">Chia seeds</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Travel comfort</div>
+  <div class="section-title">The Flight &amp; Beyond</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="eyeMask"><span class="pack-box">✓</span><span class="pack-label">Eye mask</span></div>
+    <div class="pack-item" data-k="neckPillow"><span class="pack-box">✓</span><span class="pack-label">Neck pillow</span></div>
+    <div class="pack-item" data-k="slipperSocks"><span class="pack-box">✓</span><span class="pack-label">Slipper socks</span></div>
+    <div class="pack-item" data-k="hotWater"><span class="pack-box">✓</span><span class="pack-label">Hot water bottle</span></div>
+    <div class="pack-item" data-k="dressingGown"><span class="pack-box">✓</span><span class="pack-label">Dressing gown</span></div>
+    <div class="pack-item" data-k="watchBand"><span class="pack-box">✓</span><span class="pack-label">Good watch band (spare)</span></div>
+    <div class="pack-item" data-k="planeSnacks"><span class="pack-box">✓</span><span class="pack-label">Plane snacks</span><span class="pack-sub"> — nuts, apple, kiwi</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Tech</div>
+  <div class="section-title">Gadgets</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="kindle"><span class="pack-box">✓</span><span class="pack-label">Kindle</span></div>
+    <div class="pack-item" data-k="headphones"><span class="pack-box">✓</span><span class="pack-label">Headphones</span></div>
+    <div class="pack-item" data-k="airtag"><span class="pack-box">✓</span><span class="pack-label">AirTag</span></div>
+    <div class="pack-item" data-k="chargers"><span class="pack-box">✓</span><span class="pack-label">Chargers</span><span class="pack-sub"> — phone, Kindle, watch, ring</span></div>
+    <div class="pack-item" data-k="podcasts"><span class="pack-box">✓</span><span class="pack-label">Download podcasts on Spotify</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Kids</div>
+  <div class="section-title">For the Boys</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="teddies"><span class="pack-box">✓</span><span class="pack-label">Boys' teddies</span></div>
+    <div class="pack-item" data-k="drinkBottle"><span class="pack-box">✓</span><span class="pack-label">Kids small drink bottle</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Wedding</div>
+  <div class="section-title">The Occasion</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="weddingCard"><span class="pack-box">✓</span><span class="pack-label">Wedding card + willow</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Bags &amp; accessories</div>
+  <div class="section-title">Carry It All</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="oroton"><span class="pack-box">✓</span><span class="pack-label">Oroton pouch</span></div>
+    <div class="pack-item" data-k="littlePouches"><span class="pack-box">✓</span><span class="pack-label">Little pouches</span></div>
+    <div class="pack-item warn" data-k="tote"><span class="pack-box">✓</span><span class="pack-label">Shopping bag tote</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Sport</div>
+  <div class="section-title">Stay Moving</div>
+  <div class="pack-card">
+    <div class="pack-item" data-k="resistanceBand"><span class="pack-box">✓</span><span class="pack-label">Blue resistance band (gym)</span></div>
+    <div class="pack-item warn" data-k="sportStuff"><span class="pack-box">✓</span><span class="pack-label">Sport stuff</span></div>
+  </div>
+</section>
+
+<p class="footnote">Prepared by Gary · 19 August 2026 · <span style="color:var(--ink);">Hancock Family</span></p>
+
+</div>
+
+<script>
+(function(){
+  var KEY = 'ukTripPackingList';
+  var items = Array.prototype.slice.call(document.querySelectorAll('.pack-item'));
+  var chip = document.getElementById('progressChip');
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+
+  function update() {
+    var done = items.filter(function(it){ return it.classList.contains('done'); }).length;
+    var total = items.length;
+    chip.textContent = done === total ? 'All packed 🎉' : done + ' of ' + total + ' packed';
+  }
+
+  items.forEach(function(it){
+    if (saved[it.dataset.k]) it.classList.add('done');
+    it.addEventListener('click', function(){
+      it.classList.toggle('done');
+      saved[it.dataset.k] = it.classList.contains('done');
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e) {}
+      update();
+    });
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>
