@@ -1,113 +1,108 @@
 {
-  "timestamp": "2026-08-20T14:30:44.471619+09:30",
-  "timestamp_display": "20 Aug 2026 \u00b7 2:30 PM",
-  "timestamp_short": "2:30:44 PM",
+  "timestamp": "2026-08-20T14:35:45.733734+09:30",
+  "timestamp_display": "20 Aug 2026 \u00b7 2:35 PM",
+  "timestamp_short": "2:35:45 PM",
   "goodwe": {
-    "grid_power_w": 2160,
-    "grid_direction": "Exporting",
-    "inverter_temp_c": 41.9,
-    "battery_power_w": 11,
-    "battery_mode": "Standby",
-    "lifetime_solar_kwh": 676.5,
-    "today_solar_kwh": 33.4,
-    "today_export_kwh": 14.3,
+    "grid_power_w": -29,
+    "grid_direction": "Idle",
+    "inverter_temp_c": 42.9,
+    "battery_power_w": 3024,
+    "battery_mode": "Discharge",
+    "lifetime_solar_kwh": 676.8,
+    "today_solar_kwh": 33.7,
+    "today_export_kwh": 14.5,
     "today_import_kwh": 0.0,
-    "today_load_kwh": 6.3,
+    "today_load_kwh": 6.5,
     "lifetime_bat_charge_kwh": 389.4,
     "today_bat_charge_kwh": 18.7,
     "lifetime_bat_discharge_kwh": 347.4,
     "today_bat_discharge_kwh": 3.3,
-    "home_consumption_w": 408,
+    "home_consumption_w": 5520,
     "lifetime_export_kwh": 18.2,
     "lifetime_import_kwh": 23.1,
     "battery_temp_c": 21.8,
     "battery_soc_pct": 100,
     "battery_soh_pct": 100,
-    "solar_now_w": 2579,
-    "battery_flow": "idle",
-    "grid_flow": "exporting"
+    "solar_now_w": 2514,
+    "battery_flow": "discharging",
+    "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 14.4,
-    "sell_price_c": 3.8,
+    "current_price_c": 14.3,
+    "sell_price_c": 3.7,
     "period": "solarSponge",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 97.721,
+    "renewables": 99.543,
     "forward_prices": [
       {
-        "time": "14:35",
-        "price": 15.8,
-        "period": "solarSponge"
-      },
-      {
         "time": "14:40",
-        "price": 15.4,
+        "price": 13.4,
         "period": "solarSponge"
       },
       {
         "time": "14:45",
-        "price": 13.2,
+        "price": 14.5,
         "period": "solarSponge"
       },
       {
         "time": "14:50",
-        "price": 13.2,
+        "price": 14.2,
         "period": "solarSponge"
       },
       {
         "time": "14:55",
-        "price": 13.6,
+        "price": 14.6,
         "period": "solarSponge"
       },
       {
         "time": "15:00",
-        "price": 13.7,
+        "price": 14.3,
         "period": "solarSponge"
       },
       {
         "time": "15:05",
-        "price": 14.3,
+        "price": 13.1,
         "period": "solarSponge"
       },
       {
         "time": "15:10",
-        "price": 14.4,
+        "price": 13.1,
         "period": "solarSponge"
       },
       {
         "time": "15:15",
-        "price": 14.4,
+        "price": 13.1,
         "period": "solarSponge"
       },
       {
         "time": "15:20",
-        "price": 15.8,
+        "price": 14.4,
         "period": "solarSponge"
       },
       {
         "time": "15:25",
-        "price": 11.4,
+        "price": 15.1,
         "period": "solarSponge"
       },
       {
         "time": "15:30",
-        "price": 14.3,
+        "price": 14.4,
         "period": "solarSponge"
       },
       {
         "time": "16:00",
-        "price": 33.0,
+        "price": 35.9,
         "period": "peak"
       },
       {
         "time": "16:30",
-        "price": 37.9,
+        "price": 38.4,
         "period": "peak"
       },
       {
         "time": "17:00",
-        "price": 39.6,
+        "price": 40.3,
         "period": "peak"
       },
       {
@@ -128,14 +123,14 @@
     ],
     "next_peak_c": 43.8,
     "next_peak_time": "18:30",
-    "next_trough_c": 11.4,
-    "next_trough_time": "15:25"
+    "next_trough_c": 13.1,
+    "next_trough_time": "15:05"
   },
   "today": {
-    "solar_kwh": 33.4,
-    "load_kwh": 6.3,
+    "solar_kwh": 33.7,
+    "load_kwh": 6.5,
     "import_kwh": 0.0,
-    "export_kwh": 14.3,
+    "export_kwh": 14.5,
     "grid_export_kwh": 13.17,
     "grid_import_kwh": 4.38,
     "grid_import_cost_dollars": 0.48,
