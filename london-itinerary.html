@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Amy's London — Interactive Itinerary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="london-map-data.js"></script>
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --radius-card: 20px;
+  --radius-sm: 12px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 900; margin: 0; }
+
+/* Hero */
+.hero { padding: 48px 0 24px; }
+.kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; font-weight: 500; }
+.hero h1 { font-size: clamp(34px, 7vw, 52px); line-height: 1.05; letter-spacing: -0.01em; }
+.hero .subtitle { font-size: 16px; color: var(--body); margin-top: 12px; max-width: 560px; }
+
+/* Pinned plans */
+.plans { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 8px; }
+.plan-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--ink);
+}
+.plan-chip .day { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-weight: 500; }
+.plan-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+
+/* Legend */
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+.legend-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 600; color: var(--ink);
+  cursor: pointer; transition: all .15s ease; user-select: none;
+}
+.legend-chip .swatch { width: 11px; height: 11px; border-radius: 50%; }
+.legend-chip.off { opacity: 0.38; }
+.legend-chip:hover { border-color: var(--muted); }
+
+.map-tools { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.map-hint { font-size: 12.5px; color: var(--muted); }
+.map-tools .fit-btn {
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--surface);
+  background: var(--coral); border: none; border-radius: 999px; padding: 7px 14px; cursor: pointer;
+}
+.map-tools .fit-btn:hover { background: var(--coral-hover); }
+
+/* Map */
+.map-card { border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline); box-shadow: var(--shadow-rest); }
+#map { height: 62vh; min-height: 420px; background: #ece9e4; }
+.pin {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--c, #cc785c);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; line-height: 1;
+  transition: transform .12s ease;
+}
+.leaflet-marker-icon:hover .pin { transform: scale(1.12); }
+.leaflet-tooltip { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.leaflet-tooltip-top:before { border-top-color: var(--hairline); }
+
+/* Panel (bottom sheet mobile / right card desktop) */
+.panel {
+  position: fixed; z-index: 1200; background: var(--surface);
+  border: 1px solid var(--hairline); box-shadow: 0 -8px 30px rgba(0,0,0,0.12);
+  transition: transform .28s cubic-bezier(.2,.8,.2,1);
+  display: flex; flex-direction: column;
+}
+.panel .panel-head { padding: 18px 18px 12px; border-bottom: 1px solid var(--hairline-soft); }
+.panel .panel-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.panel .panel-title { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.panel .panel-title .p-emoji { font-size: 22px; }
+.panel .panel-title h2 { font-size: 20px; line-height: 1.1; }
+.panel .close-btn {
+  position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
+  border-radius: 50%; border: 1px solid var(--hairline); background: var(--surface);
+  font-size: 16px; color: var(--body); cursor: pointer; line-height: 1;
+}
+.panel .close-btn:hover { background: var(--surface-alt); }
+.panel-body { padding: 14px 18px; overflow-y: auto; }
+.panel .note { font-size: 13.5px; color: var(--body); }
+.panel .transport {
+  margin-top: 10px; padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 600;
+  background: #fbf3ea; color: #a05a12; border: 1px solid #f0d9bd;
+}
+.walk-title { font-family: var(--font-display); font-size: 16px; font-weight: 900; color: var(--ink); margin: 18px 0 8px; }
+.walk-sub { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+.walk-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 12px; border: 1px solid var(--hairline-soft); border-radius: 12px;
+  cursor: pointer; margin-bottom: 6px; transition: background .12s ease;
+}
+.walk-row:hover { background: var(--surface-alt); }
+.walk-row.active { border-color: var(--coral); background: #fbf1ec; }
+.walk-row .wr-name { font-size: 13.5px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.walk-row .wr-meta { font-family: var(--font-mono); font-size: 12px; color: var(--coral); white-space: nowrap; font-weight: 500; }
+.walk-row .wr-emoji { font-size: 15px; }
+
+@media (max-width: 700px) {
+  .panel { left: 0; right: 0; bottom: 0; border-radius: 20px 20px 0 0; max-height: 78vh; transform: translateY(110%); }
+  .panel.open { transform: translateY(0); }
+}
+@media (min-width: 701px) {
+  .panel { right: 24px; top: 24px; bottom: 24px; width: 380px; border-radius: 20px; transform: translateX(130%); }
+  .panel.open { transform: translateX(0); }
+}
+
+/* Section + cards */
+.section { padding: 28px 0 8px; }
+.section-header { margin-bottom: 16px; }
+.section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+.section-title { font-size: 24px; color: var(--ink); margin-top: 2px; }
+.cat-block { margin-bottom: 22px; }
+.cat-head { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 10px; }
+.cat-head .c-emoji { font-size: 17px; }
+.cat-head .c-swatch { width: 12px; height: 12px; border-radius: 3px; }
+.cards { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 560px) { .cards { grid-template-columns: 1fr 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-sm);
+  padding: 12px 14px; cursor: pointer; transition: box-shadow .15s ease, border-color .15s ease;
+}
+.card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); border-color: var(--muted); }
+.card .card-top { display: flex; align-items: center; gap: 10px; }
+.card .card-emoji { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; border: 2.5px solid var(--c); flex-shrink: 0; background: #fff; }
+.card .card-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+.card .card-note { font-size: 12.5px; color: var(--body); margin-top: 5px; }
+.card .card-tag { display: inline-block; font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; color: var(--coral); margin-top: 6px; }
+
+/* Footnotes */
+.footnotes { margin: 10px 0 48px; }
+.fn-card {
+  background: var(--surface-alt); border: 1px dashed var(--hairline); border-radius: var(--radius-sm);
+  padding: 14px 16px; margin-bottom: 10px;
+}
+.fn-card .fn-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+.fn-card .fn-body { font-size: 13px; color: var(--body); margin-top: 3px; }
+.footer { padding: 24px 0 40px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--hairline); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">Amy's London · 23 Aug – 2 Sep 2026</div>
+    <h1>London, plotted.</h1>
+    <p class="subtitle">Everywhere you might want to go, on one map. Tap any pin to see how long it is to walk to everything else — then decide on the day.</p>
+    <div class="plans">
+      <span class="plan-chip"><span class="dot"></span>Thu 27 Aug — Gordon's Wine Bar</span>
+      <span class="plan-chip"><span class="dot"></span>Fri 28 Aug — Wicked (Apollo Victoria)</span>
+      <span class="plan-chip"><span class="dot" style="background:#c0392b;"></span>Moulin Rouge — not booked yet</span>
+    </div>
+  </section>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="map-tools">
+    <button class="fit-btn" id="fitAll">Fit map to all sites</button>
+    <span class="map-hint">Tap a pin → walking distance &amp; time to every other site.</span>
+  </div>
+
+  <div class="map-card"><div id="map"></div></div>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">The list</div>
+      <div class="section-title">All stops, by theme</div>
+    </div>
+    <div id="siteCards"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">To pin down later</div>
+      <div class="section-title">Notes</div>
+    </div>
+    <div class="footnotes">
+      <div class="fn-card">
+        <div class="fn-title">🪦 Mum's grave</div>
+        <div class="fn-body">Cemetery name still needed — tell me and I'll drop the pin in.</div>
+      </div>
+      <div class="fn-card">
+        <div class="fn-title">👨 Uncle Gordon</div>
+        <div class="fn-body">No address yet — add it when you have it.</div>
+      </div>
+      <div class="fn-card">
+        <div class="fn-title">🏚️ Old houses</div>
+        <div class="fn-body">Undecided — options: a wander around Hampstead / Notting Hill / Richmond, or house museums (Sir John Soane's Museum, Dennis Severs' House).</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">Walking times are on-foot estimates (OSRM routing) · Tap a destination in the panel to draw the connection · Private page — not indexed.</div>
+
+</div>
+
+<div class="panel" id="panel" aria-hidden="true">
+  <div class="panel-head">
+    <button class="close-btn" id="panelClose" aria-label="Close">✕</button>
+    <div class="panel-eyebrow" id="panelCat"></div>
+    <div class="panel-title">
+      <span class="p-emoji" id="panelEmoji"></span>
+      <h2 id="panelName"></h2>
+    </div>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  const D = LONDON_DATA;
+  const sites = D.sites;
+  const cats = D.categories;
+  const nameToIdx = {};
+  D.matrix_names.forEach(function (nm, i) { nameToIdx[nm] = i; });
+
+  const map = L.map('map', { zoomControl: true });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+  }).addTo(map);
+
+  // Central-London default view (HP World is a day trip, far NW)
+  map.setView([51.508, -0.13], 13);
+
+  const layerGroups = {};   // cat -> L.layerGroup
+  const markers = {};       // site.name -> marker
+  let routeLine = null;
+
+  Object.keys(cats).forEach(function (k) {
+    layerGroups[k] = L.layerGroup().addTo(map);
+  });
+
+  sites.forEach(function (site) {
+    const icon = L.divIcon({
+      className: '',
+      html: '<div class="pin" style="--c:' + site.color + '">' + site.emoji + '</div>',
+      iconSize: [34, 34], iconAnchor: [17, 17]
+    });
+    const m = L.marker([site.lat, site.lon], { icon: icon });
+    m.bindTooltip(site.short, { direction: 'top', offset: [0, -22] });
+    m.on('click', function () { openPanel(site); });
+    layerGroups[site.cat].addLayer(m);
+    markers[site.name] = m;
+  });
+
+  // Legend
+  const legendEl = document.getElementById('legend');
+  Object.keys(cats).forEach(function (k) {
+    const c = cats[k];
+    const chip = document.createElement('div');
+    chip.className = 'legend-chip';
+    chip.innerHTML = '<span class="swatch" style="background:' + c.color + '"></span>' + c.emoji + ' ' + c.label;
+    chip.addEventListener('click', function () {
+      chip.classList.toggle('off');
+      const off = chip.classList.contains('off');
+      if (off) map.removeLayer(layerGroups[k]); else layerGroups[k].addTo(map);
+    });
+    legendEl.appendChild(chip);
+  });
+
+  // Site cards (grouped by category)
+  const cardsEl = document.getElementById('siteCards');
+  Object.keys(cats).forEach(function (k) {
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    const head = document.createElement('div');
+    head.className = 'cat-head';
+    head.innerHTML = '<span class="c-swatch" style="background:' + cats[k].color + '"></span><span class="c-emoji">' + cats[k].emoji + '</span>' + cats[k].label;
+    block.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'cards';
+    sites.filter(function (s) { return s.cat === k; }).forEach(function (s) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML =
+        '<div class="card-top"><span class="card-emoji" style="--c:' + s.color + '">' + s.emoji + '</span><span class="card-name">' + s.name + '</span></div>' +
+        '<div class="card-note">' + s.note + '</div>' +
+        (s.transport ? '<span class="card-tag">' + s.transport + '</span>' : '');
+      card.addEventListener('click', function () {
+        map.flyTo([s.lat, s.lon], 15, { duration: 0.6 });
+        openPanel(s);
+      });
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    cardsEl.appendChild(block);
+  });
+
+  // Panel
+  const panel = document.getElementById('panel');
+  const panelClose = document.getElementById('panelClose');
+  let selected = null;
+
+  function openPanel(site) {
+    selected = site;
+    document.getElementById('panelCat').textContent = cats[site.cat].label;
+    document.getElementById('panelEmoji').textContent = site.emoji;
+    document.getElementById('panelName').textContent = site.name;
+    const body = document.getElementById('panelBody');
+    let html = '<div class="note">' + site.note + '</div>';
+    if (site.transport) html += '<div class="transport">Getting there: ' + site.transport + '</div>';
+
+    if (site.walkable) {
+      html += '<div class="walk-title">Walk from here</div><div class="walk-sub">on-foot time &amp; distance to every other site (nearest first)</div>';
+      const i = nameToIdx[site.name];
+      const rows = D.matrix_names.map(function (nm, j) {
+        return { name: nm, j: j, d: D.matrix[i][j].d, t: D.matrix[i][j].t };
+      }).filter(function (r) { return r.j !== i; }).sort(function (a, b) { return a.t - b.t; });
+      rows.forEach(function (r) {
+        const dest = sites.filter(function (s) { return s.name === r.name; })[0];
+        html += '<div class="walk-row" data-name="' + r.name + '">' +
+          '<span class="wr-name"><span class="wr-emoji">' + (dest ? dest.emoji : '') + '</span>' + r.name + '</span>' +
+          '<span class="wr-meta">' + r.t + ' min · ' + r.d + ' km</span></div>';
+      });
+    } else {
+      html += '<div class="walk-title">Day trip</div><div class="note">This one\'s outside central London — see the getting-there note above.</div>';
+    }
+    body.innerHTML = html;
+
+    // Attach walk-row handlers
+    body.querySelectorAll('.walk-row').forEach(function (row) {
+      row.addEventListener('click', function () {
+        const destName = row.getAttribute('data-name');
+        const dest = sites.filter(function (s) { return s.name === destName; })[0];
+        body.querySelectorAll('.walk-row').forEach(function (x) { x.classList.remove('active'); });
+        row.classList.add('active');
+        drawRoute(site, dest);
+      });
+    });
+
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+
+  function drawRoute(a, b) {
+    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
+    const latlngs = [[a.lat, a.lon], [b.lat, b.lon]];
+    routeLine = L.polyline(latlngs, { color: a.color, weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+    map.fitBounds(L.latLngBounds(latlngs), { padding: [50, 50] });
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
+    selected = null;
+  }
+  panelClose.addEventListener('click', closePanel);
+  panel.addEventListener('click', function (e) { if (e.target === panel) closePanel(); });
+
+  // Fit to all
+  document.getElementById('fitAll').addEventListener('click', function () {
+    const all = L.featureGroup(Object.keys(markers).map(function (k) { return markers[k]; }));
+    map.fitBounds(all.getBounds(), { padding: [30, 30] });
+  });
+
+  // Close panel with Escape
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
+})();
+</script>
+</body>
+</html>
