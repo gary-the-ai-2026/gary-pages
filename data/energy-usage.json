@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-22T05:10:53.343615+09:30",
-  "timestamp_display": "22 Aug 2026 \u00b7 5:10 AM",
+  "timestamp": "2026-08-22T05:15:54.943118+09:30",
+  "timestamp_display": "22 Aug 2026 \u00b7 5:15 AM",
   "total_kwh_24h": 0.26,
   "intervals": [
     {
       "time": "05:15",
       "hour": 5,
-      "kwh": 0.003,
+      "kwh": 0.002,
       "cost_c": 0.1,
       "period": "offPeak"
     },
@@ -516,11 +516,6 @@
     }
   ],
   "raw_5min": [
-    {
-      "time": "05:15",
-      "kwh": 0.001,
-      "period": "offPeak"
-    },
     {
       "time": "05:20",
       "kwh": 0.001,
@@ -1925,7 +1920,12 @@
       "time": "05:10",
       "kwh": 0.037,
       "period": "live"
+    },
+    {
+      "time": "05:15",
+      "kwh": 0.035,
+      "period": "live"
     }
   ],
-  "live_buckets": 63
+  "live_buckets": 64
 }
