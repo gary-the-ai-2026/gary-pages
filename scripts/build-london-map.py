@@ -145,11 +145,16 @@ def main():
         "matrix": matrix,
         "matrix_names": names,
     }
-    js = "const LONDON_DATA = " + json.dumps(out, ensure_ascii=False) + ";\n"
-    dest = "/Users/gary/gary-pages/london-map-data.js"
-    with open(dest, "w") as f:
-        f.write(js)
-    print(f"Wrote {dest} ({len(js)} bytes)")
+    json_str = json.dumps(out, ensure_ascii=False)
+    html_path = "/Users/gary/gary-pages/london-itinerary.html"
+    html = open(html_path).read()
+    sm = "//__DATA_START__"
+    em = "//__DATA_END__"
+    start = html.index(sm) + len(sm)
+    end = html.index(em)
+    html = html[:start] + "\nconst LONDON_DATA = " + json_str + ";\n" + html[end:]
+    open(html_path, "w").write(html)
+    print(f"Inlined data into {html_path} ({len(json_str)} chars)")
 
     wi = names.index("Waterstones Piccadilly")
     sample = sorted(
