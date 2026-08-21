@@ -45,8 +45,6 @@ SITES = [
      "The Orangery at Kensington Palace \u2014 check tea service ahead; Fortnum's is the dependable backup.", True, ""),
     ("Fortnum & Mason", "Fortnum & Mason", "food", "\U0001F375", 51.5081856, -0.1381409,
      "Diamond Jubilee Tea Salon \u2014 the classic afternoon tea.", True, ""),
-    ("Gordon's Wine Bar", "Gordon's Wine Bar", "food", "\U0001F377", 51.5079244, -0.1233137,
-     "Thursday night \u2014 London's oldest wine bar (1890), candlelit vaults by Embankment.", True, ""),
     ("Borough Market", "Borough Market", "food", "\U0001F374", 51.5055815, -0.0901984,
      "Lunch stop \u2014 street food under the railway arches by London Bridge.", True, ""),
     # Landmarks & shops
@@ -60,6 +58,11 @@ SITES = [
      "Crown Jewels + Tower Bridge right beside it.", True, ""),
     ("LEGO Store Leicester Square", "LEGO Store", "landmark", "\U0001F9F1", 51.5105945, -0.1307672,
      "Leicester Square flagship \u2014 next to M&M's World.", True, ""),
+    # Base & Family (outside central London — not in the walking matrix)
+    ("Dartford (Airbnb base)", "Dartford \u2014 Airbnb", "base", "\U0001F3E0", 51.4443059, 0.21807,
+     "Your Airbnb base \u2014 outside central London.", False, "Train from London Bridge/Charing Cross ~35 min"),
+    ("Hornchurch", "Hornchurch", "base", "\U0001F3E0", 51.5538747, 0.2181092,
+     "Hornchurch, East London.", False, "District line (Zone 6) ~50 min from central"),
 ]
 
 CATS = {
@@ -69,6 +72,7 @@ CATS = {
     "museum":   ("Museums & Library", "\U0001F3DB", "#5b8cb8"),
     "food":     ("Food, Tea & Wine", "\U0001F375", "#c2680c"),
     "landmark": ("Landmarks & Shops", "\U0001F451", "#2e7d32"),
+    "base":     ("Base & Family", "\U0001F3E0", "#2a9d8f"),
 }
 
 def haversine(lat1, lon1, lat2, lon2):
@@ -80,7 +84,7 @@ def haversine(lat1, lon1, lat2, lon2):
     return 2 * R * math.asin(math.sqrt(a))
 
 def main():
-    walkable = [s for s in SITES if s[7]]  # exclude HP World (walkable flag)
+    walkable = [s for s in SITES if s[7]]  # exclude non-walkable (base/family, day trips)
     n = len(walkable)
     names = [s[0] for s in walkable]
 
@@ -134,15 +138,12 @@ def main():
             "color": CATS[cat][2],
         })
 
-    # Build a name->index map over walkable sites only
-    walkable_names = names
-    # matrix maps walkable site index -> walkable site index
     out = {
         "source": source,
         "categories": {k: {"label": v[0], "emoji": v[1], "color": v[2]} for k, v in CATS.items()},
         "sites": sites_out,
         "matrix": matrix,
-        "matrix_names": walkable_names,
+        "matrix_names": names,
     }
     js = "const LONDON_DATA = " + json.dumps(out, ensure_ascii=False) + ";\n"
     dest = "/Users/gary/gary-pages/london-map-data.js"
@@ -150,12 +151,11 @@ def main():
         f.write(js)
     print(f"Wrote {dest} ({len(js)} bytes)")
 
-    # Sample: distances from Waterstones
-    wi = walkable_names.index("Waterstones Piccadilly")
+    wi = names.index("Waterstones Piccadilly")
     sample = sorted(
-        [(walkable_names[j], matrix[wi][j]["t"], matrix[wi][j]["d"]) for j in range(n) if j != wi],
+        [(names[j], matrix[wi][j]["t"], matrix[wi][j]["d"]) for j in range(n) if j != wi],
         key=lambda x: x[1]
-    )[:8]
+    )[:6]
     print("Nearest walking from Waterstones Piccadilly:")
     for nm, t, d in sample:
         print(f"  {nm:28s} {t:4d} min  {d:5.2f} km")

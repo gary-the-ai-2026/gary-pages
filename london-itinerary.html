@@ -54,8 +54,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
   background: var(--surface); border: 1px solid var(--hairline);
   border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--ink);
 }
-.plan-chip .day { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-weight: 500; }
-.plan-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+.plan-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); flex-shrink: 0; }
 
 /* Legend */
 .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
@@ -69,7 +68,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .legend-chip.off { opacity: 0.38; }
 .legend-chip:hover { border-color: var(--muted); }
 
-.map-tools { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.map-tools { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
 .map-hint { font-size: 12.5px; color: var(--muted); }
 .map-tools .fit-btn {
   font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--surface);
@@ -78,7 +77,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .map-tools .fit-btn:hover { background: var(--coral-hover); }
 
 /* Map */
-.map-card { border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline); box-shadow: var(--shadow-rest); }
+.map-card { position: relative; border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--hairline); box-shadow: var(--shadow-rest); }
 #map { height: 62vh; min-height: 420px; background: #ece9e4; }
 .pin {
   width: 34px; height: 34px; border-radius: 50%;
@@ -92,6 +91,25 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .leaflet-tooltip { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .leaflet-tooltip-top:before { border-top-color: var(--hairline); }
 
+/* Route summary (floating over the map) */
+.route-summary {
+  position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 1000;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px;
+  padding: 10px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.route-summary.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.route-summary .rs-emoji { font-size: 18px; }
+.route-summary .rs-text { flex: 1; font-size: 13.5px; font-weight: 600; color: var(--ink); min-width: 0; }
+.route-summary .rs-text #rsMeta { font-family: var(--font-mono); color: var(--coral); margin-left: 6px; font-weight: 500; white-space: nowrap; }
+.route-summary .rs-clear {
+  font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--surface);
+  background: var(--ink); border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; flex-shrink: 0;
+}
+.route-summary .rs-clear:hover { opacity: 0.85; }
+
 /* Panel (bottom sheet mobile / right card desktop) */
 .panel {
   position: fixed; z-index: 1200; background: var(--surface);
@@ -99,7 +117,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
   transition: transform .28s cubic-bezier(.2,.8,.2,1);
   display: flex; flex-direction: column;
 }
-.panel .panel-head { padding: 18px 18px 12px; border-bottom: 1px solid var(--hairline-soft); }
+.panel .panel-head { padding: 18px 18px 12px; border-bottom: 1px solid var(--hairline-soft); position: relative; }
 .panel .panel-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .panel .panel-title { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
 .panel .panel-title .p-emoji { font-size: 22px; }
@@ -112,6 +130,11 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .panel .close-btn:hover { background: var(--surface-alt); }
 .panel-body { padding: 14px 18px; overflow-y: auto; }
 .panel .note { font-size: 13.5px; color: var(--body); }
+.gm-link {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 10px;
+  font-size: 13px; font-weight: 600; color: var(--coral); text-decoration: none;
+}
+.gm-link:hover { text-decoration: underline; }
 .panel .transport {
   margin-top: 10px; padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 600;
   background: #fbf3ea; color: #a05a12; border: 1px solid #f0d9bd;
@@ -130,7 +153,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .walk-row .wr-emoji { font-size: 15px; }
 
 @media (max-width: 700px) {
-  .panel { left: 0; right: 0; bottom: 0; border-radius: 20px 20px 0 0; max-height: 78vh; transform: translateY(110%); }
+  .panel { left: 0; right: 0; bottom: 0; border-radius: 20px 20px 0 0; max-height: 72vh; transform: translateY(110%); }
   .panel.open { transform: translateY(0); }
 }
 @media (min-width: 701px) {
@@ -179,7 +202,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     <h1>London, plotted.</h1>
     <p class="subtitle">Everywhere you might want to go, on one map. Tap any pin to see how long it is to walk to everything else — then decide on the day.</p>
     <div class="plans">
-      <span class="plan-chip"><span class="dot"></span>Thu 27 Aug — Gordon's Wine Bar</span>
+      <span class="plan-chip"><span class="dot" style="background:#2a9d8f;"></span>Base — Dartford (Airbnb)</span>
       <span class="plan-chip"><span class="dot"></span>Fri 28 Aug — Wicked (Apollo Victoria)</span>
       <span class="plan-chip"><span class="dot" style="background:#c0392b;"></span>Moulin Rouge — not booked yet</span>
     </div>
@@ -192,7 +215,14 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     <span class="map-hint">Tap a pin → walking distance &amp; time to every other site.</span>
   </div>
 
-  <div class="map-card"><div id="map"></div></div>
+  <div class="map-card">
+    <div id="map"></div>
+    <div class="route-summary" id="routeSummary">
+      <span class="rs-emoji">🚶</span>
+      <span class="rs-text"><span id="rsName"></span><span id="rsMeta"></span></span>
+      <button class="rs-clear" id="routeClear">Clear</button>
+    </div>
+  </div>
 
   <section class="section">
     <div class="section-header">
@@ -218,12 +248,11 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
       </div>
       <div class="fn-card">
         <div class="fn-title">🏚️ Old houses</div>
-        <div class="fn-body">Undecided — options: a wander around Hampstead / Notting Hill / Richmond, or house museums (Sir John Soane's Museum, Dennis Severs' House).</div>
       </div>
     </div>
   </section>
 
-  <div class="footer">Walking times are on-foot estimates (OSRM routing) · Tap a destination in the panel to draw the connection · Private page — not indexed.</div>
+  <div class="footer">Walking times are on-foot estimates (OSRM routing) · Tap a destination in the panel to draw the walking route · Private page — not indexed.</div>
 
 </div>
 
@@ -248,21 +277,19 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
   const nameToIdx = {};
   D.matrix_names.forEach(function (nm, i) { nameToIdx[nm] = i; });
 
-  const map = L.map('map', { zoomControl: true });
+  const map = L.map('map', { zoomControl: false });
+  L.control.zoom({ position: 'topleft' }).addTo(map);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
   }).addTo(map);
 
-  // Central-London default view (HP World is a day trip, far NW)
   map.setView([51.508, -0.13], 13);
 
-  const layerGroups = {};   // cat -> L.layerGroup
-  const markers = {};       // site.name -> marker
+  const layerGroups = {};
+  const markers = {};
   let routeLine = null;
 
-  Object.keys(cats).forEach(function (k) {
-    layerGroups[k] = L.layerGroup().addTo(map);
-  });
+  Object.keys(cats).forEach(function (k) { layerGroups[k] = L.layerGroup().addTo(map); });
 
   sites.forEach(function (site) {
     const icon = L.divIcon({
@@ -286,13 +313,12 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     chip.innerHTML = '<span class="swatch" style="background:' + c.color + '"></span>' + c.emoji + ' ' + c.label;
     chip.addEventListener('click', function () {
       chip.classList.toggle('off');
-      const off = chip.classList.contains('off');
-      if (off) map.removeLayer(layerGroups[k]); else layerGroups[k].addTo(map);
+      if (chip.classList.contains('off')) map.removeLayer(layerGroups[k]); else layerGroups[k].addTo(map);
     });
     legendEl.appendChild(chip);
   });
 
-  // Site cards (grouped by category)
+  // Site cards
   const cardsEl = document.getElementById('siteCards');
   Object.keys(cats).forEach(function (k) {
     const block = document.createElement('div');
@@ -323,19 +349,19 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
   // Panel
   const panel = document.getElementById('panel');
   const panelClose = document.getElementById('panelClose');
-  let selected = null;
 
   function openPanel(site) {
-    selected = site;
     document.getElementById('panelCat').textContent = cats[site.cat].label;
     document.getElementById('panelEmoji').textContent = site.emoji;
     document.getElementById('panelName').textContent = site.name;
     const body = document.getElementById('panelBody');
+    const gmUrl = 'https://www.google.com/maps/search/?api=1&query=' + site.lat + ',' + site.lon;
     let html = '<div class="note">' + site.note + '</div>';
+    html += '<a class="gm-link" href="' + gmUrl + '" target="_blank" rel="noopener">Open in Google Maps ↗</a>';
     if (site.transport) html += '<div class="transport">Getting there: ' + site.transport + '</div>';
 
     if (site.walkable) {
-      html += '<div class="walk-title">Walk from here</div><div class="walk-sub">on-foot time &amp; distance to every other site (nearest first)</div>';
+      html += '<div class="walk-title">Walk from here</div><div class="walk-sub">tap a destination to draw the walking route</div>';
       const i = nameToIdx[site.name];
       const rows = D.matrix_names.map(function (nm, j) {
         return { name: nm, j: j, d: D.matrix[i][j].d, t: D.matrix[i][j].t };
@@ -347,11 +373,10 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
           '<span class="wr-meta">' + r.t + ' min · ' + r.d + ' km</span></div>';
       });
     } else {
-      html += '<div class="walk-title">Day trip</div><div class="note">This one\'s outside central London — see the getting-there note above.</div>';
+      html += '<div class="walk-title">Outside central London</div><div class="note">Not a walking distance — see the getting-there note above.</div>';
     }
     body.innerHTML = html;
 
-    // Attach walk-row handlers
     body.querySelectorAll('.walk-row').forEach(function (row) {
       row.addEventListener('click', function () {
         const destName = row.getAttribute('data-name');
@@ -366,21 +391,46 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     panel.setAttribute('aria-hidden', 'false');
   }
 
+  // Street-following route via OSRM
+  function fetchRoute(a, b, cb) {
+    const url = 'https://router.project-osrm.org/route/v1/walking/' + a.lon + ',' + a.lat + ';' + b.lon + ',' + b.lat + '?overview=full&geometries=geojson';
+    fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+      if (data && data.code === 'Ok' && data.routes && data.routes.length) {
+        cb(data.routes[0].geometry.coordinates.map(function (c) { return [c[1], c[0]]; }));
+      } else { cb(null); }
+    }).catch(function () { cb(null); });
+  }
+
   function drawRoute(a, b) {
+    clearRoute();
+    const i = nameToIdx[a.name], j = nameToIdx[b.name];
+    const meta = LONDON_DATA.matrix[i][j];
+    fetchRoute(a, b, function (coords) {
+      if (coords && coords.length > 1) {
+        routeLine = L.polyline(coords, { color: a.color, weight: 4, opacity: 0.9 }).addTo(map);
+      } else {
+        routeLine = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: a.color, weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+      }
+      map.fitBounds(routeLine.getBounds(), { padding: [48, 48] });
+      document.getElementById('rsName').textContent = a.short + ' → ' + b.short;
+      document.getElementById('rsMeta').textContent = meta.t + ' min · ' + meta.d + ' km';
+      document.getElementById('routeSummary').classList.add('show');
+      if (window.innerWidth <= 700) closePanel();
+    });
+  }
+
+  function clearRoute() {
     if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
-    const latlngs = [[a.lat, a.lon], [b.lat, b.lon]];
-    routeLine = L.polyline(latlngs, { color: a.color, weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
-    map.fitBounds(L.latLngBounds(latlngs), { padding: [50, 50] });
+    document.getElementById('routeSummary').classList.remove('show');
   }
 
   function closePanel() {
     panel.classList.remove('open');
     panel.setAttribute('aria-hidden', 'true');
-    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
-    selected = null;
   }
   panelClose.addEventListener('click', closePanel);
   panel.addEventListener('click', function (e) { if (e.target === panel) closePanel(); });
+  document.getElementById('routeClear').addEventListener('click', clearRoute);
 
   // Fit to all
   document.getElementById('fitAll').addEventListener('click', function () {
@@ -388,7 +438,6 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     map.fitBounds(all.getBounds(), { padding: [30, 30] });
   });
 
-  // Close panel with Escape
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
 })();
 </script>
