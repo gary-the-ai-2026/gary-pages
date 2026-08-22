@@ -146,6 +146,9 @@ tbody tr:last-child td { border-bottom: none; }
 .todo-body { font-size: 15px; color: var(--ink); font-weight: 600; }
 .todo-sub { font-size: 12px; color: var(--muted); font-weight: 400; }
 .todo-group { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warning); margin: 12px 0 2px; }
+.todo-item.done .todo-check { color: var(--success); }
+.todo-item.done .todo-body { color: var(--muted); text-decoration: line-through; }
+.todo-item.done .todo-sub { text-decoration: line-through; }
 
 /* Footnote */
 .footnote { margin-top: var(--space-lg); text-align: center; font-size: 12px; color: var(--muted); }
@@ -183,32 +186,32 @@ tbody tr:last-child td { border-bottom: none; }
       <span class="todo-body">Ask Donna if she can pick Toby up on Tue 25 Aug <span class="todo-sub">· the day she has him</span></span>
     </div>
     <div class="todo-group">Make / prep food</div>
-    <div class="todo-item">
-      <span class="todo-check">☐</span>
+    <div class="todo-item done">
+      <span class="todo-check">☑</span>
       <span class="todo-body">Yellow rice with veg</span>
     </div>
     <div class="todo-item">
       <span class="todo-check">☐</span>
       <span class="todo-body">Sausages</span>
     </div>
-    <div class="todo-item">
-      <span class="todo-check">☐</span>
+    <div class="todo-item done">
+      <span class="todo-check">☑</span>
       <span class="todo-body">Boiled eggs</span>
     </div>
-    <div class="todo-item">
-      <span class="todo-check">☐</span>
+    <div class="todo-item done">
+      <span class="todo-check">☑</span>
       <span class="todo-body">Yoghurt &amp; raspberry muffins</span>
     </div>
     <div class="todo-item">
       <span class="todo-check">☐</span>
       <span class="todo-body">4× yoghurt pouches <span class="todo-sub">· Noah's school lunch</span></span>
     </div>
-    <div class="todo-item">
-      <span class="todo-check">☐</span>
+    <div class="todo-item done">
+      <span class="todo-check">☑</span>
       <span class="todo-body">Gummies</span>
     </div>
-    <div class="todo-item">
-      <span class="todo-check">☐</span>
+    <div class="todo-item done">
+      <span class="todo-check">☑</span>
       <span class="todo-body">Pancakes</span>
     </div>
   </div>
