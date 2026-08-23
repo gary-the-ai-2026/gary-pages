@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
-const RAW_BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/main';
+const RAW_BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/data';
 // ═══════════════ BATTERY SOC WORM MODAL ═══════════════
 
 const SOC_URL = `${RAW_BASE}/data/battery-soc-history.json`;
@@ -775,7 +775,7 @@ async function openSocModal() {
 </div>
 
 <script>
-const RAW_BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/main';
+const RAW_BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/data';
 const DATA_URL = `${RAW_BASE}/data/energy-data.json`;
 
 function fmtW(v) { const a = Math.abs(v); return a >= 100 ? (a/1000).toFixed(2) + ' kW' : (a/1000).toFixed(3) + ' kW'; }
