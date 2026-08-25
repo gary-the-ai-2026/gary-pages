@@ -221,6 +221,52 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 .fn-card .fn-title { font-size: 14px; font-weight: 700; color: var(--ink); }
 .fn-card .fn-body { font-size: 13px; color: var(--body); margin-top: 3px; }
 .footer { padding: 24px 0 40px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--hairline); }
+
+/* Itinerary table */
+.itinerary-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 20px 22px; margin: 20px 0;
+}
+.itinerary-card .it-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+}
+.itinerary-card .it-title {
+  font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--ink);
+}
+.itinerary-card .plot-btn {
+  font-family: var(--font-body); font-size: 13.5px; font-weight: 700;
+  color: #fff; background: var(--coral); border: none;
+  border-radius: 999px; padding: 10px 18px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background .15s ease;
+}
+.itinerary-card .plot-btn:hover { background: var(--coral-hover); }
+.itinerary-card .plot-btn.plotted {
+  background: var(--ink); pointer-events: none; opacity: 0.7;
+}
+.it-stops { display: flex; flex-direction: column; gap: 2px; }
+.it-stop {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px;
+  transition: background .1s ease;
+}
+.it-stop:hover { background: var(--surface-alt); }
+.it-stop .it-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.it-stop .it-emoji { font-size: 18px; flex-shrink: 0; }
+.it-stop .it-name { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; }
+.it-stop .it-detail { font-size: 12px; color: var(--muted); }
+.it-stop .it-transport {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); white-space: nowrap;
+}
+.it-subtitle { font-size: 13px; color: var(--body); margin-bottom: 16px; }
+
 </style>
 </head>
 <body>
@@ -314,6 +360,27 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
       <button class="rs-clear" id="routeClear">Clear</button>
     </div>
   </div>
+
+  <section class="section">
+    <div class="itinerary-card">
+      <div class="it-head">
+        <div class="it-title">West to East — One Day</div>
+        <button class="plot-btn" id="plotItinerary" onclick="plotItinerary()">
+          🗺 Plot on Map
+        </button>
+      </div>
+      <div class="it-subtitle">~90 minutes of travel between stops. East-end finale of Tower Bridge + Sky Garden paired together.</div>
+      <div class="it-stops">
+        <div class="it-stop"><span class="it-num">1</span><span class="it-emoji">🏛</span><span class="it-name">Natural History Museum</span><span class="it-detail">arrive 9:45am, queue for 10am doors</span></div>
+        <div class="it-stop"><span class="it-num">2</span><span class="it-emoji">🛍</span><span class="it-name">Harrods</span><span class="it-transport">🚶 15 min</span></div>
+        <div class="it-stop"><span class="it-num">3</span><span class="it-emoji">🚂</span><span class="it-name">Paddington Station</span><span class="it-transport">🚇 Tube ~15 min</span></div>
+        <div class="it-stop"><span class="it-num">4</span><span class="it-emoji">📚</span><span class="it-name">Daunt Books</span><span class="it-transport">🚶 15 min</span></div>
+        <div class="it-stop"><span class="it-num">5</span><span class="it-emoji">🧱</span><span class="it-name">LEGO Store</span><span class="it-transport">🚇 Tube ~10 min</span></div>
+        <div class="it-stop"><span class="it-num">6</span><span class="it-emoji">🌉</span><span class="it-name">Tower Bridge</span><span class="it-transport">🚇 Tube ~20 min</span></div>
+        <div class="it-stop"><span class="it-num">7</span><span class="it-emoji">🌿</span><span class="it-name">Sky Garden</span><span class="it-detail">book ahead for late-afternoon slot</span><span class="it-transport" style="margin-left:8px">🚶 10 min</span></div>
+      </div>
+    </div>
+  </section>
 
   <section class="section">
     <div class="section-header">
@@ -530,6 +597,55 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
   });
 
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
+  // ── Itinerary plot ──
+  const ITINERARY = [
+    {name: 'Natural History Museum', emoji: '🏛', lat: 51.4965109, lon: -0.1760019, color: '#5b8cb8'},
+    {name: 'Harrods', emoji: '🛍', lat: 51.4992104, lon: -0.1629893, color: '#c2680c'},
+    {name: 'Paddington Station', emoji: '🚂', lat: 51.5173, lon: -0.1774, color: '#5c5a55'},
+    {name: 'Daunt Books', emoji: '📚', lat: 51.5204371, lon: -0.1522504, color: '#cc785c'},
+    {name: 'LEGO Store', emoji: '🧱', lat: 51.5105945, lon: -0.1307672, color: '#2e7d32'},
+    {name: 'Tower Bridge', emoji: '🌉', lat: 51.5055, lon: -0.0754, color: '#2e7d32'},
+    {name: 'Sky Garden', emoji: '🌿', lat: 51.5112, lon: -0.0836, color: '#2e7d32'}
+  ];
+  let itineraryLine = null;
+  let itineraryMarkers = [];
+
+  window.plotItinerary = function() {
+    clearRoute();
+    // Remove old itinerary markers
+    itineraryMarkers.forEach(function(m) { map.removeLayer(m); });
+    itineraryMarkers = [];
+    // Remove old itinerary line
+    if (itineraryLine) { map.removeLayer(itineraryLine); itineraryLine = null; }
+
+    var coords = [];
+    ITINERARY.forEach(function(stop, i) {
+      var icon = L.divIcon({
+        className: '',
+        html: '<div class="pin" style="--c:' + stop.color + ';width:28px;height:28px;font-size:13px;">' + stop.emoji + '</div>',
+        iconSize: [28, 28], iconAnchor: [14, 14]
+      });
+      var m = L.marker([stop.lat, stop.lon], {icon: icon}).addTo(map);
+      m.bindTooltip((i+1) + '. ' + stop.name, {direction: 'top', offset: [0, -18]});
+      itineraryMarkers.push(m);
+      coords.push([stop.lat, stop.lon]);
+    });
+
+    // Draw a dashed polyline connecting all stops
+    itineraryLine = L.polyline(coords, {
+      color: '#cc785c', weight: 3, dashArray: '8 6', opacity: 0.85
+    }).addTo(map);
+
+    // Fit map to show all itinerary stops
+    map.fitBounds(itineraryLine.getBounds(), {padding: [50, 50]});
+
+    // Update button state
+    var btn = document.getElementById('plotItinerary');
+    btn.classList.add('plotted');
+    btn.innerHTML = '✓ Plotted';
+  };
+
+
 })();
 </script>
 </body>
