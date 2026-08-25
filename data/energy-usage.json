@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-25T21:58:28.796279+09:30",
-  "timestamp_display": "25 Aug 2026 \u00b7 9:58 PM",
-  "total_kwh_24h": 0.22,
+  "timestamp": "2026-08-25T22:00:29.620318+09:30",
+  "timestamp_display": "25 Aug 2026 \u00b7 10:00 PM",
+  "total_kwh_24h": 0.21,
   "intervals": [
     {
       "time": "22:00",
       "hour": 22,
-      "kwh": 0.002,
-      "cost_c": 0.1,
+      "kwh": 0.0,
+      "cost_c": 0.0,
       "period": "peak"
     },
     {
@@ -719,11 +719,6 @@
     }
   ],
   "raw_5min": [
-    {
-      "time": "22:00",
-      "kwh": 0.002,
-      "period": "peak"
-    },
     {
       "time": "22:05",
       "kwh": 0.0,
@@ -1795,11 +1790,6 @@
       "period": "solarSponge"
     },
     {
-      "time": "22:00",
-      "kwh": 0.001,
-      "period": "peak"
-    },
-    {
       "time": "22:05",
       "kwh": 0.0,
       "period": "peak"
@@ -2248,7 +2238,12 @@
       "time": "21:55",
       "kwh": 0.031,
       "period": "live"
+    },
+    {
+      "time": "22:00",
+      "kwh": 0.031,
+      "period": "live"
     }
   ],
-  "live_buckets": 73
+  "live_buckets": 74
 }
