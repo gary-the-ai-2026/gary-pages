@@ -251,7 +251,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
 
   <section class="route-section">
     <div class="route-card">
-      <div class="route-head"><span class="route-icon">🗺️</span><h3>All 8 in one day — starting at NHM</h3><button class="plot-btn" id="plotItinerary" onclick="plotItinerary()">🗺 Plot on Map</button></div>
+      <div class="route-head"><span class="route-icon">🗺️</span><h3>All 8 in one day — starting at NHM</h3><button class="plot-btn" id="btnPlotItinerary" onclick="plotItinerary()">🗺 Plot on Map</button></div>
       <div class="route-step">
         <span class="step-num">1</span>
         <div class="step-body">
@@ -616,7 +616,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     }
 
     // Update button state
-    var btn = document.getElementById('plotItinerary');
+    var btn = document.getElementById('btnPlotItinerary');
     btn.classList.add('plotted');
     btn.innerHTML = '✓ Plotted';
 
@@ -644,7 +644,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     map.fitBounds(all.getBounds(), {padding: [30, 30]});
 
     // Reset buttons
-    var btn = document.getElementById('plotItinerary');
+    var btn = document.getElementById('btnPlotItinerary');
     btn.classList.remove('plotted');
     btn.innerHTML = '🗺 Plot on Map';
     document.getElementById('resetAll').style.display = 'none';
