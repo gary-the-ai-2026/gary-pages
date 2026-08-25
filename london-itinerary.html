@@ -554,7 +554,7 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     {name: 'Tower Bridge', emoji: '🌉', lat: 51.5055039, lon: -0.0754056, color: '#2e7d32'},
     {name: 'Sky Garden', emoji: '🌿', lat: 51.5113434, lon: -0.0835715, color: '#2e7d32'}
   ];
-  let itineraryLine = null;
+  let itineraryLine = [];
   let itineraryMarkers = [];
 
   window.plotItinerary = function() {
@@ -564,10 +564,11 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     // Remove old itinerary markers
     itineraryMarkers.forEach(function(m) { map.removeLayer(m); });
     itineraryMarkers = [];
-    // Remove old itinerary line
-    if (itineraryLine) { map.removeLayer(itineraryLine); itineraryLine = null; }
+    // Remove old itinerary lines
+    itineraryLine.forEach(function(l) { map.removeLayer(l); });
+    itineraryLine = [];
 
-    var coords = [];
+    // Place markers
     ITINERARY.forEach(function(stop, i) {
       var icon = L.divIcon({
         className: '',
@@ -577,16 +578,42 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
       var m = L.marker([stop.lat, stop.lon], {icon: icon}).addTo(map);
       m.bindTooltip((i+1) + '. ' + stop.name, {direction: 'top', offset: [0, -18]});
       itineraryMarkers.push(m);
-      coords.push([stop.lat, stop.lon]);
     });
 
-    // Draw a dashed polyline connecting all stops
-    itineraryLine = L.polyline(coords, {
-      color: '#cc785c', weight: 3, dashArray: '8 6', opacity: 0.85
-    }).addTo(map);
-
-    // Fit map to show all itinerary stops
-    map.fitBounds(itineraryLine.getBounds(), {padding: [50, 50]});
+    // Fetch walking routes via OSRM for each segment
+    var segments = ITINERARY.length - 1;
+    var completed = 0;
+    var allCoords = [];
+    for (var s = 0; s < segments; s++) {
+      (function(a, b) {
+        var url = 'https://router.project-osrm.org/route/v1/walking/' + a.lon + ',' + a.lat + ';' + b.lon + ',' + b.lat + '?overview=full&geometries=geojson';
+        fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+          completed++;
+          if (data && data.code === 'Ok' && data.routes && data.routes.length) {
+            var coords = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
+            var line = L.polyline(coords, { color: '#cc785c', weight: 3, opacity: 0.85 }).addTo(map);
+            itineraryLine.push(line);
+            allCoords = allCoords.concat(coords);
+          } else {
+            // Fallback: straight dashed line
+            var line = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: '#cc785c', weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+            itineraryLine.push(line);
+            allCoords.push([a.lat, a.lon], [b.lat, b.lon]);
+          }
+          if (completed === segments && allCoords.length > 0) {
+            map.fitBounds(L.latLngBounds(allCoords), {padding: [50, 50]});
+          }
+        }).catch(function() {
+          completed++;
+          var line = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: '#cc785c', weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+          itineraryLine.push(line);
+          allCoords.push([a.lat, a.lon], [b.lat, b.lon]);
+          if (completed === segments && allCoords.length > 0) {
+            map.fitBounds(L.latLngBounds(allCoords), {padding: [50, 50]});
+          }
+        });
+      })(ITINERARY[s], ITINERARY[s+1]);
+    }
 
     // Update button state
     var btn = document.getElementById('plotItinerary');
@@ -602,7 +629,8 @@ h1, h2, h3 { color: var(--ink); font-family: var(--font-display); font-weight: 9
     // Remove itinerary elements
     itineraryMarkers.forEach(function(m) { map.removeLayer(m); });
     itineraryMarkers = [];
-    if (itineraryLine) { map.removeLayer(itineraryLine); itineraryLine = null; }
+    itineraryLine.forEach(function(l) { map.removeLayer(l); });
+    itineraryLine = [];
     clearRoute();
 
     // Restore all site markers
