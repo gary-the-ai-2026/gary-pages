@@ -53,11 +53,23 @@ async function openSocModal() {
     return;
   }
 
-  // Parse data
-  const labels = history.map(d => d.ts_display);
-  const values = history.map(d => d.soc);
+  // Filter to last 24 hours (Adelaide time: UTC+9:30)
+  const now = new Date();
+  const adelaideNow = new Date(now.getTime() + 9.5 * 60 * 60 * 1000);
+  const cutoff = new Date(adelaideNow.getTime() - 24 * 60 * 60 * 1000);
+  const recent = history.filter(d => new Date(d.ts) >= cutoff);
 
-  // Stats
+  if (!recent.length) {
+    document.getElementById('socModalSub').innerHTML =
+      '<span class="soc-badge" id="socModalBadge">--%</span> No data in last 24h';
+    return;
+  }
+
+  // Parse data (filtered to last 24h)
+  const labels = recent.map(d => d.ts_display);
+  const values = recent.map(d => d.soc);
+
+  // Stats (from filtered 24h data)
   const high = Math.max(...values);
   const low = Math.min(...values);
   const avg = (values.reduce((a,b) => a + b, 0) / values.length).toFixed(0);
@@ -70,7 +82,7 @@ async function openSocModal() {
   document.getElementById('socModalBadge').textContent = latest + '%';
 
   // Render chart — thin labels for readability
-  const showLabels = history.length <= 50;
+  const showLabels = recent.length <= 50;
   const ctx = document.getElementById('socWormChart').getContext('2d');
   if (socWormInstance) socWormInstance.destroy();
 
@@ -1393,11 +1405,23 @@ async function openSocModal() {
     return;
   }
 
-  // Parse data
-  const labels = history.map(d => d.ts_display);
-  const values = history.map(d => d.soc);
+  // Filter to last 24 hours (Adelaide time: UTC+9:30)
+  const now = new Date();
+  const adelaideNow = new Date(now.getTime() + 9.5 * 60 * 60 * 1000);
+  const cutoff = new Date(adelaideNow.getTime() - 24 * 60 * 60 * 1000);
+  const recent = history.filter(d => new Date(d.ts) >= cutoff);
 
-  // Stats
+  if (!recent.length) {
+    document.getElementById('socModalSub').innerHTML =
+      '<span class="soc-badge" id="socModalBadge">--%</span> No data in last 24h';
+    return;
+  }
+
+  // Parse data (filtered to last 24h)
+  const labels = recent.map(d => d.ts_display);
+  const values = recent.map(d => d.soc);
+
+  // Stats (from filtered 24h data)
   const high = Math.max(...values);
   const low = Math.min(...values);
   const avg = (values.reduce((a,b) => a + b, 0) / values.length).toFixed(0);
@@ -1410,7 +1434,7 @@ async function openSocModal() {
   document.getElementById('socModalBadge').textContent = latest + '%';
 
   // Render chart — thin labels for readability
-  const showLabels = history.length <= 50;
+  const showLabels = recent.length <= 50;
   const ctx = document.getElementById('socWormChart').getContext('2d');
   if (socWormInstance) socWormInstance.destroy();
 
