@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-25T15:28:51.427782+09:30",
-  "timestamp_display": "25 Aug 2026 \u00b7 3:28 PM",
-  "timestamp_short": "3:28:51 PM",
+  "timestamp": "2026-08-25T15:30:52.015744+09:30",
+  "timestamp_display": "25 Aug 2026 \u00b7 3:30 PM",
+  "timestamp_short": "3:30:52 PM",
   "goodwe": {
-    "grid_power_w": 258,
+    "grid_power_w": 292,
     "grid_direction": "Exporting",
-    "inverter_temp_c": 49.8,
-    "battery_power_w": -1114,
+    "inverter_temp_c": 47.0,
+    "battery_power_w": -1113,
     "battery_mode": "Charge",
     "lifetime_solar_kwh": 821.0,
     "today_solar_kwh": 21.5,
@@ -17,29 +17,24 @@
     "today_bat_charge_kwh": 12.1,
     "lifetime_bat_discharge_kwh": 405.6,
     "today_bat_discharge_kwh": 1.2,
-    "home_consumption_w": 163,
+    "home_consumption_w": 274,
     "lifetime_export_kwh": 32.8,
     "lifetime_import_kwh": 23.1,
     "battery_temp_c": 21.2,
     "battery_soc_pct": 85,
     "battery_soh_pct": 100,
-    "solar_now_w": 1609,
+    "solar_now_w": 1721,
     "battery_flow": "charging",
     "grid_flow": "exporting"
   },
   "amber": {
-    "current_price_c": 22.4,
-    "sell_price_c": 10.9,
+    "current_price_c": 20.7,
+    "sell_price_c": 9.4,
     "period": "solarSponge",
-    "descriptor": "veryLow",
+    "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 130.32999999999998,
+    "renewables": 134.731,
     "forward_prices": [
-      {
-        "time": "15:30",
-        "price": 21.1,
-        "period": "solarSponge"
-      },
       {
         "time": "15:35",
         "price": 21.1,
@@ -124,6 +119,11 @@
         "time": "19:00",
         "price": 40.3,
         "period": "peak"
+      },
+      {
+        "time": "19:30",
+        "price": 40.4,
+        "period": "peak"
       }
     ],
     "next_peak_c": 43.9,
@@ -136,7 +136,7 @@
     "load_kwh": 6.1,
     "import_kwh": 0.0,
     "export_kwh": 6.4,
-    "grid_export_kwh": 27.31,
+    "grid_export_kwh": 27.32,
     "grid_import_kwh": 4.59,
     "grid_import_cost_dollars": 0.54,
     "grid_export_revenue_dollars": 1.0,
