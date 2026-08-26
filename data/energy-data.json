@@ -1,83 +1,78 @@
 {
-  "timestamp": "2026-08-27T06:14:29.648974+09:30",
-  "timestamp_display": "27 Aug 2026 \u00b7 6:14 AM",
-  "timestamp_short": "6:14:29 AM",
+  "timestamp": "2026-08-27T06:16:30.429680+09:30",
+  "timestamp_display": "27 Aug 2026 \u00b7 6:16 AM",
+  "timestamp_short": "6:16:30 AM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": 4,
     "grid_direction": "Idle",
-    "inverter_temp_c": 42.7,
-    "battery_power_w": 325,
-    "battery_mode": "Discharge",
+    "inverter_temp_c": 43.2,
+    "battery_power_w": 379,
+    "battery_mode": "Standby",
     "lifetime_solar_kwh": 850.4,
     "today_solar_kwh": 0.0,
     "today_export_kwh": 0.7,
     "today_import_kwh": 0.0,
-    "today_load_kwh": 0.7,
+    "today_load_kwh": 0.8,
     "lifetime_bat_charge_kwh": 464.1,
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 428.4,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 323,
+    "home_consumption_w": 375,
     "lifetime_export_kwh": 33.4,
     "lifetime_import_kwh": 23.2,
-    "battery_temp_c": 15.8,
+    "battery_temp_c": 15.7,
     "battery_soc_pct": 56,
     "battery_soh_pct": 100,
-    "solar_now_w": 0,
+    "solar_now_w": 1,
     "battery_flow": "discharging",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 48.9,
-    "sell_price_c": 18.8,
+    "current_price_c": 51.9,
+    "sell_price_c": 21.4,
     "period": "peak",
-    "descriptor": "low",
+    "descriptor": "neutral",
     "spike_status": "none",
-    "renewables": 36.077,
+    "renewables": 34.749,
     "forward_prices": [
       {
-        "time": "06:15",
-        "price": 58.6,
-        "period": "peak"
-      },
-      {
         "time": "06:20",
-        "price": 58.3,
+        "price": 56.7,
         "period": "peak"
       },
       {
         "time": "06:25",
-        "price": 58.0,
+        "price": 58.9,
         "period": "peak"
       },
       {
         "time": "06:30",
-        "price": 58.1,
+        "price": 56.9,
         "period": "peak"
       },
       {
         "time": "06:35",
-        "price": 57.6,
+        "price": 59.4,
         "period": "peak"
       },
       {
         "time": "06:40",
-        "price": 60.2,
+        "price": 60.7,
         "period": "peak"
       },
       {
         "time": "06:45",
-        "price": 59.7,
+        "price": 60.7,
         "period": "peak"
       },
       {
         "time": "06:50",
-        "price": 61.8,
+        "price": 62.3,
         "period": "peak"
       },
       {
         "time": "06:55",
-        "price": 72.7,
+        "price": 67.8,
         "period": "peak"
       },
       {
@@ -116,14 +111,14 @@
         "period": "solarSponge"
       }
     ],
-    "next_peak_c": 72.7,
+    "next_peak_c": 67.8,
     "next_peak_time": "06:55",
     "next_trough_c": 10.3,
     "next_trough_time": "10:00"
   },
   "today": {
     "solar_kwh": 0.0,
-    "load_kwh": 0.7,
+    "load_kwh": 0.8,
     "import_kwh": 0.0,
     "export_kwh": 0.7,
     "grid_export_kwh": 27.89,
