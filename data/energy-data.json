@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-08-27T00:38:46.867971+09:30",
-  "timestamp_display": "27 Aug 2026 \u00b7 12:38 AM",
-  "timestamp_short": "12:38:46 AM",
+  "timestamp": "2026-08-27T00:40:47.304078+09:30",
+  "timestamp_display": "27 Aug 2026 \u00b7 12:40 AM",
+  "timestamp_short": "12:40:47 AM",
   "goodwe": {
-    "grid_power_w": 4,
+    "grid_power_w": 2,
     "grid_direction": "Idle",
-    "inverter_temp_c": 45.5,
-    "battery_power_w": 292,
-    "battery_mode": "Standby",
+    "inverter_temp_c": 45.9,
+    "battery_power_w": 260,
+    "battery_mode": "Discharge",
     "lifetime_solar_kwh": 850.4,
     "today_solar_kwh": 0.0,
-    "today_export_kwh": 0.0,
+    "today_export_kwh": 0.1,
     "today_import_kwh": 0.0,
     "today_load_kwh": 0.1,
     "lifetime_bat_charge_kwh": 464.1,
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 428.4,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 288,
+    "home_consumption_w": 258,
     "lifetime_export_kwh": 33.4,
     "lifetime_import_kwh": 23.2,
     "battery_temp_c": 18.2,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 36.3,
-    "sell_price_c": 18.0,
+    "current_price_c": 32.1,
+    "sell_price_c": 14.3,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 16.674,
+    "renewables": 16.24,
     "forward_prices": [
-      {
-        "time": "00:40",
-        "price": 32.5,
-        "period": "offPeak"
-      },
       {
         "time": "00:45",
         "price": 32.2,
@@ -121,8 +116,8 @@
         "period": "offPeak"
       }
     ],
-    "next_peak_c": 32.5,
-    "next_peak_time": "00:40",
+    "next_peak_c": 32.2,
+    "next_peak_time": "00:45",
     "next_trough_c": 30.7,
     "next_trough_time": "03:00"
   },
@@ -130,7 +125,7 @@
     "solar_kwh": 0.0,
     "load_kwh": 0.1,
     "import_kwh": 0.0,
-    "export_kwh": 0.0,
+    "export_kwh": 0.1,
     "grid_export_kwh": 27.89,
     "grid_import_kwh": 4.64,
     "grid_import_cost_dollars": 0.56,
