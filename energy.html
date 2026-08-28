@@ -1247,7 +1247,7 @@ function renderCalendar() {
   const netCls = sumNet >= 0 ? 'net-pos' : 'net-neg';
   document.getElementById('calSumCost').innerHTML =
     '<span class="' + netCls + '">' + netStr + '</span>' +
-    '<span class="cs-sub">$' + sumImpCost.toFixed(2) + ' imp · +$' + sumExportVal.toFixed(2) + ' exp</span>';
+    '<span class="cs-sub">Paid $' + sumImpCost.toFixed(2) + ' (import) · Earned +$' + sumExportVal.toFixed(2) + ' (export)</span>';
 
   // Build grid
   const grid = document.getElementById('calGrid');
