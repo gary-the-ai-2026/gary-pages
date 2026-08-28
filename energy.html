@@ -408,6 +408,11 @@ async function openSocModal() {
     .cal-day .cal-day-num { font-size: 11px; }
     .cal-day .cal-day-row { font-size: 8px; }
     .cal-summary { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    /* Dense compound cards (Saved/Cost) get full row width so their values breathe */
+    .cal-summary .cal-gridin,
+    .cal-summary .cal-gridout { grid-column: 1 / -1; padding: 6px 8px; }
+    .cal-summary .cal-gridin .cs-val,
+    .cal-summary .cal-gridout .cs-val { font-size: 13px; white-space: normal; }
     .cal-sum-card { padding: var(--space-sm) 6px; }
     .cal-sum-card .cs-val { font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; word-break: normal; }
     .cal-sum-card .cs-lbl { margin-top: 3px; }
