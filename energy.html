@@ -356,6 +356,8 @@ async function openSocModal() {
   .cal-day:hover { border-color: var(--hairline); }
   .cal-day .cal-day-num { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
   .cal-day .cal-day-cost { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--coral); margin-top: 1px; }
+  .cal-day .cal-day-cost.net-pos { color: var(--success); }
+  .cal-day .cal-day-cost.net-neg { color: var(--danger); }
   .cal-day .cal-day-metrics { display: flex; flex-direction: column; align-items: center; gap: 1px; margin-top: 2px; }
   .cal-day .cal-day-row { display: flex; align-items: center; gap: 2px; font-size: 9px; font-family: var(--font-mono); font-weight: 500; }
   .cal-day .cal-weather { display: flex; align-items: center; gap: 2px; margin-top: 3px; font-size: 10px; }
@@ -1261,11 +1263,21 @@ function renderCalendar() {
 
     const solar = entry ? (entry.solar_kwh || 0).toFixed(1) : '--';
     const usage = entry ? (entry.load_kwh || 0).toFixed(1) : '--';
-    const cost = entry && entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
+    // Headline price = Day Net (export value − import cost), colour-coded green/red
+    let net = null;
+    if (entry && (entry.import_cost_dollars != null || entry.export_value_dollars != null || entry.cost_dollars != null)) {
+      const impCost = entry.import_cost_dollars != null ? entry.import_cost_dollars : (entry.cost_dollars || 0);
+      const expVal = entry.export_value_dollars != null ? entry.export_value_dollars : 0;
+      net = expVal - impCost;
+    }
+    const cost = net != null ? (net >= 0 ? '+' : '') + '$' + net.toFixed(2) : '--';
 
     html += '<div class="' + cls + '" data-date="' + key + '" onclick="selectCalDay(\'' + key + '\')">';
     html += '<div class="cal-day-num">' + d + '</div>';
-    if (entry && entry.cost_dollars != null) html += '<div class="cal-day-cost">' + cost + '</div>';
+    if (entry && (entry.import_cost_dollars != null || entry.export_value_dollars != null || entry.cost_dollars != null)) {
+      const pos = net >= 0 ? ' net-pos' : ' net-neg';
+      html += '<div class="cal-day-cost' + pos + '">' + cost + '</div>';
+    }
     html += '<div class="cal-day-metrics">';
     html += '<div class="cal-day-row"><span class="cal-dot solar-dot"></span>' + solar + '</div>';
     html += '<div class="cal-day-row"><span class="cal-dot usage-dot"></span>' + usage + '</div>';
