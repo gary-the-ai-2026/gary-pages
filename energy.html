@@ -725,8 +725,8 @@ async function openSocModal() {
           <div class="cds-lbl">Solar Gen</div>
         </div>
         <div class="cal-detail-stat">
-          <div class="cds-val usage-v" id="calDetSaved" style="color:var(--success)">--</div>
-          <div class="cds-lbl">Saved</div>
+          <div class="cds-val usage-v" id="calDetAssumedSav" style="color:var(--success)">--</div>
+          <div class="cds-lbl">Assumed Saving</div>
         </div>
         <div class="cal-detail-stat">
           <div class="cds-val grid-v" id="calDetImport">--</div>
@@ -734,11 +734,19 @@ async function openSocModal() {
         </div>
         <div class="cal-detail-stat">
           <div class="cds-val battery-v" id="calDetCost">--</div>
-          <div class="cds-lbl">Cost</div>
+          <div class="cds-lbl">Imp Cost</div>
         </div>
         <div class="cal-detail-stat">
           <div class="cds-val grid-v" id="calDetExport">--</div>
           <div class="cds-lbl">Exported</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val solar-v" id="calDetExpVal" style="color:var(--success)">--</div>
+          <div class="cds-lbl">Export Value</div>
+        </div>
+        <div class="cal-detail-stat">
+          <div class="cds-val home-v" id="calDetNet">--</div>
+          <div class="cds-lbl">Day Net</div>
         </div>
       </div>
       <!-- Consumption Mix -->
@@ -1031,6 +1039,7 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 const HISTORY_URL = `${RAW_BASE}/data/energy-history.json`;
 const AMBER_DAILY_URL = `${RAW_BASE}/data/amber-daily.json`;
 const WEATHER_DAILY_URL = `${RAW_BASE}/data/weather-daily.json`;
+const VALUATION_URL = `${RAW_BASE}/data/export-valuation.json`;
 let allHistory = [];
 
 // ═══════════════ CALENDAR LOGIC ═══════════════
@@ -1121,6 +1130,27 @@ async function loadCalendar() {
     }
   } catch(e) { /* Amber data optional — calendar still works without it */ }
 
+  // Merge export valuation (Amber feedIn kWh × wholesale spot, billing-grade)
+  try {
+    const vr = await fetch(VALUATION_URL + '?v=' + Date.now(), {cache: 'no-store'});
+    if (vr.ok) {
+      const valuation = await vr.json();
+      for (const v of valuation) {
+        if (!v.date) continue;
+        if (!calDataMap[v.date]) calDataMap[v.date] = {date: v.date};
+        calDataMap[v.date].export_value_dollars = v.export_value_dollars;
+        calDataMap[v.date].feedin_kwh = v.feedin_kwh;
+        calDataMap[v.date].avg_spot_cents = v.avg_spot_cents;
+        calDataMap[v.date].import_kwh_amber = v.import_kwh;
+        calDataMap[v.date].import_cost_dollars = v.import_cost_dollars;
+        calDataMap[v.date].assumed_savings_dollars = v.assumed_savings_dollars;
+        calDataMap[v.date].goodwe_export_kwh = v.goodwe_export_kwh;
+        calDataMap[v.date].load_kwh = v.load_kwh;
+        calDataMap[v.date].blended_rate_cents = v.blended_rate_cents;
+      }
+    }
+  } catch(e) { /* Valuation optional */ }
+
   // Merge weather data (icons + temps)
   try {
     const wr = await fetch(WEATHER_DAILY_URL + '?v=' + Date.now(), {cache: 'no-store'});
@@ -1179,6 +1209,7 @@ function renderCalendar() {
 
   // Month summary
   let sumSolar = 0, sumUsage = 0, sumCost = 0, sumSaved = 0, sumExport = 0;
+  let sumExportVal = 0, sumImpCost = 0, sumNet = 0, sumAssumedSav = 0;
   for (let d = 1; d <= dim; d++) {
     const key = calYear + '-' + String(calMonth).padStart(2,'0') + '-' + String(d).padStart(2,'0');
     const entry = calDataMap[key];
@@ -1188,14 +1219,21 @@ function renderCalendar() {
       sumCost += entry.cost_dollars || 0;
       sumSaved += entry.savings_dollars || 0;
       sumExport += entry.amber_export_kwh || entry.grid_export_kwh || 0;
+      sumExportVal += entry.export_value_dollars || 0;
+      sumImpCost += entry.import_cost_dollars != null ? entry.import_cost_dollars : (entry.cost_dollars || 0);
+      sumNet += (entry.export_value_dollars || 0) - (entry.import_cost_dollars != null ? entry.import_cost_dollars : 0);
+      sumAssumedSav += entry.assumed_savings_dollars || 0;
     }
   }
 
   setText('calSumSolar', sumSolar.toFixed(1) + ' kWh');
   setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
-  setText('calSumCost', '$' + sumCost.toFixed(2));
-  setText('calSumImport', '$' + sumSaved.toFixed(2));
-  setText('calSumCost', '$' + sumCost.toFixed(2) + ' · ' + sumExport.toFixed(1) + 'kWh out');
+  setText('calSumImport', '$' + sumAssumedSav.toFixed(2));
+  setText('calSumCost', '$' + sumImpCost.toFixed(2));
+  setText('calSumCost', '$' + sumImpCost.toFixed(2) + ' · ' + sumExport.toFixed(1) + 'kWh out · +$' + sumExportVal.toFixed(2) + ' exp');
+  // Net position (export value − import cost) rendered on the Saved card
+  const netStr = (sumNet >= 0 ? '+' : '') + sumNet.toFixed(2);
+  setText('calSumImport', '$' + sumAssumedSav.toFixed(2) + ' sav · ' + netStr + ' net');
 
   // Build grid
   const grid = document.getElementById('calGrid');
@@ -1278,12 +1316,27 @@ function selectCalDay(dateKey) {
   }
 
   setText('calDetSolar', fmtKwh(entry.solar_kwh));
-  const savedStr = entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--';
-  setText('calDetSaved', savedStr);
+  // Assumed saving (refined): what all energy used would cost, minus net outlay
+  const assumedStr = entry.assumed_savings_dollars != null ? '$' + entry.assumed_savings_dollars.toFixed(2)
+                    : (entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--');
+  setText('calDetAssumedSav', assumedStr);
   setText('calDetImport', fmtKwh(entry.amber_import_kwh != null ? entry.amber_import_kwh : entry.grid_import_kwh));
-  const costStr = entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--';
+  const costStr = entry.import_cost_dollars != null ? '$' + entry.import_cost_dollars.toFixed(2)
+                 : (entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--');
   setText('calDetCost', costStr);
   setText('calDetExport', fmtKwh(entry.amber_export_kwh));
+  // Export value (Amber feedIn × wholesale spot) + Day Net (export value − import cost)
+  const expValStr = entry.export_value_dollars != null
+    ? '$' + (entry.export_value_dollars >= 0 ? '+' : '') + entry.export_value_dollars.toFixed(2)
+    : '--';
+  setText('calDetExpVal', expValStr);
+  const impCost = entry.import_cost_dollars != null ? entry.import_cost_dollars : (entry.cost_dollars || 0);
+  const expVal = entry.export_value_dollars != null ? entry.export_value_dollars : 0;
+  const net = expVal - impCost;
+  const netColor = net >= 0 ? 'var(--success)' : 'var(--danger)';
+  const netEl = document.getElementById('calDetNet');
+  netEl.textContent = (net >= 0 ? '+' : '') + net.toFixed(2);
+  netEl.style.color = netColor;
 
   // Render consumption donut
   renderCalDonut(entry);
