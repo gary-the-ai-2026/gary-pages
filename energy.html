@@ -342,6 +342,9 @@ async function openSocModal() {
   .cal-sum-card { text-align: center; padding: var(--space-sm) 4px; background: var(--surface-card); border-radius: var(--radius-md); border: 1px solid var(--hairline); }
   .cal-sum-card .cs-icon { font-size: 13px; margin-bottom: 2px; }
   .cal-sum-card .cs-val { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+  .cal-sum-card .cs-sub { display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 500; color: var(--muted-soft); margin-top: 1px; }
+  .cs-val .net-pos { color: var(--success); }
+  .cs-val .net-neg { color: var(--danger); }
   .cal-sum-card .cs-lbl { font-size: 8px; color: var(--muted-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
   .cal-sum-card.cal-solar { border-top: 2px solid var(--solar); }
   .cal-sum-card.cal-usage { border-top: 2px solid var(--home); }
@@ -703,7 +706,7 @@ async function openSocModal() {
       <div class="cal-sum-card cal-gridout">
         <div class="cs-icon" style="color:var(--coral)">$</div>
         <div class="cs-val" id="calSumCost">--</div>
-        <div class="cs-lbl">Cost</div>
+        <div class="cs-lbl">Day Net</div>
       </div>
     </div>
 
@@ -1237,12 +1240,14 @@ function renderCalendar() {
 
   setText('calSumSolar', sumSolar.toFixed(1) + ' kWh');
   setText('calSumUsage', sumUsage.toFixed(1) + ' kWh');
-  setText('calSumImport', '$' + sumAssumedSav.toFixed(2));
-  setText('calSumCost', '$' + sumImpCost.toFixed(2));
-  setText('calSumCost', '$' + sumImpCost.toFixed(2) + ' · ' + sumExport.toFixed(1) + 'kWh out · +$' + sumExportVal.toFixed(2) + ' exp');
-  // Net position (export value − import cost) rendered on the Saved card
-  const netStr = (sumNet >= 0 ? '+' : '') + sumNet.toFixed(2);
-  setText('calSumImport', '$' + sumAssumedSav.toFixed(2) + ' sav · ' + netStr + ' net');
+  // Saved card: assumed savings
+  setText('calSumImport', '$' + sumAssumedSav.toFixed(2) + ' sav');
+  // Day Net card: headline = month net (export value − import cost), colour-coded to match day tiles
+  const netStr = (sumNet >= 0 ? '+' : '') + '$' + sumNet.toFixed(2);
+  const netCls = sumNet >= 0 ? 'net-pos' : 'net-neg';
+  document.getElementById('calSumCost').innerHTML =
+    '<span class="' + netCls + '">' + netStr + '</span>' +
+    '<span class="cs-sub">$' + sumImpCost.toFixed(2) + ' imp · +$' + sumExportVal.toFixed(2) + ' exp</span>';
 
   // Build grid
   const grid = document.getElementById('calGrid');
