@@ -405,8 +405,10 @@ async function openSocModal() {
     .cal-day { padding: 3px; }
     .cal-day .cal-day-num { font-size: 11px; }
     .cal-day .cal-day-row { font-size: 8px; }
-    .cal-summary { grid-template-columns: repeat(4, 1fr); gap: 4px; }
-    .cal-sum-card .cs-val { font-size: 12px; }
+    .cal-summary { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .cal-sum-card { padding: var(--space-sm) 6px; }
+    .cal-sum-card .cs-val { font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; word-break: normal; }
+    .cal-sum-card .cs-lbl { margin-top: 3px; }
   }
 </style>
 </head>
