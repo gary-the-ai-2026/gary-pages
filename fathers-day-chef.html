@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A lunch, on us — a chef just for you</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="description" content="For David — a private chef comes to your home to cook you a proper sit-down lunch. You don't cook, you don't clean. You just enjoy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#f7f3ec;
+    --surface:#ffffff;
+    --surface-alt:#efe9e0;
+    --ink:#1f1c18;
+    --body:#5c5349;
+    --muted:#8b8277;
+    --hairline:#e4dcd0;
+    --coral:#c2693f;
+    --coral-hover:#a5522e;
+    --gold:#b98a2f;
+    --success:#1b8a3d;
+    --radius:22px;
+    --font-display:'Cormorant Garamond',Georgia,serif;
+    --font-body:'Inter',-apple-system,sans-serif;
+    --space:24px;
+    --shadow:0 10px 30px rgba(57,43,26,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    background:var(--canvas);
+    color:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:920px;margin:0 auto;padding:0 var(--space);}
+
+  /* ── Hero ─────────────────────────── */
+  .hero{
+    position:relative;
+    min-height:78vh;
+    display:flex;align-items:flex-end;
+    color:#fff;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background-size:cover;background-position:center;
+    transform:scale(1.05);
+  }
+  .hero-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(20,15,10,0.92) 8%,rgba(20,15,10,0.55) 40%,rgba(20,15,10,0.15) 75%,rgba(20,15,10,0.3) 100%);
+  }
+  .hero-inner{
+    position:relative;z-index:2;
+    padding:64px 0 88px;
+    width:100%;
+  }
+  .hero .kicker{
+    font-size:13px;letter-spacing:0.22em;text-transform:uppercase;
+    color:#e8c79a;font-weight:600;margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-size:clamp(46px,8vw,86px);
+    font-weight:900;
+    line-height:0.98;
+    letter-spacing:-0.01em;
+    max-width:15ch;
+    color:#fff;
+    margin-bottom:22px;
+  }
+  .hero h1 em{font-style:normal;color:#e8c79a;}
+  .hero .sub{
+    font-size:clamp(17px,2.4vw,21px);
+    max-width:44ch;
+    color:#f3ece2;
+    line-height:1.5;
+  }
+  .hero-cta{
+    margin-top:34px;display:inline-flex;
+    background:var(--coral);color:#fff;
+    font-weight:600;font-size:16px;
+    padding:16px 30px;border-radius:999px;
+    text-decoration:none;letter-spacing:0.01em;
+    box-shadow:var(--shadow);
+    transition:background .2s,transform .2s;
+  }
+  .hero-cta:hover{background:var(--coral-hover);transform:translateY(-2px);}
+  .hero .notes{
+    margin-top:22px;font-size:13.5px;color:#d9cfc0;
+    display:flex;gap:18px;flex-wrap:wrap;
+  }
+  .hero .notes span{display:inline-flex;align-items:center;gap:7px;}
+  .hero .notes .dot{width:5px;height:5px;border-radius:50%;background:#e8c79a;}
+
+  /* ── Section scaffolding ──────────── */
+  section{padding:72px 0;}
+  .section-label{
+    font-size:12.5px;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--coral);font-weight:700;margin-bottom:14px;
+  }
+  .section-title{
+    font-family:var(--font-display);
+    font-size:clamp(30px,4.5vw,42px);
+    font-weight:900;color:var(--ink);
+    line-height:1.1;margin-bottom:18px;
+  }
+  .section-intro{font-size:17px;max-width:60ch;margin-bottom:34px;}
+
+  /* ── The idea card ─────────────────── */
+  .idea{
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  }
+  .idea-copy p{margin-bottom:16px;font-size:16.5px;}
+  .idea-copy p:last-child{margin-bottom:0;}
+  .idea-copy strong{color:var(--ink);}
+  .idea-card{
+    background:var(--surface);border-radius:var(--radius);
+    padding:30px;border:1px solid var(--hairline);
+    box-shadow:var(--shadow);
+  }
+  .idea-card .big{
+    font-family:var(--font-display);font-size:30px;font-weight:900;color:var(--ink);
+    line-height:1.2;margin-bottom:10px;
+  }
+  .idea-card p{font-size:15px;color:var(--body);}
+  .idea-card .rule{height:1px;background:var(--hairline);margin:20px 0;}
+  .idea-card .row{display:flex;justify-content:space-between;gap:14px;font-size:15px;padding:6px 0;}
+  .idea-card .row b{color:var(--ink);font-weight:600;}
+  .idea-card .row span{color:var(--muted);text-align:right;}
+
+  /* ── How it works ──────────────────── */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .step{
+    background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--radius);padding:28px 24px;
+  }
+  .step .num{
+    font-family:var(--font-display);font-size:40px;font-weight:900;
+    color:var(--gold);line-height:1;margin-bottom:14px;
+  }
+  .step h3{font-family:var(--font-display);font-size:21px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .step p{font-size:14.5px;color:var(--body);}
+
+  /* ── Reassurance band ──────────────── */
+  .band{background:var(--surface-alt);border-radius:var(--radius);padding:34px;margin:8px 0;}
+  .band h3{font-family:var(--font-display);font-size:23px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  .band ul{list-style:none;}
+  .band li{
+    padding:9px 0 9px 34px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(196,180,158,0.35);
+  }
+  .band li:last-child{border-bottom:none;}
+  .band li::before{content:"✓";position:absolute;left:4px;color:var(--success);font-weight:700;}
+
+  /* ── Form / the ask ────────────────── */
+  .ask{background:var(--ink);color:#efe9df;border-radius:26px;padding:52px;}
+  .ask .section-label{color:#e8c79a;}
+  .ask .section-title{color:#fff;}
+  .ask .section-intro{color:#d9cfc0;}
+  .f-field{margin-bottom:26px;}
+  .f-label{
+    display:block;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;
+    font-weight:700;color:#e8c79a;margin-bottom:12px;
+  }
+  .f-label .opt{color:#9a8c78;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px;}
+  .f-hint{font-size:13px;color:#b3a493;}
+
+  .choice{display:flex;flex-wrap:wrap;gap:12px;}
+  .choice label{
+    flex:1 1 auto;min-width:150px;
+    background:rgba(255,255,255,0.06);
+    border:1.5px solid rgba(255,255,255,0.16);
+    color:#f3ece2;border-radius:14px;padding:16px 18px;
+    cursor:pointer;font-size:15.5px;font-weight:500;
+    transition:all .18s;text-align:center;
+  }
+  .choice label:hover{border-color:#e8c79a;}
+  .choice input{position:absolute;opacity:0;pointer-events:none;}
+  .choice input:checked + span{
+    color:#fff;
+  }
+  .choice label:has(input:checked){
+    background:var(--coral);border-color:var(--coral);color:#fff;
+  }
+
+  .f-select{
+    width:100%;background:rgba(255,255,255,0.06);
+    border:1.5px solid rgba(255,255,255,0.16);color:#f3ece2;
+    border-radius:14px;padding:16px 18px;font-size:15.5px;font-family:var(--font-body);
+    appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath fill='%23e8c79a' d='M7 9 0 2l1.8-1.8L7 5.4 12.2.2 14 2z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 18px center;
+  }
+  .f-select:focus,.f-input:focus,.f-textarea:focus,.choice label:has(input:focus){
+    outline:none;border-color:#e8c79a;
+  }
+  .f-select option{color:#1f1c18;background:#fff;}
+  .f-input,.f-textarea{
+    width:100%;background:rgba(255,255,255,0.06);
+    border:1.5px solid rgba(255,255,255,0.16);color:#f3ece2;
+    border-radius:14px;padding:15px 18px;font-size:15.5px;font-family:var(--font-body);
+  }
+  .f-textarea{min-height:96px;resize:vertical;}
+
+  .f-submit{
+    width:100%;background:var(--coral);color:#fff;border:none;
+    font-family:var(--font-body);font-weight:700;font-size:17px;
+    padding:18px 30px;border-radius:999px;cursor:pointer;
+    letter-spacing:0.01em;box-shadow:0 12px 30px rgba(0,0,0,0.3);
+    transition:background .2s,transform .2s;
+  }
+  .f-submit:hover{background:var(--coral-hover);transform:translateY(-1px);}
+  .f-privacy{margin-top:16px;font-size:12.5px;color:#9a8c78;text-align:center;}
+
+  .f-success{
+    display:none;background:rgba(27,138,61,0.14);border:1.5px solid rgba(141,198,63,0.5);
+    color:#d8f0dc;border-radius:14px;padding:22px;margin-top:6px;font-size:15.5px;
+  }
+  .f-success.show{display:block;}
+  .f-success b{font-family:var(--font-display);font-size:20px;color:#fff;display:block;margin-bottom:6px;}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:13.5px;}
+  footer .mono{font-size:12px;letter-spacing:0.08em;}
+
+  @media(max-width:700px){
+    .hero{min-height:88vh;}
+    .idea{grid-template-columns:1fr;gap:28px;}
+    .steps{grid-template-columns:1fr;}
+    .ask{padding:34px 26px;border-radius:20px;}
+    section{padding:56px 0;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="container">
+        <div class="kicker">Father's Day · 2026</div>
+        <h1>A proper lunch,<br><em>on us.</em></h1>
+        <p class="sub">A private chef comes to your home, cooks you, Nettie, Josh &amp; Amy a sit-down lunch worth celebrating &mdash; then cleans up every last dish before leaving.</p>
+        <a class="hero-cta" href="#ask">Tell us what you'd love ↓</a>
+        <div class="notes">
+          <span><span class="dot"></span>Served in your home</span>
+          <span><span class="dot"></span>You don't cook</span>
+          <span><span class="dot"></span>You don't clean</span>
+          <span><span class="dot"></span>4 of us, weekday lunch</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- THE IDEA -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">The idea</div>
+      <div class="idea">
+        <div class="idea-copy">
+          <h2 class="section-title">No cooking. No cleaning.<br>Just the four of us &amp; good food.</h2>
+          <p>You&rsquo;ve fed us more times than we can count. So for Father&rsquo;s Day, we&rsquo;re turning the tables &mdash; a real chef comes to you and does the whole thing.</p>
+          <p><strong>Your only job is to sit back, pour a glass, and enjoy.</strong> They&rsquo;ll bring what they need, cook a fresh sit-down lunch in your kitchen, serve it, and leave your kitchen spotless when they go.</p>
+          <p>It&rsquo;s a weekday lunch for four &mdash; you, Nettie, Josh and Amy &mdash; with no kids to chase and no dishes left behind. Just a proper meal, unhurried.</p>
+        </div>
+        <div class="idea-card">
+          <div class="big">About the day</div>
+          <p>A few things we&rsquo;ve already sorted so it&rsquo;s simple:</p>
+          <div class="rule"></div>
+          <div class="row"><b>Who&rsquo;s there</b><span>You, Nettie, Josh, Amy</span></div>
+          <div class="row"><b>When</b><span>Weekday lunch</span></div>
+          <div class="row"><b>The chef</b><span>Does all the cooking &amp; cleaning</span></div>
+          <div class="row"><b>Where</b><span>We&rsquo;ll ask below</span></div>
+          <div class="row"><b>Your job</b><span>Sit back &amp; enjoy</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background:var(--surface);">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Three small steps &mdash; then you just enjoy.</h2>
+      <p class="section-intro">We&rsquo;ve already lined it up. All we need from you is your taste &amp; timing.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>You tell us your tastes</h3>
+          <p>Your favourite kind of food, where you&rsquo;d like to host, and a date that suits.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>We line up the chef</h3>
+          <p>We pick a brilliant private chef, and together we fine-tune a menu just for the four of you.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>You sit back &amp; enjoy</h3>
+          <p>The chef arrives, cooks, serves &amp; cleans up. You leave with nothing but a good meal behind you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REASSURANCE -->
+  <section>
+    <div class="container">
+      <div class="band">
+        <h3>What &ldquo;a private chef,&rdquo; actually means here</h3>
+        <ul>
+          <li>A professional chef comes to the house for the day &mdash; no restaurant needed.</li>
+          <li>Groceries, cooking, serving and the complete clean-up are all included.</li>
+          <li>It&rsquo;s tailored to you &mdash; we build the menu around what you love to eat.</li>
+          <li>Just the four of us, so it&rsquo;s relaxed and unhurried.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ASK / FORM -->
+  <section id="ask" style="padding-top:0;">
+    <div class="container">
+      <div class="ask" id="askBox">
+        <div class="section-label">The only thing we need from you</div>
+        <h2 class="section-title">Four quick questions</h2>
+        <p class="section-intro">Hit the button at the bottom and your answers come straight to us. No fuss.</p>
+
+        <form id="chefForm" action="https://formsubmit.co/hancockjluke@gmail.com" method="POST">
+          <!-- FormSubmit config -->
+          <input type="hidden" name="_subject" value="👨‍🍳 Father's Day lunch — Dad's answers">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="">
+
+          <!-- Location -->
+          <div class="f-field">
+            <label class="f-label">Where should the chef come to? <span class="opt">(whatever&rsquo;s easiest for you two)</span></label>
+            <div class="choice">
+              <label><input type="radio" name="Location" value="At our place" required><span>At our place</span></label>
+              <label><input type="radio" name="Location" value="At yours"><span>At yours</span></label>
+              <label><input type="radio" name="Location" value="No preference"><span>No preference</span></label>
+            </div>
+          </div>
+
+          <!-- Cuisine -->
+          <div class="f-field">
+            <label class="f-label" for="cuisine">What kind of food sounds best? <span class="opt">(pick your favourite &mdash; we&rsquo;ll work up a menu from there)</span></label>
+            <select class="f-select" id="cuisine" name="Cuisine" required>
+              <option value="" disabled selected>Choose one&hellip;</option>
+              <option value="Italian">Italian</option>
+              <option value="Japanese / sushi">Japanese / sushi</option>
+              <option value="Indian">Indian</option>
+              <option value="French">French</option>
+              <option value="Barbecue / grill">Barbecue / grill</option>
+              <option value="Modern Australian">Modern Australian</option>
+              <option value="Steak / fine dining">Steak / fine dining</option>
+              <option value="Surprise us">Surprise us &mdash; chef&rsquo;s choice</option>
+            </select>
+          </div>
+
+          <!-- Preferred date -->
+          <div class="f-field">
+            <label class="f-label" for="date">Which weekday works best? <span class="opt">(we&rsquo;ll match whatever day suits)</span></label>
+            <select class="f-select" id="date" name="Preferred date" required>
+              <option value="" disabled selected>Choose a day&hellip;</option>
+              <option value="Tue 6 Oct">Tuesday 6 Oct</option>
+              <option value="Wed 7 Oct">Wednesday 7 Oct</option>
+              <option value="Thu 8 Oct">Thursday 8 Oct</option>
+              <option value="Tue 13 Oct">Tuesday 13 Oct</option>
+              <option value="Wed 14 Oct">Wednesday 14 Oct</option>
+              <option value="Thu 15 Oct">Thursday 15 Oct</option>
+              <option value="Flexible — any weekday">Flexible &mdash; any weekday that&rsquo;s free</option>
+            </select>
+          </div>
+
+          <!-- Dietary / dislikes -->
+          <div class="f-field">
+            <label class="f-label" for="diet">Anything we should avoid? <span class="opt">(allergies, things you don&rsquo;t eat)</span></label>
+            <textarea class="f-textarea" id="diet" name="Dietary notes" placeholder="Nothing we can&rsquo;t handle, or write a couple of lines here&hellip;"></textarea>
+          </div>
+
+          <!-- Who's answering -->
+          <div class="f-field">
+            <label class="f-label" for="who">Who&rsquo;s filling this in? <span class="opt">(so we know whose good taste this is)</span></label>
+            <input class="f-input" type="text" id="who" name="Submitted by" placeholder="Your name" required>
+          </div>
+
+          <button class="f-submit" type="submit">Send our answers →</button>
+          <div class="f-privacy">No account needed &mdash; your answers just come straight to Josh.</div>
+          <div class="f-success" id="fSuccess"><b>Got it — thank you!</b> Your answers are on their way to us. We&rsquo;ll be in touch to lock in the day.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Made with love, for David · Father&rsquo;s Day 2026
+    </div>
+  </footer>
+
+  <script>
+  // Intercept submit → FormSubmit AJAX so we never leave the page.
+  document.getElementById('chefForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var form = e.target;
+    var success = document.getElementById('fSuccess');
+    // Swap to AJAX so answers still email but page stays put.
+    var action = form.getAttribute('action');
+    var fd = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', action, true);
+    xhr.onload = function(){
+      success.classList.add('show');
+      form.style.display = 'none';
+      if (typeof scrollTo === 'function') scrollTo({top:form.offsetTop - 40, behavior:'smooth'});
+    };
+    xhr.onerror = function(){
+      // Fallback: plain POST so nothing is lost.
+      success.classList.add('show');
+      form.style.display = 'none';
+    };
+    xhr.send(fd);
+  });
+  </script>
+</body>
+</html>
