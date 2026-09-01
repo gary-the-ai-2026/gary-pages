@@ -43,45 +43,39 @@
   /* ── Hero ─────────────────────────── */
   .hero{
     position:relative;
-    min-height:78vh;
-    display:flex;align-items:flex-end;
-    color:#fff;
+    min-height:82vh;
+    display:flex;align-items:flex-start;
     overflow:hidden;
   }
   .hero-bg{
     position:absolute;inset:0;
     background-size:cover;background-position:center;
-    transform:scale(1.05);
-  }
-  .hero-overlay{
-    position:absolute;inset:0;
-    background:linear-gradient(to top,rgba(20,15,10,0.92) 8%,rgba(20,15,10,0.55) 40%,rgba(20,15,10,0.15) 75%,rgba(20,15,10,0.3) 100%);
   }
   .hero-inner{
     position:relative;z-index:2;
-    padding:64px 0 88px;
+    padding:72px 0 96px;
     width:100%;
   }
   .hero .kicker{
     font-size:13px;letter-spacing:0.22em;text-transform:uppercase;
-    color:#e8c79a;font-weight:600;margin-bottom:18px;
+    color:var(--coral);font-weight:700;margin-bottom:18px;
   }
   .hero h1{
     font-family:var(--font-display);
-    font-size:clamp(46px,8vw,86px);
+    font-size:clamp(46px,8vw,84px);
     font-weight:900;
     line-height:0.98;
     letter-spacing:-0.01em;
-    max-width:15ch;
-    color:#fff;
+    max-width:14ch;
+    color:var(--ink);
     margin-bottom:22px;
   }
-  .hero h1 em{font-style:normal;color:#e8c79a;}
+  .hero h1 em{font-style:normal;color:var(--coral);}
   .hero .sub{
-    font-size:clamp(17px,2.4vw,21px);
-    max-width:44ch;
-    color:#f3ece2;
-    line-height:1.5;
+    font-size:clamp(17px,2.4vw,20px);
+    max-width:46ch;
+    color:var(--body);
+    line-height:1.55;
   }
   .hero-cta{
     margin-top:34px;display:inline-flex;
@@ -94,11 +88,11 @@
   }
   .hero-cta:hover{background:var(--coral-hover);transform:translateY(-2px);}
   .hero .notes{
-    margin-top:22px;font-size:13.5px;color:#d9cfc0;
+    margin-top:26px;font-size:13.5px;color:var(--body);
     display:flex;gap:18px;flex-wrap:wrap;
   }
   .hero .notes span{display:inline-flex;align-items:center;gap:7px;}
-  .hero .notes .dot{width:5px;height:5px;border-radius:50%;background:#e8c79a;}
+  .hero .notes .dot{width:5px;height:5px;border-radius:50%;background:var(--coral);}
 
   /* ── Section scaffolding ──────────── */
   section{padding:72px 0;}
@@ -217,7 +211,6 @@
     transition:background .2s,transform .2s;
   }
   .f-submit:hover{background:var(--coral-hover);transform:translateY(-1px);}
-  .f-privacy{margin-top:16px;font-size:12.5px;color:#9a8c78;text-align:center;}
 
   .f-success{
     display:none;background:rgba(27,138,61,0.14);border:1.5px solid rgba(141,198,63,0.5);
@@ -242,8 +235,7 @@
 
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80');"></div>
-    <div class="hero-overlay"></div>
+    <div class="hero-bg" style="background-image:url('fathers-day-backyard.jpg');background-size:cover;background-position:center;"></div>
     <div class="hero-inner">
       <div class="container">
         <div class="kicker">Father's Day · 2026</div>
@@ -267,18 +259,18 @@
       <div class="idea">
         <div class="idea-copy">
           <h2 class="section-title">No cooking. No cleaning.<br>Just the four of us &amp; good food.</h2>
-          <p>You&rsquo;ve fed us more times than we can count. So for Father&rsquo;s Day, we&rsquo;re turning the tables &mdash; a real chef comes to you and does the whole thing.</p>
-          <p><strong>Your only job is to sit back, pour a glass, and enjoy.</strong> They&rsquo;ll bring what they need, cook a fresh sit-down lunch in your kitchen, serve it, and leave your kitchen spotless when they go.</p>
+          <p>You&rsquo;ve fed me more times than I can count. So for Father&rsquo;s Day, I&rsquo;m turning the tables &mdash; a real chef comes to you and does the whole thing.</p>
+          <p><strong>Your only job is to sit back and enjoy.</strong> They&rsquo;ll bring what they need, cook a fresh sit-down lunch in your kitchen, serve it, and leave your kitchen spotless when they go.</p>
           <p>It&rsquo;s a weekday lunch for four &mdash; you, Nettie, Josh and Amy &mdash; with no kids to chase and no dishes left behind. Just a proper meal, unhurried.</p>
         </div>
         <div class="idea-card">
           <div class="big">About the day</div>
-          <p>A few things we&rsquo;ve already sorted so it&rsquo;s simple:</p>
+          <p>A few things I&rsquo;ve already sorted so it&rsquo;s simple:</p>
           <div class="rule"></div>
           <div class="row"><b>Who&rsquo;s there</b><span>You, Nettie, Josh, Amy</span></div>
           <div class="row"><b>When</b><span>Weekday lunch</span></div>
           <div class="row"><b>The chef</b><span>Does all the cooking &amp; cleaning</span></div>
-          <div class="row"><b>Where</b><span>We&rsquo;ll ask below</span></div>
+          <div class="row"><b>Where</b><span>I&rsquo;ll ask below</span></div>
           <div class="row"><b>Your job</b><span>Sit back &amp; enjoy</span></div>
         </div>
       </div>
@@ -290,17 +282,17 @@
     <div class="container">
       <div class="section-label">How it works</div>
       <h2 class="section-title">Three small steps &mdash; then you just enjoy.</h2>
-      <p class="section-intro">We&rsquo;ve already lined it up. All we need from you is your taste &amp; timing.</p>
+      <p class="section-intro">I&rsquo;ve already lined it up. All I need from you is your taste &amp; timing.</p>
       <div class="steps">
         <div class="step">
           <div class="num">1</div>
-          <h3>You tell us your tastes</h3>
+          <h3>You tell me your tastes</h3>
           <p>Your favourite kind of food, where you&rsquo;d like to host, and a date that suits.</p>
         </div>
         <div class="step">
           <div class="num">2</div>
-          <h3>We line up the chef</h3>
-          <p>We pick a brilliant private chef, and together we fine-tune a menu just for the four of you.</p>
+          <h3>I line up the chef</h3>
+          <p>I pick a brilliant private chef, and together we fine-tune a menu for the four of you.</p>
         </div>
         <div class="step">
           <div class="num">3</div>
@@ -319,7 +311,7 @@
         <ul>
           <li>A professional chef comes to the house for the day &mdash; no restaurant needed.</li>
           <li>Groceries, cooking, serving and the complete clean-up are all included.</li>
-          <li>It&rsquo;s tailored to you &mdash; we build the menu around what you love to eat.</li>
+          <li>It&rsquo;s tailored to you &mdash; I&rsquo;ll build the menu around what you love to eat.</li>
           <li>Just the four of us, so it&rsquo;s relaxed and unhurried.</li>
         </ul>
       </div>
@@ -330,9 +322,9 @@
   <section id="ask" style="padding-top:0;">
     <div class="container">
       <div class="ask" id="askBox">
-        <div class="section-label">The only thing we need from you</div>
+        <div class="section-label">The only thing I need from you</div>
         <h2 class="section-title">Four quick questions</h2>
-        <p class="section-intro">Hit the button at the bottom and your answers come straight to us. No fuss.</p>
+        <p class="section-intro">Hit the button at the bottom and your answers come straight to me. No fuss.</p>
 
         <form id="chefForm" action="https://formsubmit.co/hancockjluke@gmail.com" method="POST">
           <!-- FormSubmit config -->
@@ -353,7 +345,7 @@
 
           <!-- Cuisine -->
           <div class="f-field">
-            <label class="f-label" for="cuisine">What kind of food sounds best? <span class="opt">(pick your favourite &mdash; we&rsquo;ll work up a menu from there)</span></label>
+            <label class="f-label" for="cuisine">What kind of food sounds best? <span class="opt">(pick your favourite &mdash; I&rsquo;ll work up a menu from there)</span></label>
             <select class="f-select" id="cuisine" name="Cuisine" required>
               <option value="" disabled selected>Choose one&hellip;</option>
               <option value="Italian">Italian</option>
@@ -369,7 +361,7 @@
 
           <!-- Preferred date -->
           <div class="f-field">
-            <label class="f-label" for="date">Which weekday works best? <span class="opt">(we&rsquo;ll match whatever day suits)</span></label>
+            <label class="f-label" for="date">Which weekday works best? <span class="opt">(I&rsquo;ll match whatever day suits)</span></label>
             <select class="f-select" id="date" name="Preferred date" required>
               <option value="" disabled selected>Choose a day&hellip;</option>
               <option value="Tue 6 Oct">Tuesday 6 Oct</option>
@@ -384,19 +376,12 @@
 
           <!-- Dietary / dislikes -->
           <div class="f-field">
-            <label class="f-label" for="diet">Anything we should avoid? <span class="opt">(allergies, things you don&rsquo;t eat)</span></label>
-            <textarea class="f-textarea" id="diet" name="Dietary notes" placeholder="Nothing we can&rsquo;t handle, or write a couple of lines here&hellip;"></textarea>
+            <label class="f-label" for="diet">Anything I should avoid? <span class="opt">(allergies, things you don&rsquo;t eat)</span></label>
+            <textarea class="f-textarea" id="diet" name="Dietary notes" placeholder="Nothing I can&rsquo;t handle, or write a couple of lines here&hellip;"></textarea>
           </div>
 
-          <!-- Who's answering -->
-          <div class="f-field">
-            <label class="f-label" for="who">Who&rsquo;s filling this in? <span class="opt">(so we know whose good taste this is)</span></label>
-            <input class="f-input" type="text" id="who" name="Submitted by" placeholder="Your name" required>
-          </div>
-
-          <button class="f-submit" type="submit">Send our answers →</button>
-          <div class="f-privacy">No account needed &mdash; your answers just come straight to Josh.</div>
-          <div class="f-success" id="fSuccess"><b>Got it — thank you!</b> Your answers are on their way to us. We&rsquo;ll be in touch to lock in the day.</div>
+          <button class="f-submit" type="submit">Send my answers →</button>
+                    <div class="f-success" id="fSuccess"><b>Got it — thank you!</b> Your answers are on their way to me. I&rsquo;ll be in touch to lock in the day.</div>
         </form>
       </div>
     </div>
