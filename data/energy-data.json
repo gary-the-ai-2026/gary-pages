@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-03T05:24:59.831235+09:30",
-  "timestamp_display": "3 Sep 2026 \u00b7 5:24 AM",
-  "timestamp_short": "5:24:59 AM",
+  "timestamp": "2026-09-03T05:27:00.927447+09:30",
+  "timestamp_display": "3 Sep 2026 \u00b7 5:27 AM",
+  "timestamp_short": "5:27:00 AM",
   "goodwe": {
-    "grid_power_w": -3,
+    "grid_power_w": -1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 47.9,
-    "battery_power_w": 399,
+    "inverter_temp_c": 48.1,
+    "battery_power_w": 366,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1160.8,
     "today_solar_kwh": 0.0,
@@ -17,7 +17,7 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 516.9,
     "today_bat_discharge_kwh": 1.6,
-    "home_consumption_w": 402,
+    "home_consumption_w": 367,
     "lifetime_export_kwh": 128.7,
     "lifetime_import_kwh": 23.3,
     "battery_temp_c": 20.5,
@@ -33,7 +33,7 @@
     "period": "offPeak",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 115.51,
+    "renewables": 114.981,
     "forward_prices": [
       {
         "time": "05:30",
@@ -42,7 +42,7 @@
       },
       {
         "time": "05:35",
-        "price": 17.1,
+        "price": 17.0,
         "period": "offPeak"
       },
       {
@@ -67,6 +67,31 @@
       },
       {
         "time": "06:00",
+        "price": 29.0,
+        "period": "peak"
+      },
+      {
+        "time": "06:05",
+        "price": 30.2,
+        "period": "peak"
+      },
+      {
+        "time": "06:10",
+        "price": 31.8,
+        "period": "peak"
+      },
+      {
+        "time": "06:15",
+        "price": 34.1,
+        "period": "peak"
+      },
+      {
+        "time": "06:20",
+        "price": 31.8,
+        "period": "peak"
+      },
+      {
+        "time": "06:25",
         "price": 29.0,
         "period": "peak"
       },
@@ -101,8 +126,8 @@
         "period": "peak"
       }
     ],
-    "next_peak_c": 29.0,
-    "next_peak_time": "06:00",
+    "next_peak_c": 34.1,
+    "next_peak_time": "06:15",
     "next_trough_c": 16.0,
     "next_trough_time": "05:30"
   },
