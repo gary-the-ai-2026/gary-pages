@@ -359,19 +359,18 @@
             </select>
           </div>
 
-          <!-- Preferred date -->
-          <div class="f-field">
-            <label class="f-label" for="date">Do any of these dates NOT work for you? <span class="opt">(Pick whichever suits best &mdash; and if none do, tell us what works instead)</span></label>
-            <select class="f-select" id="date" name="Preferred date" required>
-              <option value="" disabled selected>Choose a day&hellip;</option>
-              <option value="Tue 22 Sep">Tuesday 22 September</option>
-              <option value="Thu 24 Sep">Thursday 24 September</option>
-              <option value="Tue 6 Oct">Tuesday 6 October</option>
-              <option value="Thu 8 Oct">Thursday 8 October</option>
-              <option value="Fri 9 Oct">Friday 9 October</option>
-              <option value="Other — find a day">None of these &mdash; we&rsquo;ll find a day</option>
-            </select>
-          </div>
+          <!-- Preferred dates (multi-select) -->
+                    <div class="f-field">
+                      <label class="f-label" for="date">Which of these dates work for you? <span class="opt">(Tick all that work &mdash; we&rsquo;ll match up whatever suits)</span></label>
+                      <div class="choice">
+                        <label><input type="checkbox" name="Preferred date" value="Tue 22 Sep"><span>Tue 22 Sep</span></label>
+                        <label><input type="checkbox" name="Preferred date" value="Thu 24 Sep"><span>Thu 24 Sep</span></label>
+                        <label><input type="checkbox" name="Preferred date" value="Tue 6 Oct"><span>Tue 6 Oct</span></label>
+                        <label><input type="checkbox" name="Preferred date" value="Thu 8 Oct"><span>Thu 8 Oct</span></label>
+                        <label><input type="checkbox" name="Preferred date" value="Fri 9 Oct"><span>Fri 9 Oct</span></label>
+                        <label><input type="checkbox" name="Preferred date" value="None of these"><span>None of these &mdash; we&rsquo;ll work round it</span></label>
+                      </div>
+                    </div>
 
           <button class="f-submit" type="submit">Send my answers →</button>
                     <div class="f-success" id="fSuccess"><b>Got it — thank you!</b> Your answers are on their way to Josh and Amy. We&rsquo;ll be in touch to lock in the day.</div>
