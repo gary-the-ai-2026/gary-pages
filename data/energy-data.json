@@ -1,45 +1,40 @@
 {
-  "timestamp": "2026-09-03T10:28:59.038693+09:30",
-  "timestamp_display": "3 Sep 2026 \u00b7 10:28 AM",
-  "timestamp_short": "10:28:59 AM",
+  "timestamp": "2026-09-03T10:31:00.733267+09:30",
+  "timestamp_display": "3 Sep 2026 \u00b7 10:31 AM",
+  "timestamp_short": "10:31:00 AM",
   "goodwe": {
-    "grid_power_w": 4,
+    "grid_power_w": 3,
     "grid_direction": "Idle",
-    "inverter_temp_c": 48.9,
-    "battery_power_w": -1653,
+    "inverter_temp_c": 45.1,
+    "battery_power_w": -1911,
     "battery_mode": "Charge",
-    "lifetime_solar_kwh": 1164.6,
-    "today_solar_kwh": 3.8,
+    "lifetime_solar_kwh": 1164.7,
+    "today_solar_kwh": 3.9,
     "today_export_kwh": 5.0,
     "today_import_kwh": 0.0,
     "today_load_kwh": 4.9,
-    "lifetime_bat_charge_kwh": 573.6,
-    "today_bat_charge_kwh": 0.9,
+    "lifetime_bat_charge_kwh": 573.8,
+    "today_bat_charge_kwh": 1.1,
     "lifetime_bat_discharge_kwh": 519.7,
     "today_bat_discharge_kwh": 4.4,
-    "home_consumption_w": 351,
+    "home_consumption_w": 394,
     "lifetime_export_kwh": 128.8,
     "lifetime_import_kwh": 23.3,
     "battery_temp_c": 20.3,
     "battery_soc_pct": 63,
     "battery_soh_pct": 100,
-    "solar_now_w": 2155,
+    "solar_now_w": 2254,
     "battery_flow": "charging",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 8.3,
-    "sell_price_c": -1.6,
+    "current_price_c": 9.3,
+    "sell_price_c": -0.8,
     "period": "solarSponge",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 72.241,
+    "renewables": 77.092,
     "forward_prices": [
-      {
-        "time": "10:30",
-        "price": 9.3,
-        "period": "solarSponge"
-      },
       {
         "time": "10:35",
         "price": 9.3,
@@ -124,15 +119,20 @@
         "time": "14:00",
         "price": 10.0,
         "period": "solarSponge"
+      },
+      {
+        "time": "14:30",
+        "price": 10.2,
+        "period": "solarSponge"
       }
     ],
-    "next_peak_c": 10.0,
-    "next_peak_time": "14:00",
+    "next_peak_c": 10.2,
+    "next_peak_time": "14:30",
     "next_trough_c": 8.7,
     "next_trough_time": "13:00"
   },
   "today": {
-    "solar_kwh": 3.8,
+    "solar_kwh": 3.9,
     "load_kwh": 4.9,
     "import_kwh": 0.0,
     "export_kwh": 5.0,
@@ -140,7 +140,7 @@
     "grid_import_kwh": 0.06,
     "grid_import_cost_dollars": 0.02,
     "grid_export_revenue_dollars": -0.0,
-    "battery_charge_kwh": 0.9,
+    "battery_charge_kwh": 1.1,
     "battery_discharge_kwh": 4.4
   },
   "yesterday": {
