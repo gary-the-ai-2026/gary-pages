@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-06T05:08:48.273911+09:30",
-  "timestamp_display": "6 Sep 2026 \u00b7 5:08 AM",
-  "timestamp_short": "5:08:48 AM",
+  "timestamp": "2026-09-06T05:10:48.929607+09:30",
+  "timestamp_display": "6 Sep 2026 \u00b7 5:10 AM",
+  "timestamp_short": "5:10:48 AM",
   "goodwe": {
-    "grid_power_w": 4,
+    "grid_power_w": 1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 44.6,
-    "battery_power_w": 476,
+    "inverter_temp_c": 45.2,
+    "battery_power_w": 481,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1248.8,
     "today_solar_kwh": 0.0,
@@ -15,9 +15,9 @@
     "today_load_kwh": 1.1,
     "lifetime_bat_charge_kwh": 616.4,
     "today_bat_charge_kwh": 0.0,
-    "lifetime_bat_discharge_kwh": 557.4,
-    "today_bat_discharge_kwh": 2.7,
-    "home_consumption_w": 472,
+    "lifetime_bat_discharge_kwh": 557.5,
+    "today_bat_discharge_kwh": 2.8,
+    "home_consumption_w": 480,
     "lifetime_export_kwh": 129.6,
     "lifetime_import_kwh": 23.3,
     "battery_temp_c": 20.1,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 24.6,
-    "sell_price_c": 7.6,
+    "current_price_c": 25.2,
+    "sell_price_c": 8.2,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 28.435,
+    "renewables": 26.872,
     "forward_prices": [
-      {
-        "time": "05:10",
-        "price": 23.1,
-        "period": "offPeak"
-      },
       {
         "time": "05:15",
         "price": 23.9,
@@ -123,8 +118,8 @@
     ],
     "next_peak_c": 40.3,
     "next_peak_time": "07:00",
-    "next_trough_c": 23.1,
-    "next_trough_time": "05:10"
+    "next_trough_c": 23.9,
+    "next_trough_time": "05:15"
   },
   "today": {
     "solar_kwh": 0.0,
@@ -136,7 +131,7 @@
     "grid_import_cost_dollars": 0.03,
     "grid_export_revenue_dollars": 0.01,
     "battery_charge_kwh": 0.0,
-    "battery_discharge_kwh": 2.7
+    "battery_discharge_kwh": 2.8
   },
   "yesterday": {
     "solar_kwh": 37.2,
