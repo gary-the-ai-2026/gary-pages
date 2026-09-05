@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-06T00:02:08.290480+09:30",
-  "timestamp_display": "6 Sep 2026 \u00b7 12:02 AM",
-  "timestamp_short": "12:02:08 AM",
+  "timestamp": "2026-09-06T00:04:08.959482+09:30",
+  "timestamp_display": "6 Sep 2026 \u00b7 12:04 AM",
+  "timestamp_short": "12:04:08 AM",
   "goodwe": {
-    "grid_power_w": -1,
+    "grid_power_w": 1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 43.7,
-    "battery_power_w": 518,
+    "inverter_temp_c": 44.5,
+    "battery_power_w": 504,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1248.8,
     "today_solar_kwh": 0.0,
@@ -15,9 +15,9 @@
     "today_load_kwh": 0.0,
     "lifetime_bat_charge_kwh": 616.4,
     "today_bat_charge_kwh": 0.0,
-    "lifetime_bat_discharge_kwh": 554.7,
-    "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 519,
+    "lifetime_bat_discharge_kwh": 554.9,
+    "today_bat_discharge_kwh": 0.2,
+    "home_consumption_w": 503,
     "lifetime_export_kwh": 129.6,
     "lifetime_import_kwh": 23.3,
     "battery_temp_c": 21.1,
@@ -92,7 +92,7 @@
       },
       {
         "time": "01:00",
-        "price": 18.1,
+        "price": 18.3,
         "period": "offPeak"
       },
       {
@@ -112,23 +112,23 @@
       },
       {
         "time": "03:00",
-        "price": 20.8,
+        "price": 20.4,
         "period": "offPeak"
       },
       {
         "time": "03:30",
-        "price": 23.0,
+        "price": 22.8,
         "period": "offPeak"
       },
       {
         "time": "04:00",
-        "price": 22.9,
+        "price": 22.6,
         "period": "offPeak"
       }
     ],
-    "next_peak_c": 23.0,
+    "next_peak_c": 22.8,
     "next_peak_time": "03:30",
-    "next_trough_c": 18.1,
+    "next_trough_c": 18.3,
     "next_trough_time": "01:00"
   },
   "today": {
@@ -141,7 +141,7 @@
     "grid_import_cost_dollars": 0.03,
     "grid_export_revenue_dollars": 0.01,
     "battery_charge_kwh": 0.0,
-    "battery_discharge_kwh": 0.0
+    "battery_discharge_kwh": 0.2
   },
   "yesterday": {
     "solar_kwh": 37.2,
