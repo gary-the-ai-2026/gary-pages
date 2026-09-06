@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-07T03:58:24.610979+09:30",
-  "timestamp_display": "7 Sep 2026 \u00b7 3:58 AM",
-  "timestamp_short": "3:58:24 AM",
+  "timestamp": "2026-09-07T04:00:25.681280+09:30",
+  "timestamp_display": "7 Sep 2026 \u00b7 4:00 AM",
+  "timestamp_short": "4:00:25 AM",
   "goodwe": {
-    "grid_power_w": 1,
+    "grid_power_w": 2,
     "grid_direction": "Idle",
-    "inverter_temp_c": 43.4,
-    "battery_power_w": 372,
+    "inverter_temp_c": 40.4,
+    "battery_power_w": 338,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1280.3,
     "today_solar_kwh": 0.0,
@@ -17,10 +17,10 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 574.5,
     "today_bat_discharge_kwh": 1.6,
-    "home_consumption_w": 371,
+    "home_consumption_w": 336,
     "lifetime_export_kwh": 130.0,
     "lifetime_import_kwh": 23.4,
-    "battery_temp_c": 19.5,
+    "battery_temp_c": 19.4,
     "battery_soc_pct": 56,
     "battery_soh_pct": 100,
     "solar_now_w": 0,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 22.5,
-    "sell_price_c": 5.8,
+    "current_price_c": 21.4,
+    "sell_price_c": 4.7,
     "period": "offPeak",
-    "descriptor": "veryLow",
+    "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 66.49199999999999,
+    "renewables": 67.09,
     "forward_prices": [
-      {
-        "time": "04:00",
-        "price": 22.3,
-        "period": "offPeak"
-      },
       {
         "time": "04:05",
         "price": 21.8,
@@ -123,6 +118,11 @@
       {
         "time": "07:30",
         "price": 33.3,
+        "period": "peak"
+      },
+      {
+        "time": "08:00",
+        "price": 29.1,
         "period": "peak"
       }
     ],
