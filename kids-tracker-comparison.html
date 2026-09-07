@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noah's Kids Tracker — Fitbit Ace 3 vs Garmin Vivofit Jr 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--canvas); color: var(--body); font-family: var(--font-body); line-height: 1.55; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 700px) { .container { padding: 0 32px; } }
+
+.hero { padding: 56px 0 24px; }
+.kicker, .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--coral); }
+.hero h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 6vw, 3.2rem); font-weight: 900; color: var(--ink); margin: 12px 0 8px; }
+.subtitle { font-size: 1rem; color: var(--body); max-width: 520px; }
+
+section { padding: 48px 0; }
+.section-label { display: block; }
+.section-title { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; color: var(--ink); margin: 8px 0 20px; }
+
+.verdict { background: rgba(204,120,92,0.06); border: 1px solid rgba(204,120,92,0.2); border-radius: var(--radius-card); padding: 32px; }
+@media (min-width: 700px) { .verdict { padding: 40px; } }
+.verdict-badge { display: inline-block; background: var(--coral); color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: var(--radius-btn); }
+.verdict h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 900; color: var(--ink); margin: 14px 0 4px; }
+.price { font-size: 2.4rem; font-weight: 900; color: var(--success); margin-bottom: 16px; }
+.price-label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+.verdict ol { margin: 16px 0 0 22px; }
+.verdict ol li { margin-bottom: 10px; }
+.insight { background: var(--surface-alt); border-radius: var(--radius-card); padding: 16px 20px; font-size: 0.88rem; color: var(--body); border-left: 3px solid var(--muted); }
+.insight.good { border-left-color: var(--success); }
+.insight.warn { border-left-color: var(--warning); }
+
+.cards { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 700px) { .cards { grid-template-columns: 1fr 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-card); box-shadow: var(--shadow-rest); overflow: hidden; display: flex; flex-direction: column; }
+.card:hover { box-shadow: var(--shadow-hover); }
+.card.winner { border-color: var(--success); }
+.card-winner-tag { align-self: flex-start; background: var(--success); color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-btn); margin: 12px 12px 0; }
+.card-image { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: var(--surface-alt); }
+.card-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; color: var(--ink); margin: 10px 0 2px; }
+.card-price { font-size: 2rem; font-weight: 900; color: var(--ink); }
+.card-price-label { font-size: 0.85rem; color: var(--muted); }
+.specs { margin: 14px 0 0; padding: 12px 14px; border-top: 1px solid var(--hairline-soft); }
+.spec { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 6px 0; }
+.spec-label { color: var(--muted); font-size: 0.85rem; }
+.spec-value { color: var(--ink); font-weight: 600; font-size: 0.9rem; text-align: right; }
+.card-footer { padding: 12px 14px; border-top: 1px solid var(--hairline-soft); }
+.card-footer a { color: var(--coral); font-weight: 600; text-decoration: none; }
+.card-footer a:hover { color: var(--coral-hover); text-decoration: underline; }
+
+.table-wrap { background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-rest); margin-top: 20px; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; }
+thead th { font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-align: left; padding: 12px 14px; background: var(--surface-alt); }
+tbody td { padding: 12px 14px; font-size: 0.9rem; color: var(--body); }
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+.win { color: var(--success); font-weight: 700; }
+.warn-text { color: var(--danger); font-weight: 600; }
+
+.sources { font-size: 0.85rem; color: var(--muted); }
+.sources ul { margin-top: 8px; padding-left: 20px; }
+.sources li { margin-bottom: 4px; }
+
+.footer { padding: 40px 0 24px; text-align: center; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">KIDS' TRACKER · FOR NOAH · SEPT 2026</div>
+    <h1>Fitbit Ace 3 vs Garmin Vivofit Jr. 3</h1>
+    <p class="subtitle">Two kids' fitness trackers, one clear winner for a first tracker.</p>
+  </section>
+
+  <section class="verdict">
+    <div class="verdict-badge">Our Pick</div>
+    <h2>Garmin Vivofit Jr. 3</h2>
+    <div class="price">$99</div>
+    <div class="price-label">Amazon AU · RRP $149</div>
+    <ol>
+      <li><b>1-year battery, no charging.</b> A parent-replaceable coin cell that lasts ~12 months — zero fussy nightly charging for a 6-year-old. The Ace 3 needs a charge every ~8 days.</li>
+      <li><b>Active platform, trusted brand.</b> Garmin still supports and develops the line. The Ace 3 is discontinued — Google is winding down the older Fitbit kids' range, so its app support is a sunset risk.</li>
+      <li><b>Fits Noah and the younger sibling.</b> Rated 4+, so it has room to grow — and can be handed down when he outgrows it.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="section-label">The Contenders</div>
+    <div class="section-title">Two ways to track a 6-year-old</div>
+    <div class="cards">
+      <div class="card winner">
+        <div class="card-winner-tag">Recommended</div>
+        <img class="card-image" src="images/garmin-vivofit-jr-3.jpg" alt="Garmin Vivofit Jr 3" onerror="this.style.display='none'">
+        <div class="card-name">Garmin Vivofit Jr. 3</div>
+        <div class="card-price">$99 <span class="card-price-label">(RRP $149)</span></div>
+        <div class="specs">
+          <div class="spec"><span class="spec-label">Age range</span><span class="spec-value">4+</span></div>
+          <div class="spec"><span class="spec-label">Battery</span><span class="spec-value win">~1 year (replaceable)</span></div>
+          <div class="spec"><span class="spec-label">Water</span><span class="spec-value">Swim-safe 5 ATM</span></div>
+          <div class="spec"><span class="spec-label">Subscription</span><span class="spec-value win">None</span></div>
+          <div class="spec"><span class="spec-label">Extras</span><span class="spec-value">Chores + rewards, app adventures</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.amazon.com.au/s?k=garmin+vivofit+jr+3" target="_blank" rel="nofollow">View at Amazon AU →</a>
+        </div>
+      </div>
+      <div class="card">
+        <img class="card-image" src="images/fitbit-ace-3.jpg" alt="Fitbit Ace 3" onerror="this.style.display='none'">
+        <div class="card-name">Fitbit Ace 3</div>
+        <div class="card-price">$66.98 <span class="card-price-label">(clearing)</span></div>
+        <div class="specs">
+          <div class="spec"><span class="spec-label">Age range</span><span class="spec-value">6+</span></div>
+          <div class="spec"><span class="spec-label">Battery</span><span class="spec-value warn-text">~8 days (recharge)</span></div>
+          <div class="spec"><span class="spec-label">Water</span><span class="spec-value">Swim-proof 50 m</span></div>
+          <div class="spec"><span class="spec-label">Subscription</span><span class="spec-value win">None</span></div>
+          <div class="spec"><span class="spec-label">Status</span><span class="spec-value warn-text">Discontinued</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://www.amazon.com.au/s?k=fitbit+ace+3" target="_blank" rel="nofollow">View at Amazon AU →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Feature by Feature</div>
+    <div class="section-title">The head-to-head</div>
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Factor</th><th>Fitbit Ace 3</th><th>Garmin Vivofit Jr 3</th></tr></thead>
+          <tbody>
+            <tr><td>Price (AU)</td><td>$66.98 (clearance)</td><td class="win">$99 (RRP $149)</td></tr>
+            <tr><td>Battery</td><td class="warn-text">~8 days, recharge</td><td class="win">~1 year, replaceable</td></tr>
+            <tr><td>Age rating</td><td>6+ (Noah's age)</td><td class="win">4+ (more headroom)</td></tr>
+            <tr><td>Water</td><td>Swim-proof 50 m</td><td class="win">Swim-safe 5 ATM</td></tr>
+            <tr><td>Subscription</td><td class="win">None</td><td class="win">None</td></tr>
+            <tr><td>Motivation style</td><td>Animated watch faces</td><td class="win">Chores, rewards, app adventures</td></tr>
+            <tr><td>Platform status</td><td class="warn-text">Discontinued</td><td class="win">Active &amp; supported</td></tr>
+            <tr><td>Real-owner ratings</td><td>PCMag 3.5/5 · PR 1.4/5</td><td class="win">4.3/5 (4.5k) · MYER 4.8/5</td></tr>
+            <tr><td>GPS / location</td><td>No</td><td>No (Bounce has it)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Context &amp; Caveats</div>
+    <div class="section-title">The honest trade-offs</div>
+    <div class="insight warn" style="margin-bottom:14px;">
+      <b>The Ace 3's $66.98 is a genuine deal</b> — but it's clearing for a reason. Google discontinued it as it consolidates the kids' line into the Ace LTE. Parent forums report worsening setup and sync glitches, and long-term app support isn't guaranteed.
+    </div>
+    <div class="insight" style="margin-bottom:14px;">
+      <b>Neither watch has GPS or calling.</b> Both are pure activity + sleep trackers. If location tracking becomes important (e.g. for school excursions), you'd step up to the Garmin Bounce (~2× the price).
+    </div>
+    <div class="insight good">
+      <b>The Garmin's 1-year battery is the decisive practical win.</b> A 6-year-old will not remember to charge a watch every week. With the Garmin you set it up and forget about charging for a year — and the chores-and-rewards system is genuinely motivating for kids.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">With thanks to</div>
+    <div class="section-title">Sources</div>
+    <div class="sources">
+      Based on: GearJunkie 2026 kids' tracker roundup, PCMag (Ace 3 review), TechRadar (Ace 3 review), ProductReview.com.au (both), Garmin AU + MYER owner ratings, r/fitbit and r/Garmin community sentiment, and current AU pricing (Amazon AU, Garmin, JB Hi-Fi, The Good Guys).
+    </div>
+  </section>
+
+  <div class="footer">
+    Prepared by Gary for Josh &amp; Amy · gary-pages
+  </div>
+
+</div>
+</body>
+</html>
