@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-10T02:28:25.218555+09:30",
-  "timestamp_display": "10 Sep 2026 \u00b7 2:28 AM",
-  "timestamp_short": "2:28:25 AM",
+  "timestamp": "2026-09-10T02:30:25.992228+09:30",
+  "timestamp_display": "10 Sep 2026 \u00b7 2:30 AM",
+  "timestamp_short": "2:30:25 AM",
   "goodwe": {
-    "grid_power_w": 4,
+    "grid_power_w": 2,
     "grid_direction": "Idle",
-    "inverter_temp_c": 40.9,
-    "battery_power_w": 379,
+    "inverter_temp_c": 42.1,
+    "battery_power_w": 371,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1435.5,
     "today_solar_kwh": 0.0,
@@ -15,9 +15,9 @@
     "today_load_kwh": 0.3,
     "lifetime_bat_charge_kwh": 690.7,
     "today_bat_charge_kwh": 0.0,
-    "lifetime_bat_discharge_kwh": 622.1,
-    "today_bat_discharge_kwh": 1.1,
-    "home_consumption_w": 375,
+    "lifetime_bat_discharge_kwh": 622.2,
+    "today_bat_discharge_kwh": 1.2,
+    "home_consumption_w": 369,
     "lifetime_export_kwh": 178.6,
     "lifetime_import_kwh": 23.4,
     "battery_temp_c": 18.9,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 23.7,
-    "sell_price_c": 6.8,
+    "current_price_c": 24.6,
+    "sell_price_c": 7.6,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 128.845,
+    "renewables": 130.055,
     "forward_prices": [
-      {
-        "time": "02:30",
-        "price": 24.9,
-        "period": "offPeak"
-      },
       {
         "time": "02:35",
         "price": 23.5,
@@ -124,10 +119,15 @@
         "time": "06:00",
         "price": 38.1,
         "period": "peak"
+      },
+      {
+        "time": "06:30",
+        "price": 39.5,
+        "period": "peak"
       }
     ],
-    "next_peak_c": 38.1,
-    "next_peak_time": "06:00",
+    "next_peak_c": 39.5,
+    "next_peak_time": "06:30",
     "next_trough_c": 23.3,
     "next_trough_time": "03:15"
   },
@@ -141,7 +141,7 @@
     "grid_import_cost_dollars": 0.07,
     "grid_export_revenue_dollars": 0.57,
     "battery_charge_kwh": 0.0,
-    "battery_discharge_kwh": 1.1
+    "battery_discharge_kwh": 1.2
   },
   "yesterday": {
     "solar_kwh": 44.1,
