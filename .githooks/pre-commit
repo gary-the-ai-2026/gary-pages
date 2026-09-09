@@ -1,0 +1,41 @@
+#!/bin/sh
+# gary-pages pre-commit hook — auto-inject site favicon into staged HTML.
+# Every page must reference the canonical favicon. This runs on `git commit`
+# for ANY html file, so future pages get the favicon automatically.
+#
+# SAFE BY DESIGN:
+#   * Only touches *.html files already staged.
+#   * Skips any that already contain a <link rel="icon">/rel="icon"/rel='icon'.
+#   * Re-stages exactly the files it modifies.
+#   * ALWAYS exits 0 — never blocks a commit (the energy cron relies on
+#     commits succeeding; we must not break that).
+set -u
+
+FAVICON='<link rel="icon" type="image/png" href="/gary-pages/favicon.png">'
+
+# files staged for this commit (diff-index --cached; skip deletions)
+FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.html' 2>/dev/null)
+
+[ -z "$FILES" ] && exit 0
+
+changed=0
+for f in $FILES; do
+    [ -f "$f" ] || continue
+    # skip if any icon link already present
+    grep -qiE '<link[^>]*rel="?icon' "$f" && continue
+    # skip if the favicon href already present anywhere
+    grep -q 'favicon.png' "$f" && continue
+
+    # insert right after the opening <head> tag, preserving line structure
+    perl -0pi -e 's{(<head[^>]*>\s*)(?![^<]*rel="icon)}{\1'"$FAVICON"'\n}' "$f" 2>/dev/null
+    # fallback if perl replacement didn't take (e.g. no <head>)
+    if ! grep -q 'favicon.png' "$f"; then
+        perl -0pi -e 's{(<head[^>]*>)}{\1\n'"$FAVICON"'}' "$f" 2>/dev/null
+    fi
+    if grep -q 'favicon.png' "$f"; then
+        git add "$f"
+        changed=$((changed+1))
+    fi
+done
+
+exit 0
