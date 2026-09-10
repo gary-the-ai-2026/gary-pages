@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
 <link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Royal Adelaide Show — Family Day Timetable</title>
+<title>Royal Adelaide Show — Family Day Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{
   --canvas:#faf9f5; --surface:#ffffff; --surface-alt:#f0eeea;
@@ -16,7 +18,7 @@
   --hairline:#e4e1db; --hairline-soft:#ece9e4;
   --coral:#cc785c; --coral-hover:#a9583e;
   --success:#1b8a3d; --warning:#c2680c; --danger:#c0392b;
-  --radius-card:20px;
+  --radius-card:20px; --radius-sm:12px;
   --font-display:'Cormorant Garamond', Georgia, serif;
   --font-body:'Inter', -apple-system, sans-serif;
   --font-mono:'JetBrains Mono','SF Mono', monospace;
@@ -26,68 +28,104 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--canvas)}
 body{font-family:var(--font-body);color:var(--body);line-height:1.55;-webkit-text-size-adjust:100%}
-.container{max-width:920px;margin:0 auto;padding:var(--space-xl) var(--space-xl) calc(var(--space-xl)*2)}
-h1,h2,h3{font-family:var(--font-display);color:var(--ink)}
+.container{max-width:920px;margin:0 auto;padding:0 var(--space-xl) calc(var(--space-xl)*2)}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink);font-weight:900}
 a{color:var(--coral)}
 
 /* Hero */
-.hero{padding:var(--space-lg) 0 var(--space-md)}
-.kicker{font-size:14px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-.hero h1{font-size:clamp(30px,5.4vw,46px);line-height:1.08;font-weight:900}
-.hero .subtitle{font-size:clamp(15px,2.1vw,18px);color:var(--body);margin-top:12px;line-height:1.5}
+.hero{padding:calc(var(--space-lg) + 8px) 0 var(--space-md)}
+.kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:10px;font-weight:500}
+.hero h1{font-size:clamp(32px,6.4vw,48px);line-height:1.05;letter-spacing:-.01em}
+.hero .subtitle{font-size:16px;color:var(--body);margin-top:12px;max-width:580px;line-height:1.5}
+
+/* Pinned plans chips */
+.plans{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 8px}
+.plan-chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--ink)}
+.plan-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--coral);flex-shrink:0}
+
+/* Train at-a-glance mini cards */
+.stats{display:grid;grid-template-columns:1fr;gap:var(--space-sm);margin:22px 0 6px}
+@media(min-width:560px){.stats{grid-template-columns:repeat(3,1fr)}}
+.stat{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-rest)}
+.stat .k{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.stat .v{font-size:clamp(18px,3vw,24px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
+.stat .d{font-size:12.5px;color:var(--body);margin-top:4px}
+
+/* Route card (recommended flow) */
+.route-section{margin:var(--space-lg) 0 var(--space-md)}
+.route-card{background:var(--surface);border:2px solid var(--coral);border-radius:var(--radius-card);padding:22px 20px;box-shadow:var(--shadow-rest)}
+.route-card .route-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.route-card .route-head .route-icon{font-size:26px}
+.route-card .route-head h3{font-size:20px;font-weight:900;color:var(--ink);margin:0}
+.route-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.route-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--hairline-soft);align-items:flex-start}
+.route-step:last-child{border-bottom:none;padding-bottom:0}
+.route-step .step-num{width:28px;height:28px;border-radius:50%;background:var(--coral);color:var(--surface);font-size:13px;font-weight:800;font-family:var(--font-mono);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.route-step .step-body{flex:1;min-width:0}
+.route-step .step-name{font-size:15px;font-weight:700;color:var(--ink)}
+.route-step .step-time{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--coral);display:inline-block;margin-left:6px}
+.route-step .step-info{font-size:12.5px;color:var(--body);margin-top:2px;line-height:1.5}
+.route-step .step-transit{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:600;background:var(--surface-alt);color:var(--coral);border-radius:6px;padding:2px 8px;margin-top:5px}
+.route-card .route-footer{margin-top:14px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline-soft);padding-top:12px}
+
+/* Legend chips */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 12px}
+.legend-chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .15s ease;user-select:none}
+.legend-chip .swatch{width:11px;height:11px;border-radius:50%}
+.legend-chip.off{opacity:0.38}
+.legend-chip:hover{border-color:var(--muted)}
+
+/* Map tools */
+.map-tools{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.map-hint{font-size:12.5px;color:var(--muted)}
+.map-tools .fit-btn{font-family:var(--font-body);font-size:12.5px;font-weight:600;color:var(--surface);background:var(--coral);border:none;border-radius:999px;padding:7px 14px;cursor:pointer}
+.map-tools .fit-btn:hover{background:var(--coral-hover)}
+
+/* Map */
+.map-card{position:relative;border-radius:var(--radius-card);overflow:hidden;border:1px solid var(--hairline);box-shadow:var(--shadow-rest)}
+#map{height:56vh;min-height:390px;background:#ece9e4}
+.pin{width:32px;height:32px;border-radius:50%;background:#fff;border:3px solid var(--c,#cc785c);box-shadow:0 2px 6px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;transition:transform .12s ease}
+.leaflet-marker-icon:hover .pin{transform:scale(1.12)}
+.leaflet-tooltip{font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--hairline);border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.leaflet-tooltip-top:before{border-top-color:var(--hairline)}
+
+/* Route summary float */
+.route-summary{position:absolute;left:12px;right:12px;bottom:12px;z-index:1000;display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--hairline);border-radius:12px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.14);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.route-summary.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.route-summary .rs-emoji{font-size:18px}
+.route-summary .rs-text{flex:1;font-size:13.5px;font-weight:600;color:var(--ink);min-width:0}
+.route-summary .rs-text #rsMeta{font-family:var(--font-mono);color:var(--coral);margin-left:6px;font-weight:500;white-space:nowrap}
+.route-summary .rs-clear{font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--surface);background:var(--ink);border:none;border-radius:8px;padding:6px 12px;cursor:pointer;flex-shrink:0}
+.route-summary .rs-clear:hover{opacity:0.85}
+
+/* Plot button */
+.plot-btn{font-family:var(--font-body);font-size:13.5px;font-weight:700;color:#fff;background:var(--coral);border:none;border-radius:999px;padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .15s ease}
+.plot-btn:hover{background:var(--coral-hover)}
+.plot-btn.plotted{background:var(--ink)}
 
 /* Section */
 .section{margin-top:var(--space-lg)}
 .section-header{margin-bottom:10px}
-.section-label{font-size:12px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:.1em}
-.section-title{font-family:var(--font-display);font-size:clamp(21px,3.4vw,28px);font-weight:800;color:var(--ink);margin-bottom:2px}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+.section-title{font-size:clamp(20px,3.2vw,26px);font-weight:800;color:var(--ink);margin-top:2px}
 
-/* Cards */
-.cards{display:grid;gap:var(--space-md)}
-@media(min-width:700px){.cards.cols-2{grid-template-columns:repeat(2,1fr)}.cards.cols-3{grid-template-columns:repeat(3,1fr)}}
-.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-md) var(--space-md);box-shadow:var(--shadow-rest)}
-.card.winner{border:2px solid var(--success);position:relative}
-.card-winner-tag{position:absolute;top:-11px;left:14px;background:var(--success);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px}
-.card .k{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.card .v{font-size:clamp(19px,3vw,25px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
-.card .d{font-size:13px;color:var(--body);margin-top:6px}
-
-/* Trains */
+/* Train timetable trip */
 .trip{border-left:4px solid var(--coral);background:var(--surface);border-radius:14px;padding:var(--space-md) var(--space-md)}
 .option{display:flex;flex-direction:column;gap:4px}
 .option .route{font-size:12px;font-family:var(--font-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.option .big{font-size:clamp(20px,3.2vw,27px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
+.option .big{font-size:clamp(19px,3vw,25px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
 .option .meta{font-size:13px;color:var(--body)}
-.tag{display:inline-block;background:var(--surface-alt);border:1px solid var(--hairline);color:var(--body);font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;margin:0 1px}
-.tag.good{background:#e7f4e9;border-color:#bfe0c5;color:var(--success)}
 
-/* Itinerary timeline */
-.tl{list-style:none;padding:0}
-.tl li{position:relative;padding:0 0 var(--space-md) 30px;margin:0}
-.tl li::before{content:'';position:absolute;left:4px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--coral)}
-.tl li:last-child::after{content:none}
-.tl .t{font-size:15px;font-weight:800;color:var(--ink);font-family:var(--font-mono)}
-.tl .d{font-size:14px;color:var(--body);margin-top:3px}
-
-/* Attraction rows */
-.attr{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:var(--space-md) var(--space-md);margin-bottom:10px}
-.attr .ic{font-size:22px;width:34px;text-align:center;flex-shrink:0}
-.attr .nm{font-size:16px;font-weight:700;color:var(--ink)}
-.attr .ds{font-size:13px;color:var(--body);margin-top:4px}
-.attr .hm{font-size:12px;font-weight:700;color:var(--coral);margin-top:4px}
-
-/* Notes / callout */
+/* Note */
 .note{background:var(--surface-alt);border:1px solid var(--hairline);border-left:4px solid var(--warning);border-radius:12px;padding:var(--space-md);font-size:14px;color:var(--body)}
 .note b{color:var(--ink)}
 
-/* Tables */
+/* Table */
 .table-wrap{overflow-x:auto}
-.table-scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
-.table-wrap table th,table td{padding:9px 12px;border-bottom:1px solid var(--hairline-soft);text-align:left}
-thead th{color:var(--muted);font-weight:600}
+table td{padding:9px 12px;border-bottom:1px solid var(--hairline-soft);text-align:left}
 
-footer{padding:var(--space-lg) 0;color:var(--muted);font-size:12px;line-height:1.7}
+footer{padding:var(--space-lg) 0 0;color:var(--muted);font-size:12px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -96,19 +134,59 @@ footer{padding:var(--space-lg) 0;color:var(--muted);font-size:12px;line-height:1
   <section class="hero">
     <div class="kicker">Friday 11 September 2026</div>
     <h1>Royal Adelaide Show<br>— Family Day</h1>
-    <p class="subtitle">A train-and-back plan for the family: real timings, the walking route, and the best of the Show on the ground before we head home to get ready.</p>
+    <p class="subtitle">A local map of the grounds with a recommended walking route and the trains either end. Tap the route to plot it, or tap "Plot on Map" to see the whole morning in one line.</p>
+    <div class="plans">
+      <span class="plan-chip"><span class="dot" style="background:#5b8cb8;"></span>🚉 Mitcham → Showground 9:47</span>
+      <span class="plan-chip"><span class="dot"></span>🎡 Carnival then home</span>
+      <span class="plan-chip"><span class="dot" style="background:#c0392b;"></span>🚉 Back 2:38 → home 2:48</span>
+    </div>
   </section>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Train in</div><div class="v">9:47&nbsp;am</div><div class="d">Mitcham → Showground · 8 min</div></div>
+    <div class="stat"><div class="k">On the ground</div><div class="v">~9:55</div><div class="d">Until we head back to the station</div></div>
+    <div class="stat"><div class="k">Train home</div><div class="v">2:38&nbsp;pm</div><div class="d">Showground → Mitcham · home 2:48</div></div>
+  </div>
+
+  <section class="route-section">
+    <div class="route-card">
+      <div class="route-head"><span class="route-icon">🗺️</span><h3>Our loop around the grounds</h3><button class="plot-btn" id="btnPlot" onclick="plotRoute()">🗺 Plot on Map</button></div>
+      <div class="route-sub">The station sits on the western edge; the main gate is on Goodwood Road to the east. We'll loop anti-clockwise, showbags first while lines are short, then farm, woodchop, food and rides on the way back out. Leave by <strong>~2:15–2:30</strong> for the 2:38 train.</div>
+      <div class="route-step"><span class="step-num">1</span><div class="step-body"><div class="step-name">🚉 Adelaide Showground Station<span class="step-time">9:55 am</span></div><div class="step-info">Get off on the western side of the grounds. Follow the footbridge and path towards Goodwood Road — the gate is a couple of minutes' walk.</div></div></div>
+      <div class="route-step"><span class="step-num">2</span><div class="step-body"><div class="step-name">🎟️ Main gate — Goodwood Road<span class="step-time">9:58 am</span></div><div class="step-info">Tap in, scan the family pass, grab a printed map.</div><span class="step-transit">🚶 ~3 min</span></div></div>
+      <div class="route-step"><span class="step-num">3</span><div class="step-body"><div class="step-name">🛍️ Showbag Pavilions<span class="step-time">10:00–10:30</span></div><div class="step-info">Right by the gate. Do this first — queues are shortest early. Multiple halls.</div><span class="step-transit">🚶 2 min</span></div></div>
+      <div class="route-step"><span class="step-num">4</span><div class="step-body"><div class="step-name">🐑 Aggie's Farm &amp; Farmyard<span class="step-time">10:30–11:30</span></div><div class="step-info">Sheep, cows, chicks — hands-on for the kids. The usual favourite.</div><span class="step-transit">🚶 4 min</span></div></div>
+      <div class="route-step"><span class="step-num">5</span><div class="step-body"><div class="step-name">🪵 Woodchop &amp; craft pavilions<span class="step-time">11:30–12:30</span></div><div class="step-info">The classic axe-swinging heats and the horticulture &amp; craft halls near the arena.</div><span class="step-transit">🚶 3 min</span></div></div>
+      <div class="route-step"><span class="step-num">6</span><div class="step-body"><div class="step-name">🍔 Food courts &amp; Main Arena<span class="step-time">12:30–1:30</span></div><div class="step-info">Lunch, rest legs, catch whatever is on in the ring.</div><span class="step-transit">🚶 3 min</span></div></div>
+      <div class="route-step"><span class="step-num">7</span><div class="step-body"><div class="step-name">🎡 Carnival &amp; Sideshow Alley<span class="step-time">1:30–2:15</span></div><div class="step-info">Rides on the way back out towards the station. Head off by ~2:15.</div><span class="step-transit">🚶 3 min</span></div></div>
+      <div class="route-step"><span class="step-num">8</span><div class="step-body"><div class="step-name">🚉 Back to the station<span class="step-time">2:15–2:30</span></div><div class="step-info">Walk back the way we came. The return platform is beside the entrance.</div><span class="step-transit">🚶 5 min</span></div></div>
+      <div class="route-footer">💡 <strong>Headliners are evening shows</strong> (Human Cannon, Hot Wheels Burnout Inferno) — we'll miss those this trip. The morning-and-early-afternoon loop above is the whole day out.</div>
+    </div>
+  </section>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="map-tools">
+    <button class="fit-btn" id="fitAll">Fit map to the grounds</button>
+    <button class="fit-btn" id="resetAll" onclick="resetAll()" style="display:none;background:var(--ink)">Show all stops</button>
+    <span class="map-hint">Tap a pin for that stop. Plot the route to draw the walking line.</span>
+  </div>
+
+  <div class="map-card">
+    <div id="map"></div>
+    <div class="route-summary" id="routeSummary">
+      <span class="rs-emoji">🚶</span>
+      <span class="rs-text"><span id="rsName"></span><span id="rsMeta"></span></span>
+      <button class="rs-clear" id="routeClear">Clear</button>
+    </div>
+  </div>
 
   <section class="section">
     <div class="section-header">
-      <div class="section-label">At a glance</div>
-      <div class="section-title">The essentials</div>
+      <div class="section-label">On the ground</div>
+      <div class="section-title">The stops, by type</div>
     </div>
-    <div class="cards cols-3">
-      <div class="card"><div class="k">Train in</div><div class="v">9:47&nbsp;am</div><div class="d">Mitcham → Showground, 8 min</div></div>
-      <div class="card"><div class="k">On the ground</div><div class="v">~9:55&nbsp;am</div><div class="d">Until we head to the station</div></div>
-      <div class="card"><div class="k">Show hours</div><div class="v">9&nbsp;am–11&nbsp;pm</div><div class="d">Gates open 9&nbsp;am; Friday carnival till 11&nbsp;pm</div></div>
-    </div>
+    <div id="siteCards"></div>
   </section>
 
   <section class="section">
@@ -116,75 +194,23 @@ footer{padding:var(--space-lg) 0;color:var(--muted);font-size:12px;line-height:1
       <div class="section-label">Getting there &amp; home</div>
       <div class="section-title">Train timetable</div>
     </div>
-
     <div style="margin-bottom:6px" class="section-label">Outbound — Mitcham → Adelaide Showground</div>
     <div class="trip" style="margin-top:10px">
       <div class="option">
         <div class="route">Belair line · 8 min · direct</div>
         <div class="big">Depart Mitcham 9:47&nbsp;am → arrive Showground 9:55&nbsp;am</div>
-        <div class="meta">Right on time for a full morning. Alternative 9:14&nbsp;am → 9:22&nbsp;am if you'd rather be early.</div>
       </div>
     </div>
-
     <div style="margin-top:16px" class="section-label">Return — Adelaide Showground → Mitcham</div>
     <div class="trip" style="margin-top:10px">
       <div class="option">
         <div class="route">Belair line · 10 min · direct</div>
         <div class="big">Depart Showground 2:38&nbsp;pm → arrive Mitcham 2:48&nbsp;pm</div>
-        <div class="meta">Fits the "leave around 2:30" plan. Earlier option: depart 2:03&nbsp;pm → home 2:13&nbsp;pm if the kids are done.</div>
       </div>
     </div>
-
     <div class="note" style="margin-top:14px">
-      <b>Leave the Show by ~2:15–2:30&nbsp;pm</b> to be on the 2:38 train and home by 2:48 — hours of buffer before getting the family ready.
+      <b>Leave the Show by ~2:15–2:30&nbsp;pm</b> to be on the 2:38 train and home by 2:48. Earlier fallback: depart 2:03&nbsp;pm → home 2:13&nbsp;pm if the kids are done.
     </div>
-  </section>
-
-  <section class="section">
-    <div class="section-header">
-      <div class="section-label">On the ground</div>
-      <div class="section-title">Walking route</div>
-    </div>
-    <p style="font-size:14px;color:var(--body);margin-bottom:8px">The station sits right against the showgrounds on the Goodwood Road side — no shuttle needed.</p>
-    <ul class="tl">
-      <li><span class="t">Adelaide Showground Station</span><div class="d">Get off and follow the footbridge / path towards Goodwood Road.</div></li>
-      <li><span class="t">Main gates — Goodwood Road</span><div class="d">Two minutes' walk. Tap in, scan tickets, pick up a map.</div></li>
-      <li><span class="t">Showbags first (left)</span><div class="d">Grab the bags early when queues are shortest.</div></li>
-      <li><span class="t">Animals &amp; Aggie's Farm (south)</span><div class="d">Ring, woodchop and farmyard — a to-do when the kids tire of walking.</div></li>
-      <li><span class="t">Main Arena &amp; food (centre)</span><div class="d">Lunch stop and arena ring, then rides on the way back out.</div></li>
-      <li><span class="t">Back to the station (~2:15)</span><div class="d">Walk back the way we came — the exit is beside the entrance.</div></li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <div class="section-header">
-      <div class="section-label">Suggested flow</div>
-      <div class="section-title">How the morning runs</div>
-    </div>
-    <ul class="tl">
-      <li><span class="t">9:47</span><div class="d">Train leaves Mitcham.</div></li>
-      <li><span class="t">9:55</span><div class="d">At the Showground gates ~9:58. Pick up the map.</div></li>
-      <li><span class="t">10:00–10:30</span><div class="d">Showbags — done while lines are short.</div></li>
-      <li><span class="t">10:30–11:30</span><div class="d">Aggie's Farm, sheep and farmyard animals — the kids' favourite.</div></li>
-      <li><span class="t">11:30–12:30</span><div class="d">Woodchop / craft &amp; horticulture pavilions.</div></li>
-      <li><span class="t">12:30–1:30</span><div class="d">Lunch at the food courts, rest legs.</div></li>
-      <li><span class="t">1:30–2:15</span><div class="d">Carnival rides on the way back towards the station.</div></li>
-      <li><span class="t">2:15–2:30</span><div class="d">Head out, back to the platform.</div></li>
-      <li><span class="t">2:38</span><div class="d">Return train → home 2:48, ready for the shoot.</div></li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <div class="section-header">
-      <div class="section-label">What to see</div>
-      <div class="section-title">Attractions &amp; timings</div>
-    </div>
-    <div class="attr"><div class="ic">🛍️</div><div><div class="nm">Showbag Pavilions</div><div class="ds">Multiple halls packed with showbags. Best cleared first.</div><div class="hm">Open all day from 9&nbsp;am</div></div></div>
-    <div class="attr"><div class="ic">🐑</div><div><div class="nm">Aggie's Farm &amp; Farmyard Animals</div><div class="ds">Sheep, cows, chicks — hands-on for the kids.</div><div class="hm">Open through the day</div></div></div>
-    <div class="attr"><div class="ic">🪵</div><div><div class="nm">Woodchopping</div><div class="ds">The classic axe-swinging competition — several heats through the day.</div><div class="hm">Multiple daytime sessions</div></div></div>
-    <div class="attr"><div class="ic">🛞</div><div><div class="nm">Carnival &amp; Side Show Alley</div><div class="ds">Rides and games. Leave these for the final hour before we leave.</div><div class="hm">Open all day</div></div></div>
-    <div class="attr"><div class="ic">🎡</div><div><div class="nm">Main Arena headliners</div><div class="ds">Human Cannon, Hot Wheels Burnout Inferno — the big ring shows run in the evening.</div><div class="hm">Evening — we'll miss these</div></div></div>
-    <p style="font-size:12px;color:var(--muted);margin-top:8px">Exact session times shift by day — glance at the official app / what's-on for the slot when you're inside.</p>
   </section>
 
   <section class="section">
@@ -192,24 +218,294 @@ footer{padding:var(--space-lg) 0;color:var(--muted);font-size:12px;line-height:1
       <div class="section-label">Notes</div>
       <div class="section-title">Before you go</div>
     </div>
-    <div class="table-wrap"><div class="table-scroll">
+    <div class="table-wrap">
     <table>
       <tbody>
-        <tr><td><b>Tickets</b></td><td>Family pass $69 booked — matches the calendar note. Kids under 5 free.</td></tr>
+        <tr><td><b>Tickets</b></td><td>Family pass $69 booked. Kids under 5 free.</td></tr>
         <tr><td><b>metroCARD</b></td><td>Adelaide Metro is cashless — load/check your card <b>before</b> boarding.</td></tr>
         <tr><td><b>Belair line</b></td><td>Night-time works only; Friday daytime runs to the Showground as normal.</td></tr>
-        <tr><td><b>Photo shoot</b></td><td><b>5:30–7:00&nbsp;pm</b> (Little Things Photography) — leave the Show with real buffer either way.</td></tr>
-        <tr><td><b>Weather</b></td><td>Check the forecast; comfortable shoes for the kids.</td></tr>
+        <tr><td><b>Photo shoot</b></td><td><b>5:30–7:00&nbsp;pm</b> (Little Things Photography) — real buffer either way.</td></tr>
       </tbody>
     </table>
-    </div></div>
+    </div>
   </section>
 
   <footer>
     Prepared by Gary for Josh &amp; Amy · Friday 11 September 2026 · Royal Adelaide Show, Adelaide Showground, Wayville.<br>
-    Train times from Adelaide Metro / Google Maps, checked Thursday 10 September 2026.
+    Train times from Adelaide Metro / Google Maps, checked Thursday 10 September 2026 · Map © OpenStreetMap &amp; CARTO.
   </footer>
 
 </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  // Categories
+  const cats = {
+    train: { label: 'Station', emoji: '🚉', color: '#5b8cb8' },
+    entry: { label: 'Entry', emoji: '🎟️', color: '#2a9d8f' },
+    nov:   { label: 'Showbags & novelties', emoji: '🛍️', color: '#cc785c' },
+    farm:  { label: 'Farm & animals', emoji: '🐑', color: '#2e7d32' },
+    craft: { label: 'Woodchop & craft', emoji: '🪵', color: '#c2680c' },
+    food:  { label: 'Food & arena', emoji: '🍔', color: '#c0392b' },
+    ride:  { label: 'Carnival & rides', emoji: '🎡', color: '#7c5cbf' }
+  };
+
+  // Stops — coordinates anchored to the western station and Goodwood Road gate
+  const sites = [
+    { name: 'Adelaide Showground Station', short: 'Station', cat: 'train', emoji: '🚉', lat: -34.944071, lon: 138.583295,
+      note: 'The western edge of the grounds, right on the Belair line. Follow the footbridge and path east towards Goodwood Road.', color: '#5b8cb8' },
+    { name: 'Main gate — Goodwood Road', short: 'Main gate', cat: 'entry', emoji: '🎟️', lat: -34.9453, lon: 138.5889,
+      note: 'The main public entrance on Goodwood Road. Scan the family pass and grab a printed map.', color: '#2a9d8f' },
+    { name: 'Showbag Pavilions', short: 'Showbags', cat: 'nov', emoji: '🛍️', lat: -34.9448, lon: 138.5878,
+      note: 'Several halls of showbags, right by the gate. Do these first while queues are shortest.', color: '#cc785c' },
+    { name: "Aggie's Farm & Farmyard", short: "Aggie's Farm", cat: 'farm', emoji: '🐑', lat: -34.9478, lon: 138.5859,
+      note: 'Sheep, cows and chicks — hands-on for the kids and the usual favourite.', color: '#2e7d32' },
+    { name: 'Woodchop & craft pavilions', short: 'Woodchop', cat: 'craft', emoji: '🪵', lat: -34.9462, lon: 138.5859,
+      note: 'The classic woodchopping heats, plus craft and horticulture halls near the arena.', color: '#c2680c' },
+    { name: 'Food courts & Main Arena', short: 'Food & arena', cat: 'food', emoji: '🍔', lat: -34.9456, lon: 138.5877,
+      note: 'Lunch spot and the big arena ring — a good rest-legs break mid-morning.', color: '#c0392b' },
+    { name: 'Carnival & Sideshow Alley', short: 'Carnival', cat: 'ride', emoji: '🎡', lat: -34.9438, lon: 138.5853,
+      note: 'Rides and games, on the way back out towards the station. Head off by ~2:15.', color: '#7c5cbf' }
+  ];
+
+  const map = L.map('map', { zoomControl: false });
+  L.control.zoom({ position: 'topleft' }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+  }).addTo(map);
+  map.setView([-34.9458, 138.5861], 15);
+
+  const layerGroups = {};
+  const markers = {};
+  let routeLine = null;
+
+  Object.keys(cats).forEach(function (k) { layerGroups[k] = L.layerGroup().addTo(map); });
+
+  sites.forEach(function (site) {
+    const icon = L.divIcon({
+      className: '',
+      html: '<div class="pin" style="--c:' + site.color + '">' + site.emoji + '</div>',
+      iconSize: [32, 32], iconAnchor: [16, 16]
+    });
+    const m = L.marker([site.lat, site.lon], { icon: icon });
+    m.bindTooltip(site.short, { direction: 'top', offset: [0, -20] });
+    m.on('click', function () { openPanel(site); });
+    layerGroups[site.cat].addLayer(m);
+    markers[site.name] = m;
+  });
+
+  // Legend
+  const legendEl = document.getElementById('legend');
+  Object.keys(cats).forEach(function (k) {
+    const c = cats[k];
+    const chip = document.createElement('div');
+    chip.className = 'legend-chip';
+    chip.innerHTML = '<span class="swatch" style="background:' + c.color + '"></span>' + c.emoji + ' ' + c.label;
+    chip.addEventListener('click', function () {
+      chip.classList.toggle('off');
+      if (chip.classList.contains('off')) map.removeLayer(layerGroups[k]); else layerGroups[k].addTo(map);
+    });
+    legendEl.appendChild(chip);
+  });
+
+  // Site cards
+  const cardsEl = document.getElementById('siteCards');
+  Object.keys(cats).forEach(function (k) {
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    const head = document.createElement('div');
+    head.className = 'cat-head';
+    head.innerHTML = '<span class="c-swatch" style="background:' + cats[k].color + '"></span><span class="c-emoji">' + cats[k].emoji + '</span>' + cats[k].label;
+    block.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'cards';
+    sites.filter(function (s) { return s.cat === k; }).forEach(function (s) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML =
+        '<div class="card-top"><span class="card-emoji" style="--c:' + s.color + '">' + s.emoji + '</span><span class="card-name">' + s.name + '</span></div>' +
+        '<div class="card-note">' + s.note + '</div>';
+      card.addEventListener('click', function () {
+        map.flyTo([s.lat, s.lon], 16, { duration: 0.5 });
+        openPanel(s);
+      });
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    cardsEl.appendChild(block);
+  });
+
+  // Panel (bottom sheet mobile / right card desktop)
+  const panel = document.getElementById('panel');
+  const panelClose = document.getElementById('panelClose');
+  function openPanel(site) {
+    document.getElementById('panelName').textContent = site.short;
+    const body = document.getElementById('panelBody');
+    const gmUrl = 'https://www.google.com/maps/search/?api=1&query=' + site.lat + ',' + site.lon;
+    body.innerHTML =
+      '<div class="note">' + site.note + '</div>' +
+      '<a class="gm-link" href="' + gmUrl + '" target="_blank" rel="noopener">Open in Google Maps ↗</a>';
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+  function closePanel() { panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); }
+  panelClose.addEventListener('click', closePanel);
+  panel.addEventListener('click', function (e) { if (e.target === panel) closePanel(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
+
+  // ---- Plot the recommended route (order from the route card) ----
+  const ROUTE = [
+    { name: 'Adelaide Showground Station', emoji: '🚉', lat: -34.944071, lon: 138.583295, color: '#5b8cb8' },
+    { name: 'Main gate — Goodwood Road', emoji: '🎟️', lat: -34.9453, lon: 138.5889, color: '#2a9d8f' },
+    { name: 'Showbag Pavilions', emoji: '🛍️', lat: -34.9448, lon: 138.5878, color: '#cc785c' },
+    { name: "Aggie's Farm & Farmyard", emoji: '🐑', lat: -34.9478, lon: 138.5859, color: '#2e7d32' },
+    { name: 'Woodchop & craft pavilions', emoji: '🪵', lat: -34.9462, lon: 138.5859, color: '#c2680c' },
+    { name: 'Food courts & Main Arena', emoji: '🍔', lat: -34.9456, lon: 138.5877, color: '#c0392b' },
+    { name: 'Carnival & Sideshow Alley', emoji: '🎡', lat: -34.9438, lon: 138.5853, color: '#7c5cbf' },
+    { name: 'Back to Station', emoji: '🚉', lat: -34.944071, lon: 138.583295, color: '#5b8cb8' }
+  ];
+  let itineraryMarkers = [];
+  let itineraryLine = [];
+
+  window.plotRoute = function () {
+    clearRoute();
+    Object.keys(layerGroups).forEach(function (k) { map.removeLayer(layerGroups[k]); });
+    itineraryMarkers.forEach(function (m) { map.removeLayer(m); });
+    itineraryMarkers = [];
+    itineraryLine.forEach(function (l) { map.removeLayer(l); });
+    itineraryLine = [];
+
+    ROUTE.forEach(function (stop, i) {
+      const icon = L.divIcon({
+        className: '',
+        html: '<div class="pin" style="--c:' + (i === 0 || i === ROUTE.length - 1 ? '#5b8cb8' : stop.color) + ';width:30px;height:30px;font-size:14px;">' +
+              '<span style="font-family:var(--font-mono);color:#fff;font-weight:800;font-size:12px;">' + (i + 1) + '</span></div>',
+        iconSize: [30, 30], iconAnchor: [15, 15]
+      });
+      const m = L.marker([stop.lat, stop.lon], { icon: icon }).addTo(map);
+      m.bindTooltip((i + 1) + '. ' + stop.name, { direction: 'top', offset: [0, -18] });
+      itineraryMarkers.push(m);
+    });
+
+    const segments = ROUTE.length - 1;
+    let completed = 0;
+    let allCoords = [];
+    const names = ROUTE.map(function (s) { return s.short ? s.short : s.name; });
+    let totalMin = 0, totalKm = 0;
+    const segDist = [0.3, 0.2, 0.45, 0.17, 0.28, 0.3, 0.5];
+    const segTime = [3, 2, 4, 2, 3, 3, 5];
+    segDist.forEach(function (d) { totalKm += d; });
+    segTime.forEach(function (t) { totalMin += t; });
+
+    for (let s = 0; s < segments; s++) {
+      (function (a, b) {
+        const url = 'https://router.project-osrm.org/route/v1/walking/' + a.lon + ',' + a.lat + ';' + b.lon + ',' + b.lat + '?overview=full&geometries=geojson';
+        fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+          completed++;
+          if (data && data.code === 'Ok' && data.routes && data.routes.length) {
+            const coords = data.routes[0].geometry.coordinates.map(function (c) { return [c[1], c[0]]; });
+            const line = L.polyline(coords, { color: '#cc785c', weight: 3.5, opacity: 0.85 }).addTo(map);
+            itineraryLine.push(line);
+            allCoords = allCoords.concat(coords);
+          } else {
+            const line = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: '#cc785c', weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+            itineraryLine.push(line);
+            allCoords.push([a.lat, a.lon], [b.lat, b.lon]);
+          }
+          if (completed === segments) {
+            map.fitBounds(L.latLngBounds(allCoords), { padding: [44, 44] });
+            document.getElementById('rsName').textContent = 'Full loop, 8 stops';
+            document.getElementById('rsMeta').textContent = '≈' + totalMin + ' min walking · ' + totalKm + ' km';
+            document.getElementById('routeSummary').classList.add('show');
+          }
+        }).catch(function () {
+          completed++;
+          const line = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: '#cc785c', weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+          itineraryLine.push(line);
+          allCoords.push([a.lat, a.lon], [b.lat, b.lon]);
+          if (completed === segments) {
+            map.fitBounds(L.latLngBounds(allCoords), { padding: [44, 44] });
+            document.getElementById('rsName').textContent = 'Full loop, 8 stops';
+            document.getElementById('rsMeta').textContent = '≈' + totalMin + ' min walking';
+            document.getElementById('routeSummary').classList.add('show');
+          }
+        });
+      })(ROUTE[s], ROUTE[s + 1]);
+    }
+
+    const btn = document.getElementById('btnPlot');
+    btn.classList.add('plotted');
+    btn.innerHTML = '✓ Plotted';
+    document.getElementById('resetAll').style.display = '';
+    document.getElementById('fitAll').style.display = 'none';
+  };
+
+  window.resetAll = function () {
+    itineraryMarkers.forEach(function (m) { map.removeLayer(m); });
+    itineraryMarkers = [];
+    itineraryLine.forEach(function (l) { map.removeLayer(l); });
+    itineraryLine = [];
+    clearRoute();
+    Object.keys(layerGroups).forEach(function (k) { layerGroups[k].addTo(map); });
+    document.querySelectorAll('.legend-chip').forEach(function (c) { c.classList.remove('off'); });
+    const all = L.featureGroup(Object.keys(markers).map(function (k) { return markers[k]; }));
+    map.fitBounds(all.getBounds(), { padding: [30, 30] });
+    const btn = document.getElementById('btnPlot');
+    btn.classList.remove('plotted');
+    btn.innerHTML = '🗺 Plot on Map';
+    document.getElementById('resetAll').style.display = 'none';
+    document.getElementById('fitAll').style.display = '';
+  };
+
+  function clearRoute() {
+    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
+    document.getElementById('routeSummary').classList.remove('show');
+  }
+  document.getElementById('routeClear').addEventListener('click', clearRoute);
+
+  document.getElementById('fitAll').addEventListener('click', function () {
+    const all = L.featureGroup(Object.keys(markers).map(function (k) { return markers[k]; }));
+    map.fitBounds(all.getBounds(), { padding: [30, 30] });
+  });
+})();
+</script>
+
+<div class="panel" id="panel" aria-hidden="true">
+  <div class="panel-head">
+    <button class="close-btn" id="panelClose" aria-label="Close">✕</button>
+    <div class="panel-title"><h2 id="panelName"></h2></div>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<style>
+/* Section cards (site list) */
+.cat-block{margin-bottom:22px}
+.cat-head{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.cat-head .c-swatch{width:12px;height:12px;border-radius:3px}
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:560px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;transition:box-shadow .15s ease,border-color .15s ease}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,0.07);border-color:var(--muted)}
+.card .card-top{display:flex;align-items:center;gap:10px}
+.card .card-emoji{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:2.5px solid var(--c);flex-shrink:0;background:#fff}
+.card .card-name{font-size:14px;font-weight:700;color:var(--ink);line-height:1.25}
+.card .card-note{font-size:12.5px;color:var(--body);margin-top:5px}
+
+/* Panel */
+.panel{position:fixed;z-index:1200;background:var(--surface);border:1px solid var(--hairline);box-shadow:0 -8px 30px rgba(0,0,0,0.12);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.panel .panel-head{padding:18px 18px 12px;border-bottom:1px solid var(--hairline-soft);position:relative}
+.panel .panel-title{display:flex;align-items:center;gap:10px;margin-top:4px}
+.panel .panel-title h2{font-size:20px;line-height:1.1}
+.panel .close-btn{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);font-size:16px;color:var(--body);cursor:pointer;line-height:1}
+.panel .close-btn:hover{background:var(--surface-alt)}
+.panel-body{padding:14px 18px;overflow-y:auto}
+.panel .note{font-size:13.5px;color:var(--body)}
+.gm-link{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:13px;font-weight:600;color:var(--coral);text-decoration:none}
+.gm-link:hover{text-decoration:underline}
+@media(max-width:700px){.panel{left:0;right:0;bottom:0;border-radius:20px 20px 0 0;max-height:60vh;transform:translateY(110%)}.panel.open{transform:translateY(0)}}
+@media(min-width:701px){.panel{right:24px;top:24px;bottom:24px;width:360px;border-radius:20px;transform:translateX(130%)}.panel.open{transform:translateX(0)}}
+</style>
 </body>
 </html>
