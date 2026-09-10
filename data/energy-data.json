@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-11T00:18:58.668185+09:30",
-  "timestamp_display": "11 Sep 2026 \u00b7 12:18 AM",
-  "timestamp_short": "12:18:58 AM",
+  "timestamp": "2026-09-11T00:20:59.471826+09:30",
+  "timestamp_display": "11 Sep 2026 \u00b7 12:20 AM",
+  "timestamp_short": "12:20:59 AM",
   "goodwe": {
-    "grid_power_w": 1,
+    "grid_power_w": -1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 45.4,
-    "battery_power_w": 299,
+    "inverter_temp_c": 45.9,
+    "battery_power_w": 572,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1497.7,
     "today_solar_kwh": 0.0,
@@ -17,7 +17,7 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 644.7,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 298,
+    "home_consumption_w": 573,
     "lifetime_export_kwh": 183.9,
     "lifetime_import_kwh": 23.4,
     "battery_temp_c": 20.1,
@@ -28,41 +28,36 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 24.5,
-    "sell_price_c": 7.5,
+    "current_price_c": 25.2,
+    "sell_price_c": 8.2,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 116.852,
+    "renewables": 113.864,
     "forward_prices": [
       {
-        "time": "00:20",
-        "price": 24.5,
-        "period": "offPeak"
-      },
-      {
         "time": "00:25",
-        "price": 24.3,
-        "period": "offPeak"
-      },
-      {
-        "time": "00:30",
-        "price": 24.5,
-        "period": "offPeak"
-      },
-      {
-        "time": "00:35",
         "price": 24.4,
         "period": "offPeak"
       },
       {
+        "time": "00:30",
+        "price": 24.4,
+        "period": "offPeak"
+      },
+      {
+        "time": "00:35",
+        "price": 24.3,
+        "period": "offPeak"
+      },
+      {
         "time": "00:40",
-        "price": 24.0,
+        "price": 24.3,
         "period": "offPeak"
       },
       {
         "time": "00:45",
-        "price": 23.7,
+        "price": 24.0,
         "period": "offPeak"
       },
       {
