@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Royal Adelaide Show — Family Day Timetable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#faf9f5; --surface:#ffffff; --surface-alt:#f0eeea;
+  --ink:#141413; --body:#5c5a55; --muted:#94918a;
+  --hairline:#e4e1db; --hairline-soft:#ece9e4;
+  --coral:#cc785c; --coral-hover:#a9583e;
+  --success:#1b8a3d; --warning:#c2680c; --danger:#c0392b;
+  --radius-card:20px;
+  --font-display:'Cormorant Garamond', Georgia, serif;
+  --font-body:'Inter', -apple-system, sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono', monospace;
+  --space-sm:10px; --space-md:18px; --space-lg:26px; --space-xl:32px;
+  --shadow-rest:0 1px 3px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas)}
+body{font-family:var(--font-body);color:var(--body);line-height:1.55;-webkit-text-size-adjust:100%}
+.container{max-width:920px;margin:0 auto;padding:var(--space-xl) var(--space-xl) calc(var(--space-xl)*2)}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink)}
+a{color:var(--coral)}
+
+/* Hero */
+.hero{padding:var(--space-lg) 0 var(--space-md)}
+.kicker{font-size:14px;font-weight:600;color:var(--coral);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.hero h1{font-size:clamp(30px,5.4vw,46px);line-height:1.08;font-weight:900}
+.hero .subtitle{font-size:clamp(15px,2.1vw,18px);color:var(--body);margin-top:12px;line-height:1.5}
+
+/* Section */
+.section{margin-top:var(--space-lg)}
+.section-header{margin-bottom:10px}
+.section-label{font-size:12px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:.1em}
+.section-title{font-family:var(--font-display);font-size:clamp(21px,3.4vw,28px);font-weight:800;color:var(--ink);margin-bottom:2px}
+
+/* Cards */
+.cards{display:grid;gap:var(--space-md)}
+@media(min-width:700px){.cards.cols-2{grid-template-columns:repeat(2,1fr)}.cards.cols-3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-md) var(--space-md);box-shadow:var(--shadow-rest)}
+.card.winner{border:2px solid var(--success);position:relative}
+.card-winner-tag{position:absolute;top:-11px;left:14px;background:var(--success);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px}
+.card .k{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.card .v{font-size:clamp(19px,3vw,25px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
+.card .d{font-size:13px;color:var(--body);margin-top:6px}
+
+/* Trains */
+.trip{border-left:4px solid var(--coral);background:var(--surface);border-radius:14px;padding:var(--space-md) var(--space-md)}
+.option{display:flex;flex-direction:column;gap:4px}
+.option .route{font-size:12px;font-family:var(--font-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.option .big{font-size:clamp(20px,3.2vw,27px);font-weight:800;color:var(--ink);font-family:var(--font-display)}
+.option .meta{font-size:13px;color:var(--body)}
+.tag{display:inline-block;background:var(--surface-alt);border:1px solid var(--hairline);color:var(--body);font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;margin:0 1px}
+.tag.good{background:#e7f4e9;border-color:#bfe0c5;color:var(--success)}
+
+/* Itinerary timeline */
+.tl{list-style:none;padding:0}
+.tl li{position:relative;padding:0 0 var(--space-md) 30px;margin:0}
+.tl li::before{content:'';position:absolute;left:4px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--coral)}
+.tl li:last-child::after{content:none}
+.tl .t{font-size:15px;font-weight:800;color:var(--ink);font-family:var(--font-mono)}
+.tl .d{font-size:14px;color:var(--body);margin-top:3px}
+
+/* Attraction rows */
+.attr{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:var(--space-md) var(--space-md);margin-bottom:10px}
+.attr .ic{font-size:22px;width:34px;text-align:center;flex-shrink:0}
+.attr .nm{font-size:16px;font-weight:700;color:var(--ink)}
+.attr .ds{font-size:13px;color:var(--body);margin-top:4px}
+.attr .hm{font-size:12px;font-weight:700;color:var(--coral);margin-top:4px}
+
+/* Notes / callout */
+.note{background:var(--surface-alt);border:1px solid var(--hairline);border-left:4px solid var(--warning);border-radius:12px;padding:var(--space-md);font-size:14px;color:var(--body)}
+.note b{color:var(--ink)}
+
+/* Tables */
+.table-wrap{overflow-x:auto}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+.table-wrap table th,table td{padding:9px 12px;border-bottom:1px solid var(--hairline-soft);text-align:left}
+thead th{color:var(--muted);font-weight:600}
+
+footer{padding:var(--space-lg) 0;color:var(--muted);font-size:12px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">Friday 11 September 2026</div>
+    <h1>Royal Adelaide Show<br>— Family Day</h1>
+    <p class="subtitle">A train-and-back plan for the family: real timings, the walking route, and the best of the Show on the ground before we head home to get ready.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">At a glance</div>
+      <div class="section-title">The essentials</div>
+    </div>
+    <div class="cards cols-3">
+      <div class="card"><div class="k">Train in</div><div class="v">9:47&nbsp;am</div><div class="d">Mitcham → Showground, 8 min</div></div>
+      <div class="card"><div class="k">On the ground</div><div class="v">~9:55&nbsp;am</div><div class="d">Until we head to the station</div></div>
+      <div class="card"><div class="k">Show hours</div><div class="v">9&nbsp;am–11&nbsp;pm</div><div class="d">Gates open 9&nbsp;am; Friday carnival till 11&nbsp;pm</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Getting there &amp; home</div>
+      <div class="section-title">Train timetable</div>
+    </div>
+
+    <div style="margin-bottom:6px" class="section-label">Outbound — Mitcham → Adelaide Showground</div>
+    <div class="trip" style="margin-top:10px">
+      <div class="option">
+        <div class="route">Belair line · 8 min · direct</div>
+        <div class="big">Depart Mitcham 9:47&nbsp;am → arrive Showground 9:55&nbsp;am</div>
+        <div class="meta">Right on time for a full morning. Alternative 9:14&nbsp;am → 9:22&nbsp;am if you'd rather be early.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px" class="section-label">Return — Adelaide Showground → Mitcham</div>
+    <div class="trip" style="margin-top:10px">
+      <div class="option">
+        <div class="route">Belair line · 10 min · direct</div>
+        <div class="big">Depart Showground 2:38&nbsp;pm → arrive Mitcham 2:48&nbsp;pm</div>
+        <div class="meta">Fits the "leave around 2:30" plan. Earlier option: depart 2:03&nbsp;pm → home 2:13&nbsp;pm if the kids are done.</div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      <b>Leave the Show by ~2:15–2:30&nbsp;pm</b> to be on the 2:38 train and home by 2:48 — hours of buffer before getting the family ready.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">On the ground</div>
+      <div class="section-title">Walking route</div>
+    </div>
+    <p style="font-size:14px;color:var(--body);margin-bottom:8px">The station sits right against the showgrounds on the Goodwood Road side — no shuttle needed.</p>
+    <ul class="tl">
+      <li><span class="t">Adelaide Showground Station</span><div class="d">Get off and follow the footbridge / path towards Goodwood Road.</div></li>
+      <li><span class="t">Main gates — Goodwood Road</span><div class="d">Two minutes' walk. Tap in, scan tickets, pick up a map.</div></li>
+      <li><span class="t">Showbags first (left)</span><div class="d">Grab the bags early when queues are shortest.</div></li>
+      <li><span class="t">Animals &amp; Aggie's Farm (south)</span><div class="d">Ring, woodchop and farmyard — a to-do when the kids tire of walking.</div></li>
+      <li><span class="t">Main Arena &amp; food (centre)</span><div class="d">Lunch stop and arena ring, then rides on the way back out.</div></li>
+      <li><span class="t">Back to the station (~2:15)</span><div class="d">Walk back the way we came — the exit is beside the entrance.</div></li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Suggested flow</div>
+      <div class="section-title">How the morning runs</div>
+    </div>
+    <ul class="tl">
+      <li><span class="t">9:47</span><div class="d">Train leaves Mitcham.</div></li>
+      <li><span class="t">9:55</span><div class="d">At the Showground gates ~9:58. Pick up the map.</div></li>
+      <li><span class="t">10:00–10:30</span><div class="d">Showbags — done while lines are short.</div></li>
+      <li><span class="t">10:30–11:30</span><div class="d">Aggie's Farm, sheep and farmyard animals — the kids' favourite.</div></li>
+      <li><span class="t">11:30–12:30</span><div class="d">Woodchop / craft &amp; horticulture pavilions.</div></li>
+      <li><span class="t">12:30–1:30</span><div class="d">Lunch at the food courts, rest legs.</div></li>
+      <li><span class="t">1:30–2:15</span><div class="d">Carnival rides on the way back towards the station.</div></li>
+      <li><span class="t">2:15–2:30</span><div class="d">Head out, back to the platform.</div></li>
+      <li><span class="t">2:38</span><div class="d">Return train → home 2:48, ready for the shoot.</div></li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">What to see</div>
+      <div class="section-title">Attractions &amp; timings</div>
+    </div>
+    <div class="attr"><div class="ic">🛍️</div><div><div class="nm">Showbag Pavilions</div><div class="ds">Multiple halls packed with showbags. Best cleared first.</div><div class="hm">Open all day from 9&nbsp;am</div></div></div>
+    <div class="attr"><div class="ic">🐑</div><div><div class="nm">Aggie's Farm &amp; Farmyard Animals</div><div class="ds">Sheep, cows, chicks — hands-on for the kids.</div><div class="hm">Open through the day</div></div></div>
+    <div class="attr"><div class="ic">🪵</div><div><div class="nm">Woodchopping</div><div class="ds">The classic axe-swinging competition — several heats through the day.</div><div class="hm">Multiple daytime sessions</div></div></div>
+    <div class="attr"><div class="ic">🛞</div><div><div class="nm">Carnival &amp; Side Show Alley</div><div class="ds">Rides and games. Leave these for the final hour before we leave.</div><div class="hm">Open all day</div></div></div>
+    <div class="attr"><div class="ic">🎡</div><div><div class="nm">Main Arena headliners</div><div class="ds">Human Cannon, Hot Wheels Burnout Inferno — the big ring shows run in the evening.</div><div class="hm">Evening — we'll miss these</div></div></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">Exact session times shift by day — glance at the official app / what's-on for the slot when you're inside.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Notes</div>
+      <div class="section-title">Before you go</div>
+    </div>
+    <div class="table-wrap"><div class="table-scroll">
+    <table>
+      <tbody>
+        <tr><td><b>Tickets</b></td><td>Family pass $69 booked — matches the calendar note. Kids under 5 free.</td></tr>
+        <tr><td><b>metroCARD</b></td><td>Adelaide Metro is cashless — load/check your card <b>before</b> boarding.</td></tr>
+        <tr><td><b>Belair line</b></td><td>Night-time works only; Friday daytime runs to the Showground as normal.</td></tr>
+        <tr><td><b>Photo shoot</b></td><td><b>5:30–7:00&nbsp;pm</b> (Little Things Photography) — leave the Show with real buffer either way.</td></tr>
+        <tr><td><b>Weather</b></td><td>Check the forecast; comfortable shoes for the kids.</td></tr>
+      </tbody>
+    </table>
+    </div></div>
+  </section>
+
+  <footer>
+    Prepared by Gary for Josh &amp; Amy · Friday 11 September 2026 · Royal Adelaide Show, Adelaide Showground, Wayville.<br>
+    Train times from Adelaide Metro / Google Maps, checked Thursday 10 September 2026.
+  </footer>
+
+</div>
+</body>
+</html>
