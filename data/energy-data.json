@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-11T23:04:23.165419+09:30",
-  "timestamp_display": "11 Sep 2026 \u00b7 11:04 PM",
-  "timestamp_short": "11:04:23 PM",
+  "timestamp": "2026-09-11T23:06:23.848427+09:30",
+  "timestamp_display": "11 Sep 2026 \u00b7 11:06 PM",
+  "timestamp_short": "11:06:23 PM",
   "goodwe": {
-    "grid_power_w": 1,
+    "grid_power_w": 8,
     "grid_direction": "Idle",
-    "inverter_temp_c": 41.0,
-    "battery_power_w": 417,
+    "inverter_temp_c": 42.5,
+    "battery_power_w": 451,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 1557.6,
     "today_solar_kwh": 59.9,
@@ -17,7 +17,7 @@
     "today_bat_charge_kwh": 21.0,
     "lifetime_bat_discharge_kwh": 666.8,
     "today_bat_discharge_kwh": 22.1,
-    "home_consumption_w": 416,
+    "home_consumption_w": 443,
     "lifetime_export_kwh": 187.5,
     "lifetime_import_kwh": 23.5,
     "battery_temp_c": 27.4,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 39.5,
-    "sell_price_c": 10.5,
+    "current_price_c": 39.9,
+    "sell_price_c": 10.8,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 46.851,
+    "renewables": 46.692,
     "forward_prices": [
-      {
-        "time": "23:05",
-        "price": 39.7,
-        "period": "peak"
-      },
       {
         "time": "23:10",
         "price": 39.5,
@@ -47,24 +42,24 @@
       },
       {
         "time": "23:15",
-        "price": 39.4,
+        "price": 39.6,
         "period": "peak"
       },
       {
         "time": "23:20",
-        "price": 39.1,
+        "price": 39.5,
         "period": "peak"
       },
       {
         "time": "23:25",
-        "price": 39.1,
+        "price": 39.5,
         "period": "peak"
       }
     ],
-    "next_peak_c": 39.7,
-    "next_peak_time": "23:05",
-    "next_trough_c": 39.1,
-    "next_trough_time": "23:20"
+    "next_peak_c": 39.6,
+    "next_peak_time": "23:15",
+    "next_trough_c": 39.5,
+    "next_trough_time": "23:10"
   },
   "today": {
     "solar_kwh": 59.9,
