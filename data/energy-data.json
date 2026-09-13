@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-13T23:14:17.959225+09:30",
-  "timestamp_display": "13 Sep 2026 \u00b7 11:14 PM",
-  "timestamp_short": "11:14:17 PM",
+  "timestamp": "2026-09-13T23:16:18.732694+09:30",
+  "timestamp_display": "13 Sep 2026 \u00b7 11:16 PM",
+  "timestamp_short": "11:16:18 PM",
   "goodwe": {
-    "grid_power_w": -368,
+    "grid_power_w": -372,
     "grid_direction": "Importing",
-    "inverter_temp_c": 41.3,
-    "battery_power_w": 13,
+    "inverter_temp_c": 39.4,
+    "battery_power_w": 9,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 1639.7,
     "today_solar_kwh": 21.1,
@@ -19,7 +19,7 @@
     "today_bat_discharge_kwh": 16.4,
     "home_consumption_w": 381,
     "lifetime_export_kwh": 194.5,
-    "lifetime_import_kwh": 24.5,
+    "lifetime_import_kwh": 24.6,
     "battery_temp_c": 21.2,
     "battery_soc_pct": 10,
     "battery_soh_pct": 100,
@@ -33,28 +33,23 @@
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 73.673,
+    "renewables": 74.763,
     "forward_prices": [
       {
-        "time": "23:15",
-        "price": 36.5,
-        "period": "peak"
-      },
-      {
         "time": "23:20",
-        "price": 36.5,
+        "price": 32.2,
         "period": "peak"
       },
       {
         "time": "23:25",
-        "price": 34.7,
+        "price": 32.2,
         "period": "peak"
       }
     ],
-    "next_peak_c": 36.5,
-    "next_peak_time": "23:15",
-    "next_trough_c": 34.7,
-    "next_trough_time": "23:25"
+    "next_peak_c": 32.2,
+    "next_peak_time": "23:20",
+    "next_trough_c": 32.2,
+    "next_trough_time": "23:20"
   },
   "today": {
     "solar_kwh": 21.1,
@@ -62,8 +57,8 @@
     "import_kwh": 0.3,
     "export_kwh": 29.8,
     "grid_export_kwh": 65.37,
-    "grid_import_kwh": 1.55,
-    "grid_import_cost_dollars": 0.47,
+    "grid_import_kwh": 1.56,
+    "grid_import_cost_dollars": 0.48,
     "grid_export_revenue_dollars": -1.49,
     "battery_charge_kwh": 3.1,
     "battery_discharge_kwh": 16.4
