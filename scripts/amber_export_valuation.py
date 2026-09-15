@@ -13,7 +13,7 @@ For every day in range (back to the 90-day API reach):
 
 Output: data/export-valuation.json  (used by energy.html Calendar tab)
 """
-import json, ssl, urllib.request, os, re, sys
+import json, ssl, urllib.request, os, re, sys, subprocess
 from datetime import date, timedelta, datetime, timezone
 from collections import defaultdict
 
@@ -56,6 +56,21 @@ def fetch_usage(start_str, end_str):
 
 
 def load_goodwe_history():
+    # Read from the `data` branch ref directly (via git), NOT the working tree.
+    # The `main` working-tree copy is stale/reverted every cycle by the 2-min
+    # collect cron (git reset --hard / checkout -f), so recent days are missing
+    # there. The accumulated GoodWe snapshot lives on origin/data.
+    repo = os.path.expanduser("~/Projects/gary-pages")
+    try:
+        out = subprocess.run(
+            ["git", "-C", repo, "show", "origin/data:data/energy-history.json"],
+            capture_output=True, text=True, timeout=30, check=True,
+        ).stdout
+        data = json.loads(out)
+        if data:
+            return {e["date"]: e for e in data}
+    except Exception:
+        pass
     p = os.path.join(GARY_PAGES, "data", "energy-history.json")
     try:
         with open(p) as f:
