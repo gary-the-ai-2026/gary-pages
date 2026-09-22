@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-09-23T04:02:59.967564+09:30",
-  "timestamp_display": "23 Sep 2026 \u00b7 4:02 AM",
-  "timestamp_short": "4:02:59 AM",
+  "timestamp": "2026-09-23T04:05:00.648579+09:30",
+  "timestamp_display": "23 Sep 2026 \u00b7 4:05 AM",
+  "timestamp_short": "4:05:00 AM",
   "goodwe": {
-    "grid_power_w": 3,
+    "grid_power_w": 0,
     "grid_direction": "Idle",
-    "inverter_temp_c": 44.9,
-    "battery_power_w": 368,
-    "battery_mode": "Standby",
+    "inverter_temp_c": 45.5,
+    "battery_power_w": 373,
+    "battery_mode": "Discharge",
     "lifetime_solar_kwh": 2160.7,
     "today_solar_kwh": 0.0,
     "today_export_kwh": 0.7,
@@ -17,7 +17,7 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 804.6,
     "today_bat_discharge_kwh": 0.2,
-    "home_consumption_w": 365,
+    "home_consumption_w": 373,
     "lifetime_export_kwh": 413.9,
     "lifetime_import_kwh": 28.0,
     "battery_temp_c": 19.8,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 28.9,
-    "sell_price_c": 11.4,
+    "current_price_c": 28.5,
+    "sell_price_c": 11.1,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 93.176,
+    "renewables": 95.162,
     "forward_prices": [
-      {
-        "time": "04:05",
-        "price": 28.5,
-        "period": "offPeak"
-      },
       {
         "time": "04:10",
         "price": 28.6,
