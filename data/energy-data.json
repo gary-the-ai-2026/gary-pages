@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-22T18:58:18.171079+09:30",
-  "timestamp_display": "22 Sep 2026 \u00b7 6:58 PM",
-  "timestamp_short": "6:58:18 PM",
+  "timestamp": "2026-09-22T19:00:18.737725+09:30",
+  "timestamp_display": "22 Sep 2026 \u00b7 7:00 PM",
+  "timestamp_short": "7:00:18 PM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": 3,
     "grid_direction": "Idle",
-    "inverter_temp_c": 43.6,
-    "battery_power_w": 1059,
+    "inverter_temp_c": 44.3,
+    "battery_power_w": 1068,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 2160.7,
     "today_solar_kwh": 64.8,
@@ -15,9 +15,9 @@
     "today_load_kwh": 48.9,
     "lifetime_bat_charge_kwh": 892.2,
     "today_bat_charge_kwh": 23.2,
-    "lifetime_bat_discharge_kwh": 798.0,
-    "today_bat_discharge_kwh": 15.2,
-    "home_consumption_w": 1057,
+    "lifetime_bat_discharge_kwh": 798.1,
+    "today_bat_discharge_kwh": 15.3,
+    "home_consumption_w": 1065,
     "lifetime_export_kwh": 413.9,
     "lifetime_import_kwh": 27.9,
     "battery_temp_c": 26.9,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 39.4,
-    "sell_price_c": 10.4,
+    "current_price_c": 39.9,
+    "sell_price_c": 10.8,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 38.696999999999996,
+    "renewables": 39.491,
     "forward_prices": [
-      {
-        "time": "19:00",
-        "price": 39.9,
-        "period": "peak"
-      },
       {
         "time": "19:05",
         "price": 39.9,
@@ -124,6 +119,11 @@
         "time": "22:30",
         "price": 39.0,
         "period": "peak"
+      },
+      {
+        "time": "23:00",
+        "price": 40.2,
+        "period": "peak"
       }
     ],
     "next_peak_c": 40.9,
@@ -141,7 +141,7 @@
     "grid_import_cost_dollars": 0.02,
     "grid_export_revenue_dollars": -0.99,
     "battery_charge_kwh": 23.2,
-    "battery_discharge_kwh": 15.2
+    "battery_discharge_kwh": 15.3
   },
   "yesterday": {
     "solar_kwh": 50.0,
