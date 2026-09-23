@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="robots" content="noindex,nofollow">
+<title>Disney Cruise Singapore — Oct 2027 · Trip & Resort Deck</title>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --radius-btn: 6px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--canvas); color:var(--body); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.container { max-width:920px; margin:0 auto; padding:0 20px; }
+@media (min-width:700px){ .container { padding:0 32px; } }
+section.section { padding:52px 0; }
+.hero { padding:64px 0 48px; }
+.kicker { font-size:0.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--coral); margin-bottom:12px; }
+h1 { font-family:var(--font-display); font-weight:900; font-size:clamp(1.8rem,6vw,3.2rem); color:var(--ink); line-height:1.1; }
+.subtitle { font-size:1rem; color:var(--body); max-width:540px; margin-top:12px; }
+.section-header { margin-bottom:24px; }
+.section-label { font-size:0.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--coral); }
+.section-title { font-family:var(--font-display); font-weight:900; font-size:clamp(1.6rem,4vw,2.4rem); color:var(--ink); margin-top:4px; }
+
+/* Timeline */
+.timeline { display:flex; flex-direction:column; gap:0; }
+.tl-step { display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--hairline-soft); }
+.tl-step:last-child { border-bottom:none; }
+.tl-rail { display:flex; flex-direction:column; align-items:center; }
+.tl-dot { width:14px; height:14px; border-radius:50%; background:var(--coral); margin-top:6px; flex:none; }
+.tl-connector { width:2px; flex:1; background:var(--hairline); }
+.tl-date { font-family:var(--font-mono); font-size:0.8rem; color:var(--coral); font-weight:600; width:130px; flex:none; padding-top:4px; }
+.tl-nights { font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); margin-top:2px; }
+.tl-body h3 { font-family:var(--font-display); font-weight:900; font-size:1.2rem; color:var(--ink); }
+.tl-body p { font-size:0.9rem; margin-top:4px; }
+
+/* Cards */
+.cards { display:grid; grid-template-columns:1fr; gap:16px; }
+@media (min-width:700px){ .cards.cols-3 { grid-template-columns:repeat(3,1fr); } .cards.cols-2 { grid-template-columns:repeat(2,1fr); } }
+.card { background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius-card); padding:24px; box-shadow:var(--shadow-rest); transition:transform .15s ease, box-shadow .15s ease; }
+.card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
+.card-name { font-family:var(--font-display); font-weight:900; font-size:1.35rem; color:var(--ink); }
+.card-tier { font-size:0.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:600; margin-top:2px; }
+.card-price { font-family:var(--font-mono); font-size:1.35rem; font-weight:500; color:var(--ink); margin-top:10px; }
+.card-price-label { font-size:0.72rem; color:var(--muted); }
+.card-price-note { font-size:0.72rem; color:var(--muted); margin-top:2px; line-height:1.4; }
+.specs { margin-top:16px; border-top:1px solid var(--hairline-soft); padding-top:12px; }
+.spec { display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid var(--hairline-soft); font-size:0.85rem; }
+.spec:last-child { border-bottom:none; }
+.spec-label { color:var(--muted); flex:none; }
+.spec-value { text-align:right; color:var(--ink); font-weight:500; }
+.spec-value.good { color:var(--success); }
+.spec-value.warn { color:var(--warning); }
+.spec-value.red { color:var(--danger); }
+.tag { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; padding:3px 8px; border-radius:6px; margin-top:10px; }
+.tag.coral { background:rgba(204,120,92,0.12); color:var(--coral-hover); }
+.tag.blue { background:rgba(91,140,184,0.12); color:#3e6f9e; }
+.tag.value { background:rgba(194,104,12,0.12); color:var(--warning); }
+
+/* Verdict-ish comparison bars */
+.bar-row { display:flex; align-items:center; gap:12px; margin:8px 0; }
+.bar-label { width:150px; flex:none; font-size:0.82rem; color:var(--muted); }
+.bar-track { flex:1; height:8px; background:var(--hairline); border-radius:4px; overflow:hidden; }
+.bar-fill { display:block; height:100%; background:var(--coral); border-radius:4px; min-width:2px; }
+.bar-val { font-family:var(--font-mono); font-size:0.78rem; color:var(--ink); width:88px; text-align:right; flex:none; }
+
+/* Tables */
+.table-wrap { background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius-card); padding:8px; box-shadow:var(--shadow-rest); overflow:hidden; }
+.table-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+th { font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); text-align:left; padding:12px 16px; font-weight:600; }
+td { padding:12px 16px; border-top:1px solid var(--hairline-soft); color:var(--body); }
+tbody tr:nth-child(even) { background:rgba(0,0,0,0.012); }
+td.win { color:var(--success); font-weight:600; }
+td .muted { color:var(--muted); }
+td.mono { font-family:var(--font-mono); }
+
+/* Insight */
+.insight { background:var(--surface-alt); border-left:3px solid var(--coral); border-radius:12px; padding:18px 22px; font-size:0.88rem; margin-top:20px; }
+.insight.good { border-left-color:var(--success); }
+.insight.warn { border-left-color:var(--warning); }
+.insight strong { color:var(--ink); }
+
+footer { padding:40px 0 60px; font-size:0.78rem; color:var(--muted); border-top:1px solid var(--hairline); margin-top:40px; }
+@media (max-width:480px){ .tl-date { width:104px; } .bar-label { width:118px; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">Singapore · October 2027 · Family of Four</div>
+    <h1>Disney Cruise Singapore — the Deck</h1>
+    <p class="subtitle">Ten nights all up — a Sentosa resort stay plus the Disney Adventure cruise out of Marina Bay. Everything on one page for Josh &amp; Amy to weigh together.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">The Trip</div>
+      <div class="section-title">10 nights, one direction</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-rail"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-date">Sat 25 Sep<div class="tl-nights">1 night</div></div>
+        <div class="tl-body"><h3>Fly in &amp; settle</h3><p>ADL → Singapore. Land, adjust off the long-haul flight before anything scheduled.</p></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-rail"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-date">Sun 26 – Thu 30<div class="tl-nights">5 nights</div></div>
+        <div class="tl-body"><h3>Resort stay — ONE pick</h3><p>Five relaxed nights at a Sentosa resort with pool-and-beach time for the kids.</p></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-rail"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-date">Fri 1 – Mon 4 Oct<div class="tl-nights">4 nights</div></div>
+        <div class="tl-body"><h3>Disney Adventure cruise</h3><p>Boards Friday 1 Oct at Marina Bay. Four-night sailing (choose the Langkawi port-stop variant from Dec 2026).</p></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-rail"><div class="tl-dot"></div></div>
+        <div class="tl-date">Tue 5 Oct<div class="tl-nights">fly home</div></div>
+        <div class="tl-body"><h3>Disembark &amp; return</h3><p>Off the ship in the morning, fly home.</p></div>
+      </div>
+    </div>
+    <div class="insight warn"><strong>Why resort-first, cruise-second:</strong> land and decompress at the resort before a fixed Disney embarkation window — tired, jet-lagged kids on a booked itinerary is the one thing to avoid. Rest, then finish strong on the cruise.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">The Cruise</div>
+      <div class="section-title">Disney Adventure</div>
+    </div>
+    <div class="card">
+      <div class="card-name">Disney Adventure</div>
+      <div class="card-tier">Disney Cruise Line · Marina Bay, Singapore</div>
+      <div class="card-price">~A$4,000–4,800</div>
+      <div class="card-price-label">family of 4 · 4-night · one inside cabin · estimate</div>
+      <div class="card-price-note">Oct 2027 sailings already open (public booking 8 Sep 2026). Book 3+ months out to save 15–25%; peak weeks cost more.</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Ship</span><span class="spec-value">Disney's largest — ~6,000 guests</span></div>
+        <div class="spec"><span class="spec-label">Itinerary</span><span class="spec-value">Fri–Mon; Langkawi port-stop variant from Dec 2026</span></div>
+        <div class="spec"><span class="spec-label">Kids' clubs</span><span class="spec-value">Oceaneer 3–12 · Edge · Vibe</span></div>
+        <div class="spec"><span class="spec-label">Shows</span><span class="spec-value">Avengers Assemble! · Moana · Lion King fireworks</span></div>
+        <div class="spec"><span class="spec-label">Dining</span><span class="spec-value">Rotational, 6 restaurants incl. buffets</span></div>
+        <div class="spec"><span class="spec-label">Extras</span><span class="spec-value" class="warn">gratuities · wifi · alcohol</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Family &amp; Amy to weigh</div>
+      <div class="section-title">The three resorts — no winner declared</div>
+    </div>
+    <p class="subtitle" style="margin-bottom:24px;">Three genuinely different Sentosa stays. Rates are current published 2026 levels as a proxy — Oct 2027 isn't open yet (~13 months out). All sleep the family of four; pick the one whose character you want for five nights.</p>
+
+    <div class="cards cols-3">
+      <div class="card">
+        <span class="tag coral">Beach · kids' club</span>
+        <div class="card-name" style="margin-top:12px;">Shangri-La Rasa</div>
+        <div class="card-tier">Sentosa's only beachfront resort</div>
+        <div class="card-price">~A$600–850<span style="font-size:0.7em;color:var(--muted);"> /n</span></div>
+        <div class="card-price-label">family / sea-view room</div>
+        <div class="specs">
+          <div class="spec"><span class="spec-label">Feel</span><span class="spec-value">true beach resort</span></div>
+          <div class="spec"><span class="spec-label">Kids' club</span><span class="spec-value good">Cool Zone · ages 5–12</span></div>
+          <div class="spec"><span class="spec-label">Pools</span><span class="spec-value">freeform + splash pad + slides</span></div>
+          <div class="spec"><span class="spec-label">Universal</span><span class="spec-value">~7 min</span></div>
+          <div class="spec"><span class="spec-label">Cruise day</span><span class="spec-value warn">~20–40 min cross-water</span></div>
+          <div class="spec"><span class="spec-label">Caveat</span><span class="spec-value">busy on holidays</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag blue">Premium · parks</span>
+        <div class="card-name" style="margin-top:12px;">Equarius, RWS</div>
+        <div class="card-tier">Upscale · steps from Universal</div>
+        <div class="card-price">~A$860–1,150<span style="font-size:0.7em;color:var(--muted);"> /n</span></div>
+        <div class="card-price-label">family suite (room from ~$450)</div>
+        <div class="specs">
+          <div class="spec"><span class="spec-label">Feel</span><span class="spec-value">quiet, upscale</span></div>
+          <div class="spec"><span class="spec-label">Universal</span><span class="spec-value good">~7–10 min walk</span></div>
+          <div class="spec"><span class="spec-label">Waterpark</span><span class="spec-value good">Adventure Cove back-gate</span></div>
+          <div class="spec"><span class="spec-label">Suite</span><span class="spec-value">130 sqm, sleeps 4</span></div>
+          <div class="spec"><span class="spec-label">Pool</span><span class="spec-value warn">lap pool only, no toddler splash</span></div>
+          <div class="spec"><span class="spec-label">Beach</span><span class="spec-value red">not beachfront</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag value">Value · pools</span>
+        <div class="card-name" style="margin-top:12px;">Village Sentosa</div>
+        <div class="card-tier">Mid-tier · the value leader</div>
+        <div class="card-price">~A$850–1,150<span style="font-size:0.7em;color:var(--muted);"> /n</span></div>
+        <div class="card-price-label">family / connecting room</div>
+        <div class="specs">
+          <div class="spec"><span class="spec-label">Feel</span><span class="spec-value">bright, busy, kid-centric</span></div>
+          <div class="spec"><span class="spec-label">Pools</span><span class="spec-value good">4 themed · lazy river</span></div>
+          <div class="spec"><span class="spec-label">Bathrooms</span><span class="spec-value good">two in family rooms</span></div>
+          <div class="spec"><span class="spec-label">Kids' club</span><span class="spec-value">daily programme</span></div>
+          <div class="spec"><span class="spec-label">Room</span><span class="spec-value warn">compact for 4 · little storage</span></div>
+          <div class="spec"><span class="spec-label">Breakfast</span><span class="spec-value">extra · busy</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight"><strong>Hard Rock Hotel Sentosa — dead lead.</strong> Earlier research flirted with it as the premium option; it <strong>closed in March 2024</strong> for redevelopment. Equarius replaced it as the live on-site premium pick.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Head to Head</div>
+      <div class="section-title">Side by side</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th></th><th>Shangri-La Rasa</th><th>Equarius</th><th>Village</th></tr></thead>
+        <tbody>
+          <tr><td>Character</td><td>beach resort</td><td>upscale parks</td><td>value pools</td></tr>
+          <tr><td>Beachfront</td><td class="win">yes — only one</td><td class="muted">no</td><td class="muted">no</td></tr>
+          <tr><td>Kids' club</td><td class="win">Cool Zone 5–12</td><td class="muted">none formal</td><td>daily programme</td></tr>
+          <tr><td>Pool for littlies</td><td class="win">splash pad + slides</td><td class="muted">lap only</td><td class="win">lazy river + slides</td></tr>
+          <tr><td>Universal Studios</td><td>~7 min</td><td class="win">~7–10 min walk</td><td>~10–15 min</td></tr>
+          <tr><td>Two bathrooms</td><td class="muted">interconnecting opt</td><td class="muted">connecting opt</td><td class="win">standard</td></tr>
+          <tr><td>~Nightly (family)</td><td class="mono">$600–850</td><td class="mono">$860–1,150</td><td class="mono">$850–1,150</td></tr>
+          <tr><td>Cruise-day transfer</td><td class="muted">20–40 min</td><td>~15–20 min</td><td>20–30 min</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Prepared for Josh &amp; Amy Hancock · 23 Sep 2026 · All resort prices are current-2026 proxies for a family-occupancy room; Oct 2027 rates confirm once they open (~13 months out). Cruise estimate excludes flights, gratuities, wifi and extras. Hard Rock Hotel Sentosa closed Mar 2024 — not included.
+  </footer>
+
+</div>
+</body>
+</html>
