@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Amber vs Origin SSO — 30-Day Actuals</title>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#faf9f5;--surface:#ffffff;--surface-alt:#f0eeea;--ink:#141413;--body:#5c5a55;
+  --muted:#94918a;--hairline:#e4e1db;--coral:#cc785c;--success:#1b8a3d;--warning:#c2680c;
+  --danger:#c0392b;--radius-card:20px;
+  --font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Inter',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--canvas);color:var(--body);font-family:var(--font-body);line-height:1.5;-webkit-text-size-adjust:100%}
+.container{max-width:920px;margin:0 auto;padding:48px 24px}
+.hero{text-align:center;padding:8px 0 28px}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+h1{font-family:var(--font-display);font-size:clamp(30px,5vw,46px);color:var(--ink);margin:0 0 6px}
+.subtitle{font-size:15px;color:var(--body);max-width:640px;margin:0 auto}
+.section{max-width:920px;margin:0 auto 40px;padding:26px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card)}
+.section h2{font-family:var(--font-display);font-size:22px;color:var(--ink);margin-bottom:18px}
+.verdict{max-width:920px;margin:40px auto 0;padding:32px 28px;background:var(--surface);border:2px solid var(--success);border-radius:var(--radius-card)}
+.verdict .badge{display:inline-block;background:#1b8a3d;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 12px;border-radius:999px;margin-bottom:14px}
+.verdict h2{font-family:var(--font-display);font-size:26px;color:var(--ink);margin:0 0 12px}
+.verdict ol{margin:10px 0 0;padding-left:22px}
+.verdict li{color:var(--body);margin-bottom:8px}
+.big-num{font-family:var(--font-mono);font-size:clamp(34px,6vw,54px);color:var(--ink);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat{padding:16px 14px;background:var(--surface-alt);border-radius:14px}
+.stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.stat .v{font-family:var(--font-mono);font-size:22px;color:var(--ink);font-weight:700;margin:6px 0 2px}
+.stat .s{font-size:11px;color:var(--body)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--hairline-soft,#ece9e4)}
+th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+tr.win td:last-child{color:var(--success);font-weight:700}
+.row-flex{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.bar-track{flex:1;height:12px;margin:14px 0;box-shadow:inset 0 1px 2px rgba(0,0,0,.05)}
+.bar-fill{display:block;height:12px;border-radius:999px}
+.note{font-size:12px;color:var(--muted);margin-top:14px}
+.footer{max-width:920px;margin:40px auto 56px;padding:20px 24px;color:var(--muted);font-size:12px;font-family:var(--font-mono)}
+a{color:var(--warning)}
+@media(max-width:640px){.container{padding:28px 16px}.section{padding:20px}.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<section class="hero">
+  <div class="kicker">Hancock Energy · 30-Day Actuals · 27 Jul – 26 Aug 2026</div>
+  <h1>Amber vs Origin SSO</h1>
+  <p class="subtitle">Same actual usage, two retailers — built from the real Amber bill (133.41&nbsp;kWh imported · 114.94&nbsp;kWh exported).</p>
+</section>
+
+<div class="verdict">
+  <span class="badge">Our Pick</span>
+  <h2>Stay on Amber</h2>
+  <div class="big-num">$86.76<span style="font-size:16px;color:var(--body)"> /mo v&nbsp;$105–114</span></div>
+  <ol>
+    <li><strong>Network supply charges are identical</strong> — $1.0526/day (network + metering) is an SA&nbsp;Power&nbsp;Networks pass-through every retailer bills unchanged.</li>
+    <li>The real gap is <strong>feed-in</strong>: Amber pays wholesale 11.12c/kWh; Origin SSO pays a fixed 2c — a $10.48/month loss on the same 115&nbsp;kWh.</li>
+    <li>Origin&rsquo;s retail fee ($23.19 baked into supply) ≈ Amber&rsquo;s subscription ($23.16) — a wash.</li>
+    <li>Origin&rsquo;s free 12–3pm window can&rsquo;t rescue it here: at 58.84c peak TOU its usage cost overshoots, and the 2c feed-in dwarfs the benefit.</li>
+  </ol>
+  <p class="note">Net 31-day cost: Amber $86.76 · Origin SSO ~$105–114 (2c FiT) / ~$98–107 (8c Solar Boost). Even the better Origin variant loses.</p>
+</div>
+
+<section class="section">
+  <h2>What the Amber bill actually charged</h2>
+  <table>
+    <thead><tr><th>Component</th><th>Rate</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Usage (incl. wholesale, env, hedging, market)</td><td class="mono" style="font-family:var(--font-mono)">blended 26.0c</td><td>$34.71</td></tr>
+      <tr><td>Network daily supply</td><td style="font-family:var(--font-mono)">$0.6552/day</td><td>$20.31</td></tr>
+      <tr><td>Metering</td><td style="font-family:var(--font-mono)">$0.3974/day</td><td>$12.32</td></tr>
+      <tr><td>Amber subscription</td><td style="font-family:var(--font-mono)">$0.7471/day</td><td>$23.16</td></tr>
+      <tr><td>GST 10%</td><td></td><td>$9.04</td></tr>
+      <tr><td><strong>Charges subtotal</strong></td><td></td><td><strong>$99.54</strong></td></tr>
+      <tr><td class="win" style="color:var(--success)">Solar export credit (114.94 kWh)</td><td style="font-family:var(--font-mono)">11.12c/kWh</td><td>−$12.78</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2>Network supply — the question</h2>
+  <p style="margin-bottom:14px">You asked whether these would be the same at Origin. <strong>Yes — identical.</strong> They&rsquo;re set by the distributor (SA Power Networks), not the retailer:</p>
+  <div class="grid">
+    <div class="stat"><div class="k">Network daily</div><div class="v">$0.6552</div><div class="s">per day — same</div></div>
+    <div class="stat"><div class="k">Metering</div><div class="v">$0.3974</div><div class="s">per day — same</div></div>
+    <div class="stat"><div class="k">Network total</div><div class="v">$32.63</div><div class="s">31 days — same</div></div>
+  </div>
+  <p class="note">Amber splits retail ($23.16 sub) from network; Origin hides its fee inside one $1.8005/day supply line. Both end at ~$55.80 fixed — a wash.</p>
+</section>
+
+<section class="section">
+  <h2>Cost comparison — same usage</h2>
+  <table>
+    <thead><tr><th></th><th>Amber (actual)</th><th>Origin SSO (modelled)</th></tr></thead>
+    <tbody>
+      <tr><td>Usage</td><td>$34.71</td><td style="color:var(--danger)">$51.91–60.36</td></tr>
+      <tr><td>Fixed (network + retail)</td><td>$55.79</td><td>$55.82</td></tr>
+      <tr><td>GST</td><td>$9.04</td><td>~$10–12</td></tr>
+      <tr><td><strong>Charges</strong></td><td><strong>$99.54</strong></td><td><strong>~$118–128</strong></td></tr>
+      <tr><td>Feed-in credit (115 kWh)</td><td class="win" style="color:var(--success)">−$12.78</td><td>−$2.30 (2c) / −$9.20 (8c)</td></tr>
+      <tr class="win"><td><strong>Net / month</strong></td><td><strong>$86.76</strong></td><td style="color:var(--danger)"><strong>$105–114</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Origin modelled at confirmed SA/5062 rates: Peak 58.84c · Shoulder 35.17c · Off-peak 19.66c · Super-off-peak (12–3pm) 0c. Free-window share of solar-sponge kWh varies the usage estimate.</p>
+</section>
+
+<section class="section">
+  <h2>The four fixeds at a glance</h2>
+  <div class="grid">
+    <div class="stat"><div class="k">Network supply</div><div class="v">Same</div><div class="s">SA Power Networks pass-through</div></div>
+    <div class="stat"><div class="k">Metering</div><div class="v">Same</div><div class="s">distributor-set</div></div>
+    <div class="stat"><div class="k">Retail fee</div><div class="v">Wash</div><div class="s">$23.16 vs $23.19</div></div>
+    <div class="stat"><div class="k">Feed-in</div><div class="v" style="color:var(--success)">Amber wins</div><div class="s">11.1c vs 2c</div></div>
+  </div>
+</section>
+
+<div class="footer">
+Hancock 119 Princes Rd · NMI 20021217454 · Source: Amber bill 4014004 (27 Jul–26 Aug 2026) + Origin SSO SA/5062 tariff · Prepared by Gary · 27 Sep 2026
+</div>
+
+</div>
+</body>
+</html>
