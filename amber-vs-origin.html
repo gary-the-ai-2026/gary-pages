@@ -53,22 +53,22 @@ a{color:var(--warning)}
 <div class="container">
 
 <section class="hero">
-  <div class="kicker">Hancock Energy · 30-Day Actuals · 27 Jul – 26 Aug 2026</div>
+  <div class="kicker">Hancock Energy · 30-day settled actuals · Updated 28 Sep 2026</div>
   <h1>Amber vs Origin SSO</h1>
-  <p class="subtitle">Same actual usage, two retailers — built from the real Amber bill (133.41&nbsp;kWh imported · 114.94&nbsp;kWh exported).</p>
+  <p class="subtitle">Same settled usage, two retailers — grounded on the real Amber bill (133.41&nbsp;kWh imported · 114.94&nbsp;kWh exported) and re-tested against the last 30 days' negative wholesale spot.</p>
 </section>
 
 <div class="verdict">
-  <span class="badge">Our Pick</span>
-  <h2>Stay on Amber</h2>
-  <div class="big-num">$86.76<span style="font-size:16px;color:var(--body)"> /mo v&nbsp;$105–114</span></div>
+  <span class="badge">Our Pick — Updated</span>
+  <h2>Stay on Amber (but the feed-in edge has narrowed)</h2>
+  <div class="big-num">$86.76<span style="font-size:16px;color:var(--body)">–$100 v&nbsp;$116–125</span></div>
   <ol>
     <li><strong>Network supply charges are identical</strong> — $1.0526/day (network + metering) is an SA&nbsp;Power&nbsp;Networks pass-through every retailer bills unchanged.</li>
-    <li>The real gap is <strong>feed-in</strong>: Amber pays wholesale 11.12c/kWh; Origin SSO pays a fixed 2c — a $10.48/month loss on the same 115&nbsp;kWh.</li>
-    <li>Origin&rsquo;s retail fee ($23.19 baked into supply) ≈ Amber&rsquo;s subscription ($23.16) — a wash.</li>
-    <li>Origin&rsquo;s free 12–3pm window can&rsquo;t rescue it here: at 58.84c peak TOU its usage cost overshoots, and the 2c feed-in dwarfs the benefit.</li>
+    <li><strong>Correction (28 Sep):</strong> the last 30 days' wholesale feed-in went negative in SA — 16 of 30 days at ≤0.5c, mean −0.4c. So Amber's feed-in is currently worth ~zero, not the 11.12c it billed Jul–Aug. Net swing ≈ $13/mo against Amber.</li>
+    <li>Yet Origin <strong>still loses</strong> — because its import usage cost ($52–60 on the same 133&nbsp;kWh) is far higher than Amber's wholesale pass-through ($34.71). That import gap (~$17–25) outweighs the feed-in loss.</li>
+    <li>Origin's flat 2c feed-in (~$2.30) <em>does</em> beat a negative Amber wholesale (−$0.46) — but only by ~$3/mo, nowhere near the import gap.</li>
   </ol>
-  <p class="note">Net 31-day cost: Amber $86.76 · Origin SSO ~$105–114 (2c FiT) / ~$98–107 (8c Solar Boost). Even the better Origin variant loses.</p>
+  <p class="note">Net monthly, all feed-in regimes: Amber $86.76–100 · Origin SSO $116–125 (2c) / $110–118 (8c). Amber wins by ~$16–30 across every regime — the margin is smaller under negative spot, but it does not flip.</p>
 </div>
 
 <section class="section">
@@ -107,11 +107,12 @@ a{color:var(--warning)}
       <tr><td>Fixed (network + retail)</td><td>$55.79</td><td>$55.82</td></tr>
       <tr><td>GST</td><td>$9.04</td><td>~$10–12</td></tr>
       <tr><td><strong>Charges</strong></td><td><strong>$99.54</strong></td><td><strong>~$118–128</strong></td></tr>
-      <tr><td>Feed-in credit (115 kWh)</td><td class="win" style="color:var(--success)">−$12.78</td><td>−$2.30 (2c) / −$9.20 (8c)</td></tr>
-      <tr class="win"><td><strong>Net / month</strong></td><td><strong>$86.76</strong></td><td style="color:var(--danger)"><strong>$105–114</strong></td></tr>
+      <tr><td>Feed-in credit (115 kWh)</td><td class="win" style="color:var(--success)">−$12.78 (11.12c)</td><td>−$2.30 (2c) / −$9.20 (8c)</td></tr>
+      <tr><td>Negative-spot adjustment (last 30d)</td><td style="color:var(--danger)">+$13.24 swing → $0.46</td><td>none (flat FiT)</td></tr>
+      <tr class="win"><td><strong>Net / month</strong></td><td><strong>$86.76–100</strong></td><td style="color:var(--danger)"><strong>$116–125 (2c) / $110–118 (8c)</strong></td></tr>
     </tbody>
   </table>
-  <p class="note">Origin modelled at confirmed SA/5062 rates: Peak 58.84c · Shoulder 35.17c · Off-peak 19.66c · Super-off-peak (12–3pm) 0c. Free-window share of solar-sponge kWh varies the usage estimate.</p>
+  <p class="note">Origin modelled at confirmed SA/5062 rates: Peak 58.84c · Shoulder 35.17c · Off-peak 19.66c · Super-off-peak (12–3pm) 0c. Amber range spans wholesale feed-in from positive (11.12c, as billed Jul–Aug) down to the last-30-days negative (−0.4c). <strong>Amber wins in every regime.</strong></p>
 </section>
 
 <section class="section">
