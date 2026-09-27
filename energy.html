@@ -983,7 +983,7 @@ async function loadCalendar() {
       solar_kwh: t.solar_kwh || (currentData.goodwe ? currentData.goodwe.today_solar_kwh : 0) || 0,
       load_kwh: t.load_kwh || (currentData.goodwe ? currentData.goodwe.today_load_kwh : 0) || 0,
       grid_import_kwh: t.import_kwh || (currentData.goodwe ? currentData.goodwe.today_import_kwh : 0) || 0,
-      grid_export_kwh: t.grid_export_kwh || t.export_kwh || (currentData.goodwe ? currentData.goodwe.today_export_kwh : 0) || 0,
+      grid_export_kwh: t.export_kwh || t.grid_export_kwh || (currentData.goodwe ? currentData.goodwe.today_export_kwh : 0) || 0,
       battery_charge_kwh: t.battery_charge_kwh || (currentData.goodwe ? currentData.goodwe.today_bat_charge_kwh : 0) || 0,
       battery_discharge_kwh: t.battery_discharge_kwh || (currentData.goodwe ? currentData.goodwe.today_bat_discharge_kwh : 0) || 0
     };
@@ -1113,7 +1113,7 @@ function renderCalendar() {
       sumUsage += entry.load_kwh || 0;
       sumCost += entry.cost_dollars || 0;
       sumSaved += entry.savings_dollars || 0;
-      sumExport += entry.amber_export_kwh || entry.grid_export_kwh || 0;
+      sumExport += entry.grid_export_kwh || entry.goodwe_export_kwh || entry.amber_export_kwh || 0;
       sumExportVal += entry.export_value_dollars || 0;
       sumImpCost += entry.import_cost_dollars != null ? entry.import_cost_dollars : (entry.cost_dollars || 0);
       sumNet += (entry.export_value_dollars || 0) - (entry.import_cost_dollars != null ? entry.import_cost_dollars : 0);
@@ -1227,11 +1227,11 @@ function selectCalDay(dateKey) {
   const assumedStr = entry.assumed_savings_dollars != null ? '$' + entry.assumed_savings_dollars.toFixed(2)
                     : (entry.savings_dollars != null ? '$' + entry.savings_dollars.toFixed(2) : '--');
   setText('calDetAssumedSav', assumedStr);
-  setText('calDetImport', fmtKwh(entry.amber_import_kwh != null ? entry.amber_import_kwh : entry.grid_import_kwh));
+  setText('calDetImport', fmtKwh(entry.grid_import_kwh != null ? entry.grid_import_kwh : entry.amber_import_kwh));
   const costStr = entry.import_cost_dollars != null ? '$' + entry.import_cost_dollars.toFixed(2)
                  : (entry.cost_dollars != null ? '$' + entry.cost_dollars.toFixed(2) : '--');
   setText('calDetCost', costStr);
-  setText('calDetExport', fmtKwh(entry.amber_export_kwh));
+  setText('calDetExport', fmtKwh(entry.grid_export_kwh != null ? entry.grid_export_kwh : (entry.goodwe_export_kwh != null ? entry.goodwe_export_kwh : entry.amber_export_kwh)));
   // Export value (Amber feedIn × wholesale spot) + Day Net (export value − import cost)
   const expValStr = entry.export_value_dollars != null
     ? '$' + (entry.export_value_dollars >= 0 ? '+' : '') + entry.export_value_dollars.toFixed(2)
