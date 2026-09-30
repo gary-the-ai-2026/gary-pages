@@ -19,18 +19,12 @@
 *{box-sizing:border-box;margin:0}
 body{background:var(--canvas);color:var(--body);font-family:var(--font-b);line-height:1.5;-webkit-text-size-adjust:100%}
 .page{max-width:880px;margin:0 auto;padding:44px 22px}
-
-/* ---- hero (centered) ---- */
 .kicker{text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
-.badge{display:block;margin:0 auto;background:var(--win);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 16px;border-radius:999px}
+.badge{display:block;margin:0 auto;background:var(--origin);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 16px;border-radius:999px;max-width:fit-content}
 h1{font-family:var(--font-d);font-size:clamp(28px,4.5vw,40px);color:var(--ink);text-align:center;margin:22px 0 4px;line-height:1.15}
 .lede{text-align:center;font-size:15px;color:var(--body);max-width:620px;margin:6px auto 20px}
 .savings{text-align:center;font-family:var(--font-m);font-size:24px;color:var(--win);font-weight:700}
-
-/* ---- seesaw (inline SVG, robust) ---- */
 .seesaw-wrap{text-align:center;margin:26px 0 6px}
-
-/* ---- comparison pair ---- */
 .pair{max-width:680px;margin:36px auto 0}
 .pair .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .player{display:flex;flex-direction:column;padding:20px 20px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius)}
@@ -46,8 +40,6 @@ h1{font-family:var(--font-d);font-size:clamp(28px,4.5vw,40px);color:var(--ink);t
 .tagnull{display:inline-block;background:var(--muted);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:999px}
 .player.win{border:2px solid var(--win)}
 .pair .sub{text-align:center;font-size:12px;color:var(--muted);margin-top:12px}
-
-/* ---- factor cards (3-up) ---- */
 .cards{max-width:880px;margin:34px auto 0}
 .cards h2{font-family:var(--font-d);font-size:20px;color:var(--ink);text-align:center;margin-bottom:16px}
 .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
@@ -57,28 +49,30 @@ h1{font-family:var(--font-d);font-size:clamp(28px,4.5vw,40px);color:var(--ink);t
 .card .h .t{font-family:var(--font-d);font-size:17px;color:var(--ink)}
 .card .h .tbadge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--win);color:#fff}
 .card .h .tbadge.gray{background:var(--muted);color:#fff}
-.card grw{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.card .h .tbadge.origin{background:var(--origin);color:#fff}
 .gr-rows{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;margin-top:10px}
 .gr-rows .k{font-size:13px;color:var(--body)}
 .gr-rows .k.win{color:var(--win);font-weight:600}
+.gr-rows .k.owin{color:var(--origin);font-weight:600}
 .gr-rows .v{font-family:var(--font-m);font-size:16px;font-weight:700;text-align:right;color:var(--amber)}
 .gr-rows .v.o{color:var(--origin)}
 .card .explain{font-size:12px;color:var(--muted);margin-top:10px}
-
-/* ---- summer banner ---- */
-.banner{max-width:880px;margin:34px auto 0;border:1.5px dashed var(--origin);background:var(--surface-alt);border-radius:var(--radius);padding:18px 22px}
-.banner h2{font-family:var(--font-d);font-size:18px;color:var(--ink);margin-bottom:6px}
-.banner p{font-size:14px;color:var(--body)}
-.banner p strong{color:var(--origin)}
-
-/* ---- detail table ---- */
+.regime{max-width:880px;margin:34px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.regime{grid-template-columns:1fr}}
+.regime-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:18px 20px}
+.regime-card h2{font-family:var(--font-d);font-size:18px;color:var(--ink);margin-bottom:4px}
+.regime-card .season{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.regime-card.win{background:var(--surface-alt)}
+.regime-card .who-win{font-family:var(--font-m);font-size:22px;font-weight:700;color:var(--win)}
+.regime-card .who-lose{font-family:var(--font-m);font-size:22px;font-weight:700;color:var(--body)}
+.regime-card p{font-size:13px;color:var(--body);margin-top:8px}
 .detail{max-width:880px;margin:34px auto 0}
 .detail h2{font-family:var(--font-d);font-size:18px;color:var(--ink);text-align:center;margin-bottom:12px}
 table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface)}
 th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--hairline)}
 th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
 tr.win td:last-child{color:var(--win);font-weight:600}
-
+tr.owin td:last-child{color:var(--origin);font-weight:600}
 .foot{max-width:880px;margin:30px auto 48px;padding:16px 20px;color:var(--muted);font-size:12px;font-family:var(--font-m)}
 @media(max-width:640px){.page{padding:26px 14px}.pair .cols{grid-template-columns:1fr}.player{padding:16px}.cardgrid{grid-template-columns:1fr}}
 </style>
@@ -86,101 +80,89 @@ tr.win td:last-child{color:var(--win);font-weight:600}
 <body>
 <div class="page">
 
-<div class="kicker">Hancock Energy · 30-day settled actuals · updated 28 Sep 2026</div>
-<span class="badge">Our pick · Stay on Amber</span>
-<h1>Same bill, two retailers — Amber wins on import cost, not feed-in.</h1>
-<div class="lede">Fixed fees are a wash. Feed-in is a wash right now. The whole difference is what you pay to <em>import</em>.</div>
+<div class="kicker">Hancock Energy · summer vs winter actuals · updated 30 Sep 2026</div>
+<span class="badge">The winner flips with the season</span>
+<h1>Winter = Amber. Summer = Origin. The flip is now settled fact.</h1>
+<div class="lede">Winter bills showed Amber cheaper on import pass-through. The new summer bill shows Origin cheaper by a mile on feed-in.</div>
 
 <div class="seesaw-wrap">
-<svg width="540" height="210" viewBox="0 0 540 210" role="img" aria-label="Seesaw showing Amber cheaper than Origin">
-  <!-- fulcrum -->
+<svg width="540" height="210" viewBox="0 0 540 210" role="img" aria-label="Seesaw showing Origin cheaper than Amber in summer">
   <polygon points="270,188 250,150 290,150" fill="#bdb6ab"/>
   <rect x="264" y="188" width="12" height="22" rx="3" fill="#bdb6ab"/>
-  <!-- plank tilted: winner (Amber, left) up -->
-  <g transform="rotate(3 270 188)">
+  <g transform="rotate(-3 270 188)">
     <rect x="40" y="182" width="460" height="14" rx="7" fill="#d9d4cc"/>
     <rect x="40" y="196" width="460" height="4" rx="2" fill="#c9c2b8"/>
   </g>
-  <!-- Origin label (right side, down) -->
-  <text x="430" y="120" text-anchor="middle" font-family="Inter" font-size="15" fill="#94918a" font-weight="500">ORIGIN&nbsp;SSO</text>
-  <text x="430" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="34" font-weight="700" fill="#38618f">$116–125</text>
-  <!-- Amber label (left side, up/win) -->
-  <text x="105" y="94" text-anchor="middle" font-family="Inter" font-size="15" fill="#c96f4b" font-weight="600">AMBER&nbsp;·&nbsp;wins</text>
-  <text x="105" y="124" text-anchor="middle" font-family="JetBrains Mono" font-size="34" font-weight="700" fill="#c96f4b">$87–100</text>
+  <text x="430" y="130" text-anchor="middle" font-family="Inter" font-size="15" fill="#94918a" font-weight="500">AMBER&nbsp;(summer)</text>
+  <text x="430" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="34" font-weight="700" fill="#c96f4b">$63.91</text>
+  <text x="105" y="94" text-anchor="middle" font-family="Inter" font-size="15" fill="#38618f" font-weight="600">ORIGIN&nbsp;·&nbsp;wins</text>
+  <text x="105" y="124" text-anchor="middle" font-family="JetBrains Mono" font-size="34" font-weight="700" fill="#38618f">$37.51–54.54</text>
 </svg>
 </div>
 
-<div class="savings">≈ $20–30 cheaper / month</div>
+<div class="savings">≈ $9–26 cheaper / month this summer</div>
 
-<div class="pair">
-  <div class="cols">
-    <div class="player win">
-      <div class="who"><span class="dot"></span><b>Amber</b></div>
-      <div class="amt">$87–100</div>
-      <div class="tagrow"><span class="tagwin">Wins on import</span></div>
-    </div>
-    <div class="player origin">
-      <div class="who origin"><span class="dot"></span><b>Origin SSO</b></div>
-      <div class="amt">$116–125</div>
-      <div class="tagrow"><span class="tagnull">Pays ~$20–30 more</span></div>
-    </div>
+<div class="regime">
+  <div class="regime-card win">
+    <div class="season">Summer · ~zero grid import · high export</div>
+    <div class="who-win">Origin wins ~$9–26/mo</div>
+    <p>Battery covers your load, so import cost disappears. The bill is now judged on feed-in — and Amber paid you <strong>$0</strong> for 340 kWh exported (wholesale spot collapsed to zero). Origin&rsquo;s flat rate pays.</p>
   </div>
-  <div class="sub">Net monthly, all feed-in regimes — Amber wins every one.</div>
+  <div class="regime-card">
+    <div class="season">Winter · heavy grid import</div>
+    <div class="who-lose">Amber wins ~$20–30/mo</div>
+    <p>When you&rsquo;re pulling from the grid, Amber&rsquo;s wholesale import pass-through beats Origin&rsquo;s peak TOU. In winter the import cost is the whole story &mdash; and Amber is cheaper.</p>
+  </div>
 </div>
 
 <div class="cards">
   <h2>The three things that decide it</h2>
   <div class="cardgrid">
     <div class="card">
-      <div class="h"><span class="t">🔌 Import</span><span class="tbadge">Amber ➜</span></div>
+      <div class="h"><span class="t">🔌 Import</span><span class="tbadge gray">wash this month</span></div>
       <div class="gr-rows">
-        <span class="k win">Amber</span><span class="v">$35</span>
-        <span class="k">Origin</span><span class="v o">$52–60</span>
+        <span class="k">Amber</span><span class="v">$2.36 (7.6 kWh)</span>
+        <span class="k">Origin</span><span class="v o">~$3</span>
       </div>
-      <div class="explain">Amber passes wholesale through; Origin&rsquo;s peak is 58–64c.</div>
+      <div class="explain">Summer battery covers the load &mdash; only 7.63 kWh imported. Import no longer decides the bill.</div>
     </div>
     <div class="card">
-      <div class="h"><span class="t">🌤️ Feed-in</span><span class="tbadge gray">tie / wash</span></div>
+      <div class="h"><span class="t">🌤️ Feed-in</span><span class="tbadge origin">Origin ➜</span></div>
       <div class="gr-rows">
-        <span class="k">Amber</span><span class="v">−0.4c → 11c</span>
-        <span class="k">Origin</span><span class="v o">flat 3c</span>
+        <span class="k">Amber</span><span class="v">$0.00 (340.6 kWh)</span>
+        <span class="k owin">Origin</span><span class="v o">$10.22–27.25</span>
       </div>
-      <div class="explain">Negative wholesale vs a flat 3c roughly cancel right now.</div>
+      <div class="explain">Wholesale spot hit $0 → Amber paid nothing for 340 kWh of summer export. Origin&rsquo;s flat 3–8c pays real money. This decides it.</div>
     </div>
     <div class="card">
       <div class="h"><span class="t">🧾 Fixed fees</span><span class="tbadge gray">wash</span></div>
       <div class="gr-rows">
-        <span class="k">Amber</span><span class="v">~$55.80</span>
+        <span class="k">Amber</span><span class="v">$55.79</span>
         <span class="k">Origin</span><span class="v o">~$55.80</span>
       </div>
-      <div class="explain">Network is AER-regulated &amp; identical; retail margins balance out.</div>
+      <div class="explain">Network is AER-regulated &amp; identical; retail margins balance out &mdash; a dead wash either season.</div>
     </div>
   </div>
-</div>
-
-<div class="banner">
-  <h2>⚠️ Summer can flip it</h2>
-  <p>If you import <strong>zero</strong> in summer, the import edge disappears and it becomes a feed-in fight — Amber&rsquo;s weak spot. In a zero-import, high-export summer, <strong>Origin (8c) can win by ~$9–10/mo</strong>. Winter = Amber · Summer zero-import = Origin.</p>
 </div>
 
 <div class="detail">
   <h2>Supporting numbers</h2>
   <table>
-    <thead><tr><th></th><th>Amber (actual)</th><th>Origin SSO (modelled)</th></tr></thead>
+    <thead><tr><th></th><th>Amber (actual summer bill)</th><th>Origin SSO (modelled, same usage)</th></tr></thead>
     <tbody>
-      <tr><td>Import usage</td><td>$34.71</td><td style="color:var(--origin)">$51.91–60.36</td></tr>
+      <tr><td>Import usage</td><td>$2.36 (7.63 kWh)</td><td style="color:var(--origin)">~$3</td></tr>
       <tr><td>Fixed (network+retail)</td><td>$55.79</td><td>$55.82</td></tr>
-      <tr><td>GST</td><td>$9.04</td><td>~$10–12</td></tr>
-      <tr><td><strong>Charges</strong></td><td><strong>$99.54</strong></td><td><strong>~$118–128</strong></td></tr>
-      <tr><td>Feed-in credit (115 kWh)</td><td class="win">−$12.78 @ 11.12c</td><td>−$3.45 @ 3c (DMO 8)</td></tr>
-      <tr><td>Negative-spot adjustment (last 30d)</td><td style="color:var(--danger)">+$13.24 → $0.46</td><td>none (flat)</td></tr>
-      <tr class="win"><td><strong>Net / month</strong></td><td><strong>$86.76–100</strong></td><td style="color:var(--origin)"><strong>$116–125 (3c) / $110–118 (8c)</strong></td></tr>
+      <tr><td>GST</td><td>$5.76</td><td>~$5.89</td></tr>
+      <tr><td><strong>Charges</strong></td><td><strong>$63.91</strong></td><td><strong>~$64.70</strong></td></tr>
+      <tr><td>Feed-in credit (340.61 kWh)</td><td>$0.00 @ 0.0000c (spot ~$0)</td><td class="owin">−$10.22 @ 3c / −$27.25 @ 8c</td></tr>
+      <tr class="owin"><td><strong>Net / month (summer)</strong></td><td><strong>$63.91</strong></td><td style="color:var(--origin)"><strong>$54.54 (3c) / $37.51 (8c)</strong></td></tr>
     </tbody>
   </table>
+  <p style="font-size:12px;color:var(--muted);margin-top:14px">Winter reference (27 Jul&ndash;26 Aug, Amber bill 4014004): Amber net $86.76&ndash;100 vs Origin $116&ndash;125 (3c) / $110&ndash;118 (8c) &mdash; Amber won that regime by $20&ndash;30.</p>
 </div>
 
 <div class="foot">
-Hancock 119 Princes Rd · NMI 20021217454 · Source: Amber bill 4014004 (27 Jul–26 Aug 2026) + Origin SSO SA/5062 tariff (DMO 8) · Prepared by Gary · 28 Sep 2026
+Hancock 119 Princes Rd · NMI 20021217454 · Sources: Amber bills 4056252 (27 Aug&ndash;26 Sep 2026) + 4014004 (27 Jul&ndash;26 Aug 2026); Origin SSO SA/5062 tariff (DMO 8) · Prepared by Gary · 30 Sep 2026
 </div>
 
 </div>
