@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-01T18:28:52.509107+09:30",
-  "timestamp_display": "1 Oct 2026 \u00b7 6:28 PM",
-  "timestamp_short": "6:28:52 PM",
+  "timestamp": "2026-10-01T18:30:53.086237+09:30",
+  "timestamp_display": "1 Oct 2026 \u00b7 6:30 PM",
+  "timestamp_short": "6:30:53 PM",
   "goodwe": {
     "grid_power_w": 0,
     "grid_direction": "Idle",
-    "inverter_temp_c": 47.0,
-    "battery_power_w": 737,
+    "inverter_temp_c": 47.7,
+    "battery_power_w": 505,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 2579.1,
     "today_solar_kwh": 22.8,
@@ -15,31 +15,26 @@
     "today_load_kwh": 26.7,
     "lifetime_bat_charge_kwh": 1010.7,
     "today_bat_charge_kwh": 4.1,
-    "lifetime_bat_discharge_kwh": 916.4,
-    "today_bat_discharge_kwh": 13.6,
-    "home_consumption_w": 737,
+    "lifetime_bat_discharge_kwh": 916.5,
+    "today_bat_discharge_kwh": 13.7,
+    "home_consumption_w": 505,
     "lifetime_export_kwh": 460.1,
     "lifetime_import_kwh": 28.4,
     "battery_temp_c": 29.9,
     "battery_soc_pct": 32,
     "battery_soh_pct": 100,
-    "solar_now_w": 17,
+    "solar_now_w": 4,
     "battery_flow": "discharging",
     "grid_flow": "balanced"
   },
   "amber": {
     "current_price_c": 43.2,
-    "sell_price_c": 13.8,
+    "sell_price_c": 13.7,
     "period": "peak",
     "descriptor": "low",
     "spike_status": "none",
-    "renewables": 17.927,
+    "renewables": 16.912,
     "forward_prices": [
-      {
-        "time": "18:30",
-        "price": 42.5,
-        "period": "peak"
-      },
       {
         "time": "18:35",
         "price": 44.0,
@@ -124,6 +119,11 @@
         "time": "22:00",
         "price": 41.4,
         "period": "peak"
+      },
+      {
+        "time": "22:30",
+        "price": 43.4,
+        "period": "peak"
       }
     ],
     "next_peak_c": 44.4,
@@ -141,6 +141,6 @@
     "grid_import_cost_dollars": 0.01,
     "grid_export_revenue_dollars": 0.03,
     "battery_charge_kwh": 4.1,
-    "battery_discharge_kwh": 13.6
+    "battery_discharge_kwh": 13.7
   }
 }
