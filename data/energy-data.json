@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-04T06:32:02.229364+09:30",
-  "timestamp_display": "4 Oct 2026 \u00b7 6:32 AM",
-  "timestamp_short": "6:32:02 AM",
+  "timestamp": "2026-10-04T06:34:02.072587+09:30",
+  "timestamp_display": "4 Oct 2026 \u00b7 6:34 AM",
+  "timestamp_short": "6:34:02 AM",
   "goodwe": {
-    "grid_power_w": 42,
+    "grid_power_w": 41,
     "grid_direction": "Idle",
-    "inverter_temp_c": 47.2,
-    "battery_power_w": -335,
+    "inverter_temp_c": 47.8,
+    "battery_power_w": -391,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 2667.3,
     "today_solar_kwh": 0.2,
@@ -17,13 +17,13 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 938.7,
     "today_bat_discharge_kwh": 2.4,
-    "home_consumption_w": 418,
+    "home_consumption_w": 493,
     "lifetime_export_kwh": 477.0,
     "lifetime_import_kwh": 28.8,
     "battery_temp_c": 21.0,
     "battery_soc_pct": 50,
     "battery_soh_pct": 100,
-    "solar_now_w": 842,
+    "solar_now_w": 977,
     "battery_flow": "charging",
     "grid_flow": "balanced"
   },
@@ -92,32 +92,32 @@
       },
       {
         "time": "07:30",
-        "price": 31.4,
-        "period": "peak"
-      },
-      {
-        "time": "08:00",
-        "price": 30.5,
-        "period": "peak"
-      },
-      {
-        "time": "08:30",
         "price": 28.8,
         "period": "peak"
       },
       {
+        "time": "08:00",
+        "price": 27.2,
+        "period": "peak"
+      },
+      {
+        "time": "08:30",
+        "price": 27.2,
+        "period": "peak"
+      },
+      {
         "time": "09:00",
-        "price": 9.7,
+        "price": 9.6,
         "period": "solarSponge"
       },
       {
         "time": "09:30",
-        "price": 10.2,
+        "price": 9.6,
         "period": "solarSponge"
       },
       {
         "time": "10:00",
-        "price": 10.2,
+        "price": 9.7,
         "period": "solarSponge"
       },
       {
@@ -128,7 +128,7 @@
     ],
     "next_peak_c": 42.2,
     "next_peak_time": "07:00",
-    "next_trough_c": 9.7,
+    "next_trough_c": 9.6,
     "next_trough_time": "09:00"
   },
   "today": {
