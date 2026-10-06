@@ -1,21 +1,40 @@
 {
-  "timestamp": "2026-10-07T01:48:13.027698+09:30",
-  "timestamp_display": "7 Oct 2026 \u00b7 1:48 AM",
-  "timestamp_short": "1:48:13 AM",
-  "goodwe": {},
+  "timestamp": "2026-10-07T01:50:13.096968+09:30",
+  "timestamp_display": "7 Oct 2026 \u00b7 1:50 AM",
+  "timestamp_short": "1:50:13 AM",
+  "goodwe": {
+    "grid_power_w": 4,
+    "grid_direction": "Idle",
+    "inverter_temp_c": 41.3,
+    "battery_power_w": 388,
+    "battery_mode": "Discharge",
+    "lifetime_solar_kwh": 2810.2,
+    "today_solar_kwh": 0.0,
+    "today_export_kwh": 0.3,
+    "today_import_kwh": 0.0,
+    "today_load_kwh": 0.3,
+    "lifetime_bat_charge_kwh": 1093.9,
+    "today_bat_charge_kwh": 0.0,
+    "lifetime_bat_discharge_kwh": 974.4,
+    "today_bat_discharge_kwh": 1.0,
+    "home_consumption_w": 384,
+    "lifetime_export_kwh": 486.1,
+    "lifetime_import_kwh": 30.6,
+    "battery_temp_c": 21.9,
+    "battery_soc_pct": 73,
+    "battery_soh_pct": 100,
+    "solar_now_w": 0,
+    "battery_flow": "discharging",
+    "grid_flow": "balanced"
+  },
   "amber": {
-    "current_price_c": 28.9,
-    "sell_price_c": 11.4,
+    "current_price_c": 28.5,
+    "sell_price_c": 11.1,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 98.341,
+    "renewables": 99.771,
     "forward_prices": [
-      {
-        "time": "01:50",
-        "price": 28.5,
-        "period": "offPeak"
-      },
       {
         "time": "01:55",
         "price": 28.4,
@@ -93,16 +112,16 @@
     "next_trough_time": "02:25"
   },
   "today": {
-    "solar_kwh": 0,
-    "load_kwh": 0,
-    "import_kwh": 0,
-    "export_kwh": 0,
+    "solar_kwh": 0.0,
+    "load_kwh": 0.3,
+    "import_kwh": 0.0,
+    "export_kwh": 0.3,
     "grid_export_kwh": 0,
     "grid_import_kwh": 0,
     "grid_import_cost_dollars": 0.0,
     "grid_export_revenue_dollars": 0.0,
-    "battery_charge_kwh": 0,
-    "battery_discharge_kwh": 0
+    "battery_charge_kwh": 0.0,
+    "battery_discharge_kwh": 1.0
   },
   "yesterday": {
     "solar_kwh": 0.0,
