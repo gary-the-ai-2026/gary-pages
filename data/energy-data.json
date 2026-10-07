@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-10-07T21:40:16.238575+09:30",
-  "timestamp_display": "7 Oct 2026 \u00b7 9:40 PM",
-  "timestamp_short": "9:40:16 PM",
+  "timestamp": "2026-10-07T21:42:16.224022+09:30",
+  "timestamp_display": "7 Oct 2026 \u00b7 9:42 PM",
+  "timestamp_short": "9:42:16 PM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": 5,
     "grid_direction": "Idle",
-    "inverter_temp_c": 40.7,
-    "battery_power_w": 298,
-    "battery_mode": "Standby",
+    "inverter_temp_c": 40.0,
+    "battery_power_w": 320,
+    "battery_mode": "Discharge",
     "lifetime_solar_kwh": 2875.3,
     "today_solar_kwh": 65.1,
     "today_export_kwh": 60.2,
@@ -17,10 +17,10 @@
     "today_bat_charge_kwh": 12.0,
     "lifetime_bat_discharge_kwh": 985.3,
     "today_bat_discharge_kwh": 11.9,
-    "home_consumption_w": 296,
+    "home_consumption_w": 315,
     "lifetime_export_kwh": 510.3,
     "lifetime_import_kwh": 30.6,
-    "battery_temp_c": 29.5,
+    "battery_temp_c": 29.4,
     "battery_soc_pct": 72,
     "battery_soh_pct": 100,
     "solar_now_w": 0,
@@ -28,16 +28,16 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 39.4,
-    "sell_price_c": 10.4,
+    "current_price_c": 38.8,
+    "sell_price_c": 9.8,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 77.013,
+    "renewables": 77.094,
     "forward_prices": [
       {
         "time": "21:45",
-        "price": 39.1,
+        "price": 39.2,
         "period": "peak"
       },
       {
@@ -62,22 +62,22 @@
       },
       {
         "time": "22:10",
-        "price": 37.9,
+        "price": 38.5,
         "period": "peak"
       },
       {
         "time": "22:15",
-        "price": 37.7,
-        "period": "peak"
-      },
-      {
-        "time": "22:20",
         "price": 37.4,
         "period": "peak"
       },
       {
+        "time": "22:20",
+        "price": 37.1,
+        "period": "peak"
+      },
+      {
         "time": "22:25",
-        "price": 37.2,
+        "price": 36.9,
         "period": "peak"
       },
       {
