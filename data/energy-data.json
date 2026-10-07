@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-10-07T17:58:15.655398+09:30",
-  "timestamp_display": "7 Oct 2026 \u00b7 5:58 PM",
-  "timestamp_short": "5:58:15 PM",
+  "timestamp": "2026-10-07T18:00:15.670854+09:30",
+  "timestamp_display": "7 Oct 2026 \u00b7 6:00 PM",
+  "timestamp_short": "6:00:15 PM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": -1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 44.1,
-    "battery_power_w": 2726,
-    "battery_mode": "Discharge",
+    "inverter_temp_c": 43.9,
+    "battery_power_w": 258,
+    "battery_mode": "Standby",
     "lifetime_solar_kwh": 2875.3,
     "today_solar_kwh": 65.1,
     "today_export_kwh": 58.8,
@@ -15,31 +15,26 @@
     "today_load_kwh": 34.6,
     "lifetime_bat_charge_kwh": 1105.9,
     "today_bat_charge_kwh": 12.0,
-    "lifetime_bat_discharge_kwh": 984.0,
-    "today_bat_discharge_kwh": 10.6,
-    "home_consumption_w": 2895,
+    "lifetime_bat_discharge_kwh": 984.1,
+    "today_bat_discharge_kwh": 10.7,
+    "home_consumption_w": 392,
     "lifetime_export_kwh": 510.3,
     "lifetime_import_kwh": 30.6,
     "battery_temp_c": 31.0,
     "battery_soc_pct": 77,
     "battery_soh_pct": 100,
-    "solar_now_w": 195,
+    "solar_now_w": 190,
     "battery_flow": "discharging",
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 41.9,
-    "sell_price_c": 12.6,
+    "current_price_c": 41.3,
+    "sell_price_c": 12.0,
     "period": "peak",
-    "descriptor": "low",
+    "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 13.52,
+    "renewables": 11.045,
     "forward_prices": [
-      {
-        "time": "18:00",
-        "price": 41.3,
-        "period": "peak"
-      },
       {
         "time": "18:05",
         "price": 41.0,
@@ -124,6 +119,11 @@
         "time": "21:30",
         "price": 40.3,
         "period": "peak"
+      },
+      {
+        "time": "22:00",
+        "price": 40.6,
+        "period": "peak"
       }
     ],
     "next_peak_c": 43.4,
@@ -141,7 +141,7 @@
     "grid_import_cost_dollars": 0.0,
     "grid_export_revenue_dollars": -1.22,
     "battery_charge_kwh": 12.0,
-    "battery_discharge_kwh": 10.6
+    "battery_discharge_kwh": 10.7
   },
   "yesterday": {
     "solar_kwh": 0.0,
