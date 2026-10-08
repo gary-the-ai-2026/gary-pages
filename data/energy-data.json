@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-09T08:58:21.854191+09:30",
-  "timestamp_display": "9 Oct 2026 \u00b7 8:58 AM",
-  "timestamp_short": "8:58:21 AM",
+  "timestamp": "2026-10-09T09:00:21.859866+09:30",
+  "timestamp_display": "9 Oct 2026 \u00b7 9:00 AM",
+  "timestamp_short": "9:00:21 AM",
   "goodwe": {
-    "grid_power_w": 126,
-    "grid_direction": "Exporting",
-    "inverter_temp_c": 41.6,
-    "battery_power_w": -600,
+    "grid_power_w": 79,
+    "grid_direction": "Idle",
+    "inverter_temp_c": 43.4,
+    "battery_power_w": -602,
     "battery_mode": "Charge",
     "lifetime_solar_kwh": 2947.9,
     "today_solar_kwh": 2.2,
@@ -17,29 +17,24 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 997.2,
     "today_bat_discharge_kwh": 3.5,
-    "home_consumption_w": 279,
+    "home_consumption_w": 214,
     "lifetime_export_kwh": 530.5,
     "lifetime_import_kwh": 30.6,
     "battery_temp_c": 28.9,
     "battery_soc_pct": 73,
     "battery_soh_pct": 100,
-    "solar_now_w": 1010,
+    "solar_now_w": 975,
     "battery_flow": "charging",
     "grid_flow": "exporting"
   },
   "amber": {
-    "current_price_c": 61.2,
-    "sell_price_c": 29.7,
-    "period": "peak",
-    "descriptor": "neutral",
+    "current_price_c": 42.9,
+    "sell_price_c": 29.1,
+    "period": "solarSponge",
+    "descriptor": "low",
     "spike_status": "none",
-    "renewables": 52.20399999999999,
+    "renewables": 56.37,
     "forward_prices": [
-      {
-        "time": "09:00",
-        "price": 42.9,
-        "period": "solarSponge"
-      },
       {
         "time": "09:05",
         "price": 36.0,
@@ -124,12 +119,17 @@
         "time": "12:30",
         "price": -2.2,
         "period": "solarSponge"
+      },
+      {
+        "time": "13:00",
+        "price": -2.3,
+        "period": "solarSponge"
       }
     ],
-    "next_peak_c": 42.9,
-    "next_peak_time": "09:00",
-    "next_trough_c": -2.2,
-    "next_trough_time": "12:30"
+    "next_peak_c": 36.0,
+    "next_peak_time": "09:05",
+    "next_trough_c": -2.3,
+    "next_trough_time": "13:00"
   },
   "today": {
     "solar_kwh": 2.2,
