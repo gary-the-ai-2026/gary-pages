@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYD Seal Premium vs Tesla Model 3 RWD · Hancock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #faf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f0eeea;
+  --ink: #141413;
+  --body: #5c5a55;
+  --muted: #94918a;
+  --hairline: #e4e1db;
+  --hairline-soft: #ece9e4;
+  --coral: #cc785c;
+  --coral-hover: #a9583e;
+  --success: #1b8a3d;
+  --warning: #c2680c;
+  --danger: #c0392b;
+  --radius-card: 20px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --shadow-rest: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--canvas);
+  color: var(--body);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 700px) { .container { padding: 0 32px; } }
+
+/* ── Hero ── */
+.hero { padding: 80px 0 60px; text-align: center; }
+.hero .kicker {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 16px;
+}
+.hero .subtitle {
+  font-size: 1rem; color: var(--body); max-width: 620px; margin: 0 auto; line-height: 1.6;
+}
+@media (min-width: 700px) { .hero { padding: 100px 0 80px; } }
+
+/* ── Section ── */
+.section { padding: 60px 0; }
+.section-header { margin-bottom: 40px; }
+.section-label {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900; color: var(--ink); line-height: 1.15;
+}
+
+/* ── Metric Cards ── */
+.metric-grid { display: grid; gap: 16px; }
+@media (min-width: 700px) {
+  .metric-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .metric-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .metric-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+}
+.metric-card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 28px 24px;
+  box-shadow: var(--shadow-rest);
+}
+.metric-card .label {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.metric-card .value {
+  font-family: var(--font-body);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 8px;
+}
+.metric-card .value .unit { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+.metric-card .note { font-size: 0.82rem; color: var(--body); }
+
+/* ── Cards ── */
+.cards { display: grid; gap: 24px; }
+@media (min-width: 700px) {
+  .cards.cols-2 { grid-template-columns: 1fr 1fr; }
+}
+.card {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); padding: 32px 28px;
+  box-shadow: var(--shadow-rest);
+}
+.card.winner { border-color: var(--success); }
+.card .card-winner-tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--success); margin-bottom: 12px;
+}
+.card-name {
+  font-family: var(--font-display); font-size: 1.6rem;
+  font-weight: 900; color: var(--ink); margin-bottom: 4px;
+}
+.card-price {
+  font-family: var(--font-body); font-size: 2.4rem;
+  font-weight: 900; color: var(--ink); margin-bottom: 2px;
+}
+.card-price-label {
+  font-size: 0.78rem; color: var(--muted); margin-bottom: 24px;
+}
+
+/* ── Spec rows ── */
+.specs {
+  display: grid; gap: 10px;
+  border-top: 1px solid var(--hairline-soft); padding-top: 20px;
+}
+.spec { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.86rem; }
+.spec-label { color: var(--body); }
+.spec-value { font-weight: 600; color: var(--ink); text-align: right; }
+
+/* ── Tables ── */
+.table-wrap {
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--radius-card); overflow: hidden;
+  box-shadow: var(--shadow-rest); margin-top: 20px;
+}
+.table-wrap:first-child { margin-top: 0; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+thead th {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); text-align: left;
+  padding: 18px 20px 12px; border-bottom: 1px solid var(--hairline); white-space: nowrap;
+}
+thead th:last-child { text-align: right; }
+tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+tbody tr.break td { border-bottom: 2px solid var(--hairline); }
+tbody tr.highlight-row { background: rgba(204,120,92,0.04); }
+tbody td:last-child, tbody td.num { text-align: right; font-family: var(--font-mono); font-size: 0.82rem; }
+tbody td.win { color: var(--success); font-weight: 700; }
+tbody td.warn-text { color: var(--danger); font-weight: 600; }
+
+/* ── Verdict ── */
+.verdict {
+  background: rgba(204,120,92,0.06);
+  border: 1px solid rgba(204,120,92,0.2);
+  border-radius: var(--radius-card);
+  padding: 40px 36px;
+}
+@media (min-width: 700px) { .verdict { padding: 48px 44px; } }
+.verdict-badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 16px;
+}
+.verdict h2 {
+  font-family: var(--font-display); font-size: clamp(1.6rem,4vw,2.4rem);
+  font-weight: 900; color: var(--ink); margin-bottom: 16px;
+}
+.verdict .price { font-size: 0.9rem; color: var(--body); margin-bottom: 20px; }
+.verdict ol {
+  font-size: 0.9rem; color: var(--body); line-height: 1.7;
+  margin: 0 0 20px; padding: 0 0 0 24px;
+}
+.verdict ol strong { color: var(--ink); }
+.verdict .neg-notes { font-size: 0.84rem; color: var(--muted); line-height: 1.6; }
+
+/* ── Insight / Note Boxes ── */
+.insight {
+  background: var(--surface-alt); border-radius: var(--radius-card);
+  padding: 24px 28px; font-size: 0.88rem; color: var(--body);
+  margin-top: 20px; line-height: 1.7;
+}
+.insight strong { color: var(--ink); }
+.insight.good { border-left: 3px solid var(--success); }
+.insight.warn { border-left: 3px solid var(--warning); }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center; padding: 20px 0 40px;
+  font-size: 0.78rem; color: var(--muted);
+}
+
+@media (max-width: 699px) {
+  .table-scroll { margin: 0 -20px; padding: 0 20px; }
+  thead th, tbody td { padding: 12px 12px; font-size: 0.78rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="kicker">Purchase Decision · October 2026</div>
+  <h1>Seal Premium or Model 3 RWD?</h1>
+  <p class="subtitle">The demo BYD Seal Premium you hold an invoice for, versus a brand-new Tesla Model 3 RWD. Both land at almost the same money — and the new base Tesla claims <em>more</em> range than the Seal. This is a quieter call than it looks.</p>
+</section>
+
+<!-- ═══ The Bottom Line Up Front ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Headline</div>
+    <div class="section-title">Same Money. Different Question.</div>
+  </div>
+
+  <div class="metric-grid cols-3">
+    <div class="metric-card">
+      <div class="label">Your Seal Premium deal</div>
+      <div class="value" style="font-family:var(--font-mono);">$51,223</div>
+      <div class="note">drive-away, inc. GST + stamp duty + rego. Demo unit, 5,580 km. Deposit $500 already paid.</div>
+    </div>
+    <div class="metric-card">
+      <div class="label">Model 3 RWD (new)</div>
+      <div class="value" style="font-family:var(--font-mono);">$50,544</div>
+      <div class="note">SA drive-away, brand new. $45,900 + on-road costs.</div>
+    </div>
+    <div class="metric-card">
+      <div class="label">The difference</div>
+      <div class="value" style="font-family:var(--font-mono);">$679</div>
+      <div class="note">The Tesla is the <em>cheaper</em>, newer car — but a lower spec.</div>
+    </div>
+  </div>
+
+  <div class="insight warn">
+    <strong>One honest caveat before the detail:</strong> the Seal you've committed to is a <strong>demo/used unit</strong> (5,580 km, build 03/2026) negotiated down to $51,223 — the Tesla is <strong>brand new</strong> at $50,544. So this isn't "same car, different badge." It's: a fully-loaded used-upgradeable sedan just over budget, versus a brand-new entry-spec sedan just under. The Seal wins on power and equipment; the Tesla wins on newness and future resale path.
+  </div>
+</section>
+
+<!-- ═══ The Two Cars ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Two Cars</div>
+    <div class="section-title">What You're Actually Comparing</div>
+  </div>
+
+  <div class="cards cols-2">
+    <div class="card winner">
+      <div class="card-winner-tag">More Car For The Money</div>
+      <div class="card-name">BYD Seal Premium</div>
+      <div class="card-price">$51,223</div>
+      <div class="card-price-label">your locked deal · drive-away SA</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Trim</span><span class="spec-value" style="color:var(--success);">Premium (mid, not entry)</span></div>
+        <div class="spec"><span class="spec-label">Power</span><span class="spec-value">230 kW · 360 Nm</span></div>
+        <div class="spec"><span class="spec-label">0–100 km/h</span><span class="spec-value">5.9 s</span></div>
+        <div class="spec"><span class="spec-label">Range (WLTP)</span><span class="spec-value">570 km</span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">82.56 kWh BYD Blade (LFP)</span></div>
+        <div class="spec"><span class="spec-label">Charging</span><span class="spec-value">11 kW AC / 150 kW DC</span></div>
+        <div class="spec"><span class="spec-label">Interior</span><span class="spec-value">Leather, HUD, proper dash</span></div>
+        <div class="spec"><span class="spec-label">Vehicle warranty</span><span class="spec-value">6 yr</span></div>
+        <div class="spec"><span class="spec-label">Condition</span><span class="spec-value">Demo · 5,580 km</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-winner-tag" style="color:var(--coral);">Brand New · More Range · $679 Less</div>
+      <div class="card-name">Tesla Model 3 RWD</div>
+      <div class="card-price">$50,544</div>
+      <div class="card-price-label">SA drive-away · brand new</div>
+      <div class="specs">
+        <div class="spec"><span class="spec-label">Trim</span><span class="spec-value">Base RWD (entry)</span></div>
+        <div class="spec"><span class="spec-label">Power</span><span class="spec-value">208 kW · ~420 Nm</span></div>
+        <div class="spec"><span class="spec-label">0–100 km/h</span><span class="spec-value">6.1 s</span></div>
+        <div class="spec"><span class="spec-label">Range (WLTP)</span><span class="spec-value" style="color:var(--success);">572 km <span style="font-size:0.75rem;">(beats Seal)</span></span></div>
+        <div class="spec"><span class="spec-label">Battery</span><span class="spec-value">≈62.5 kWh (LFP)</span></div>
+        <div class="spec"><span class="spec-label">Charging</span><span class="spec-value">11 kW AC / 250 kW DC</span></div>
+        <div class="spec"><span class="spec-label">Interior</span><span class="spec-value">16" screen · no rear display</span></div>
+        <div class="spec"><span class="spec-label">Vehicle warranty</span><span class="spec-value">5 yr · unlimited km</span></div>
+        <div class="spec"><span class="spec-label">Condition</span><span class="spec-value">New · 0 km</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Side by Side ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Head to Head</div>
+    <div class="section-title">Spec by Spec</div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Spec</th><th>BYD Seal Premium</th><th>Tesla Model 3 RWD</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Drive-away price (SA)</td><td class="num">$51,223 <span class="win" style="font-size:0.75rem;">(demo)</span></td><td class="num">$50,544</td></tr>
+        <tr class="break"><td>New / used</td><td class="num">Demo, 5,580 km</td><td class="num">Brand new</td></tr>
+        <tr class="highlight-row"><td>Max power</td><td class="num win">230 kW</td><td class="num">208 kW</td></tr>
+        <tr><td>Torque</td><td class="num win">360 Nm</td><td class="num">~420 Nm</td></tr>
+        <tr><td>0–100 km/h</td><td class="num win">5.9 s</td><td class="num">6.1 s</td></tr>
+        <tr class="break"><td>Drivetrain</td><td class="num">RWD, single motor</td><td class="num">RWD, single motor</td></tr>
+        <tr class="highlight-row"><td>WLTP range</td><td class="num">570 km</td><td class="num win">572 km</td></tr>
+        <tr><td>Battery</td><td class="num win">82.56 kWh Blade</td><td class="num">≈62.5 kWh</td></tr>
+        <tr><td>Battery chemistry</td><td class="num win">LFP (charge to 100%)</td><td class="num">LFP</td></tr>
+        <tr class="break"><td>Max DC fast-charge</td><td class="num">150 kW</td><td class="num win">250 kW</td></tr>
+        <tr class="highlight-row"><td>Interior</td><td class="num win">Leather, HUD, cluster</td><td class="num">Minimalist, single screen</td></tr>
+        <tr><td>Supercharger network</td><td class="num">—</td><td class="num win">Full access</td></tr>
+        <tr><td>OTA software updates</td><td class="num">Limited</td><td class="num win">Regular, whole-life</td></tr>
+        <tr class="break"><td>Vehicle warranty</td><td class="num win">6 yr</td><td class="num">5 yr / unlimited km</td></tr>
+        <tr><td>Battery warranty</td><td class="num">~8 yr / 160,000 km</td><td class="num win">8 yr / 192,000 km</td></tr>
+        <tr class="highlight-row"><td>Kerb weight</td><td class="num">2,055 kg</td><td class="num win">1,768 kg</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <p style="font-size:0.78rem;color:var(--muted);margin-top:14px;">Range figures are manufacturer WLTP claims — real-world is typically 15–20% lower on both. Seal Premium figures per BYD Australia + Easy Auto 123 invoice M16386. Tesla figures per Carsales/Drive/CarExpert 2026 and The Beep SA drive-away data.</p>
+</section>
+
+<!-- ═══ Where Each Wins ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">The Balanced View</div>
+    <div class="section-title">What Owners Actually Say</div>
+  </div>
+
+  <div class="cards cols-2">
+    <div class="card">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">BYD Seal Premium — wins where it counts for a family</div>
+      <div style="font-size:0.88rem;color:var(--body);line-height:1.8;">
+        <strong style="color:var(--body);">More car for the money.</strong> Significantly more power (230 vs 208 kW), near-identical or better range (570 km) from a much bigger battery (82.56 vs 62.5 kWh), leather interior, proper instrument cluster and HUD.<br><br>
+        <strong>A proper dashboard.</strong> Owners repeatedly cite this over the Tesla — "an instrument cluster in front of the driver," a normal, comfortable, old-school-but-modern cabin.<br><br>
+        <strong>LFP Blade battery</strong> you can charge to 100% daily without degrading it, plus a longer 6-year vehicle warranty than the base Tesla's 5.<br><br>
+        <span style="color:var(--muted);">Community read: "Seal was the clear winner… every finish feels more premium… and it has a dashboard."</span>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tesla Model 3 RWD — wins where it compounds over years</div>
+      <div style="font-size:0.88rem;color:var(--body);line-height:1.8;">
+        <strong style="color:var(--body);">Brand new, for less money.</strong> $50,544 drive-away vs $51,223 for a 5,580 km demo. First owner, 0 km, full factory warranty from day one.<br><br>
+        <strong>Supercharger network + 250 kW charging.</strong> Genuine long-distance touring capability and the best DC charging in the country — worth real money for road trips.<br><br>
+        <strong>Software that improves forever.</strong> Regular OTA updates that add features and safety over the car's life; the strongest driver-assist suite in the segment.<br><br>
+        <strong>Better future resale path</strong> — Tesla holds brand recognition and a proven resale market; the base RWD is now under-cutting the Seal's value pitch.
+        <span style="color:var(--muted);"><br><br>Community read: "better charging ecosystem, proven drivetrain, excellent software and constant updates."</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Both experts and owners land on the same verdict:</strong> the Seal Premium is the better <em>purchase</em> for most buyers (more car, more power, more battery, nicer cabin, longer warranty at the same money); the Model 3 is the better <em>long-term ownership</em> proposition (new, better charging network, relentless software, better resale). The decision isn't which is a better car — it's whether you'd rather have the richer car today or the better long-term ownership story.
+  </div>
+</section>
+
+<!-- ═══ Verdict ═══ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-label">Recommendation</div>
+    <div class="section-title">The Call</div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-badge">Gary's View</div>
+    <h2>Now a genuine coin-flip — lean Seal for power & cabin, Tesla for newness & range</h2>
+    <div class="price">My first pass flattered the Seal. The real data narrows this dramatically — the brand-new Tesla claims <em>more</em> WLTP range than your demo Seal (572 vs 570 km), <em>and</em> costs $679 less.</div>
+    <ol>
+      <li><strong>The Seal is no longer the obvious value win.</strong> Doing a demo premium sedan against a brand-new entry sedan at near-identical money, the Seal keeps only these real edges: more power (230 vs 208 kW), a much bigger battery (82.5 vs 62.5 kWh), a leather/HUD cabin, and 1 extra year of warranty (6 vs 5). Everything else is a wash or favours Tesla.</li>
+      <li><strong>The Tesla's case is now strong:</strong> brand new, 0 km, <em>equal-or-better range</em>, Supercharger network, 250 kW charging, OTA software, V2L/Powershare, and the strongest resale path in the segment — all for less money than your Seal deposit deal.</li>
+      <li><strong>What you'd give up in the base Tesla</strong> vs the Premium/SWV: ventilated front seats, the rear touchscreen, heated rear seats, full-width ambient lighting, richer upholstery (textile not full leatherette), 7 vs 9 speakers, and the Premium's frequency-selective dampers (base gets conventional). In an Adelaide January, the missing seat ventilation is legitimately felt.</li>
+      <li><strong>The deposit is the tie-breaker.</strong> You've put $500 down on the Seal (08/10). If that's refundable, the Tesla genuinely deserves equal odds. If it's forfeit, add it to the Seal column before you flip.</li>
+    </ol>
+    <div class="neg-notes">If you lean Tesla, verify the exact drive-away on your order link — $50,544 is indicative SA data, not a quote. Ask me to pull the live configurator total before signing. Range claims are WLTP; both are ~15–20% lower in real-world use.</div>
+  </div>
+</section>
+
+</div>
+
+<footer class="site-footer">
+  Prepared by Gary · for Josh Hancock · October 2026
+</footer>
+
+</body>
+</html>
