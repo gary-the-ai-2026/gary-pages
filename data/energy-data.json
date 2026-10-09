@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-09T09:44:22.004658+09:30",
-  "timestamp_display": "9 Oct 2026 \u00b7 9:44 AM",
-  "timestamp_short": "9:44:22 AM",
+  "timestamp": "2026-10-09T09:46:22.426303+09:30",
+  "timestamp_display": "9 Oct 2026 \u00b7 9:46 AM",
+  "timestamp_short": "9:46:22 AM",
   "goodwe": {
-    "grid_power_w": 64,
+    "grid_power_w": 46,
     "grid_direction": "Idle",
-    "inverter_temp_c": 43.5,
-    "battery_power_w": -553,
+    "inverter_temp_c": 42.2,
+    "battery_power_w": -556,
     "battery_mode": "Charge",
     "lifetime_solar_kwh": 2948.8,
     "today_solar_kwh": 3.1,
@@ -17,29 +17,24 @@
     "today_bat_charge_kwh": 0.1,
     "lifetime_bat_discharge_kwh": 997.2,
     "today_bat_discharge_kwh": 3.5,
-    "home_consumption_w": 399,
+    "home_consumption_w": 324,
     "lifetime_export_kwh": 530.5,
     "lifetime_import_kwh": 30.6,
     "battery_temp_c": 28.8,
     "battery_soc_pct": 74,
     "battery_soh_pct": 100,
-    "solar_now_w": 1060,
+    "solar_now_w": 968,
     "battery_flow": "charging",
-    "grid_flow": "exporting"
+    "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 9.6,
-    "sell_price_c": -0.6,
+    "current_price_c": 14.5,
+    "sell_price_c": 3.9,
     "period": "solarSponge",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 63.852,
+    "renewables": 63.9,
     "forward_prices": [
-      {
-        "time": "09:45",
-        "price": 12.9,
-        "period": "solarSponge"
-      },
       {
         "time": "09:50",
         "price": 9.6,
@@ -116,8 +111,8 @@
         "period": "solarSponge"
       }
     ],
-    "next_peak_c": 12.9,
-    "next_peak_time": "09:45",
+    "next_peak_c": 9.6,
+    "next_peak_time": "09:50",
     "next_trough_c": 3.1,
     "next_trough_time": "13:30"
   },
@@ -126,7 +121,7 @@
     "load_kwh": 3.9,
     "import_kwh": 0.0,
     "export_kwh": 4.0,
-    "grid_export_kwh": 0.17,
+    "grid_export_kwh": 0.18,
     "grid_import_kwh": 0.0,
     "grid_import_cost_dollars": 0.0,
     "grid_export_revenue_dollars": 0.03,
