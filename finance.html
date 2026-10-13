@@ -248,10 +248,10 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   color: var(--coral);
 }
 
-/* ── Two-col chart layout ── */
+/* ── Chart layout ── */
 .charts-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 24px;
   margin-bottom: 40px;
 }
@@ -308,16 +308,8 @@ tr:nth-child(even) td { background: rgba(0,0,0,0.012); }
   </div>
 </section>
 
-<!-- ═══ INCOME & LOAN ROW ═══ -->
+<!-- ═══ LOAN ROW ═══ -->
 <div class="charts-row">
-  <div class="chart-card gsap-reveal">
-    <h3>Money In</h3>
-    <div class="chart-wrap"><canvas id="incomeChart"></canvas></div>
-    <div class="chart-note" style="margin-top:16px;font-size:0.78rem;color:var(--muted);text-align:center;">
-      Actual deposits this month: <strong style="color:var(--ink);" id="incomeActual">—</strong><br>
-      Monthly run rate: <strong style="color:var(--ink);" id="incomeRunRate">—</strong>
-    </div>
-  </div>
   <div class="chart-card gsap-reveal" id="loanCard">
     <h3>Loan — Interest vs Principal</h3>
     <div id="loanPlaceholder" style="text-align:center;padding:48px 0;color:var(--muted);font-size:0.88rem;">
@@ -477,7 +469,6 @@ function renderAll() {
   // Build charts
   buildSavingsChart();
   buildExpenseChart(pd);
-  buildIncomeChart(pd);
   buildLoanChart(pd);
   buildSupplierTable(pd);
   buildTable();
@@ -600,53 +591,6 @@ function buildExpenseChart(pd) {
     }
   });
   updateTally();
-}
-
-function buildIncomeChart(pd) {
-  if (!pd.income) return;
-  const ctx = document.getElementById('incomeChart').getContext('2d');
-  const sources = pd.income.sources || [];
-  const actualEl = document.getElementById('incomeActual');
-  const rateEl = document.getElementById('incomeRunRate');
-  // Always reset both, so a month without income never shows a stale run-rate.
-  actualEl.textContent = '$' + pd.income.total.toLocaleString();
-  rateEl.textContent = pd.income.note ? '' : '—';
-  if (sources.length === 0) {
-    // No pay captured — show a clear placeholder instead of a blank chart + misleading $0.
-    rateEl.textContent = pd.income.note || 'No income captured this month';
-    if (charts.income) { charts.income.destroy(); delete charts.income; }
-    // draw a faint "no data" bar
-    new Chart(ctx, {
-      type: 'bar',
-      data: { labels: [pd.income.note ? 'Income not captured' : 'No income'], datasets: [{ data: [0], backgroundColor: 'rgba(204,120,92,0.15)', borderRadius: 6 }] },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true,
-        plugins: { legend: { display: false }, tooltip: { enabled: false } },
-        scales: { x: { display: false }, y: { ticks: { font: { family: 'Inter', size: 12 }, color: '#9a968f' }, grid: { display: false } } } }
-    });
-    return;
-  }
-  document.getElementById('incomeActual').textContent = '$' + pd.income.total.toLocaleString();
-  document.getElementById('incomeRunRate').textContent =
-    (pd.income.monthlyEquivalent ? '~$' + pd.income.monthlyEquivalent.toLocaleString() + ' (excl. super, tax refunds & dividends)' : '');
-  charts.income = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: sources.map(s => s.name),
-      datasets: [{
-        data: sources.map(s => s.amount),
-        backgroundColor: sources.map(s => s.color),
-        borderRadius: 6, borderSkipped: false
-      }]
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: true,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '  $' + ctx.raw.toLocaleString() + '  ' } } },
-      scales: {
-        x: { ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K', font: { family: 'JetBrains Mono', size: 11 }, color: '#5c5a55' }, grid: { color: '#ece9e4' } },
-        y: { ticks: { font: { family: 'Inter', size: 11 }, color: '#5c5a55' }, grid: { display: false } }
-      }
-    }
-  });
 }
 
 function buildLoanChart(pd) {
