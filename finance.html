@@ -414,7 +414,7 @@ let DATA = {};
 let currentPeriod = null;
 let charts = {}; // hold chart instances for destroy/rebuild
 
-fetch('data/finance.json')
+fetch('data/finance.json?cb=' + Date.now())
   .then(r => r.json())
   .then(d => {
     DATA = d;
