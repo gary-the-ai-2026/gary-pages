@@ -30,6 +30,11 @@ body{background:var(--canvas);color:var(--body);font-family:var(--font-body);-we
 .kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--coral);margin-bottom:12px;}
 h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-0.01em;}
 .subtitle{font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:14px;max-width:60ch;}
+.section-img{width:100%;max-width:320px;border-radius:var(--radius-card);border:1px solid var(--hairline);margin-top:var(--space-md);display:block;}
+
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);align-items:center;}
+.hero-img{width:100%;max-width:440px;border-radius:var(--radius-card);border:1px solid var(--hairline);margin-top:var(--space-md);}
+@media(max-width:700px){.hero-grid{grid-template-columns:1fr;}.hero-img{max-width:100%;}}
 
 .verdict{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-lg);margin:var(--space-md) 0 var(--space-lg);box-shadow:var(--shadow-rest);}
 .verdict-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
@@ -89,9 +94,14 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
 <div class="container">
 
   <section class="hero">
-    <div class="kicker">2016 VW Golf 92TSI · 69,457 km · S116BJI</div>
-    <h1>The Golf, priced fairly.</h1>
-    <p class="subtitle">A straight answer for Phil — what the same car is actually worth today, less the parts it needs. No labour, no margins, no dealer markup. Just the car.</p>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="kicker">2016 VW Golf 92TSI · 69,457 km · S116BJI</div>
+        <h1>The Golf, priced fairly.</h1>
+        <p class="subtitle">A straight answer for Phil — what the same car is actually worth today, less the parts it needs. No labour, no margins, no dealer markup. Just the car.</p>
+      </div>
+      <img class="hero-img" src="images/golf/golf-hero.jpg" alt="A clean VW Golf hatchback illustration on a cream background">
+    </div>
   </section>
 
   <div class="verdict">
@@ -109,6 +119,7 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
       <p>Single owner since new. No pets, no smoking, no shortcuts.</p>
       <p>Immaculately looked after — by a <span class="punch">"slow driver"</span>.</p>
     </div>
+    <img class="section-img" src="images/golf/golf-maintained.jpg" alt="A clean Golf being cared for in a tidy workshop" loading="lazy">
     <p style="font-size:14px;color:var(--muted);margin-top:var(--space-md);">Serviced 9 Oct 2026 at Mitcham Auto Tune (Repco Authorised) — oil, 62-point safety check, pressure-tested cooling, road test. $446 service just done. Next due 9 Apr 2027 or 79,457 km.</p>
   </section>
 
@@ -202,6 +213,7 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
         <div class="repair-cost">~$120</div>
       </div>
     </div>
+    <img class="section-img" src="images/golf/golf-parts.jpg" alt="A balance scale weighing a car against coins" loading="lazy">
     <p style="font-size:14px;color:var(--muted);margin-top:var(--space-sm);">Brakes and tyres are healthy — front pads 10 mm, rear 6 mm, tyres 6 mm. Engine mounts soft but fine; rechecked next service. The oil-leak, A/C and filter figures are parts estimates; the shocks are the firm quote.</p>
   </section>
 
@@ -222,7 +234,10 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
           <tr><td>A/C valves + regas — estimate</td><td class="amt minus">−$120</td></tr>
           <tr><td>Air filters — estimate</td><td class="amt minus">−$120</td></tr>
           <tr class="total"><td>Subtotal after parts</td><td class="amt">≈ $11,700</td></tr>
-          <tr class="total"><td>Less the convenience of a quick, no-ads sale</td><td class="amt minus">−$700</td></tr>
+          <tr><td>No ad fees, no garaging a public listing</td><td class="amt minus">−$250</td></tr>
+          <tr><td>No staging, cleaning and showings for tyre-kickers</td><td class="amt minus">−$250</td></tr>
+          <tr><td>No haggling or waiting on a stranger</td><td class="amt minus">−$200</td></tr>
+          <tr class="total"><td>Less the convenience of a quick, private handover</td><td class="amt minus">−$700</td></tr>
           <tr class="total"><td style="font-size:17px;">The price for Phil</td><td class="amt" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:900;color:var(--coral);">$11,000</td></tr>
         </tbody>
       </table>
@@ -237,7 +252,7 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
     </div>
     <div class="verdict" style="margin-top:0;">
       <div class="verdict-sub" style="line-height:1.7;font-size:16px;">
-        Phil gets a <strong>single-owner, low-km, just-serviced</strong> Golf with a full paper trail, at <strong>$11,000</strong> — the market value less the replacement parts it needs. Josh gives it up below the comparable listings (which run $12k to $15k) because it's going to family, with none of the time, fees or tyre-kickers of a private sale. Honest number, no games.
+        Phil gets a <strong>single-owner, low-km, just-serviced</strong> Golf with a full paper trail, at <strong>$11,000</strong> — the market value less the replacement parts it needs. It'll arrive with a full tank of fuel and a fresh clean. Josh gives it up below the comparable listings (which run $12k to $15k) because it's going to family, with none of the time, fees or tyre-kickers of a private sale. Honest number, no games.
       </div>
     </div>
   </section>
