@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="robots" content="noindex, nofollow">
+<title>Josh's Golf — A Fair Price</title>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas:#faf9f5;--surface:#ffffff;--surface-alt:#f0eeea;--ink:#141413;--body:#5c5a55;
+  --muted:#94918a;--hairline:#e4e1db;--hairline-soft:#ece9e4;--coral:#cc785c;--coral-hover:#a9583e;
+  --success:#1b8a3d;--warning:#c2680c;--danger:#c0392b;
+  --radius-card:20px;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',monospace;
+  --space-sm:16px;--space-md:24px;--space-lg:40px;--space-xl:56px;
+  --shadow-rest:0 1px 3px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--canvas);color:var(--body);font-family:var(--font-body);-webkit-font-smoothing:antialiased;line-height:1.55;}
+.container{max-width:920px;margin:0 auto;padding:0 var(--space-xl);}
+
+/* Hero */
+.hero{padding:var(--space-xl) 0 var(--space-md);}
+.kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--coral);margin-bottom:12px;}
+h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:-0.01em;}
+.subtitle{font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:14px;max-width:56ch;}
+
+/* Verdict price block */
+.verdict{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-lg);margin:var(--space-md) 0 var(--space-lg);box-shadow:var(--shadow-rest);}
+.verdict-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.verdict-price{font-family:var(--font-display);font-size:clamp(48px,9vw,84px);font-weight:900;color:var(--ink);line-height:1;margin:6px 0 4px;}
+.verdict-sub{font-size:15px;color:var(--body);}
+
+/* Section */
+.section{margin:var(--space-xl) 0 var(--space-md);}
+.section-header{margin-bottom:var(--space-md);}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--coral);}
+.section-title{font-family:var(--font-display);font-size:clamp(24px,3.6vw,34px);font-weight:900;color:var(--ink);}
+.section-note{font-size:14px;color:var(--muted);margin-top:6px;}
+
+/* Cards */
+.cards{display:grid;gap:var(--space-sm);}
+@media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr);}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-md);box-shadow:var(--shadow-rest);}
+.card h3{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.card .price{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--ink);}
+.card .dist{font-size:13px;color:var(--muted);margin-top:4px;}
+.card a{color:var(--coral);font-size:13px;text-decoration:none;font-weight:600;}
+.card a:hover{text-decoration:underline;}
+.card .sub{font-size:13px;color:var(--body);margin-top:10px;line-height:1.5;}
+
+/* Repair list */
+.repairs{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);overflow:hidden;box-shadow:var(--shadow-rest);}
+.repair-row{display:flex;align-items:flex-start;gap:var(--space-md);padding:var(--space-md);border-bottom:1px solid var(--hairline-soft);}
+.repair-row:last-child{border-bottom:none;}
+.repair-left{flex:1;}
+.repair-name{font-size:16px;font-weight:700;color:var(--ink);}
+.repair-detail{font-size:14px;color:var(--body);margin-top:4px;}
+.repair-cost{font-family:var(--font-mono);font-size:16px;font-weight:500;color:var(--ink);white-space:nowrap;text-align:right;}
+.pill{display:inline-block;font-family:var(--font-mono);font-size:11px;letter-spacing:0.05em;padding:3px 9px;border-radius:999px;margin-top:8px;}
+.pill-danger{background:#fbeae7;color:var(--danger);}
+.pill-warn{background:#f7eddf;color:var(--warning);}
+.pill-ok{background:#e9f4ec;color:var(--success);}
+@media(max-width:600px){.repair-row{flex-direction:column;}.repair-cost{text-align:left;}}
+
+/* Calculation */
+.calc table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);overflow:hidden;}
+.calc th,.calc td{padding:14px var(--space-md);text-align:left;border-bottom:1px solid var(--hairline-soft);font-size:15px;}
+.calc th{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:var(--surface-alt);}
+.calc td.amt{font-family:var(--font-mono);text-align:right;white-space:nowrap;}
+.calc tr.total td{font-weight:800;color:var(--ink);background:var(--surface-alt);border-top:2px solid var(--coral);}
+.calc td.plus{color:var(--success);}
+.calc td.minus{color:var(--danger);}
+@media(max-width:600px){.calc table{display:block;}.table-wrap{overflow-x:auto;}}
+
+/* Caveat callout */
+.caveat{background:#f7eddf;border-left:4px solid var(--warning);border-radius:12px;padding:var(--space-md);margin:var(--space-md) 0;}
+.caveat strong{color:var(--warning);}
+
+/* Footer */
+.footer{margin:var(--space-xl) 0 var(--space-lg);padding-top:var(--space-md);border-top:1px solid var(--hairline);font-size:13px;color:var(--muted);line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">2016 VW Golf 92TSI · 69,457 km · S116BJI</div>
+    <h1>Josh's Golf, priced fairly.</h1>
+    <p class="subtitle">A straight answer for David, built from what the same car is actually selling for today, minus the work the service report says it needs.</p>
+  </section>
+
+  <div class="verdict">
+    <div class="verdict-label">Recommended price to David</div>
+    <div class="verdict-price">$9,500</div>
+    <div class="verdict-sub">If Josh first fixes the rear shocks (~$595) so the car is roadworthy for handover.</div>
+  </div>
+
+  <div class="caveat">
+    <strong>One decision changes the number.</strong> The rear shocks are flagged <em>unroadworthy</em>. Fix them and the fair figure is ~$9,500. Sell as-is and the shocks, oil leak and A/C drop it to roughly <strong>$8,500–$8,800</strong>. This page explains both.
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">The Market Today</div>
+      <div class="section-title">Same car, live listings</div>
+      <div class="section-note">Comparable 2016 Golf 92TSI hatchbacks on carsales right now. Josh's is base manual, so it runs a touch under the autos listed here.</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>92TSI Auto MY17</h3>
+        <div class="price">$14,988</div>
+        <div class="dist">71,528 km · dealer · WA</div>
+        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my17/OAG-AD-26315276/" target="_blank" rel="noopener">View listing ↗</a>
+        <div class="sub">Closest mileage to Josh's car — low km premium.</div>
+      </div>
+      <div class="card">
+        <h3>92TSI Auto MY16</h3>
+        <div class="price">$14,000</div>
+        <div class="dist">42,625 km · private · NSW</div>
+        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20910114/" target="_blank" rel="noopener">View listing ↗</a>
+        <div class="sub">Very low km — the low end of the km range.</div>
+      </div>
+      <div class="card">
+        <h3>92TSI Auto MY16</h3>
+        <div class="price">$12,000</div>
+        <div class="dist">100,000 km · private · QLD</div>
+        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20968043/" target="_blank" rel="noopener">View listing ↗</a>
+        <div class="sub">Mid km — a realistic like-for-like.</div>
+      </div>
+      <div class="card">
+        <h3>92TSI Auto MY16</h3>
+        <div class="price">$9,990</div>
+        <div class="dist">171,500 km · private · NSW</div>
+        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20881524/" target="_blank" rel="noopener">View listing ↗</a>
+        <div class="sub">High km — the floor of the market.</div>
+      </div>
+      <div class="card">
+        <h3>92TSI Comfortline Auto</h3>
+        <div class="price">$13,999</div>
+        <div class="dist">78,313 km · private · NSW</div>
+        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-comfortline-7-auto-my16/SSE-AD-20636292/" target="_blank" rel="noopener">View listing ↗</a>
+        <div class="sub">One spec up — the upper stretch.</div>
+      </div>
+      <div class="card">
+        <h3>Guide band (92TSI)</h3>
+        <div class="price">$11,000</div>
+        <div class="dist">carsguide &amp; carsales EGC</div>
+        <div class="sub">Guide ranges put a clean 70k base 92TSI at roughly $10k–12k. Josh's sits mid-band.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Work To Be Done</div>
+      <div class="section-title">What the service report found</div>
+      <div class="section-note">Serviced 9 Oct 2026 at Mitcham Auto Tune (Repco Authorised) — oil, 62-point check, $446. Next service due 9 Apr 2027 or 79,457 km.</div>
+    </div>
+    <div class="repairs">
+      <div class="repair-row">
+        <div class="repair-left">
+          <div class="repair-name">Rear shock absorbers — leaking oil</div>
+          <div class="repair-detail">2 × KYB rear shocks · flagged <strong>unroadworthy</strong></div>
+          <span class="pill pill-danger">Unroadworthy</span>
+        </div>
+        <div class="repair-cost">~$595</div>
+      </div>
+      <div class="repair-row">
+        <div class="repair-left">
+          <div class="repair-name">Motor oil leak — PCV under intake manifold</div>
+          <div class="repair-detail">Needs investigation and repair</div>
+          <span class="pill pill-warn">Not yet quoted</span>
+        </div>
+        <div class="repair-cost">~$400</div>
+      </div>
+      <div class="repair-row">
+        <div class="repair-left">
+          <div class="repair-name">A/C low on gas — valves leaking</div>
+          <div class="repair-detail">New gas port valves + regas</div>
+          <span class="pill pill-warn">Not yet quoted</span>
+        </div>
+        <div class="repair-cost">~$350</div>
+      </div>
+      <div class="repair-row">
+        <div class="repair-left">
+          <div class="repair-name">Engine air filter &amp; cabin filter due</div>
+          <div class="repair-detail">Standard service items</div>
+          <span class="pill pill-ok">Routine</span>
+        </div>
+        <div class="repair-cost">~$150</div>
+      </div>
+      <div class="repair-row">
+        <div class="repair-left">
+          <div class="repair-name">Engine mounts soft — fine for now</div>
+          <div class="repair-detail">Recheck at next service</div>
+          <span class="pill pill-ok">No action</span>
+        </div>
+        <div class="repair-cost">–</div>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-top:var(--space-sm);">Brakes and tyres are healthy — front pads 10 mm, rear 6 mm, tyres 6 mm. The oil-leak and A/C figures are estimates; the shocks are the only firm quote.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">How We Got There</div>
+      <div class="section-title">The calculation</div>
+      <div class="section-note">Start with a fair private-sale value for a clean, low-km car, then take off the work it needs.</div>
+    </div>
+    <div class="calc">
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Line</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Fair private-sale value (clean, 70k km, mid-band)</td><td class="amt plus">+$11,000</td></tr>
+          <tr><td>Rear shocks (unroadworthy)</td><td class="amt minus">−$595</td></tr>
+          <tr><td>Motor oil leak (PCV) — estimate</td><td class="amt minus">−$400</td></tr>
+          <tr><td>A/C valves + regas — estimate</td><td class="amt minus">−$350</td></tr>
+          <tr><td>Air filters — estimate</td><td class="amt minus">−$150</td></tr>
+          <tr class="total"><td>Fair family price as-is</td><td class="amt">≈ $8,500–$8,800</td></tr>
+          <tr class="total"><td>If shocks fixed first (roadworthy)</td><td class="amt">≈ $9,500</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">The Ask</div>
+      <div class="section-title">Price for David</div>
+    </div>
+    <div class="verdict" style="margin-top:0;">
+      <div class="verdict-price" style="font-size:clamp(40px,7vw,64px);">$9,500</div>
+      <div class="verdict-sub">Sell the Golf to David with the rear shocks replaced and a fresh roadworthy check, at $9,500. That's a genuine family price — above dealer trade-in (~$7.5k–8k), below what Josh could get privately (~$11k), and it puts a roadworthy, serviced car in David's hands with a full paper trail.</div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Prepared by Gary for Josh &amp; Amy Hancock · 15 October 2026.<br>
+    Live comparables: carsales.com.au listings above · Guide bands: carsguide &amp; carsales EGC (MY16 92TSI).<br>
+    Service report: Mitcham Auto Tune &amp; Service (Repco Authorised), 9 Oct 2026, invoice $446.43.<br>
+    Oil-leak, A/C and filter figures are estimates until quoted. This is a family pricing guide, not a professional appraisal.
+  </div>
+
+</div>
+</body>
+</html>
