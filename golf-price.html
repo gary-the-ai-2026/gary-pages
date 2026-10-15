@@ -52,37 +52,29 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
 .band-chip{font-family:var(--font-mono);font-size:12px;background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:6px 14px;color:var(--ink);}
 .band-hint{font-size:13px;color:var(--muted);}
 
-/* Horizontal pricing scroller */
-.market-wrap{position:relative;}
-.scroller{overflow-x:auto;padding:6px 0 18px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--coral) var(--hairline-soft);}
-.scroller::-webkit-scrollbar{height:10px;}
-.scroller::-webkit-scrollbar-thumb{background:var(--coral);border-radius:8px;border:2px solid var(--canvas);}
-.scroller::-webkit-scrollbar-track{background:var(--hairline-soft);border-radius:8px;}
-.scroll-fade{position:absolute;top:6px;bottom:20px;width:56px;pointer-events:none;z-index:2;opacity:1;transition:opacity .3s ease;}
-.scroll-fade.right{right:-2px;background:linear-gradient(to right,rgba(250,249,245,0),var(--canvas) 88%);}
-.scroll-fade.left{left:-2px;background:linear-gradient(to left,rgba(250,249,245,0),var(--canvas) 88%);}
-.market-wrap.at-start .scroll-fade.left{opacity:0;}
-.market-wrap.at-end .scroll-fade.right{opacity:0;}
-.scroll-nav{display:flex;justify-content:center;gap:10px;margin-top:4px;}
-.scroll-btn{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:9px 20px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .15s ease,background .15s ease;box-shadow:var(--shadow-rest);}
-.scroll-btn:hover{background:var(--coral);transform:translateY(-1px);}
-.scroll-btn svg{stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.scroll-btn:active{transform:translateY(0);}
-.scroll-hint{text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);margin-top:14px;}
-.scroll-hint svg{vertical-align:-2px;animation:hint-nudge 1.4s ease-in-out infinite;}
-@keyframes hint-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
-.track{display:flex;gap:12px;min-width:max-content;}
-.tick{flex:0 0 150px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:16px;scroll-snap-align:start;display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow-rest);}
-.tick-price{font-family:var(--font-mono);font-size:19px;font-weight:500;color:var(--ink);}
-.tick-dist{font-size:13px;color:var(--body);}
-.tick-src{font-size:12px;color:var(--muted);}
-.tick a{color:var(--coral);font-size:13px;text-decoration:none;font-weight:600;margin-top:6px;}
-.tick a:hover{text-decoration:underline;}
-.tick.ours{background:var(--ink);border-color:var(--ink);}
-.tick.ours .tick-price{color:#fff;}
-.tick.ours .tick-dist{color:#d8d5cf;}
-.tick.ours .tick-src{color:#a9a59d;}
-.tick-flag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+/* Vertical market timeline */
+.timeline{position:relative;margin-top:var(--space-md);}
+.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--hairline);}
+.t-row{position:relative;padding:0 0 var(--space-md) var(--space-xl);}
+.t-row:last-child{padding-bottom:0;}
+.t-node{position:absolute;left:0;top:20px;width:20px;height:20px;border-radius:50%;background:var(--canvas);border:2px solid var(--hairline);}
+.t-row.ours .t-node{background:var(--coral);border-color:var(--coral);}
+.t-card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-md);box-shadow:var(--shadow-rest);display:flex;align-items:center;gap:var(--space-md);}
+.t-price{font-family:var(--font-mono);font-size:clamp(20px,3vw,24px);font-weight:500;color:var(--ink);min-width:96px;}
+.t-meta{flex:1;}
+.t-meta .t-dist{font-size:15px;color:var(--body);font-weight:600;}
+.t-meta .t-src{font-size:13px;color:var(--muted);margin-top:2px;}
+.t-card a{color:var(--coral);font-size:13px;text-decoration:none;font-weight:600;white-space:nowrap;}
+.t-card a:hover{text-decoration:underline;}
+.t-row.ours .t-card{background:var(--ink);border-color:var(--ink);}
+.t-row.ours .t-price{color:#fff;}
+.t-row.ours .t-dist{color:#fff;}
+.t-row.ours .t-src{color:#a9a59d;}
+.t-flag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+.t-range{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--space-sm);}
+.t-range .low{color:var(--success);}
+.t-range .high{color:var(--danger);}
+@media(max-width:600px){.t-card{flex-wrap:wrap;gap:10px;}.t-price{min-width:80px;}.t-meta{flex:1 1 100%;}}
 
 /* Mayo copy block */
 .mayo{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-lg);box-shadow:var(--shadow-rest);font-family:var(--font-display);}
@@ -154,61 +146,62 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
     <div class="section-header">
       <div class="section-label">The Market Today</div>
       <div class="section-title">Red Book &amp; live listings</div>
-      <div class="section-note">Our Golf sits in this line-up by price. The list keeps going to the right — scroll or use the arrows.</div>
+      <div class="section-note">Our Golf sits in this line-up by price, reading cheapest to priciest as you scroll. Everything else is a live listing.</div>
     </div>
-    <div class="banding">
+        <div class="banding">
       <span class="band-chip">Red Book / Glass's: $8,800 – $13,300</span>
       <span class="band-chip">carsguide: $9,680 – $13,200</span>
       <span class="band-hint">A clean, low-km 92TSI sits mid-band.</span>
     </div>
-    <div class="market-wrap" id="golfMarket">
-      <div class="scroll-fade left"></div>
-      <div class="scroll-fade right"></div>
-      <div class="scroller">
-        <div class="track">
-        <div class="tick">
-          <span class="tick-price">$9,990</span>
-          <span class="tick-dist">171,500 km</span>
-          <span class="tick-src">private · NSW</span>
+    <div class="timeline">
+      <div class="t-range"><span class="low">Least expensive</span><span>price by km &amp; spec</span><span class="high">Most expensive</span></div>
+      <div class="t-row">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$9,990</div>
+          <div class="t-meta"><div class="t-dist">171,500 km</div><div class="t-src">private · NSW</div></div>
           <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20881524/" target="_blank" rel="noopener">Open listing ↗</a>
         </div>
-        <div class="tick ours">
-          <span class="tick-flag">✦ Our Golf</span>
-          <span class="tick-price">$11,000</span>
-          <span class="tick-dist">69,457 km</span>
-          <span class="tick-src">single owner · serviced</span>
+      </div>
+      <div class="t-row ours">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$11,000</div>
+          <div class="t-meta"><div class="t-flag">✦ Our Golf</div><div class="t-dist">69,457 km</div><div class="t-src">single owner · serviced</div></div>
         </div>
-        <div class="tick">
-          <span class="tick-price">$12,000</span>
-          <span class="tick-dist">100,000 km</span>
-          <span class="tick-src">private · QLD</span>
+      </div>
+      <div class="t-row">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$12,000</div>
+          <div class="t-meta"><div class="t-dist">100,000 km</div><div class="t-src">private · QLD</div></div>
           <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20968043/" target="_blank" rel="noopener">Open listing ↗</a>
         </div>
-        <div class="tick">
-          <span class="tick-price">$13,999</span>
-          <span class="tick-dist">78,313 km</span>
-          <span class="tick-src">Comfortline · private · NSW</span>
+      </div>
+      <div class="t-row">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$13,999</div>
+          <div class="t-meta"><div class="t-dist">78,313 km</div><div class="t-src">Comfortline · private · NSW</div></div>
           <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-comfortline-7-auto-my16/SSE-AD-20636292/" target="_blank" rel="noopener">Open listing ↗</a>
         </div>
-        <div class="tick">
-          <span class="tick-price">$14,000</span>
-          <span class="tick-dist">42,625 km</span>
-          <span class="tick-src">private · NSW</span>
+      </div>
+      <div class="t-row">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$14,000</div>
+          <div class="t-meta"><div class="t-dist">42,625 km</div><div class="t-src">private · NSW</div></div>
           <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20910114/" target="_blank" rel="noopener">Open listing ↗</a>
         </div>
-        <div class="tick">
-          <span class="tick-price">$14,988</span>
-          <span class="tick-dist">71,528 km</span>
-          <span class="tick-src">dealer · WA</span>
+      </div>
+      <div class="t-row">
+        <span class="t-node"></span>
+        <div class="t-card">
+          <div class="t-price">$14,988</div>
+          <div class="t-meta"><div class="t-dist">71,528 km</div><div class="t-src">dealer · WA</div></div>
           <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my17/OAG-AD-26315276/" target="_blank" rel="noopener">Open listing ↗</a>
         </div>
-        </div>
       </div>
-      <div class="scroll-nav">
-        <button class="scroll-btn" id="golfLeft" aria-label="Scroll market left"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg> Left</button>
-        <button class="scroll-btn" id="golfRight" aria-label="Scroll market right">Right <svg width="14" height="14" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg></button>
-      </div>
-      <div class="scroll-hint">Scroll the line-up to the right <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11"/><path d="M9 4l4 4-4 4"/></svg></div>
     </div>
   </section>
 
@@ -306,25 +299,6 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
 
 </div>
 
-<script>
-(function(){
-  var wrap = document.getElementById('golfMarket');
-  if(!wrap) return;
-  var scroller = wrap.querySelector('.scroller');
-  function updateFades(){
-    var max = scroller.scrollWidth - scroller.clientWidth - 1;
-    wrap.classList.toggle('at-end', scroller.scrollLeft >= max);
-    wrap.classList.toggle('at-start', scroller.scrollLeft <= 0);
-  }
-  function nudge(amount){ scroller.scrollBy({left:amount, behavior:'smooth'}); }
-  var leftBtn = document.getElementById('golfLeft');
-  var rightBtn = document.getElementById('golfRight');
-  if(leftBtn) leftBtn.addEventListener('click', function(){ nudge(-320); });
-  if(rightBtn) rightBtn.addEventListener('click', function(){ nudge(320); });
-  scroller.addEventListener('scroll', updateFades, {passive:true});
-  window.addEventListener('resize', updateFades);
-  updateFades();
-})();
-</script>
+
 </body>
 </html>
