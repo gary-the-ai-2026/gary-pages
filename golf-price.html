@@ -57,6 +57,29 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
 .card a:hover{text-decoration:underline;}
 .card .sub{font-size:13px;color:var(--body);margin-top:10px;line-height:1.5;}
 
+/* Banding reference */
+.banding{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:var(--space-md);}
+.band-chip{font-family:var(--font-mono);font-size:12px;background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:6px 14px;color:var(--ink);}
+.band-hint{font-size:13px;color:var(--muted);}
+
+/* Horizontal pricing scroller */
+.scroller{overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;}
+.scroller::-webkit-scrollbar{height:8px;}
+.scroller::-webkit-scrollbar-thumb{background:var(--hairline);border-radius:8px;}
+.scroller::-webkit-scrollbar-track{background:transparent;}
+.track{display:flex;gap:12px;min-width:max-content;}
+.tick{flex:0 0 150px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:16px;scroll-snap-align:start;display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow-rest);}
+.tick-price{font-family:var(--font-mono);font-size:19px;font-weight:500;color:var(--ink);}
+.tick-dist{font-size:13px;color:var(--body);}
+.tick-src{font-size:12px;color:var(--muted);}
+.tick a{color:var(--coral);font-size:13px;text-decoration:none;font-weight:600;margin-top:6px;}
+.tick a:hover{text-decoration:underline;}
+.tick.ours{background:var(--ink);border-color:var(--ink);}
+.tick.ours .tick-price{color:#fff;}
+.tick.ours .tick-dist{color:#d8d5cf;}
+.tick.ours .tick-src{color:#a9a59d;}
+.tick-flag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:4px;}
+
 /* Mayo copy block */
 .mayo{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:var(--space-lg);box-shadow:var(--shadow-rest);font-family:var(--font-display);}
 .mayo p{font-size:clamp(20px,3vw,26px);color:var(--ink);line-height:1.4;font-weight:700;}
@@ -127,48 +150,51 @@ h1{font-family:var(--font-display);font-size:clamp(34px,6vw,56px);font-weight:90
     <div class="section-header">
       <div class="section-label">The Market Today</div>
       <div class="section-title">Red Book &amp; live listings</div>
-      <div class="section-note">Red Book and Glass's put a clean base 92TSI around $8,800–$13,300. The four live carsales listings below price it by km.</div>
+      <div class="section-note">Our Golf sits in this line-up by price. Scroll sideways through the live comparables — each opens on carsales.</div>
     </div>
-    <div class="cards">
-      <div class="card">
-        <h3>92TSI Auto MY17</h3>
-        <div class="price">$14,988</div>
-        <div class="dist">71,528 km · dealer · WA</div>
-        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my17/OAG-AD-26315276/" target="_blank" rel="noopener">View listing ↗</a>
-        <div class="sub">Same mileage as Josh's car — low-km premium.</div>
-      </div>
-      <div class="card">
-        <h3>92TSI Auto MY16</h3>
-        <div class="price">$14,000</div>
-        <div class="dist">42,625 km · private · NSW</div>
-        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20910114/" target="_blank" rel="noopener">View listing ↗</a>
-        <div class="sub">Very low km, private — the top stretch.</div>
-      </div>
-      <div class="card">
-        <h3>92TSI Auto MY16</h3>
-        <div class="price">$12,000</div>
-        <div class="dist">100,000 km · private · QLD</div>
-        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20968043/" target="_blank" rel="noopener">View listing ↗</a>
-        <div class="sub">Mid-km — a realistic like-for-like.</div>
-      </div>
-      <div class="card">
-        <h3>92TSI Auto MY16</h3>
-        <div class="price">$9,990</div>
-        <div class="dist">171,500 km · private · NSW</div>
-        <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20881524/" target="_blank" rel="noopener">View listing ↗</a>
-        <div class="sub">High km — the floor of the market.</div>
-      </div>
-      <div class="card">
-        <h3>Red Book / Glass's guide</h3>
-        <div class="price">$8.8k–13.3k</div>
-        <div class="dist">base 92TSI · manual</div>
-        <div class="sub">The range a clean, low-km car sits in. Josh's is mid-band and then some.</div>
-      </div>
-      <div class="card">
-        <h3>Carsguide band</h3>
-        <div class="price">$9.7k–13.2k</div>
-        <div class="dist">92TSI manual</div>
-        <div class="sub">Independent cross-check that the numbers stack.</div>
+    <div class="banding">
+      <span class="band-chip">Red Book / Glass's: $8,800 – $13,300</span>
+      <span class="band-chip">carsguide: $9,680 – $13,200</span>
+      <span class="band-hint">A clean, low-km 92TSI sits mid-band.</span>
+    </div>
+    <div class="scroller">
+      <div class="track">
+        <div class="tick">
+          <span class="tick-price">$9,990</span>
+          <span class="tick-dist">171,500 km</span>
+          <span class="tick-src">private · NSW</span>
+          <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20881524/" target="_blank" rel="noopener">Open listing ↗</a>
+        </div>
+        <div class="tick ours">
+          <span class="tick-flag">✦ Our Golf</span>
+          <span class="tick-price">$11,000</span>
+          <span class="tick-dist">69,457 km</span>
+          <span class="tick-src">single owner · serviced</span>
+        </div>
+        <div class="tick">
+          <span class="tick-price">$12,000</span>
+          <span class="tick-dist">100,000 km</span>
+          <span class="tick-src">private · QLD</span>
+          <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20968043/" target="_blank" rel="noopener">Open listing ↗</a>
+        </div>
+        <div class="tick">
+          <span class="tick-price">$13,999</span>
+          <span class="tick-dist">78,313 km</span>
+          <span class="tick-src">Comfortline · private · NSW</span>
+          <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-comfortline-7-auto-my16/SSE-AD-20636292/" target="_blank" rel="noopener">Open listing ↗</a>
+        </div>
+        <div class="tick">
+          <span class="tick-price">$14,000</span>
+          <span class="tick-dist">42,625 km</span>
+          <span class="tick-src">private · NSW</span>
+          <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my16/SSE-AD-20910114/" target="_blank" rel="noopener">Open listing ↗</a>
+        </div>
+        <div class="tick">
+          <span class="tick-price">$14,988</span>
+          <span class="tick-dist">71,528 km</span>
+          <span class="tick-src">dealer · WA</span>
+          <a href="https://www.carsales.com.au/cars/details/2016-volkswagen-golf-92tsi-7-auto-my17/OAG-AD-26315276/" target="_blank" rel="noopener">Open listing ↗</a>
+        </div>
       </div>
     </div>
   </section>
