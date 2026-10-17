@@ -78,9 +78,11 @@ done
 [[ -n "$APPLY" ]]   || { echo "$LOG_PREFIX --apply transform path is required" >&2; exit 2; }
 [[ -f "$APPLY" ]]   || { echo "$LOG_PREFIX --apply transform not found: $APPLY" >&2; exit 2; }
 
-echo "$LOG_PREFIX $(date '+%H:%M:%S') Starting (${DRY_RUN:+DRY-RUN }source=$SOURCE_REF)"
-
 # ── Serialisation: don't collide with the 2-min collect / 15-min refresh crons ──
+MODE_LABEL="publish"
+$DRY_RUN && MODE_LABEL="dry-run"
+echo "$LOG_PREFIX $(date '+%H:%M:%S') Starting ($MODE_LABEL, source=$SOURCE_REF)"
+
 if ! $DRY_RUN; then
     mkdir -p "$(dirname "$LOCK_FILE")"
     if ! shlock -f "$LOCK_FILE" -p $$ 2>/dev/null; then
