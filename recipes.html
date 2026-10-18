@@ -630,14 +630,21 @@ function getFiltered() {
     );
   }
 
-  // Text search
+  // Text search: match when EVERY meaningful word in the query appears
+  // anywhere in the recipe (title, source, tags, ingredients, notes).
+  // Ignore filler/connector words (e.g. "and", "the", "of") so that
+  // "chicken and leek" still finds "Chicken, Bacon & Leek Pie".
   if (query) {
-    filtered = filtered.filter(r => {
-      const haystack = [
-        r.title, r.source, ...r.tags, ...r.ingredients, r.notes || ''
-      ].join(' ').toLowerCase();
-      return haystack.includes(query);
-    });
+    const STOPWORDS = new Set(['and', 'the', 'of', 'a', 'an', '&', 'with', 'for', 'in', 'on']);
+    const words = query.split(/\s+/).filter(w => w && !STOPWORDS.has(w));
+    if (words.length > 0) {
+      filtered = filtered.filter(r => {
+        const haystack = [
+          r.title, r.source, ...r.tags, ...r.ingredients, r.notes || ''
+        ].join(' ').toLowerCase();
+        return words.every(w => haystack.includes(w));
+      });
+    }
   }
 
   return filtered;
