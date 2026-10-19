@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-19T22:04:04.045759+09:30",
-  "timestamp_display": "19 Oct 2026 \u00b7 10:04 PM",
-  "timestamp_short": "10:04:04 PM",
+  "timestamp": "2026-10-19T22:06:04.051778+09:30",
+  "timestamp_display": "19 Oct 2026 \u00b7 10:06 PM",
+  "timestamp_short": "10:06:04 PM",
   "goodwe": {
-    "grid_power_w": 2,
+    "grid_power_w": -2,
     "grid_direction": "Idle",
     "inverter_temp_c": 41.2,
-    "battery_power_w": 737,
+    "battery_power_w": 699,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 3546.4,
     "today_solar_kwh": 48.2,
@@ -17,10 +17,10 @@
     "today_bat_charge_kwh": 15.8,
     "lifetime_bat_discharge_kwh": 1091.8,
     "today_bat_discharge_kwh": 12.8,
-    "home_consumption_w": 735,
+    "home_consumption_w": 701,
     "lifetime_export_kwh": 711.4,
     "lifetime_import_kwh": 30.7,
-    "battery_temp_c": 35.2,
+    "battery_temp_c": 35.1,
     "battery_soc_pct": 71,
     "battery_soh_pct": 100,
     "solar_now_w": 0,
@@ -29,20 +29,15 @@
   },
   "amber": {
     "current_price_c": 31.4,
-    "sell_price_c": 3.2,
+    "sell_price_c": 3.3,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 110.93900000000001,
+    "renewables": 110.86800000000001,
     "forward_prices": [
       {
-        "time": "22:05",
-        "price": 31.1,
-        "period": "peak"
-      },
-      {
         "time": "22:10",
-        "price": 31.0,
+        "price": 31.2,
         "period": "peak"
       },
       {
@@ -62,17 +57,17 @@
       },
       {
         "time": "22:30",
-        "price": 31.1,
+        "price": 31.0,
         "period": "peak"
       },
       {
         "time": "22:35",
-        "price": 31.1,
+        "price": 31.0,
         "period": "peak"
       },
       {
         "time": "22:40",
-        "price": 31.2,
+        "price": 31.0,
         "period": "peak"
       },
       {
@@ -97,7 +92,7 @@
       }
     ],
     "next_peak_c": 31.2,
-    "next_peak_time": "22:40",
+    "next_peak_time": "22:10",
     "next_trough_c": 19.9,
     "next_trough_time": "23:00"
   },
