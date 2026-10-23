@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-24T00:28:19.816587+09:30",
-  "timestamp_display": "24 Oct 2026 \u00b7 12:28 AM",
-  "timestamp_short": "12:28:19 AM",
+  "timestamp": "2026-10-24T00:30:19.833540+09:30",
+  "timestamp_display": "24 Oct 2026 \u00b7 12:30 AM",
+  "timestamp_short": "12:30:19 AM",
   "goodwe": {
-    "grid_power_w": -243,
+    "grid_power_w": -248,
     "grid_direction": "Importing",
     "inverter_temp_c": 33.6,
-    "battery_power_w": 35,
+    "battery_power_w": 12,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 3681.5,
     "today_solar_kwh": 0.0,
@@ -17,29 +17,24 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 1119.2,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 278,
+    "home_consumption_w": 260,
     "lifetime_export_kwh": 772.9,
     "lifetime_import_kwh": 67.0,
     "battery_temp_c": 28.5,
-    "battery_soc_pct": 99,
+    "battery_soc_pct": 98,
     "battery_soh_pct": 100,
     "solar_now_w": 0,
     "battery_flow": "idle",
     "grid_flow": "importing"
   },
   "amber": {
-    "current_price_c": 32.4,
-    "sell_price_c": 14.5,
+    "current_price_c": 32.6,
+    "sell_price_c": 14.7,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 70.783,
+    "renewables": 69.6,
     "forward_prices": [
-      {
-        "time": "00:30",
-        "price": 32.1,
-        "period": "offPeak"
-      },
       {
         "time": "00:35",
         "price": 32.2,
@@ -124,6 +119,11 @@
         "time": "04:00",
         "price": 32.4,
         "period": "offPeak"
+      },
+      {
+        "time": "04:30",
+        "price": 33.9,
+        "period": "offPeak"
       }
     ],
     "next_peak_c": 34.6,
@@ -137,8 +137,8 @@
     "import_kwh": 0.0,
     "export_kwh": 0.0,
     "grid_export_kwh": 0,
-    "grid_import_kwh": 0.41,
-    "grid_import_cost_dollars": 0.13,
+    "grid_import_kwh": 0.42,
+    "grid_import_cost_dollars": 0.14,
     "grid_export_revenue_dollars": 0.0,
     "battery_charge_kwh": 0.0,
     "battery_discharge_kwh": 0.0
