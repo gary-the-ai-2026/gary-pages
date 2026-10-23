@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-10-23T15:18:18.343050+09:30",
-  "timestamp_display": "23 Oct 2026 \u00b7 3:18 PM",
-  "timestamp_short": "3:18:18 PM",
+  "timestamp": "2026-10-23T15:20:18.403025+09:30",
+  "timestamp_display": "23 Oct 2026 \u00b7 3:20 PM",
+  "timestamp_short": "3:20:18 PM",
   "goodwe": {
-    "grid_power_w": -5489,
+    "grid_power_w": -5660,
     "grid_direction": "Importing",
-    "inverter_temp_c": 40.8,
-    "battery_power_w": 8,
+    "inverter_temp_c": 40.7,
+    "battery_power_w": 33,
     "battery_mode": "Standby",
     "lifetime_solar_kwh": 3681.4,
     "today_solar_kwh": 15.5,
     "today_export_kwh": 0.0,
     "today_import_kwh": 0.0,
-    "today_load_kwh": 22.1,
+    "today_load_kwh": 22.3,
     "lifetime_bat_charge_kwh": 1252.4,
     "today_bat_charge_kwh": 1.2,
     "lifetime_bat_discharge_kwh": 1119.2,
     "today_bat_discharge_kwh": 0.0,
-    "home_consumption_w": 5499,
+    "home_consumption_w": 5693,
     "lifetime_export_kwh": 772.9,
     "lifetime_import_kwh": 67.0,
     "battery_temp_c": 33.2,
@@ -28,18 +28,13 @@
     "grid_flow": "importing"
   },
   "amber": {
-    "current_price_c": 26.9,
-    "sell_price_c": -0.8,
+    "current_price_c": 36.4,
+    "sell_price_c": 7.7,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 86.455,
+    "renewables": 91.132,
     "forward_prices": [
-      {
-        "time": "15:20",
-        "price": 26.9,
-        "period": "peak"
-      },
       {
         "time": "15:25",
         "price": 26.9,
@@ -114,16 +109,16 @@
     "next_peak_c": 51.6,
     "next_peak_time": "19:00",
     "next_trough_c": 26.9,
-    "next_trough_time": "15:20"
+    "next_trough_time": "15:25"
   },
   "today": {
     "solar_kwh": 15.5,
-    "load_kwh": 22.1,
+    "load_kwh": 22.3,
     "import_kwh": 0.0,
     "export_kwh": 0.0,
     "grid_export_kwh": 0,
-    "grid_import_kwh": 3.4,
-    "grid_import_cost_dollars": 0.49,
+    "grid_import_kwh": 3.59,
+    "grid_import_cost_dollars": 0.56,
     "grid_export_revenue_dollars": 0.0,
     "battery_charge_kwh": 1.2,
     "battery_discharge_kwh": 0.0
