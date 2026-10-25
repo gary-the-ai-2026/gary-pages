@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Light Switch Audit · Hancock Family</title>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+/* ── DATA: edit here. New room = one line in `rooms`. New type = one entry in `types`. ── */
+const AUDIT = {
+  updated: "25 Oct 2026",
+  types: [
+    { id: "A", name: "3-gang plate", gangs: 3, colour: "White", model: "Likely Clipsal Classic C2000 series", photo: "light-switches/type-a.jpg" },
+    { id: "B", name: "1-gang plate", gangs: 1, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "Rounded corners", photo: "light-switches/type-b.jpg" },
+    { id: "C", name: "1-gang plate, bevelled edge", gangs: 1, colour: "White", model: "Model unknown (older Clipsal style)", note: "Square, chamfered edge. Older than Type B.", photo: "light-switches/type-c.jpg" },
+    { id: "D", name: "4-gang plate, bevelled edge", gangs: 4, colour: "White", model: "Model unknown (older Clipsal style)", note: "2x2 switches. Square edge like Type C.", photo: "light-switches/type-d.jpg" },
+    { id: "E", name: "2-gang plate, bevelled edge", gangs: 2, colour: "White", model: "Model unknown (older Clipsal style)", note: "Vertical. Square edge like Type C.", photo: "light-switches/type-e.jpg" }
+  ],
+  rooms: [
+    { room: "Master Bathroom",     plates: { A: 1 } },
+    { room: "Master Walk-in Robe", plates: { B: 2 } },
+    { room: "Master Bedroom",      plates: { B: 2, C: 1 } },
+    { room: "Front Hallway",       plates: { D: 1, E: 1 } },
+    { room: "Study",               plates: { C: 1 } },
+    { room: "Kids Playroom",       plates: { E: 1 } }
+  ],
+  links: {
+    sheet:  "https://docs.google.com/spreadsheets/d/1b3Emiyjng0WX_gwmcfpc7bcmuIZOw2xkuIQQxfSq3S8/edit",
+    folder: "https://drive.google.com/drive/folders/10IEazUpWRiB6FqvJfBJQLGvd01vuhTgT"
+  }
+};
+</script>
+<style>
+:root{
+  --canvas:#faf9f5; --surface:#ffffff; --surface-alt:#f0eeea;
+  --ink:#141413; --body:#5c5a55; --muted:#94918a;
+  --hairline:#e4e1db; --hairline-soft:#ece9e4;
+  --coral:#cc785c; --coral-hover:#a9583e;
+  --radius-card:20px; --radius-btn:6px;
+  --font-display:'Cormorant Garamond', Georgia, serif;
+  --font-body:'Inter', -apple-system, sans-serif;
+  --shadow-rest:0 1px 3px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:48px 24px 64px}
+.label{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--coral);font-weight:600}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(2.4rem,9vw,3.8rem);line-height:1.1;margin:8px 0 16px}
+.lede{color:var(--body);font-size:.95rem;max-width:560px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0 48px}
+.stat{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:24px;box-shadow:var(--shadow-rest)}
+.stat .n{font-size:2.8rem;font-weight:900;line-height:1}
+.stat .n.accent{color:var(--coral)}
+.stat .k{font-size:.78rem;color:var(--muted);margin-top:8px}
+h2{font-size:1.5rem;font-weight:800;line-height:1.2;margin:0 0 16px}
+section{margin-bottom:56px}
+.types{display:grid;gap:16px}
+@media(min-width:720px){.types{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);overflow:hidden;box-shadow:var(--shadow-rest)}
+.card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--surface-alt)}
+.card .body{padding:16px 24px 24px}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.badge{font-size:.72rem;font-weight:700;letter-spacing:2px;color:var(--coral);text-transform:uppercase}
+.count{font-size:2rem;font-weight:900;line-height:1}
+.count small{font-size:.75rem;font-weight:500;color:var(--muted);margin-left:4px}
+.card h3{font-size:1.1rem;font-weight:700;line-height:1.3;margin:8px 0 8px}
+.spec{font-size:.82rem;color:var(--body);display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--hairline-soft)}
+.spec span:first-child{color:var(--muted)}
+.note{font-size:.78rem;color:var(--muted);margin-top:8px}
+.rooms{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);box-shadow:var(--shadow-rest)}
+.room{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 24px;border-top:1px solid var(--hairline-soft)}
+.room:first-child{border-top:0}
+.room .name{font-weight:600;font-size:.95rem}
+.room .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-size:.78rem;font-weight:600;background:var(--surface-alt);border-radius:var(--radius-btn);padding:4px 8px;white-space:nowrap}
+.tag b{color:var(--coral)}
+footer{font-size:.78rem;color:var(--muted);border-top:1px solid var(--hairline);padding-top:24px}
+footer a{color:var(--coral);text-decoration:none;font-weight:600}
+footer a:hover{color:var(--coral-hover)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="label">Hancock Family · Home</div>
+  <h1>Light Switch Audit</h1>
+  <p class="lede">Every switch plate in the house, by type and by room, ready for choosing replacements. Walkthrough in progress.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n accent" id="totalPlates"></div><div class="k">plates counted</div></div>
+    <div class="stat"><div class="n" id="roomsDone"></div><div class="k">rooms done</div></div>
+  </div>
+
+  <section>
+    <h2>Switch types</h2>
+    <div class="types" id="types"></div>
+  </section>
+
+  <section>
+    <h2>Room by room</h2>
+    <div class="rooms" id="rooms"></div>
+  </section>
+
+  <footer>
+    <p>Source data: <a id="sheet">Google Sheet</a> · <a id="folder">Photo folder</a></p>
+    <p id="updated" style="margin-top:8px"></p>
+  </footer>
+</main>
+<script>
+(() => {
+  const totals = {};
+  AUDIT.rooms.forEach(r => Object.entries(r.plates).forEach(([t, n]) => totals[t] = (totals[t] || 0) + n));
+  const all = Object.values(totals).reduce((a, b) => a + b, 0);
+  document.getElementById('totalPlates').textContent = all;
+  document.getElementById('roomsDone').textContent = AUDIT.rooms.length;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  document.getElementById('types').innerHTML = AUDIT.types.map(t => `
+    <article class="card">
+      <img src="${esc(t.photo)}" alt="Type ${esc(t.id)}: ${esc(t.name)}" loading="lazy">
+      <div class="body">
+        <div class="top"><span class="badge">Type ${esc(t.id)}</span><span class="count">${totals[t.id] || 0}<small>plates</small></span></div>
+        <h3>${esc(t.name)}</h3>
+        <div class="spec"><span>Gangs</span><span>${t.gangs}</span></div>
+        <div class="spec"><span>Colour</span><span>${esc(t.colour)}</span></div>
+        <div class="spec"><span>Model</span><span>${esc(t.model)}</span></div>
+        ${t.note ? `<p class="note">${esc(t.note)}</p>` : ''}
+      </div>
+    </article>`).join('');
+  document.getElementById('rooms').innerHTML = AUDIT.rooms.map(r => `
+    <div class="room"><span class="name">${esc(r.room)}</span>
+      <span class="tags">${Object.entries(r.plates).map(([t, n]) => `<span class="tag"><b>${esc(t)}</b> × ${n}</span>`).join('')}</span>
+    </div>`).join('');
+  document.getElementById('sheet').href = AUDIT.links.sheet;
+  document.getElementById('folder').href = AUDIT.links.folder;
+  document.getElementById('updated').textContent = 'Updated ' + AUDIT.updated;
+})();
+</script>
+</body>
+</html>
