@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Light Switch Audit · Hancock Family</title>
+<title>Light Switch &amp; Power Point Audit · Hancock Family</title>
 <link rel="icon" type="image/png" href="/gary-pages/favicon.png">
 <link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,7 +23,8 @@ const AUDIT = {
     { id: "H", name: "Cover missing", gangs: 1, colour: "No cover", model: "Bare Clipsal grid", note: "Mechanism label reads 40M 381M10. Needs a cover. Flag for electrician.", flag: true, photo: "light-switches/type-h.jpg" },
     { id: "I", name: "5-gang plate, rounded corners", gangs: 5, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "2-1-2 layout. Rounded corners like Type B.", photo: "light-switches/type-i.jpg" },
     { id: "J", name: "3-gang plate, bevelled edge", gangs: 3, colour: "White", model: "Model unknown (older Clipsal style)", note: "Vertical. Square edge like Type C.", photo: "light-switches/type-j.jpg" },
-    { id: "K", name: "Fan controller + light switch", gangs: "1 + fan", colour: "Cream / ivory", model: "Model unknown", note: "Older plate with exposed screws. 3-speed ceiling fan dial (Off, Hi, Med, Low) plus 1 light switch. Yellowed, possibly cracked on the left edge. Priority.", flag: true, photo: "light-switches/type-k.jpg" }
+    { id: "K", name: "Fan controller + light switch", gangs: "1 + fan", colour: "Cream / ivory", model: "Model unknown", note: "Older plate with exposed screws. 3-speed ceiling fan dial (Off, Hi, Med, Low) plus 1 light switch. Yellowed, possibly cracked on the left edge. Priority.", flag: true, photo: "light-switches/type-k.jpg" },
+    { id: "P1", kind: "power", name: "Switched double power point", gangs: "2 outlets, switched", colour: "White", model: "Likely Clipsal Classic style", note: "Rounded corners like Type B. May want to match the new switches.", photo: "light-switches/kids-bathroom-power.jpg" }
   ],
   rooms: [
     { room: "Master Bathroom",     plates: { A: 1 } },
@@ -39,11 +40,10 @@ const AUDIT = {
     { room: "Fourth Bedroom",      plates: { C: 1 } },
     { room: "Toby's Bedroom",      plates: { C: 1 } },
     { room: "Noah's Bedroom",      plates: { K: 1 } },
-    { room: "Kids Bathroom",       plates: { I: 1 } }
+    { room: "Kids Bathroom",       plates: { I: 1, P1: 1 } }
   ],
   other: [
-    { room: "Main Living Area", item: "Daikin aircon controller + zone plates", short: "Aircon controls", detail: "Two bevelled-edge aircon zone plates below it: 3-gang (Family, Dine, Study) and 4-gang (Bed 1 to 4, with indicator lights). These are aircon zone switches, not lights. Plates would need to match for consistency.", photo: "light-switches/aircon.jpg" },
-    { room: "Kids Bathroom", item: "Switched double power point", short: "Power point", detail: "White, rounded-corner Classic style. A power point, not a light switch. May want to match the new switches.", photo: "light-switches/kids-bathroom-power.jpg" }
+    { room: "Main Living Area", item: "Daikin aircon controller + zone plates", short: "Aircon controls", detail: "Two bevelled-edge aircon zone plates below it: 3-gang (Family, Dine, Study) and 4-gang (Bed 1 to 4, with indicator lights). These are aircon zone switches, not lights. Plates would need to match for consistency.", photo: "light-switches/aircon.jpg" }
   ],
   links: {
     sheet:  "https://docs.google.com/spreadsheets/d/1b3Emiyjng0WX_gwmcfpc7bcmuIZOw2xkuIQQxfSq3S8/edit",
@@ -68,9 +68,10 @@ body{background:var(--canvas);color:var(--ink);font-family:var(--font-body);font
 .label{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--coral);font-weight:600}
 h1{font-family:var(--font-display);font-weight:900;font-size:clamp(2.4rem,9vw,3.8rem);line-height:1.1;margin:8px 0 16px}
 .lede{color:var(--body);font-size:.95rem;max-width:560px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0 48px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:32px 0 48px}
 .stat{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:24px;box-shadow:var(--shadow-rest)}
-.stat .n{font-size:2.8rem;font-weight:900;line-height:1}
+.stat{padding:16px}
+.stat .n{font-size:2.4rem;font-weight:900;line-height:1}
 .stat .n.accent{color:var(--coral)}
 .stat .k{font-size:.78rem;color:var(--muted);margin-top:8px}
 h2{font-size:1.5rem;font-weight:800;line-height:1.2;margin:0 0 16px}
@@ -118,9 +119,9 @@ section{margin-bottom:56px}
 .crow.nc .thumb{opacity:.75}
 .crow.nc .x{font-size:.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border:1px dashed var(--hairline);border-radius:var(--radius-btn);padding:4px 8px}
 .sub{display:flex;justify-content:space-between;padding:8px 16px 16px;font-size:.82rem;color:var(--body)}
-.sub b{color:var(--ink)}
+.sub b{color:var(--ink);text-align:right}
 .grand{display:flex;justify-content:space-between;align-items:center;padding:16px;border-top:2px solid var(--ink);font-weight:800}
-.grand .n{font-size:1.6rem;color:var(--coral)}
+.grand .n{font-size:1.15rem;color:var(--coral);text-align:right}
 .lb{position:fixed;inset:0;background:rgba(20,20,19,.88);display:none;align-items:center;justify-content:center;padding:24px;z-index:10;flex-direction:column;gap:12px}
 .lb.open{display:flex}
 .lb img{max-width:100%;max-height:80vh;border-radius:12px}
@@ -134,12 +135,13 @@ footer a:hover{color:var(--coral-hover)}
 <body>
 <main class="wrap">
   <div class="label">Hancock Family · Home</div>
-  <h1>Light Switch Audit</h1>
-  <p class="lede">Every switch plate in the house, by type and by room, ready for choosing replacements. Walkthrough in progress.</p>
+  <h1>Light Switch &amp; Power Point Audit</h1>
+  <p class="lede">Every light switch plate and power point in the house, by type and by room, ready for choosing replacements. Walkthrough in progress.</p>
 
   <div class="stats">
-    <div class="stat"><div class="n accent" id="totalPlates"></div><div class="k">plates counted</div></div>
-    <div class="stat"><div class="n" id="roomsDone"></div><div class="k">rooms done</div></div>
+    <div class="stat"><div class="n accent" id="totalPlates"></div><div class="k">switch plates</div></div>
+    <div class="stat"><div class="n accent" id="totalPower"></div><div class="k">power points</div></div>
+    <div class="stat"><div class="n" id="roomsDone"></div><div class="k">rooms</div></div>
   </div>
 
   <section>
@@ -150,7 +152,7 @@ footer a:hover{color:var(--coral-hover)}
   </section>
 
   <section>
-    <h2>Switch types</h2>
+    <h2>Switch &amp; power point types</h2>
     <div class="types" id="types"></div>
   </section>
 
@@ -169,17 +171,20 @@ footer a:hover{color:var(--coral-hover)}
 (() => {
   const totals = {};
   AUDIT.rooms.forEach(r => Object.entries(r.plates).forEach(([t, n]) => totals[t] = (totals[t] || 0) + n));
-  const all = Object.values(totals).reduce((a, b) => a + b, 0);
-  document.getElementById('totalPlates').textContent = all;
+  const isPower = id => (AUDIT.types.find(t => t.id === id) || {}).kind === 'power';
+  const sumBy = (obj, pw) => Object.entries(obj).reduce((a, [t, n]) => a + (isPower(t) === pw ? n : 0), 0);
+  const fmt = (pl, pw) => `${pl} switch plate${pl === 1 ? '' : 's'}` + (pw ? ` · ${pw} power point${pw === 1 ? '' : 's'}` : '');
+  document.getElementById('totalPlates').textContent = sumBy(totals, false);
+  document.getElementById('totalPower').textContent = sumBy(totals, true);
   document.getElementById('roomsDone').textContent = AUDIT.rooms.length;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   document.getElementById('types').innerHTML = AUDIT.types.map(t => `
     <article class="card">
       <img src="${esc(t.photo)}" alt="Type ${esc(t.id)}: ${esc(t.name)}" loading="lazy">
       <div class="body">
-        <div class="top"><span class="badge">Type ${esc(t.id)}</span><span class="count">${totals[t.id] || 0}<small>plates</small></span></div>
+        <div class="top"><span class="badge">${t.kind === 'power' ? 'Power point' : 'Type'} ${esc(t.id)}</span><span class="count">${totals[t.id] || 0}<small>${t.kind === 'power' ? 'counted' : 'plates'}</small></span></div>
         <h3>${esc(t.name)}</h3>
-        <div class="spec"><span>Gangs</span><span>${t.gangs}</span></div>
+        <div class="spec"><span>${t.kind === 'power' ? 'Outlets' : 'Gangs'}</span><span>${t.gangs}</span></div>
         <div class="spec"><span>Colour</span><span>${esc(t.colour)}</span></div>
         <div class="spec"><span>Model</span><span>${esc(t.model)}</span></div>
         ${t.note ? `<p class="note"${t.flag ? ' style="color:var(--coral);font-weight:600"' : ''}>${esc(t.note)}</p>` : ''}
@@ -208,18 +213,18 @@ footer a:hover{color:var(--coral-hover)}
   const group = name => {
     const r = AUDIT.rooms.find(x => x.room === name);
     const entries = r ? Object.entries(r.plates) : [];
-    const sub = entries.reduce((a, [, n]) => a + n, 0);
+    const sub = sumBy(r ? r.plates : {}, false), subP = sumBy(r ? r.plates : {}, true);
     const rows = entries.map(([id, n]) => { const t = typeById[id] || { name: '', photo: '' };
       return `<div class="crow">${thumb(t.photo, 'Type ' + id + ': ' + t.name)}<div class="txt"><div class="rn">${esc(name)}</div><div class="ty"><b>${esc(id)}</b> · ${esc(t.name)}</div></div><span class="x">×${n}</span></div>`; }).join('')
       + (AUDIT.other || []).filter(o => o.room === name).map(o =>
       `<div class="crow nc">${thumb(o.photo, o.item)}<div class="txt"><div class="rn">${esc(name)} · other control</div><div class="ty">${esc(o.item)}</div></div><span class="x">Not counted</span></div>`).join('');
-    return { html: `<div class="grp"><div class="grp-h"><span>${esc(name)}</span></div>${rows}<div class="sub"><span>${esc(name)} subtotal</span><b>${sub} plate${sub === 1 ? '' : 's'}</b></div></div>`, sub };
+    return { html: `<div class="grp"><div class="grp-h"><span>${esc(name)}</span></div>${rows}<div class="sub"><span>${esc(name)} subtotal</span><b>${fmt(sub, subP)}</b></div></div>`, sub, subP };
   };
   const render = () => {
     const names = current === 'All' ? roomNames : [current];
     const gs = names.map(group);
     document.getElementById('check').innerHTML = gs.map(g => g.html).join('') +
-      (current === 'All' ? `<div class="grand"><span>Grand total</span><span class="n">${gs.reduce((a, g) => a + g.sub, 0)} plates</span></div>` : '');
+      (current === 'All' ? `<div class="grand"><span>Grand total</span><span class="n">${fmt(gs.reduce((a, g) => a + g.sub, 0), gs.reduce((a, g) => a + g.subP, 0))}</span></div>` : '');
   };
   chips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return;
     current = b.dataset.room; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); render(); });
