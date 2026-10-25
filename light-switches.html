@@ -17,7 +17,10 @@ const AUDIT = {
     { id: "B", name: "1-gang plate", gangs: 1, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "Rounded corners", photo: "light-switches/type-b.jpg" },
     { id: "C", name: "1-gang plate, bevelled edge", gangs: 1, colour: "White", model: "Model unknown (older Clipsal style)", note: "Square, chamfered edge. Older than Type B.", photo: "light-switches/type-c.jpg" },
     { id: "D", name: "4-gang plate, bevelled edge", gangs: 4, colour: "White", model: "Model unknown (older Clipsal style)", note: "2x2 switches. Square edge like Type C.", photo: "light-switches/type-d.jpg" },
-    { id: "E", name: "2-gang plate, bevelled edge", gangs: 2, colour: "White", model: "Model unknown (older Clipsal style)", note: "Vertical. Square edge like Type C.", photo: "light-switches/type-e.jpg" }
+    { id: "E", name: "2-gang plate, bevelled edge", gangs: 2, colour: "White", model: "Model unknown (older Clipsal style)", note: "Vertical. Square edge like Type C.", photo: "light-switches/type-e.jpg" },
+    { id: "F", name: "6-gang plate, bevelled edge", gangs: 6, colour: "White", model: "Model unknown", note: "3x2 switches. Square edge.", photo: "light-switches/type-f.jpg" },
+    { id: "G", name: "4-gang plate, rounded corners", gangs: 4, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "2x2 switches. Rounded corners like Type B.", photo: "light-switches/type-g.jpg" },
+    { id: "H", name: "Cover missing", gangs: 1, colour: "No cover", model: "Bare Clipsal grid", note: "Mechanism label reads 40M 381M10. Needs a cover. Flag for electrician.", flag: true, photo: "light-switches/type-h.jpg" }
   ],
   rooms: [
     { room: "Master Bathroom",     plates: { A: 1 } },
@@ -25,7 +28,11 @@ const AUDIT = {
     { room: "Master Bedroom",      plates: { B: 2, C: 1 } },
     { room: "Front Hallway",       plates: { D: 1, E: 1 } },
     { room: "Study",               plates: { C: 1 } },
-    { room: "Kids Playroom",       plates: { E: 1 } }
+    { room: "Kids Playroom",       plates: { E: 1 } },
+    { room: "Main Living Area",    plates: { F: 1, C: 1, G: 1, H: 1 } }
+  ],
+  other: [
+    { room: "Main Living Area", item: "Daikin aircon controller", detail: "Two bevelled-edge aircon zone plates below it: 3-gang (Family, Dine, Study) and 4-gang (Bed 1 to 4, with indicator lights). These are aircon zone switches, not lights. Plates would need to match for consistency.", photo: "light-switches/aircon.jpg" }
   ],
   links: {
     sheet:  "https://docs.google.com/spreadsheets/d/1b3Emiyjng0WX_gwmcfpc7bcmuIZOw2xkuIQQxfSq3S8/edit",
@@ -103,6 +110,12 @@ footer a:hover{color:var(--coral-hover)}
     <div class="rooms" id="rooms"></div>
   </section>
 
+  <section>
+    <h2>Other controls</h2>
+    <p class="note" style="margin:-8px 0 16px">Not counted in the light plate totals.</p>
+    <div class="types" id="other"></div>
+  </section>
+
   <footer>
     <p>Source data: <a id="sheet">Google Sheet</a> · <a id="folder">Photo folder</a></p>
     <p id="updated" style="margin-top:8px"></p>
@@ -125,13 +138,22 @@ footer a:hover{color:var(--coral-hover)}
         <div class="spec"><span>Gangs</span><span>${t.gangs}</span></div>
         <div class="spec"><span>Colour</span><span>${esc(t.colour)}</span></div>
         <div class="spec"><span>Model</span><span>${esc(t.model)}</span></div>
-        ${t.note ? `<p class="note">${esc(t.note)}</p>` : ''}
+        ${t.note ? `<p class="note"${t.flag ? ' style="color:var(--coral);font-weight:600"' : ''}>${esc(t.note)}</p>` : ''}
       </div>
     </article>`).join('');
   document.getElementById('rooms').innerHTML = AUDIT.rooms.map(r => `
     <div class="room"><span class="name">${esc(r.room)}</span>
       <span class="tags">${Object.entries(r.plates).map(([t, n]) => `<span class="tag"><b>${esc(t)}</b> × ${n}</span>`).join('')}</span>
     </div>`).join('');
+  document.getElementById('other').innerHTML = (AUDIT.other || []).map(o => `
+    <article class="card">
+      <img src="${esc(o.photo)}" alt="${esc(o.item)}" loading="lazy">
+      <div class="body">
+        <span class="badge">${esc(o.room)}</span>
+        <h3>${esc(o.item)}</h3>
+        <p class="note">${esc(o.detail)}</p>
+      </div>
+    </article>`).join('');
   document.getElementById('sheet').href = AUDIT.links.sheet;
   document.getElementById('folder').href = AUDIT.links.folder;
   document.getElementById('updated').textContent = 'Updated ' + AUDIT.updated;
