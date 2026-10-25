@@ -95,6 +95,33 @@ section{margin-bottom:56px}
 .room .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .tag{font-size:.78rem;font-weight:600;background:var(--surface-alt);border-radius:var(--radius-btn);padding:4px 8px;white-space:nowrap}
 .tag b{color:var(--coral)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--hairline);background:var(--surface);color:var(--ink);font:600 .85rem var(--font-body);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--coral);border-color:var(--coral);color:#fff}
+.check{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);box-shadow:var(--shadow-rest);overflow:hidden}
+.grp-h{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 8px;font-weight:700;font-size:.95rem;border-top:1px solid var(--hairline)}
+.grp:first-child .grp-h{border-top:0}
+.crow{display:flex;align-items:center;gap:12px;padding:8px 16px;border-top:1px solid var(--hairline-soft)}
+.crow .thumb{flex:0 0 64px;width:64px;height:64px;padding:0;border:0;border-radius:12px;overflow:hidden;background:var(--surface-alt);cursor:zoom-in}
+.crow .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.crow .txt{flex:1;min-width:0}
+.crow .rn{font-size:.72rem;color:var(--muted)}
+.crow .ty{font-size:.88rem;font-weight:600;line-height:1.3}
+.crow .ty b{color:var(--coral)}
+.crow .x{font-size:1.2rem;font-weight:800;white-space:nowrap}
+.crow.nc{background:var(--canvas)}
+.crow.nc .thumb{opacity:.75}
+.crow.nc .x{font-size:.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border:1px dashed var(--hairline);border-radius:var(--radius-btn);padding:4px 8px}
+.sub{display:flex;justify-content:space-between;padding:8px 16px 16px;font-size:.82rem;color:var(--body)}
+.sub b{color:var(--ink)}
+.grand{display:flex;justify-content:space-between;align-items:center;padding:16px;border-top:2px solid var(--ink);font-weight:800}
+.grand .n{font-size:1.6rem;color:var(--coral)}
+.lb{position:fixed;inset:0;background:rgba(20,20,19,.88);display:none;align-items:center;justify-content:center;padding:24px;z-index:10;flex-direction:column;gap:12px}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:80vh;border-radius:12px}
+.lb p{color:#fff;font-size:.88rem;text-align:center}
+.lb button{min-height:44px;min-width:44px;position:absolute;top:12px;right:12px;background:none;border:0;color:#fff;font-size:1.8rem;cursor:pointer}
 footer{font-size:.78rem;color:var(--muted);border-top:1px solid var(--hairline);padding-top:24px}
 footer a{color:var(--coral);text-decoration:none;font-weight:600}
 footer a:hover{color:var(--coral-hover)}
@@ -110,6 +137,13 @@ footer a:hover{color:var(--coral-hover)}
     <div class="stat"><div class="n accent" id="totalPlates"></div><div class="k">plates counted</div></div>
     <div class="stat"><div class="n" id="roomsDone"></div><div class="k">rooms done</div></div>
   </div>
+
+  <section>
+    <h2>Check by room</h2>
+    <p class="note" style="margin:-8px 0 12px">Tap a room to check it. Tap a photo to enlarge.</p>
+    <div class="chips" id="chips" role="group" aria-label="Filter by room"></div>
+    <div class="check" id="check"></div>
+  </section>
 
   <section>
     <h2>Switch types</h2>
@@ -132,6 +166,7 @@ footer a:hover{color:var(--coral-hover)}
     <p id="updated" style="margin-top:8px"></p>
   </footer>
 </main>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><button type="button" aria-label="Close" id="lbx">×</button><img id="lbimg" alt=""><p id="lbcap"></p></div>
 <script>
 (() => {
   const totals = {};
@@ -165,6 +200,38 @@ footer a:hover{color:var(--coral-hover)}
         <p class="note">${esc(o.detail)}</p>
       </div>
     </article>`).join('');
+  // ── Check by room ──
+  const typeById = Object.fromEntries(AUDIT.types.map(t => [t.id, t]));
+  const roomNames = AUDIT.rooms.map(r => r.room);
+  (AUDIT.other || []).forEach(o => { if (!roomNames.includes(o.room)) roomNames.push(o.room); });
+  let current = 'All';
+  const chips = document.getElementById('chips');
+  chips.innerHTML = ['All', ...roomNames].map(n => `<button type="button" class="chip" data-room="${esc(n)}" aria-pressed="${n === 'All'}">${esc(n)}</button>`).join('');
+  const thumb = (src, cap) => `<button type="button" class="thumb" data-src="${esc(src)}" data-cap="${esc(cap)}" aria-label="Enlarge photo: ${esc(cap)}"><img src="${esc(src)}" alt="" loading="lazy"></button>`;
+  const group = name => {
+    const r = AUDIT.rooms.find(x => x.room === name);
+    const entries = r ? Object.entries(r.plates) : [];
+    const sub = entries.reduce((a, [, n]) => a + n, 0);
+    const rows = entries.map(([id, n]) => { const t = typeById[id] || { name: '', photo: '' };
+      return `<div class="crow">${thumb(t.photo, 'Type ' + id + ': ' + t.name)}<div class="txt"><div class="rn">${esc(name)}</div><div class="ty"><b>${esc(id)}</b> · ${esc(t.name)}</div></div><span class="x">×${n}</span></div>`; }).join('')
+      + (AUDIT.other || []).filter(o => o.room === name).map(o =>
+      `<div class="crow nc">${thumb(o.photo, o.item)}<div class="txt"><div class="rn">${esc(name)} · other control</div><div class="ty">${esc(o.item)}</div></div><span class="x">Not counted</span></div>`).join('');
+    return { html: `<div class="grp"><div class="grp-h"><span>${esc(name)}</span></div>${rows}<div class="sub"><span>${esc(name)} subtotal</span><b>${sub} plate${sub === 1 ? '' : 's'}</b></div></div>`, sub };
+  };
+  const render = () => {
+    const names = current === 'All' ? roomNames : [current];
+    const gs = names.map(group);
+    document.getElementById('check').innerHTML = gs.map(g => g.html).join('') +
+      (current === 'All' ? `<div class="grand"><span>Grand total</span><span class="n">${gs.reduce((a, g) => a + g.sub, 0)} plates</span></div>` : '');
+  };
+  chips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return;
+    current = b.dataset.room; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); render(); });
+  const lb = document.getElementById('lb');
+  document.getElementById('check').addEventListener('click', e => { const t = e.target.closest('.thumb'); if (!t) return;
+    document.getElementById('lbimg').src = t.dataset.src; document.getElementById('lbcap').textContent = t.dataset.cap; lb.classList.add('open'); });
+  lb.addEventListener('click', e => { if (e.target !== document.getElementById('lbimg')) lb.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+  render();
   document.getElementById('sheet').href = AUDIT.links.sheet;
   document.getElementById('folder').href = AUDIT.links.folder;
   document.getElementById('updated').textContent = 'Updated ' + AUDIT.updated;
