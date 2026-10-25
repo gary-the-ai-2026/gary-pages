@@ -29,7 +29,7 @@ const AUDIT = {
   rooms: [
     { room: "Master Bathroom",     plates: { A: 1, P1: 2 } },
     { room: "Master Walk-in Robe", plates: { B: 2 } },
-    { room: "Master Bedroom",      plates: { B: 2, C: 1 } },
+    { room: "Master Bedroom",      plates: { B: 2, C: 1 }, wish: { B: "want: dimmers" } },
     { room: "Front Hallway",       plates: { D: 1, E: 1 } },
     { room: "Study",               plates: { C: 1 } },
     { room: "Kids Playroom",       plates: { E: 1 } },
@@ -96,6 +96,7 @@ section{margin-bottom:56px}
 .room .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .tag{font-size:.78rem;font-weight:600;background:var(--surface-alt);border-radius:var(--radius-btn);padding:4px 8px;white-space:nowrap}
 .tag b{color:var(--coral)}
+.wish{font-size:.72rem;font-weight:400;color:var(--muted)}
 .tag.nc{background:none;border:1px dashed var(--hairline);color:var(--muted);font-weight:500}
 .card.nc{background:var(--canvas)}
 .card.nc img{opacity:.8}
@@ -200,7 +201,7 @@ footer a:hover{color:var(--coral-hover)}
     </article>`).join('');
   document.getElementById('rooms').innerHTML = AUDIT.rooms.map(r => `
     <div class="room"><span class="name">${esc(r.room)}</span>
-      <span class="tags">${Object.entries(r.plates).map(([t, n]) => `<span class="tag"><b>${esc(t)}</b> × ${n}</span>`).join('')}${(AUDIT.other || []).filter(o => o.room === r.room).map(o => `<span class="tag nc">${esc(o.short || o.item)} · not counted</span>`).join('')}</span>
+      <span class="tags">${Object.entries(r.plates).map(([t, n]) => `<span class="tag"><b>${esc(t)}</b> × ${n}${r.wish && r.wish[t] ? ` <span class="wish">(${esc(r.wish[t])})</span>` : ''}</span>`).join('')}${(AUDIT.other || []).filter(o => o.room === r.room).map(o => `<span class="tag nc">${esc(o.short || o.item)} · not counted</span>`).join('')}</span>
     </div>`).join('');
   // ── Check by room ──
   const typeById = Object.fromEntries(AUDIT.types.map(t => [t.id, t]));
@@ -215,7 +216,7 @@ footer a:hover{color:var(--coral-hover)}
     const entries = r ? Object.entries(r.plates) : [];
     const sub = sumBy(r ? r.plates : {}, false), subP = sumBy(r ? r.plates : {}, true);
     const rows = entries.map(([id, n]) => { const t = typeById[id] || { name: '', photo: '' };
-      return `<div class="crow">${thumb(t.photo, 'Type ' + id + ': ' + t.name)}<div class="txt"><div class="rn">${esc(name)}</div><div class="ty"><b>${esc(id)}</b> · ${esc(t.name)}</div></div><span class="x">×${n}</span></div>`; }).join('')
+      return `<div class="crow">${thumb(t.photo, 'Type ' + id + ': ' + t.name)}<div class="txt"><div class="rn">${esc(name)}</div><div class="ty"><b>${esc(id)}</b> · ${esc(t.name)}${r.wish && r.wish[id] ? ` <span class="wish">(${esc(r.wish[id])})</span>` : ''}</div></div><span class="x">×${n}</span></div>`; }).join('')
       + (AUDIT.other || []).filter(o => o.room === name).map(o =>
       `<div class="crow nc">${thumb(o.photo, o.item)}<div class="txt"><div class="rn">${esc(name)} · other control</div><div class="ty">${esc(o.item)}</div></div><span class="x">Not counted</span></div>`).join('');
     return { html: `<div class="grp"><div class="grp-h"><span>${esc(name)}</span></div>${rows}<div class="sub"><span>${esc(name)} subtotal</span><b>${fmt(sub, subP)}</b></div></div>`, sub, subP };
