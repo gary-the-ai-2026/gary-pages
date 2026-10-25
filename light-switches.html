@@ -21,6 +21,7 @@ const AUDIT = {
     { id: "F", name: "6-gang plate, bevelled edge", gangs: 6, colour: "White", model: "Model unknown", note: "3x2 switches. Square edge.", photo: "light-switches/type-f.jpg" },
     { id: "G", name: "4-gang plate, rounded corners", gangs: 4, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "2x2 switches. Rounded corners like Type B.", photo: "light-switches/type-g.jpg" },
     { id: "H", name: "Cover missing", gangs: 1, colour: "No cover", model: "Bare Clipsal grid", note: "Mechanism label reads 40M 381M10. Needs a cover. Flag for electrician.", flag: true, photo: "light-switches/type-h.jpg" },
+    { id: "I", name: "5-gang plate, rounded corners", gangs: 5, colour: "White", model: "Likely Clipsal Classic C2000 series", note: "2-1-2 layout. Rounded corners like Type B.", photo: "light-switches/type-i.jpg" },
     { id: "J", name: "3-gang plate, bevelled edge", gangs: 3, colour: "White", model: "Model unknown (older Clipsal style)", note: "Vertical. Square edge like Type C.", photo: "light-switches/type-j.jpg" },
     { id: "K", name: "Fan controller + light switch", gangs: "1 + fan", colour: "Cream / ivory", model: "Model unknown", note: "Older plate with exposed screws. 3-speed ceiling fan dial (Off, Hi, Med, Low) plus 1 light switch. Yellowed, possibly cracked on the left edge. Priority.", flag: true, photo: "light-switches/type-k.jpg" }
   ],
@@ -37,10 +38,12 @@ const AUDIT = {
     { room: "Laundry",             plates: { J: 1 } },
     { room: "Fourth Bedroom",      plates: { C: 1 } },
     { room: "Toby's Bedroom",      plates: { C: 1 } },
-    { room: "Noah's Bedroom",      plates: { K: 1 } }
+    { room: "Noah's Bedroom",      plates: { K: 1 } },
+    { room: "Kids Bathroom",       plates: { I: 1 } }
   ],
   other: [
-    { room: "Main Living Area", item: "Daikin aircon controller", detail: "Two bevelled-edge aircon zone plates below it: 3-gang (Family, Dine, Study) and 4-gang (Bed 1 to 4, with indicator lights). These are aircon zone switches, not lights. Plates would need to match for consistency.", photo: "light-switches/aircon.jpg" }
+    { room: "Main Living Area", item: "Daikin aircon controller", detail: "Two bevelled-edge aircon zone plates below it: 3-gang (Family, Dine, Study) and 4-gang (Bed 1 to 4, with indicator lights). These are aircon zone switches, not lights. Plates would need to match for consistency.", photo: "light-switches/aircon.jpg" },
+    { room: "Kids Bathroom", item: "Switched double power point", detail: "White, rounded-corner Classic style. A power point, not a light switch. May want to match the new switches.", photo: "light-switches/kids-bathroom-power.jpg" }
   ],
   links: {
     sheet:  "https://docs.google.com/spreadsheets/d/1b3Emiyjng0WX_gwmcfpc7bcmuIZOw2xkuIQQxfSq3S8/edit",
