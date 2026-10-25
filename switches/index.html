@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light Switch Inventory — 119 Princes Rd</title>
+<link rel="icon" type="image/png" href="/gary-pages/favicon.png">
+<link rel="apple-touch-icon" href="/gary-pages/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#faf9f5; --surface:#ffffff; --surface-alt:#f0eeea;
+  --ink:#141413; --body:#5c5a55; --muted:#94918a;
+  --hairline:#e4e1db; --hairline-soft:#ece9e4;
+  --coral:#cc785c; --coral-hover:#a9583e;
+  --success:#1b8a3d; --warning:#c2680c; --danger:#c0392b;
+  --radius-card:20px;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',monospace;
+  --shadow-rest:0 1px 3px rgba(0,0,0,0.04);
+  --space-xs:8px; --space-sm:12px; --space-md:20px; --space-lg:28px; --space-xl:32px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--body);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.container{max-width:920px;margin:0 auto;padding:var(--space-xl) var(--space-md) 64px}
+.hero{padding:var(--space-lg) 0 var(--space-md);border-bottom:1px solid var(--hairline)}
+.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:10px}
+h1{font-family:var(--font-display);font-weight:900;color:var(--ink);font-size:clamp(30px,7vw,46px);line-height:1.08;margin:0 0 10px}
+.subtitle{margin:0;font-size:15px;color:var(--body);max-width:52ch}
+.status-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--space-md)}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;color:var(--body);box-shadow:var(--shadow-rest)}
+.pill b{color:var(--ink);font-family:var(--font-mono);font-weight:500}
+.pill.win{border-color:rgba(27,138,61,.35);color:var(--success)}
+.pill.win b{color:var(--success)}
+.section{margin-top:44px}
+.section-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.section-title{font-family:var(--font-display);font-weight:700;color:var(--ink);font-size:clamp(22px,5vw,30px);line-height:1.15;margin-bottom:var(--space-md)}
+.cards{display:grid;gap:var(--space-md);grid-template-columns:1fr}
+@media(min-width:700px){.cards.cols-2{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);overflow:hidden;box-shadow:var(--shadow-rest)}
+.card-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--surface-alt);cursor:zoom-in}
+.card-body{padding:var(--space-md)}
+.type-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.type-id{font-family:var(--font-mono);font-size:12px;font-weight:500;background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;flex:0 0 auto}
+.type-name{font-family:var(--font-display);font-weight:700;color:var(--ink);font-size:22px;line-height:1.15}
+.specs{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px var(--space-sm);font-size:13px}
+.specs dt{color:var(--muted);font-weight:600;white-space:nowrap}
+.specs dd{margin:0;color:var(--body)}
+.where{margin-top:var(--space-sm);padding-top:var(--space-sm);border-top:1px solid var(--hairline-soft);font-size:13px}
+.where b{color:var(--ink)}
+.table-wrap{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius-card);box-shadow:var(--shadow-rest);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--hairline-soft)}
+thead th{background:var(--surface-alt);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td.room{font-weight:600;color:var(--ink)}
+td.num{font-family:var(--font-mono);text-align:center;color:var(--body)}
+td.num.has{color:var(--ink);font-weight:500}
+td.total{font-family:var(--font-mono);text-align:center;font-weight:500;color:var(--coral)}
+td.note{color:var(--muted);font-size:12px}
+.rowtick{color:var(--success);font-weight:700;margin-left:6px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--space-md)}
+.btn{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;font-family:var(--font-body);font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:#000}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--hairline)}
+.btn.ghost:hover{background:var(--surface-alt)}
+.note-box{margin-top:var(--space-md);background:var(--surface-alt);border-left:3px solid var(--coral);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--body)}
+.note-box b{color:var(--ink)}
+footer{margin-top:52px;padding-top:var(--space-md);border-top:1px solid var(--hairline);font-size:12px;color:var(--muted)}
+footer a{color:var(--coral);text-decoration:none}
+.lightbox{position:fixed;inset:0;background:rgba(20,20,19,.92);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}
+.lightbox.on{display:flex}
+.lightbox img{max-width:100%;max-height:88vh;border-radius:12px}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">119 Princes Rd &middot; Switch Replacement Project</div>
+    <h1>Light Switch Inventory</h1>
+    <p class="subtitle">One record per distinct switch type, with a count per room. Photographed room by room during walkthrough &mdash; send a photo and a count to Gary and the page updates.</p>
+    <div class="status-strip">
+      <span class="pill">Status <b id="pStatus">—</b></span>
+      <span class="pill">Types <b id="pTypes">—</b></span>
+      <span class="pill">Rooms logged <b id="pRooms">—</b></span>
+      <span class="pill win">Switches counted <b id="pSwitches">—</b></span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Reference</div>
+    <div class="section-title">Switch types</div>
+    <div class="cards cols-2" id="typeCards"></div>
+    <div class="note-box"><b>Why types, not every switch.</b> Replacements are bought against the type &mdash; one photo per distinct plate, then counts do the rest. Each type is also flagged with anything the electrician needs to know before quoting.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Counts</div>
+    <div class="section-title">Room by room</div>
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table id="roomTable">
+          <thead><tr id="roomHead"></tr></thead>
+          <tbody id="roomBody"></tbody>
+          <tfoot id="roomFoot"></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="downloadCSV()">⬇ Download CSV for the electrician</button>
+      <a class="btn ghost" href="data.json" target="_blank">View raw data</a>
+    </div>
+  </section>
+
+  <footer>
+    <div>Source data: <a href="data.json">data.json</a> &middot; last updated <span id="pUpdated">—</span></div>
+    <div>Maintained by Gary (Josh&rsquo;s P.A) &mdash; corrections welcome, message the Telegram group.</div>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('on')"><img id="lightboxImg" alt=""></div>
+
+<script>
+const D = null;
+let DATA = null;
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function boot(){
+  const r = await fetch('data.json?v='+Date.now(), {cache:'no-store'});
+  DATA = await r.json();
+  render();
+}
+
+function render(){
+  const types = DATA.types || [];
+  const rooms = DATA.rooms || [];
+
+  document.getElementById('pStatus').textContent = DATA.status || '—';
+  document.getElementById('pTypes').textContent = types.length;
+  document.getElementById('pRooms').textContent = rooms.filter(r=>r.done).length + ' / ' + rooms.length;
+  document.getElementById('pUpdated').textContent = DATA.updated || '—';
+
+  let total = 0;
+  rooms.forEach(r=>{ for (const k in (r.counts||{})) total += r.counts[k]; });
+  document.getElementById('pSwitches').textContent = total;
+
+  // type cards
+  document.getElementById('typeCards').innerHTML = types.map(t=>{
+    const where = rooms.filter(r=>r.counts && r.counts[t.id]).map(r=>esc(r.room)+' &times;'+r.counts[t.id]).join(', ');
+    return `<div class="card">
+      ${t.photo?`<img class="card-photo" src="${esc(t.photo)}" alt="Type ${esc(t.id)} — ${esc(t.name)}" onclick="zoom('${esc(t.photo)}')">`:''}
+      <div class="card-body">
+        <div class="type-head"><span class="type-id">TYPE ${esc(t.id)}</span><span class="type-name">${esc(t.name)}</span></div>
+        <dl class="specs">
+          <dt>Gangs</dt><dd>${esc(t.gangs)}</dd>
+          <dt>Orientation</dt><dd>${esc(t.orientation)}</dd>
+          <dt>Fixing</dt><dd>${esc(t.fixing)}</dd>
+          <dt>Controls</dt><dd>${esc(t.controls)}</dd>
+          <dt>Colour</dt><dd>${esc(t.colour)}</dd>
+          <dt>Size</dt><dd>${esc(t.dims_est)}</dd>
+          <dt>Condition</dt><dd>${esc(t.condition)}</dd>
+          ${t.notes?`<dt>Note</dt><dd>${esc(t.notes)}</dd>`:''}
+        </dl>
+        <div class="where"><b>${where ? 'Found in: '+where : 'Not yet located'}</b></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // table head
+  document.getElementById('roomHead').innerHTML =
+    '<th>Room</th>' + types.map(t=>`<th>Type ${esc(t.id)}</th>`).join('') + '<th>Total</th><th>Notes</th>';
+
+  document.getElementById('roomBody').innerHTML = rooms.map(r=>{
+    let rowTotal = 0;
+    const cells = types.map(t=>{
+      const v = (r.counts||{})[t.id] || 0;
+      rowTotal += v;
+      return `<td class="num${v?' has':''}">${v?v:'·'}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="room">${esc(r.room)}${r.done?'<span class="rowtick">✓</span>':''}</td>
+      ${cells}
+      <td class="total">${rowTotal}</td>
+      <td class="note">${esc(r.notes||'')}</td>
+    </tr>`;
+  }).join('');
+
+  const colTotals = types.map(t=>rooms.reduce((a,r)=>a+(((r.counts||{})[t.id])||0),0));
+  document.getElementById('roomFoot').innerHTML = `<tr>
+    <td class="room">All rooms</td>
+    ${colTotals.map(n=>`<td class="total">${n}</td>`).join('')}
+    <td class="total">${colTotals.reduce((a,b)=>a+b,0)}</td>
+    <td class="note"></td>
+  </tr>`;
+}
+
+function zoom(src){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('on');
+}
+
+function downloadCSV(){
+  const types = DATA.types || [];
+  const rooms = DATA.rooms || [];
+  const lines = [];
+  lines.push(['Room', ...types.map(t=>'Type '+t.id+' ('+t.name+')'), 'Total', 'Notes'].map(q=>'"'+String(q).replace(/"/g,'""')+'"').join(','));
+  rooms.forEach(r=>{
+    let tot = 0;
+    const cells = types.map(t=>{ const v=(r.counts||{})[t.id]||0; tot+=v; return v; });
+    lines.push([r.room, ...cells, tot, r.notes||''].map(q=>'"'+String(q).replace(/"/g,'""')+'"').join(','));
+  });
+  lines.push('');
+  types.forEach(t=>{
+    lines.push('"TYPE '+t.id+'","'+t.name+'"');
+    lines.push('"Gangs","'+t.gangs+'"');
+    lines.push('"Orientation","'+t.orientation+'"');
+    lines.push('"Fixing","'+t.fixing+'"');
+    lines.push('"Controls","'+t.controls+'"');
+    lines.push('"Colour","'+t.colour+'"');
+    lines.push('"Size","'+t.dims_est+'"');
+    lines.push('"Condition","'+t.condition+'"');
+    lines.push('"Note","'+(t.notes||'')+'"');
+    lines.push('');
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'light-switch-inventory.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+boot();
+</script>
+</body>
+</html>

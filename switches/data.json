@@ -1,0 +1,51 @@
+{
+  "property": "119 Princes Rd",
+  "updated": "2026-10-25",
+  "status": "walkthrough in progress",
+  "types": [
+    {
+      "id": "A",
+      "name": "3-gang vertical plate",
+      "photo": "img/type-a.jpg",
+      "gangs": 3,
+      "orientation": "Vertical",
+      "fixing": "Screwless clip-on plate",
+      "controls": "2 x rocker switch + 1 x variable controller (MAX/MIN) \u2014 roles to confirm",
+      "colour": "White, silver trim",
+      "dims_est": "~75 x 120 mm (estimated from finger in frame)",
+      "condition": "Sound; minor edge grime",
+      "notes": "Mounted on tiled wall. Bottom control marked MAX/MIN \u2014 likely exhaust fan speed or dimmer."
+    },
+    {
+      "id": "B",
+      "name": "1-gang vertical rocker",
+      "photo": "img/type-b.jpg",
+      "gangs": 1,
+      "orientation": "Vertical",
+      "fixing": "Screwless clip-on plate",
+      "controls": "1 x plain rocker (no markings)",
+      "colour": "White",
+      "dims_est": "Standard single plate, vertical",
+      "condition": "Good; light scuffing right of rocker",
+      "notes": "Sits behind the WIR door swing \u2014 awkward access, flag for electrician."
+    }
+  ],
+  "rooms": [
+    {
+      "room": "Master bathroom",
+      "counts": {
+        "A": 1
+      },
+      "done": true,
+      "notes": "Plate on tiled wall near shower."
+    },
+    {
+      "room": "Master walk-in robe",
+      "counts": {
+        "B": 2
+      },
+      "done": true,
+      "notes": "Two single rockers; one behind door swing."
+    }
+  ]
+}
