@@ -19,7 +19,7 @@
   part of the job. Flick one up and its line on the circuit chart lights with that hook.
   All four on = the offer, then Apply. Nothing is timed, nothing scores, nothing can be undone.
 
-  CONFIG: the three operator constants are in CFG near the bottom (JOIN_URL, SHARE_URL, FILM_SRC).
+  CONFIG: the operator constants are in CFG near the bottom (JOIN_URL, FILM_SRC).
   MEASUREMENT: no third party script. Where Meta Pixel events would fire is marked by
   data-track="..." and the track() function.
 -->
@@ -40,7 +40,6 @@ h1,h2,h3{text-wrap:balance;line-height:1.1}
 .flag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
  color:#ffd9c4;border:1px solid rgba(220,126,73,.6);border-radius:99px;padding:3px 8px;white-space:nowrap}
 .top .sp{flex:1}
-.skip{display:inline-flex;align-items:center;min-height:44px;font-size:.82rem;color:#c9d3e6;text-underline-offset:3px}
 .intro h1{font-size:1.6rem;font-weight:700}
 .intro p{color:#c9d3e6;font-size:1rem;margin-top:5px;min-height:2.9em;line-height:1.4}
 .intro p b{color:#fff}
@@ -97,11 +96,39 @@ h1,h2,h3{text-wrap:balance;line-height:1.1}
 .lot.show{visibility:visible}
 .iconbtn{min-width:44px;min-height:44px;border:0;background:transparent;color:var(--slate);font:inherit;font-size:.78rem;cursor:pointer}
 .iconbtn[aria-pressed="true"]{color:var(--accent)}
-/* end card */
-.done{display:none;margin:16px 0 8px;background:#fff;color:var(--ink);border-radius:18px;padding:18px 16px 16px;border-top:6px solid var(--accent)}
-.done.show{display:block;animation:pop .4s ease-out}
-.done h2{font-size:1.45rem}
-.done .lede{color:#3d527a;margin-top:6px}
+/* end card modal */
+.modal{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:12px;
+ background:rgba(5,14,30,.72);opacity:0;transition:opacity .3s ease}
+.modal[hidden]{display:none}
+.modal.show{opacity:1}
+.modal .card{background:#fff;color:var(--ink);border-radius:18px;padding:18px 16px 8px;border-top:6px solid var(--accent);
+ width:100%;max-width:420px;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain;
+ transform:scale(.94);transition:transform .3s ease;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.modal.show .card{transform:none}
+.modal h2{font-size:1.45rem}
+.modal .lede{color:#3d527a;margin-top:6px}
+.back{display:block;margin:6px auto 0;min-height:44px;min-width:44px;padding:0 12px;border:0;background:transparent;
+ color:var(--slate);font:inherit;font-size:.86rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+body.modal-open{overflow:hidden}
+body.modal-open .dock{transform:translateY(110%)}
+/* celebration */
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:15;display:none}
+.board{position:relative;overflow:hidden}
+.board::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+ background:linear-gradient(100deg,transparent 30%,rgba(255,214,170,.85) 48%,rgba(255,255,255,.95) 50%,rgba(255,214,170,.85) 52%,transparent 70%);
+ background-size:250% 100%;background-position:120% 0}
+.board.power{animation:glow 1.6s ease-out}
+.board.power::after{animation:sweep .9s ease-in-out .05s}
+.board.power .chart li{animation:lit .9s ease-out both}
+.board.power .chart li:nth-child(2){animation-delay:.12s}
+.board.power .chart li:nth-child(3){animation-delay:.24s}
+.board.power .chart li:nth-child(4){animation-delay:.36s}
+.board.power .dev.on .state{animation:lit .9s ease-out .3s both}
+@keyframes sweep{0%{opacity:1;background-position:120% 0}100%{opacity:1;background-position:-20% 0}}
+@keyframes glow{0%{box-shadow:0 0 0 3px #c5cad3 inset,0 10px 30px rgba(0,0,0,.35)}
+ 35%{box-shadow:0 0 0 3px var(--accent) inset,0 0 60px 14px rgba(220,126,73,.75)}
+ 100%{box-shadow:0 0 0 3px #c5cad3 inset,0 0 24px 4px rgba(220,126,73,.35)}}
+@keyframes lit{0%{background-color:#fff6d6}40%{background-color:#ffd9b8}100%{background-color:transparent}}
 .deal{list-style:none;margin:12px 0 4px}
 .deal li{padding:9px 0 9px 30px;border-top:1px solid var(--s1);position:relative;font-weight:700}
 .deal li::before{content:"";position:absolute;left:4px;top:13px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px #fbe5d8}
@@ -109,14 +136,9 @@ h1,h2,h3{text-wrap:balance;line-height:1.1}
 .btn{display:flex;align-items:center;justify-content:center;min-height:54px;border-radius:12px;font:inherit;
  font-weight:700;font-size:1.08rem;text-decoration:none;width:100%;cursor:pointer;border:0;margin-top:12px}
 .btn-accent{background:var(--accent);color:#2b1305}
-.btn-ghost{background:transparent;color:var(--navy);border:2px solid var(--border);font-size:.98rem;min-height:48px;margin-top:10px}
-.small{font-size:.8rem;color:var(--slate);margin-top:8px;text-align:center}
 .plain{background:#fff;color:var(--ink);margin-top:22px;padding:24px 0 28px}
 .plain h2{font-size:1.35rem;color:var(--navy)}
 .plain p{margin-top:8px;color:#3d527a}
-.plain img{width:100%;height:auto;border-radius:14px;display:block;margin-top:14px;aspect-ratio:16/9;object-fit:cover;background:var(--s1)}
-.plain .cap{font-size:.78rem;color:var(--slate);margin-top:4px}
-footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px}
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(11,29,59,.96);
  border-top:1px solid rgba(255,255,255,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom));transition:transform .2s}
 .dock .wrap{display:flex;gap:10px;align-items:center;padding:0}
@@ -125,7 +147,8 @@ footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px
  background:var(--accent);color:#2b1305;font-weight:700;text-decoration:none}
 .dock.hide{transform:translateY(110%)}
 .nojs .game{display:none}
-@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}
+ .modal{transition:opacity .4s ease!important}.modal .card{transform:none}}
 @media (max-height:720px){
  .top{padding:4px 0 0}.top img{height:26px}
  .intro h1{font-size:1.32rem}.intro p{font-size:.92rem;margin-top:3px}
@@ -143,7 +166,6 @@ footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px
     <img src="https://harley-abatrades.github.io/abatrades-pages/assets/brand/abatrades-logo-h.svg" alt="aba TRADES" width="92" height="30">
     <span class="flag" title="Review build for Josh. Not published to customers.">Review build</span>
     <span class="sp"></span>
-    <a class="skip" href="#job" data-track="skip">Skip to the job</a>
   </div>
 
   <section class="game" aria-labelledby="h1">
@@ -186,23 +208,27 @@ footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px
       <button class="iconbtn" id="snd" type="button" aria-pressed="false">Sound off</button>
     </div>
 
-    <div class="done" id="done" tabindex="-1" aria-labelledby="doneh">
-      <h2 id="doneh">Board's back on. That's the&nbsp;job.</h2>
-      <p class="lede">aba ELECTRICAL, Adelaide. Four things, in plain words.</p>
-      <ul class="deal">
-        <li>$60 an hour, flat<small>T&amp;Cs apply.</small></li>
-        <li>Company ute and a fuel card<small>Take-home, and the card runs it.</small></li>
-        <li>A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></li>
-        <li>Work close to home<small>Across Adelaide.</small></li>
-      </ul>
-      <a class="btn btn-accent js-apply" href="https://abatrades.com.au/join-our-team/" data-track="apply_end">Apply now</a>
-      <button class="btn btn-ghost" id="share" type="button" data-track="share">Send this board to a mate</button>
-      <p class="small" id="sharemsg">He gets the tripped board, not the answers.</p>
-    </div>
   </section>
 </div>
 
-<section class="plain" id="job" aria-labelledby="jobh">
+<div class="modal" id="done" role="dialog" aria-modal="true" aria-labelledby="doneh" aria-describedby="donel" hidden>
+  <div class="card">
+    <h2 id="doneh">Board's back on. That's the&nbsp;job.</h2>
+    <p class="lede" id="donel">aba ELECTRICAL, Adelaide. Four things, in plain words.</p>
+    <ul class="deal">
+      <li>$60 an hour, flat<small>T&amp;Cs apply.</small></li>
+      <li>Company ute and a fuel card<small>Take-home, and the card runs it.</small></li>
+      <li>A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></li>
+      <li>Work close to home<small>Across Adelaide.</small></li>
+    </ul>
+    <a class="btn btn-accent js-apply" id="applyEnd" href="https://abatrades.com.au/join-our-team/" data-track="apply_end">Apply now</a>
+    <button class="back" id="back" type="button">Back to the board</button>
+  </div>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<noscript>
+<section class="plain" aria-labelledby="jobh">
   <div class="wrap">
     <h2 id="jobh">The job, in plain&nbsp;words</h2>
     <p>Qualified electricians, across Adelaide, with aba ELECTRICAL, part of aba TRADES.</p>
@@ -212,12 +238,10 @@ footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px
       <li>A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></li>
       <li>Work close to home<small>Across Adelaide.</small></li>
     </ul>
-    <a class="btn btn-accent js-apply" href="https://abatrades.com.au/join-our-team/" data-track="apply_plain">Apply now</a>
-    <img src="https://harley-abatrades.github.io/abatrades-pages/assets/recruit/team-wide.jpg" alt="The aba TRADES crew and utes at the Adelaide yard" width="1600" height="900" loading="lazy">
-    <p class="cap">The real crew and the real yard. No actors.</p>
+    <a class="btn btn-accent" href="https://abatrades.com.au/join-our-team/">Apply now</a>
   </div>
 </section>
-<footer><div class="wrap">aba TRADES, 45 Henry Street, Stepney SA 5069. Review build, not live.</div></footer>
+</noscript>
 
 <div class="dock" id="dock">
   <div class="wrap">
@@ -230,7 +254,6 @@ footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px
 /* ===================== CONFIG: change these only ===================== */
 var CFG = {
   JOIN_URL: 'https://abatrades.com.au/join-our-team/',   /* same destination as the original page */
-  SHARE_URL: 'https://gary-the-ai-2026.github.io/gary-pages/aba-electrical-challenge/',
   FILM_SRC: ''
 };
 /* ==================================================================== */
@@ -240,7 +263,6 @@ var CFG = {
      page open      -> fbq('track','ViewContent')
      board finished -> fbq('trackCustom','BoardFixed')
      any Apply tap  -> fbq('track','Lead')  (or let the join page's form fire the real Lead)
-     share tap      -> fbq('trackCustom','ShareBoard')
 */
 function track(name, data){
   try{ (window.dataLayer = window.dataLayer || []).push({event:'aba_' + name, detail:data || {}}); }catch(e){}
@@ -294,12 +316,77 @@ function track(name, data){
     if (finished) return; finished = true;
     $('#lot').classList.remove('show');
     track('board_fixed');
-    setTimeout(function(){
-      var done = $('#done'); done.classList.add('show');
-      done.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'start'});
-      try{ done.focus({preventScroll:true}); }catch(e){}
-    }, reduce ? 150 : 1100);
+    if (reduce){ setTimeout(openModal, 250); return; }
+    buzz([25,50,25,50,70]);
+    celebrate();
+    setTimeout(openModal, 1700);
   }
+
+  /* Celebration: the board powers up (CSS glow and sweep), then a burst of sparks in brand colours on a canvas. */
+  function celebrate(){
+    var board = $('#board'); board.classList.remove('power'); void board.offsetWidth; board.classList.add('power');
+    setTimeout(function(){ board.classList.remove('power'); }, 1700);
+    var cv = $('#fx'), cx = cv.getContext && cv.getContext('2d'); if (!cx) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr,0,0,dpr,0,0); cv.style.display = 'block';
+    var r = board.getBoundingClientRect(), ox = r.left + r.width / 2, oy = Math.max(60, Math.min(H - 60, r.top + r.height * .45));
+    var COL = ['#DC7E49','#DC7E49','#ffd9c4','#ffffff','#2E528E','#7789A7','#F5B98F'], P = [];
+    function burst(n, x, y, sp){
+      for (var i = 0; i < n; i++){
+        var a = Math.random() * Math.PI * 2, v = sp * (.35 + Math.random() * .75);
+        P.push({x:x, y:y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - sp * .35, life:0, max:60 + Math.random() * 40,
+          c:COL[i % COL.length], spark:Math.random() < .45, w:4 + Math.random() * 5, rot:Math.random() * 6, vr:(Math.random() - .5) * .4});
+      }
+    }
+    var t0 = null, fired2 = false;
+    setTimeout(function(){ burst(90, ox, oy, 9); clunk(); }, 450);
+    function frame(t){
+      if (t0 === null) t0 = t; var el = t - t0;
+      if (!fired2 && el > 800){ fired2 = true; burst(40, r.left + r.width * .2, oy, 7); burst(40, r.left + r.width * .8, oy, 7); }
+      cx.clearRect(0, 0, W, H);
+      for (var i = P.length - 1; i >= 0; i--){
+        var q = P[i]; q.life++; q.vy += .22; q.vx *= .985; q.vy *= .985; q.x += q.vx; q.y += q.vy; q.rot += q.vr;
+        var a = 1 - q.life / q.max; if (a <= 0){ P.splice(i, 1); continue; }
+        cx.globalAlpha = a;
+        if (q.spark){ cx.strokeStyle = q.c; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(q.x, q.y); cx.lineTo(q.x - q.vx * 2.2, q.y - q.vy * 2.2); cx.stroke(); }
+        else { cx.save(); cx.translate(q.x, q.y); cx.rotate(q.rot); cx.fillStyle = q.c; cx.fillRect(-q.w / 2, -q.w / 4, q.w, q.w / 2); cx.restore(); }
+      }
+      cx.globalAlpha = 1;
+      if (el < 2000) requestAnimationFrame(frame); else { cx.clearRect(0, 0, W, H); cv.style.display = 'none'; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* End card as an accessible modal: focus trapped, Apply is the first and primary focus, Esc or Back closes. */
+  var lastFocus = null, bg = [$('.wrap'), $('#dock')];
+  function focusables(){ return $$('#done a[href], #done button'); }
+  function openModal(){
+    var m = $('#done'); lastFocus = document.activeElement;
+    m.hidden = false; void m.offsetWidth; m.classList.add('show');
+    document.body.classList.add('modal-open');
+    bg.forEach(function(e){ e.setAttribute('aria-hidden','true'); e.inert = true; });
+    $('#applyEnd').focus({preventScroll:true});
+    track('end_card');
+  }
+  function closeModal(){
+    var m = $('#done'); m.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    bg.forEach(function(e){ e.removeAttribute('aria-hidden'); e.inert = false; });
+    setTimeout(function(){ m.hidden = true; }, reduce ? 0 : 300);
+    if (lastFocus && lastFocus.focus) try{ lastFocus.focus({preventScroll:true}); }catch(e){}
+  }
+  $('#back').addEventListener('click', closeModal);
+  $('#done').addEventListener('click', function(e){ if (e.target === this) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if ($('#done').hidden) return;
+    if (e.key === 'Escape'){ e.preventDefault(); closeModal(); return; }
+    if (e.key === 'Tab'){
+      var f = focusables(), first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      else if (f.indexOf(document.activeElement) < 0){ e.preventDefault(); first.focus(); }
+    }
+  });
 
   $$('.tog').forEach(function(b){
     var k = parseInt(b.getAttribute('data-k'), 10);
@@ -323,27 +410,6 @@ function track(name, data){
   $('#snd').addEventListener('click', function(){
     soundOn = !soundOn; this.setAttribute('aria-pressed', soundOn); this.textContent = soundOn ? 'Sound on' : 'Sound off'; clunk();
   });
-
-  /* Share: one tap, pre-written, no spoilers. */
-  $('#share').addEventListener('click', function(){
-    var text = 'Four circuits tripped on this board. Reckon you can get it going?';
-    track('share');
-    if (navigator.share){ navigator.share({title:'Four circuits tripped', text:text, url:CFG.SHARE_URL}).catch(function(){}); return; }
-    var full = text + ' ' + CFG.SHARE_URL;
-    var ok = function(){ $('#sharemsg').textContent = 'Copied. Paste it in the group chat.'; };
-    if (navigator.clipboard) navigator.clipboard.writeText(full).then(ok, function(){ $('#sharemsg').textContent = full; });
-    else $('#sharemsg').textContent = full;
-  });
-
-  /* Hide the dock while a full size Apply is on screen. */
-  if ('IntersectionObserver' in window){
-    var seen = {}, io = new IntersectionObserver(function(es){
-      es.forEach(function(e){ seen[e.target.getAttribute('data-track')] = e.isIntersecting; });
-      var any = false; for (var k in seen) if (seen[k]) any = true;
-      $('#dock').classList.toggle('hide', any);
-    }, {threshold:.6});
-    $$('.btn.js-apply').forEach(function(a){ io.observe(a); });
-  }
 
   track('view_content');
 })();
