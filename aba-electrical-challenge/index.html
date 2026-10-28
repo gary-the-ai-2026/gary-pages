@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Someone's had a go at this board | aba ELECTRICAL</title>
+<meta name="description" content="Four circuits down. Flick them back on.">
+<meta property="og:title" content="Someone's had a go at this board">
+<meta property="og:description" content="Four circuits down. Reckon you can sort it?">
+<meta name="theme-color" content="#0B1D3B">
+<link rel="icon" href="https://harley-abatrades.github.io/abatrades-pages/assets/brand/favicon.ico">
+<link rel="stylesheet" href="https://use.typekit.net/aym5yls.css">
+<!--
+  aba ELECTRICAL recruitment microgame: "Someone's had a go at this board"
+  REVIEW BUILD by Gary for Josh. Not live. Not approved for customers.
+
+  CONFIG: the only three things an operator changes are in CFG near the bottom of this file:
+    JOIN_URL  (Apply destination, same as the original page)
+    SHARE_URL (the link a mate receives)
+    FILM_SRC  (not used yet)
+  MEASUREMENT: no third party script is loaded. Every place a Meta Pixel event would fire
+  is marked with data-track="..." and goes through track(). See the track() function.
+-->
+<style>
+:root{--navy:#1D3B6D;--navy2:#2E528E;--slate:#7789A7;--dark:#0B1D3B;--foot:#172F57;
+ --s1:#EBEDF2;--s2:#F5F6F8;--border:#D3D4DA;--accent:#DC7E49;--ink:#0F2036;
+ --font:'futura-pt','Futura PT',Futura,'Trebuchet MS',Helvetica,Arial,sans-serif;
+ --texta:'Marker Felt','Bradley Hand','Segoe Print','Comic Neue','Chalkboard SE',cursive}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--dark);color:#fff;line-height:1.45;
+ min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+a{color:inherit}
+.wrap{max-width:460px;margin:0 auto;padding:0 16px}
+h1,h2,h3{text-wrap:balance;line-height:1.1}
+/* top bar */
+.top{display:flex;align-items:center;gap:8px;padding:8px 0 6px}
+.top img{height:30px;width:auto;display:block}
+.flag{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+ color:#ffd9c4;border:1px solid rgba(220,126,73,.6);border-radius:99px;padding:3px 8px;white-space:nowrap}
+.top .sp{flex:1}
+.iconbtn{min-width:44px;min-height:44px;border:0;background:transparent;color:var(--slate);
+ font:inherit;font-size:.78rem;border-radius:10px;cursor:pointer}
+.iconbtn[aria-pressed="true"]{color:var(--accent)}
+.skip{display:inline-flex;align-items:center;min-height:44px;font-size:.82rem;color:#c9d3e6;text-underline-offset:3px}
+/* intro */
+.intro{padding:0 0 4px}
+.intro h1{font-size:1.62rem;font-weight:700}
+.intro p{color:#c9d3e6;font-size:.98rem;margin-top:4px;min-height:2.9em;line-height:1.4}
+.intro p b{color:#fff}
+/* schedule card (inside the board door) */
+.board{background:#E9EBEF;border-radius:18px;padding:10px;color:var(--ink);
+ box-shadow:0 0 0 3px #c5cad3 inset, 0 10px 30px rgba(0,0,0,.35);position:relative}
+.sched{background:#fffdf5;border-radius:8px;padding:4px 10px 2px;border:1px solid #e6dfc6}
+ 
+.sched h2{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);font-weight:700;padding:2px 0 3px}
+.sched ol{list-style:none}
+.sched li{display:grid;grid-template-columns:16px 1fr;gap:6px;align-items:center;height:38px;overflow:hidden;font-size:.9rem;border-bottom:1px solid #ebe5d0}
+.sched li:last-child{border-bottom:0}
+.sched .n{font-weight:700;color:var(--slate);font-size:.8rem;padding-top:2px}
+.sched .t{font-family:var(--texta);color:#2f3fa0;font-size:.98rem;line-height:1.2}
+.sched li.live .t{display:none}
+.sched .fact{display:none;font-family:var(--font);color:var(--ink);font-weight:700;line-height:1.15;font-size:.92rem}
+.sched .fact small{display:block;font-weight:400;color:#4b5b78;font-size:.76rem}
+.sched li.live .fact{display:block;animation:pop .35s ease-out}
+.sched li.ring .fact{display:block;color:#4b5b78;font-weight:400;font-size:.85rem}
+.sched li.ring .t{text-decoration:line-through;color:#8b93b8;font-size:.8rem}
+@keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* rails */
+.rail{display:flex;gap:6px;margin-top:8px;padding:8px 6px;background:#d7dbe2;border-radius:10px;
+ box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+.rail.big{gap:6px}
+.dev{flex:1;min-width:0;background:#fbfbfc;border-radius:8px;border:1px solid #c3c8d1;
+ display:flex;flex-direction:column;align-items:center;padding:5px 3px 6px;position:relative;
+ box-shadow:0 2px 0 #b9bec8}
+.dev .lab{font-size:.6rem;letter-spacing:.06em;font-weight:700;color:#52607a;text-transform:uppercase;text-align:center;line-height:1.1;min-height:1.3em}
+.dev .tape{font-family:var(--texta);font-size:.72rem;color:#2f3fa0;background:#f6efd2;border-radius:2px;
+ padding:1px 4px;margin-top:3px;transform:rotate(-2deg);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* the toggle itself is the button */
+.tog{appearance:none;border:0;background:#262c36;border-radius:7px;width:100%;max-width:58px;
+ height:56px;margin-top:5px;position:relative;cursor:pointer;touch-action:manipulation;
+ -webkit-tap-highlight-color:transparent;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+.rail.big .tog{height:80px;max-width:70px}
+.tog::before{content:"";position:absolute;left:12%;right:12%;height:46%;border-radius:5px;
+ background:linear-gradient(#ffffff,#d9dde4);box-shadow:0 2px 0 #9aa1ad;top:50%;transition:top .12s ease-in}
+.tog[aria-pressed="true"]::before{top:4%}
+.tog:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.win{width:18px;height:6px;border-radius:2px;margin-top:5px;background:#6f7a8c}
+.dev.on .win{background:#e2382f}
+.dev.on.live .win{background:#e2382f}
+.dev .state{font-size:.62rem;font-weight:700;margin-top:3px;color:#6f7a8c;letter-spacing:.08em}
+.dev.on .state{color:#c4302a}
+.tbtn{appearance:none;border:0;width:44px;height:44px;border-radius:50%;margin-top:6px;cursor:pointer;
+ background:radial-gradient(circle at 50% 40%,#f3c400,#c99a00);color:#3a2b00;font:inherit;font-weight:700;font-size:.9rem;
+ box-shadow:0 2px 0 #8a6a00}
+.tbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.hint .tog{animation:nudge 1.2s ease-in-out infinite}
+@keyframes nudge{0%,100%{box-shadow:inset 0 2px 6px rgba(0,0,0,.6),0 0 0 0 rgba(220,126,73,.0)}50%{box-shadow:inset 0 2px 6px rgba(0,0,0,.6),0 0 0 5px rgba(220,126,73,.65)}}
+.dark .board{filter:brightness(.55)}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+/* status line */
+.status{margin:6px 0 0;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.sched h2{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.count{flex:none;font-weight:700;color:#a4521f;letter-spacing:.04em;text-transform:none;font-size:.72rem}
+.lot{visibility:hidden;margin:0;min-height:44px;padding:0 14px;border-radius:10px;border:1px solid rgba(255,255,255,.3);
+ background:transparent;color:#fff;font:inherit;font-size:.9rem;cursor:pointer}
+.lot.show{visibility:visible}
+/* end card */
+.done{display:none;margin:16px 0 8px;background:#fff;color:var(--ink);border-radius:18px;padding:18px 16px 16px;border-top:6px solid var(--accent)}
+.done.show{display:block;animation:pop .4s ease-out}
+.done h2{font-size:1.45rem}
+.done .lede{color:#3d527a;margin-top:6px}
+.deal{list-style:none;margin:12px 0 4px}
+.deal li{padding:9px 0 9px 30px;border-top:1px solid var(--s1);position:relative;font-weight:700}
+.deal li::before{content:"";position:absolute;left:4px;top:13px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px #fbe5d8}
+.deal li small{display:block;font-weight:400;color:#4b5b78}
+.not{font-size:.88rem;color:#4b5b78;background:var(--s2);border-radius:10px;padding:10px 12px;margin-top:8px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:54px;border-radius:12px;font:inherit;
+ font-weight:700;font-size:1.08rem;text-decoration:none;width:100%;cursor:pointer;border:0;margin-top:12px}
+.btn-accent{background:var(--accent);color:#2b1305}
+.btn-ghost{background:transparent;color:var(--navy);border:2px solid var(--border);font-size:.98rem;min-height:48px;margin-top:10px}
+.small{font-size:.8rem;color:var(--slate);margin-top:8px;text-align:center}
+/* plain section (works with JS off) */
+.plain{background:#fff;color:var(--ink);margin-top:22px;padding:24px 0 28px}
+.plain h2{font-size:1.35rem;color:var(--navy)}
+.plain p{margin-top:8px;color:#3d527a}
+.plain img{width:100%;height:auto;border-radius:14px;display:block;margin-top:14px;aspect-ratio:16/9;object-fit:cover;background:var(--s1)}
+.plain .cap{font-size:.78rem;color:var(--slate);margin-top:4px}
+footer{background:var(--foot);color:#aab6cc;font-size:.78rem;padding:16px 0 20px}
+/* sticky apply: always reachable, never blocks */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(11,29,59,.96);
+ border-top:1px solid rgba(255,255,255,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom));transition:transform .2s}
+.dock .wrap{display:flex;gap:10px;align-items:center;padding:0}
+.dock p{flex:1;font-size:.82rem;color:#c9d3e6;line-height:1.25}
+.dock a{flex:none;display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:12px;
+ background:var(--accent);color:#2b1305;font-weight:700;text-decoration:none}
+.dock.hide{transform:translateY(110%)}
+.nojs .game{display:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-height:720px){.intro h1{font-size:1.3rem}.intro p{min-height:2.8em;font-size:.9rem}
+ .sched li{height:29px}.sched .fact{font-size:.8rem}.sched .fact small{display:none}.sched .t{font-size:.86rem}.sched h2{padding:0}
+ .tog{height:44px}.rail.big .tog{height:56px}.top{padding:4px 0 2px}.board{padding:8px}.win{margin-top:3px}.dev .lab{min-height:0}.rail{margin-top:6px;padding:6px 5px}
+ .tbtn{margin-top:2px}.top img{height:26px}}
+@media (max-width:350px){.flag{font-size:.55rem;padding:2px 6px}.intro h1{font-size:1.4rem}.rail{gap:4px;padding:6px 4px}.dev .lab{font-size:.54rem}.dev .tape{font-size:.64rem}}
+</style>
+</head>
+<body class="nojs">
+<script>document.body.className='';</script>
+
+<div class="wrap">
+  <div class="top">
+    <img src="https://harley-abatrades.github.io/abatrades-pages/assets/brand/abatrades-logo-h.svg" alt="aba TRADES" width="92" height="30">
+    <span class="flag" title="Review build for Josh. Not published to customers.">Review build</span>
+    <span class="sp"></span>
+    <a class="skip" href="#job" data-track="skip">Skip to the job</a>
+  </div>
+
+  <section class="game" aria-labelledby="h1">
+    <div class="intro">
+      <h1 id="h1">Someone's had a go at this&nbsp;board.</h1>
+      <p class="say" aria-live="polite"><span id="say"><b>Four circuits down.</b> Flick them back on.</span></p>
+    </div>
+
+    <div class="board" id="board">
+      <div class="sched" aria-label="Circuit schedule">
+        <h2>Circuit chart. The plumber filled it in. <span class="count" id="count">0 of 4 live</span></h2>
+        <ol id="sched">
+          <li data-c="1"><span class="n">1</span><span><span class="t">PAY?? dont touch (Dave)</span><span class="fact">$60 an hour, flat<small>T&amp;Cs apply. A number, not a range.</small></span></span></li>
+          <li data-c="2"><span class="n">2</span><span><span class="t">ute thing + fuel</span><span class="fact">Company ute and a fuel card<small>Take-home, and the card runs it.</small></span></span></li>
+          <li data-c="3"><span class="n">3</span><span><span class="t">TRAINING (the long wall)</span><span class="fact">A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></span></span></li>
+          <li data-c="4"><span class="n">4</span><span><span class="t">home?? or kitchen idk</span><span class="fact">Work close to home<small>Across Adelaide.</small></span></span></li>
+        </ol>
+      </div>
+
+      <div class="rail" aria-label="Main switch, safety switch and spares">
+        <div class="dev main on" id="main"><span class="lab">Main switch</span>
+          <button class="tog" type="button" aria-pressed="true" aria-label="Main switch, on" data-k="main"></button>
+          <span class="state">ON</span></div>
+        <div class="dev rcd on" id="rcd"><span class="lab">RCD 30mA</span>
+          <button class="tbtn" type="button" aria-label="RCD test button" data-k="test" data-track="rcd_test">T</button>
+          <span class="state">ON</span></div>
+        <div class="dev" data-c="5"><span class="lab">C5</span><span class="tape">bonus</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 5, sign on bonus, off" data-k="5"></button>
+          <span class="win"></span><span class="state">OFF</span></div>
+        <div class="dev" data-c="6"><span class="lab">C6</span><span class="tape">4 day wk</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 6, four day week, off" data-k="6"></button>
+          <span class="win"></span><span class="state">OFF</span></div>
+      </div>
+
+      <div class="rail big" aria-label="Tripped circuits">
+        <div class="dev" data-c="1"><span class="lab">C1 20A</span><span class="tape">PAY??</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 1, tripped" data-k="1" data-track="flick_1"></button>
+          <span class="win"></span><span class="state">TRIPPED</span></div>
+        <div class="dev" data-c="2"><span class="lab">C2 20A</span><span class="tape">ute thing</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 2, tripped" data-k="2" data-track="flick_2"></button>
+          <span class="win"></span><span class="state">TRIPPED</span></div>
+        <div class="dev" data-c="3"><span class="lab">C3 16A</span><span class="tape">TRAINING</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 3, tripped" data-k="3" data-track="flick_3"></button>
+          <span class="win"></span><span class="state">TRIPPED</span></div>
+        <div class="dev" data-c="4"><span class="lab">C4 16A</span><span class="tape">home??</span>
+          <button class="tog" type="button" aria-pressed="false" aria-label="Circuit 4, tripped" data-k="4" data-track="flick_4"></button>
+          <span class="win"></span><span class="state">TRIPPED</span></div>
+      </div>
+    </div>
+
+    <div class="status">
+      <button class="lot" id="lot" type="button" data-track="flick_all">Can't be bothered? Flick the lot back on</button>
+      <button class="iconbtn" id="snd" type="button" aria-pressed="false">Sound off</button>
+    </div>
+
+    <div class="done" id="done" tabindex="-1" aria-labelledby="doneh">
+      <h2 id="doneh">Power's back on. No callout&nbsp;fee.</h2>
+      <p class="lede">That's the job at aba ELECTRICAL. Four things, nothing hiding behind them.</p>
+      <ul class="deal">
+        <li>$60 an hour, flat<small>T&amp;Cs apply.</small></li>
+        <li>Company ute and a fuel card<small>Take-home, and the card runs it.</small></li>
+        <li>A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></li>
+        <li>Work close to home<small>Across Adelaide.</small></li>
+      </ul>
+      <p class="not">Not on the board: no sign-on bonus and no four day week. Better you hear it here.</p>
+      <a class="btn btn-accent js-apply" href="https://abatrades.com.au/join-our-team/" data-track="apply_end">Apply now</a>
+      <button class="btn btn-ghost" id="share" type="button" data-track="share">Send this board to a mate</button>
+      <p class="small" id="sharemsg">He gets the board, not the answers.</p>
+    </div>
+  </section>
+</div>
+
+<section class="plain" id="job" aria-labelledby="jobh">
+  <div class="wrap">
+    <h2 id="jobh">The job, in plain&nbsp;words</h2>
+    <p>Qualified electricians, across Adelaide, with aba ELECTRICAL, part of aba TRADES.</p>
+    <ul class="deal">
+      <li>$60 an hour, flat<small>T&amp;Cs apply.</small></li>
+      <li>Company ute and a fuel card<small>Take-home, and the card runs it.</small></li>
+      <li>A 25 metre in-house training wall<small>Developing tradespeople since 2015.</small></li>
+      <li>Work close to home<small>Across Adelaide.</small></li>
+    </ul>
+    <p class="not">There is no sign-on bonus and no four day week. We would rather say so.</p>
+    <a class="btn btn-accent js-apply" href="https://abatrades.com.au/join-our-team/" data-track="apply_plain">Apply now</a>
+    <img src="https://harley-abatrades.github.io/abatrades-pages/assets/recruit/team-wide.jpg" alt="The aba TRADES crew and utes at the Adelaide yard" width="1600" height="900" loading="lazy">
+    <p class="cap">The real crew and the real yard. No actors.</p>
+  </div>
+</section>
+<footer><div class="wrap">aba TRADES, 45 Henry Street, Stepney SA 5069. Review build, not live.</div></footer>
+
+<div class="dock" id="dock">
+  <div class="wrap">
+    <p>Keen already? No need to play.</p>
+    <a class="js-apply" href="https://abatrades.com.au/join-our-team/" data-track="apply_dock">Apply</a>
+  </div>
+</div>
+
+<script>
+/* ===================== CONFIG: change these only ===================== */
+var CFG = {
+  JOIN_URL: 'https://abatrades.com.au/join-our-team/',   /* same destination as the original page */
+  SHARE_URL: 'https://gary-the-ai-2026.github.io/gary-pages/aba-electrical-challenge/',
+  FILM_SRC: ''
+};
+/* ==================================================================== */
+
+/* Measurement hook. No third party script is loaded here.
+   To wire Meta Pixel later, load the pixel base code with the client's own ID and replace the body:
+     page open        -> fbq('track','ViewContent')          (fired below on load)
+     board finished   -> fbq('trackCustom','BoardFixed')
+     any Apply tap    -> fbq('track','Lead')  (or let the join page's own form fire Lead/SubmitApplication)
+     share tap        -> fbq('trackCustom','ShareBoard')
+*/
+function track(name, data){
+  try{ (window.dataLayer = window.dataLayer || []).push({event:'aba_' + name, detail:data || {}}); }catch(e){}
+  /* if (window.fbq) { ... } */
+}
+
+(function(){
+  var $ = function(s){ return document.querySelector(s); };
+  var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var live = {1:false,2:false,3:false,4:false}, mainOn = true, finished = false, touched = false, soundOn = false, actx = null;
+
+  $$('.js-apply').forEach(function(a){
+    a.href = CFG.JOIN_URL;
+    a.addEventListener('click', function(){ track('apply', {from:a.getAttribute('data-track'), finished:finished, live:count()}); });
+  });
+
+  var CAUSE = {
+    1:'Found it. The plumber drilled straight through it chasing a pipe.',
+    2:'Found it. Chippie\'s nail gun, through the cable, first go.',
+    3:'Found it. Tiler\'s wet saw on a double adaptor. Classic.',
+    4:'Found it. The painter took the cover plates off and "put them back".'
+  };
+  var RING = {
+    5:'Spare. Not connected. There is no sign-on bonus, so it won\'t hold.',
+    6:'Won\'t latch. No four day week on this board, and we won\'t pretend.'
+  };
+
+  function count(){ var n=0; for (var k in live) if (live[k]) n++; return n; }
+  function say(t){ $('#say').textContent = t; }
+  function buzz(ms){ if (navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
+  function clunk(hi){
+    if (!soundOn) return;
+    try{
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime;
+      o.type = 'square'; o.frequency.setValueAtTime(hi ? 180 : 110, t); o.frequency.exponentialRampToValueAtTime(40, t + .06);
+      g.gain.setValueAtTime(.18, t); g.gain.exponentialRampToValueAtTime(.001, t + .08);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + .09);
+    }catch(e){}
+  }
+  function dev(k){ return document.querySelector('.dev[data-c="'+k+'"]'); }
+  function row(k){ return document.querySelector('#sched li[data-c="'+k+'"]'); }
+  function setDev(d, on, word){
+    var b = d.querySelector('.tog');
+    d.classList.toggle('on', on);
+    if (b) b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var s = d.querySelector('.state'); if (s) s.textContent = word || (on ? 'ON' : 'OFF');
+  }
+  function shake(el){ if (reduce) return; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+  function update(){
+    $('#count').textContent = count() + ' of 4 live';
+    $$('.dev').forEach(function(d){ d.classList.remove('hint'); });
+    if (!finished && count() < 4){
+      for (var k=1;k<=4;k++) if (!live[k]){ dev(k).classList.add('hint'); break; }
+    }
+  }
+
+  function flick(k){
+    if (!touched){ touched = true; track('first_touch'); }
+    var d = dev(k);
+    if (k === 5 || k === 6){
+      setDev(d, true); clunk(true); buzz(12);
+      say(RING[k]); track('ring_in', {c:k});
+      setTimeout(function(){ setDev(d, false); clunk(false); shake(d); buzz([8,40,8]); }, reduce ? 500 : 380);
+      return;
+    }
+    if (live[k]){ say('It\'s on. Leave it, it\'s fine.'); shake(d); return; }
+    live[k] = true;
+    setDev(d, true, 'ON'); d.querySelector('.tog').setAttribute('aria-label','Circuit '+k+', on');
+    row(k).classList.add('live'); clunk(true); buzz(18);
+    var n = count();
+    say(n === 4 ? CAUSE[k] + ' That\'s the lot.' : CAUSE[k] + (n === 3 ? ' One to go.' : ''));
+    track('circuit_live', {c:k, n:n});
+    update();
+    if (!mainOn){ say('Breaker\'s in, but your main is off. Old habits. Flip the main back on.'); return; }
+    if (n === 4) finish();
+  }
+
+  function finish(){
+    if (finished) return; finished = true;
+    $('#lot').classList.remove('show');
+    track('board_fixed');
+    setTimeout(function(){
+      var done = $('#done'); done.classList.add('show');
+      done.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'start'});
+      try{ done.focus({preventScroll:true}); }catch(e){}
+    }, reduce ? 150 : 900);
+  }
+
+  function toggleMain(){
+    if (!touched){ touched = true; track('first_touch'); }
+    mainOn = !mainOn;
+    setDev($('#main'), mainOn); clunk(mainOn); buzz(20);
+    document.body.classList.toggle('dark', !mainOn);
+    $('#main .tog').setAttribute('aria-label','Main switch, ' + (mainOn ? 'on' : 'off'));
+    if (!mainOn) say('Isolated before you touch anything. Good habit. Pop it back on when you\'re ready.');
+    else { say(count() === 4 ? 'Main on. Lights on.' : 'Main back on. Now the bottom row.'); if (count() === 4) finish(); }
+    track('main', {on:mainOn});
+  }
+
+  function rcdTest(){
+    if (!touched){ touched = true; track('first_touch'); }
+    var r = $('#rcd'), was = {}, k;
+    setDev(r, false, 'TRIP'); clunk(false); buzz([30,30,30]);
+    for (k=1;k<=4;k++){ was[k] = live[k]; if (live[k]) setDev(dev(k), false, 'OFF'); }
+    say('RCD tripped in a blink. Better than half the boards in Adelaide. Resetting it for you.');
+    setTimeout(function(){
+      setDev(r, true, 'ON'); clunk(true);
+      for (var j=1;j<=4;j++) if (was[j]) setDev(dev(j), true, 'ON');
+    }, reduce ? 300 : 1100);
+  }
+
+  $$('.tog').forEach(function(b){
+    var k = b.getAttribute('data-k');
+    var go = function(){ if (k === 'main') toggleMain(); else flick(parseInt(k,10)); };
+    b.addEventListener('click', go);
+    /* swipe up on a toggle also works, like the real thing */
+    var y0 = null;
+    b.addEventListener('touchstart', function(e){ y0 = e.touches[0].clientY; }, {passive:true});
+    b.addEventListener('touchend', function(e){
+      if (y0 === null) return; var dy = y0 - e.changedTouches[0].clientY; y0 = null;
+      if (Math.abs(dy) > 18){ e.preventDefault(); go(); }
+    });
+  });
+  $('#rcd .tbtn').addEventListener('click', rcdTest);
+
+  /* Never let difficulty cost a candidate: after 9 seconds without finishing, offer to do the lot. */
+  setTimeout(function(){ if (!finished) $('#lot').classList.add('show'); }, 9000);
+  $('#lot').addEventListener('click', function(){
+    if (!mainOn) toggleMain();
+    var ks = [1,2,3,4].filter(function(k){ return !live[k]; });
+    ks.forEach(function(k, i){ setTimeout(function(){ flick(k); }, reduce ? 0 : i * 260); });
+    track('flick_all');
+  });
+
+  $('#snd').addEventListener('click', function(){
+    soundOn = !soundOn; this.setAttribute('aria-pressed', soundOn); this.textContent = soundOn ? 'Sound on' : 'Sound off'; clunk(true);
+  });
+
+  /* Share: one tap, pre-written, no spoilers. */
+  $('#share').addEventListener('click', function(){
+    var text = 'Someone\'s had a go at this switchboard. Four circuits down. Reckon you can sort it?';
+    track('share');
+    if (navigator.share){ navigator.share({title:'Someone\'s had a go at this board', text:text, url:CFG.SHARE_URL}).catch(function(){}); return; }
+    var full = text + ' ' + CFG.SHARE_URL;
+    var ok = function(){ $('#sharemsg').textContent = 'Copied. Paste it in the group chat.'; };
+    if (navigator.clipboard) navigator.clipboard.writeText(full).then(ok, function(){ $('#sharemsg').textContent = full; });
+    else $('#sharemsg').textContent = full;
+  });
+
+  /* Hide the dock while a full size Apply is on screen, so two Applies never compete. */
+  if ('IntersectionObserver' in window){
+    var seen = {}, io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ seen[e.target.getAttribute('data-track')] = e.isIntersecting; });
+      var any = false; for (var k in seen) if (seen[k]) any = true;
+      $('#dock').classList.toggle('hide', any);
+    }, {threshold:.6});
+    $$('.btn.js-apply').forEach(function(a){ io.observe(a); });
+  }
+
+  update();
+  track('view_content');
+  window.__aba = {flick:flick, live:live, finish:finish};
+})();
+</script>
+</body>
+</html>
