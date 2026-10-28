@@ -106,7 +106,8 @@ h1,h2,h3{text-wrap:balance;line-height:1.1}
  transform:scale(.94);transition:transform .3s ease;box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .modal.show .card{transform:none}
 .modal h2{font-size:1.45rem}
-.modal .lede{color:#3d527a;margin-top:6px}
+.modal .sub{font-size:1.12rem;font-weight:700;color:var(--navy);margin-top:4px;line-height:1.25;text-wrap:balance}
+.modal .lede{color:#3d527a;margin-top:10px;font-size:.95rem}
 .back{display:block;margin:6px auto 0;min-height:44px;min-width:44px;padding:0 12px;border:0;background:transparent;
  color:var(--slate);font:inherit;font-size:.86rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 body.modal-open{overflow:hidden}
@@ -213,8 +214,9 @@ body.modal-open .dock{transform:translateY(110%)}
 
 <div class="modal" id="done" role="dialog" aria-modal="true" aria-labelledby="doneh" aria-describedby="donel" hidden>
   <div class="card">
-    <h2 id="doneh">Board's back on. That's the&nbsp;job.</h2>
-    <p class="lede" id="donel">aba ELECTRICAL, Adelaide. Four things, in plain words.</p>
+    <h2 id="doneh">Board's back&nbsp;on.</h2>
+    <p class="sub">Reckon you're the right person for the&nbsp;job.</p>
+    <p class="lede" id="donel">Here's what aba ELECTRICAL puts on the&nbsp;table.</p>
     <ul class="deal">
       <li>$60 an hour, flat<small>T&amp;Cs apply.</small></li>
       <li>Company ute and a fuel card<small>Take-home, and the card runs it.</small></li>
@@ -319,10 +321,11 @@ function track(name, data){
     if (reduce){ setTimeout(openModal, 250); return; }
     buzz([25,50,25,50,70]);
     celebrate();
-    setTimeout(openModal, 1700);
+    setTimeout(openModal, 1900);
   }
 
-  /* Celebration: the board powers up (CSS glow and sweep), then a burst of sparks in brand colours on a canvas. */
+  /* Celebration: the board powers up (CSS glow and sweep), then sparks, confetti and curling streamers in brand colours on one canvas.
+     Streamers keep drifting behind the modal for a moment, then the canvas clears itself. */
   function celebrate(){
     var board = $('#board'); board.classList.remove('power'); void board.offsetWidth; board.classList.add('power');
     setTimeout(function(){ board.classList.remove('power'); }, 1700);
@@ -338,6 +341,15 @@ function track(name, data){
           c:COL[i % COL.length], spark:Math.random() < .45, w:4 + Math.random() * 5, rot:Math.random() * 6, vr:(Math.random() - .5) * .4});
       }
     }
+    var S = [];
+    function streamers(n){
+      for (var i = 0; i < n; i++){
+        S.push({x:(i + .2 + Math.random() * .6) / n * W, y:-20 - Math.random() * 140, vy:2.2 + Math.random() * 2.2,
+          len:0, max:90 + Math.random() * 90, amp:8 + Math.random() * 12, k:.05 + Math.random() * .04,
+          ph:Math.random() * 6, c:COL[(i * 3) % COL.length], w:4 + Math.random() * 2, sway:(Math.random() - .5) * .6});
+      }
+    }
+    setTimeout(function(){ streamers(Math.round(Math.min(22, W / 18))); }, 250);
     var t0 = null, fired2 = false;
     setTimeout(function(){ burst(90, ox, oy, 9); clunk(); }, 450);
     function frame(t){
@@ -351,8 +363,19 @@ function track(name, data){
         if (q.spark){ cx.strokeStyle = q.c; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(q.x, q.y); cx.lineTo(q.x - q.vx * 2.2, q.y - q.vy * 2.2); cx.stroke(); }
         else { cx.save(); cx.translate(q.x, q.y); cx.rotate(q.rot); cx.fillStyle = q.c; cx.fillRect(-q.w / 2, -q.w / 4, q.w, q.w / 2); cx.restore(); }
       }
+      var fade = el > 2700 ? Math.max(0, 1 - (el - 2700) / 700) : 1;
+      cx.lineCap = 'round'; cx.lineJoin = 'round';
+      for (var j = 0; j < S.length; j++){
+        var st = S[j]; st.y += st.vy; st.x += st.sway; if (st.len < st.max) st.len += 5;
+        cx.globalAlpha = .95 * fade; cx.strokeStyle = st.c; cx.lineWidth = st.w; cx.beginPath();
+        for (var d = 0; d <= st.len; d += 6){
+          var px = st.x + st.amp * Math.sin(st.ph + d * st.k + el * .006), py = st.y - d;
+          if (d === 0) cx.moveTo(px, py); else cx.lineTo(px, py);
+        }
+        cx.stroke();
+      }
       cx.globalAlpha = 1;
-      if (el < 2000) requestAnimationFrame(frame); else { cx.clearRect(0, 0, W, H); cv.style.display = 'none'; }
+      if (el < 3400) requestAnimationFrame(frame); else { cx.clearRect(0, 0, W, H); cv.style.display = 'none'; }
     }
     requestAnimationFrame(frame);
   }
