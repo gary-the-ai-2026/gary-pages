@@ -59,36 +59,59 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 <section class="hero">
 <div class="kicker">Health Monitoring · Amy Hancock</div>
 <h1>Blood Results Dashboard</h1>
-<p class="subtitle">10 timepoints across 3.5 years: Mar 2022 → Jun 2026. Most recent draw: 23 June 2026 (Clinicalabs, Prof Toby Coates).</p>
-<div class="meta"><span>8 draws</span><span>40+ parameters</span><span>ClinPath + Clinicalabs</span></div>
+<p class="subtitle">Nine draws plus urine across 4.5 years: Mar 2022 → Oct 2026. Most recent draw: 27 October 2026 (ClinPath).</p>
+<div class="meta"><span>9 draws</span><span>40+ parameters</span><span>ClinPath + Clinicalabs</span></div>
 </section>
 
 <!-- Summary -->
 <section class="section">
-<div class="section-header"><div class="section-label">At a Glance</div><div class="section-title">Key Indicators — June 2026</div></div>
+<div class="section-header"><div class="section-label">At a Glance</div><div class="section-title">Key Indicators — October 2026</div></div>
 <div class="cards cols-4">
-<div class="card"><h3>Platelets</h3><div class="value">113</div><div class="label">×10⁹/L (ref: 150–450)</div><div class="trend trend-up">↑ from 98 (Feb)</div><span class="status-pill status-low" style="margin-top:.5rem;display:inline-block">Low</span></div>
-<div class="card"><h3>ALT</h3><div class="value">112</div><div class="label">U/L (ref: 5–30)</div><div class="trend trend-down">↑ from 72 (Feb)</div><span class="status-pill status-high" style="margin-top:.5rem;display:inline-block">High</span></div>
+<div class="card"><h3>Platelets</h3><div class="value">100</div><div class="label">×10⁹/L (ref: 150–450)</div><div class="trend trend-warn">↓ from 113 (Jun)</div><span class="status-pill status-low" style="margin-top:.5rem;display:inline-block">Low</span></div>
+<div class="card"><h3>ALT</h3><div class="value">73</div><div class="label">U/L (ref: 5–30)</div><div class="trend trend-up">↓ from 112 (Jun) — 35% lower</div><span class="status-pill status-improving" style="margin-top:.5rem;display:inline-block">Improving</span></div>
 <div class="card"><h3>HDL</h3><div class="value">3.1</div><div class="label">mmol/L (ref: >1.1)</div><div class="trend trend-up">↑ from 2.7</div><span class="status-pill status-normal" style="margin-top:.5rem;display:inline-block">Cardioprotective</span></div>
 <div class="card"><h3>eGFR</h3><div class="value">&gt;90</div><div class="label">mL/min (ref: >59)</div><div class="trend trend-up">Recovered from 77 (Sep 25)</div><span class="status-pill status-normal" style="margin-top:.5rem;display:inline-block">Excellent</span></div>
+</div>
+</section>
+
+<!-- ─── WHAT CHANGED SINCE JUNE ─── -->
+<section class="section">
+<div class="section-header"><div class="section-label">Trend</div><div class="section-title">What Changed Since June 2026</div></div>
+<div class="chart-card">
+<table class="data-table">
+<thead><tr><th>Test</th><th>Jun 2026</th><th>Oct 2026</th><th>Change</th><th>Reference</th></tr></thead>
+<tbody>
+<tr><td>ALT</td><td>112</td><td>73</td><td class="flag-normal">−39 (−35%)</td><td>5–30 U/L</td></tr>
+<tr><td>GGT</td><td>155</td><td>119</td><td class="flag-normal">−36 (−23%)</td><td>5–35 U/L</td></tr>
+<tr><td>AST</td><td>66</td><td>64</td><td class="flag-normal">−2</td><td>10–35 U/L</td></tr>
+<tr><td>Alkaline Phosphatase</td><td>223</td><td>223</td><td>unchanged</td><td>20–105 U/L</td></tr>
+<tr><td>Phosphate</td><td>1.52</td><td>1.09</td><td class="flag-normal">resolved</td><td>0.70–1.50 mmol/L</td></tr>
+<tr><td>Creatinine</td><td>72</td><td>67</td><td class="flag-normal">−5</td><td>45–85 µmol/L</td></tr>
+<tr><td>eGFR</td><td>&gt;90</td><td>&gt;90</td><td class="flag-normal">stable</td><td>&gt;59 mL/min</td></tr>
+<tr><td>Platelets</td><td>113</td><td>100</td><td class="flag-low">−13</td><td>150–450 ×10⁹/L</td></tr>
+<tr><td>Ferritin</td><td>57</td><td>152</td><td class="flag-low">+95</td><td>30–160 µg/L</td></tr>
+<tr><td>Serum iron</td><td>17.6</td><td>10.9</td><td class="flag-low">−6.7</td><td>8.8–27.0 µmol/L</td></tr>
+<tr><td>Urine ACR</td><td>n/a</td><td>6.9</td><td class="flag-high">HIGH</td><td>0.0–3.5 mg/mmol</td></tr>
+</tbody></table>
+<div class="commentary"><h4>Reading This Panel</h4><p>October 2026 is the <strong>first panel since starting Mounjaro</strong>; June 2026 was the pre-treatment baseline. These changes therefore bundle medication, weight loss and ordinary biological variation together and <strong>cannot be attributed to any one of them</strong>. The liver picture is genuinely improving — ALT back to its February level, GGT down 23% — but ALP is unmoved at 223, and two new developments (platelets 113→100, ferritin 57→152) belong in front of Prof Coates rather than being read as noise. Note also that June was run by Clinicalabs and October by ClinPath: ferritin assays are not standardised between laboratories, so that jump is not a clean like-for-like comparison.</p></div>
 </div>
 </section>
 
 <!-- ─── PLATELETS ─── -->
 <section class="section">
 <div class="section-header"><div class="section-label">Haematology</div><div class="section-title">Platelet Count — 3.5 Year Trend</div></div>
-<div class="chart-card"><h3>Platelets</h3><div class="chart-note">8 draws: Mar 2022 → Jun 2026. Reference: 150–450 ×10⁹/L. Clear decline then recent recovery.</div>
+<div class="chart-card"><h3>Platelets</h3><div class="chart-note">9 draws: Mar 2022 → Oct 2026. Reference: 150–450 ×10⁹/L. Declined to a 2026 nadir, now oscillating in a narrow band.</div>
 <div class="chart-wrap"><canvas id="plateletChart"></canvas></div>
-<div class="commentary warn"><h4>Platelet Commentary</h4><p>Platelets declined steadily from 143 (Mar 2022) to a nadir of 98 (Feb 2026) — a loss of ~45 over 4 years. The Jun 2026 result of 113 represents the <strong>first meaningful uptick</strong> since early 2024. The Sep 2025 haematology report noted <em>"moderate thrombocytopenia — could be related to drugs, immune mediated or viral infection."</em> The Feb 2026 report added <em>"large platelets present — suggests bone marrow compensation."</em> By Jun 2026, the comment shifted to <em>"consistent with liver disease."</em> The recent uptick to 113 is encouraging but platelets remain below range.</p></div>
+<div class="commentary warn"><h4>Platelet Commentary</h4><p>Platelets declined steadily from 143 (Mar 2022) to a nadir of 98 (Feb 2026), then recovered to 113 in June and slipped back to <strong>100 in October</strong>. Across the last five draws the count has sat in a narrow <strong>98–114 band with no downward drift</strong> — a stable mild thrombocytopenia rather than a progressive one. The Oct 2026 report reads <em>"red cells appear normal. White cell morphology appears normal. Large platelets are present. CONCLUSION: Mild thrombocytopenia persists."</em> Large platelets indicate the bone marrow is actively compensating. Reports from Sep 2025 to Jun 2026 have variously attributed the finding to drugs, immune causes, viral infection and liver disease; no single cause has been established.</p></div>
 </div>
 </section>
 
 <!-- ─── LIVER ─── -->
 <section class="section">
-<div class="section-header"><div class="section-label">Liver Panel</div><div class="section-title">Liver Enzymes — 4 Timepoints</div></div>
-<div class="chart-card"><h3>ALT · AST · GGT · Alkaline Phosphatase</h3><div class="chart-note">Nov 2024 → Sep 2025 → Feb 2026 → Jun 2026. All four persistently elevated.</div>
+<div class="section-header"><div class="section-label">Liver Panel</div><div class="section-title">Liver Enzymes — 5 Timepoints</div></div>
+<div class="chart-card"><h3>ALT · AST · GGT · Alkaline Phosphatase</h3><div class="chart-note">Nov 2024 → Oct 2026. All four remain above range, but ALT and GGT have fallen sharply from their June peaks.</div>
 <div class="chart-wrap"><canvas id="liverChart"></canvas></div>
-<div class="commentary warn"><h4>Liver Commentary</h4><p>GGT peaked at <strong>157 U/L in Nov 2024</strong> (4.5× ULN) — the highest on record. ALT shows an oscillating pattern: 81→95→72→112 U/L. The Jun 2026 ALT of 112 is the highest ALT recorded. ALP has risen steadily: 208→203→218→223. AST is relatively stable at 62–73. The haematology comment now explicitly links thrombocytopenia to liver disease. The clinical note on the Nov 2024 request was <em>"TRANSPLANT PRE OP ABNORMAL LFT"</em> — indicating liver function has been a concern since at least mid-2024.</p></div>
+<div class="commentary warn"><h4>Liver Commentary</h4><p>June 2026 was the worst panel on record — ALT 112 (highest ever) and GGT 155 — but <strong>October reverses most of that</strong>: ALT down 39 points to 73 (back to its February level), GGT down 36 points to 119, AST effectively flat at 64. The stubborn marker is <strong>Alkaline Phosphatase, unchanged at 223</strong> (2.1× ULN) across Feb, Jun and Oct. ALP has both liver and bone sources: when GGT falls but ALP holds steady, the biliary tree becomes a less likely explanation and bone turnover more likely — and bone resorption rises with weight loss. That distinction is worth a bone-specific ALP or isoenzyme test. History: the Nov 2024 request carried the clinical note <em>"TRANSPLANT PRE OP ABNORMAL LFT"</em>, so liver function has been under surveillance since at least mid-2024.</p></div>
 </div>
 </section>
 
@@ -96,12 +119,12 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 <section class="section">
 <div class="section-header"><div class="section-label">Haematology</div><div class="section-title">Full Blood Count Trends</div></div>
 <div class="cards cols-2">
-<div class="chart-card"><h3>Haemoglobin</h3><div class="chart-note">8 timepoints. Reference: 119–160 g/L (ClinPath) / 115–165 (Clinicalabs).</div><div class="chart-wrap"><canvas id="hbChart"></canvas></div></div>
-<div class="chart-card"><h3>White Cell Count</h3><div class="chart-note">8 timepoints. Reference: 4.0–11.0 ×10⁹/L.</div><div class="chart-wrap"><canvas id="wccChart"></canvas></div></div>
+<div class="chart-card"><h3>Haemoglobin</h3><div class="chart-note">9 timepoints. Reference: 119–160 g/L (ClinPath) / 115–165 (Clinicalabs).</div><div class="chart-wrap"><canvas id="hbChart"></canvas></div></div>
+<div class="chart-card"><h3>White Cell Count</h3><div class="chart-note">9 timepoints. Reference: 4.0–11.0 ×10⁹/L.</div><div class="chart-wrap"><canvas id="wccChart"></canvas></div></div>
 </div>
 <div class="cards cols-2" style="margin-top:1.25rem">
-<div class="chart-card"><h3>Red Cell Count</h3><div class="chart-note">8 timepoints. Reference: 3.8–5.8 ×10¹²/L.</div><div class="chart-wrap"><canvas id="rbcChart"></canvas></div></div>
-<div class="chart-card"><h3>Haematocrit</h3><div class="chart-note">8 timepoints. Reference: 0.35–0.48 L/L.</div><div class="chart-wrap"><canvas id="hctChart"></canvas></div></div>
+<div class="chart-card"><h3>Red Cell Count</h3><div class="chart-note">9 timepoints. Reference: 3.8–5.8 ×10¹²/L.</div><div class="chart-wrap"><canvas id="rbcChart"></canvas></div></div>
+<div class="chart-card"><h3>Haematocrit</h3><div class="chart-note">9 timepoints. Reference: 0.35–0.48 L/L.</div><div class="chart-wrap"><canvas id="hctChart"></canvas></div></div>
 </div>
 <div class="commentary" style="margin-top:1.25rem"><h4>FBC Commentary</h4><p>Haemoglobin shows a V-shaped pattern: dropped from 133 (Mar 22) to a low of 117 (Nov 22), then recovered through 2024, dipped again to 119 (Feb 26), and is now at 129 (Jun 26). All values within range. WCC spiked to 9.5 briefly in Nov 2022 but has otherwise been stable at 4.9–7.4. Red cell count hit its lowest in Nov 2022 (3.8) and Feb 2026 (3.9) but has recovered. Overall the FBC shows <strong>broad stability</strong> with the platelet count as the only persistent haematological abnormality.</p></div>
 </section>
@@ -128,9 +151,9 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 <!-- ─── KIDNEY ─── -->
 <section class="section">
 <div class="section-header"><div class="section-label">Kidney Function</div><div class="section-title">Renal Panel</div></div>
-<div class="chart-card"><h3>eGFR &amp; Creatinine</h3><div class="chart-note">Nov 2024 → Jun 2026. Note: eGFR dipped to 77 in Sep 2025, recovered to >90.</div>
+<div class="chart-card"><h3>eGFR &amp; Creatinine</h3><div class="chart-note">Nov 2024 → Oct 2026. eGFR dipped to 77 in Sep 2025, recovered to &gt;90 and has held.</div>
 <div class="chart-wrap"><canvas id="kidneyChart"></canvas></div>
-<div class="commentary"><h4>Renal Commentary</h4><p>eGFR was <strong>77 mL/min in Sep 2025</strong> — a notable dip from the usual >90. This recovered to >90 by Feb 2026 and remains there. Creatinine has been stable at 66–77 μmol/L throughout. The Sep 2025 dip coincided with a period where total protein was also low (65 g/L), suggesting a possible transient stressor. Crucially, urine protein was <strong>elevated in Nov 2024 (31.1 mg/L, HIGH)</strong> but was <strong>undetectable by Jun 2026 (<0.06 g/L)</strong> — a significant positive development for RVCL monitoring.</p></div>
+<div class="commentary"><h4>Renal Commentary</h4><p>eGFR was <strong>77 mL/min in Sep 2025</strong> — a dip from the usual &gt;90 — but recovered by Feb 2026 and has held at &gt;90 through October 2026. Creatinine has been stable at 63–77 μmol/L across the whole record, most recently 67. Kidney function is <strong>not a concern</strong>. Note the October 2026 urine creatinine was very low at 2.6 mmol/L (dilute sample), which inflates the albumin/creatinine ratio — see the urinalysis section.</p></div>
 </div>
 </section>
 
@@ -138,22 +161,22 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 <section class="section">
 <div class="section-header"><div class="section-label">Chemistry</div><div class="section-title">Electrolytes, Protein &amp; Minerals</div></div>
 <div class="cards cols-2">
-<div class="chart-card"><h3>Total Protein</h3><div class="chart-note">Nov 2024 → Jun 2026. Reference: 68–85 (ClinPath) / 60–80 (Clinicalabs).</div><div class="chart-wrap"><canvas id="proteinChart"></canvas></div></div>
+<div class="chart-card"><h3>Total Protein</h3><div class="chart-note">Nov 2024 → Oct 2026. Reference: 68–85 (ClinPath) / 60–80 (Clinicalabs).</div><div class="chart-wrap"><canvas id="proteinChart"></canvas></div></div>
 <div class="chart-card"><h3>Phosphate</h3><div class="chart-note">Nov 2024 → Jun 2026. Reference: 0.7–1.5 mmol/L.</div><div class="chart-wrap"><canvas id="phosChart"></canvas></div></div>
 </div>
 <div class="cards cols-2" style="margin-top:1.25rem">
 <div class="chart-card"><h3>Electrolytes</h3><div class="chart-note">Sodium, Potassium, Chloride — all stable across all timepoints.</div><div class="chart-wrap"><canvas id="lytesChart"></canvas></div></div>
 <div class="chart-card"><h3>Calcium &amp; Albumin</h3><div class="chart-note">Nov 2024 → Jun 2026. All within normal range.</div><div class="chart-wrap"><canvas id="caChart"></canvas></div></div>
 </div>
-<div class="commentary" style="margin-top:1.25rem"><h4>Chemistry Commentary</h4><p>Total protein was <strong>below range at 65 g/L from Nov 2024 through Feb 2026</strong> (ClinPath ref: 68–85) but normalised to 70 in Jun 2026. Phosphate crossed above range for the first time in Jun 2026 (1.52). Electrolytes (Na, K, Cl) have been rock-stable across all timepoints. Calcium and albumin are normal and stable. Overall chemistry shows gradual improvement except for the new phosphate elevation.</p></div>
+<div class="commentary good" style="margin-top:1.25rem"><h4>Chemistry Commentary</h4><p>Total protein was <strong>below range at 65 g/L from Nov 2024 through Feb 2026</strong> but has normalised — 70 in Jun 2026, 68 in Oct 2026. The June phosphate elevation (1.52, above range) has <strong>fully resolved to 1.09</strong> in October. Electrolytes (Na, K, Cl) remain rock-stable across every timepoint, and calcium and albumin are normal and stable at 2.47 and 41 respectively. Overall chemistry continues to improve.</p></div>
 </section>
 
 <!-- ─── URINE ─── -->
 <section class="section">
-<div class="section-header"><div class="section-label">Urinalysis</div><div class="section-title">Urine — Nov 2024 vs Jun 2026</div></div>
-<div class="chart-card"><h3>Urine Albumin</h3><div class="chart-note">Microalbumin, Random Urine. Significant improvement from HIGH to undetectable.</div>
+<div class="section-header"><div class="section-label">Urinalysis</div><div class="section-title">Urine — Albumin/Creatinine Ratio</div></div>
+<div class="chart-card"><h3>Urine Albumin/Creatinine Ratio</h3><div class="chart-note">Random urine. Reference: 0.0–3.5 mg/mmol. Nov 2024 and Oct 2026 were both flagged HIGH; Jun 2026 urine protein sat below the assay range so no ratio was calculable.</div>
 <div class="chart-wrap"><canvas id="urineChart"></canvas></div>
-<div class="commentary good"><h4>Urine Commentary</h4><p>This is a <strong>major positive finding</strong>. In Nov 2024, urine albumin was 31.1 mg/L (HIGH, ref <20) with an elevated albumin/creatinine ratio of 5.4 (HIGH, ref 0–3.5). By Jun 2026, urine protein was <strong>undetectable (<0.06 g/L)</strong>. For RVCL monitoring, the absence of proteinuria is one of the most important reassuring signs. Whatever caused the transient albuminuria in Nov 2024 has resolved.</p></div>
+<div class="commentary warn"><h4>Urine Commentary</h4><p>November 2024 recorded an elevated ratio of <strong>5.4 mg/mmol</strong> (albumin 31.1 mg/L) which had resolved by June 2026. October 2026 records <strong>6.9 mg/mmol</strong> — flagged HIGH, but with an important caveat: the <em>absolute</em> albumin was only 18.0 mg/L (under the &lt;20 cut-off) and the urine creatinine was just 2.6 mmol/L, i.e. a dilute sample. Dividing a normal albumin by a low creatinine is what pushes the ratio over the line. The laboratory comment reads: <em>"An increased albumin/creatinine ratio is noted, but not to a pathologically significant level. Progress renal function and microalbumin is suggested in 6 months."</em> Repeat in ~6 months; a first-morning sample would be more reliable.</p></div>
 </div>
 </section>
 
@@ -161,7 +184,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 <section class="section">
 <div class="section-header"><div class="section-label">Endocrinology</div><div class="section-title">PTH &amp; Additional Tests</div></div>
 <div class="cards cols-2">
-<div class="chart-card"><h3>Parathyroid Hormone</h3><div class="chart-note">Sep 2025 → Jun 2026. Reference: 1.5–7.5 pmol/L. All normal.</div><div class="chart-wrap"><canvas id="pthChart"></canvas></div></div>
+<div class="chart-card"><h3>Parathyroid Hormone</h3><div class="chart-note">Sep 2025 → Jun 2026 (not repeated Oct 2026). Reference: 1.5–7.5 pmol/L. All normal.</div><div class="chart-wrap"><canvas id="pthChart"></canvas></div></div>
 <div class="chart-card"><h3>INR (Nov 2024 only)</h3><div class="chart-note">Part of transplant pre-op workup. Result: 1.0.</div>
 <table class="data-table" style="margin-top:.75rem">
 <thead><tr><th>Test</th><th>Result</th><th>Ref (non-warfarin)</th><th>Ref (warfarin)</th></tr></thead>
@@ -172,7 +195,7 @@ body{font-family:var(--font-body);background:var(--canvas);color:var(--body);lin
 </section>
 
 <div class="footer">
-<p>Data sources: ClinPath (Mar 2022–Sep 2025) and Clinicalabs (Jun 2026) via My Health Record. Reference ranges vary between laboratories. Last updated: 24 June 2026 · <a href="https://gary-the-ai-2026.github.io/gary-pages/">Gary Pages</a></p>
+<p>Data sources: ClinPath and Clinicalabs via My Health Record. Reference ranges vary between laboratories and between collection platforms — compare values with care across labs. Last updated: 29 October 2026 · <a href="https://gary-the-ai-2026.github.io/gary-pages/">Gary Pages</a></p>
 </div>
 
 </div>
@@ -186,84 +209,84 @@ const C={coral:'#cc785c',success:'#1b8a3d',danger:'#c0392b',warning:'#c2680c',mu
 
 function refBandPlugin(low,high,label){return{id:'ref'+low,afterDraw(chart){const{ctx,scales:{x,y}}=chart,yl=y.getPixelForValue(low),yh=y.getPixelForValue(high);ctx.save();ctx.fillStyle='rgba(148,145,138,.07)';ctx.fillRect(x.left,yh,x.right-x.left,yl-yh);ctx.fillStyle=C.muted;ctx.font='9px Inter,sans-serif';ctx.textAlign='right';if(label)ctx.fillText(label,x.right-4,yh+12);ctx.restore()}}}
 
-const L8=['Mar 22','Nov 22','Jan 24','Nov 24','Apr 25','Sep 25','Feb 26','Jun 26'];
+const L9=['Mar 22','Nov 22','Jan 24','Nov 24','Apr 25','Sep 25','Feb 26','Jun 26','Oct 26'];
 const L6=['Nov 24','Apr 25','Sep 25','Feb 26','Jun 26'];
 const L5=['Nov 24','Sep 25','Feb 26','Jun 26'];
-const L5i=['Jun 22','Apr 25','Sep 25','Feb 26','Jun 26'];
-const L4=['Nov 24','Sep 25','Feb 26','Jun 26'];
+const L6i=['Jun 22','Apr 25','Sep 25','Feb 26','Jun 26','Oct 26'];
+const LX=['Nov 24','Sep 25','Feb 26','Jun 26','Oct 26'];
 
 // Platelets
-new Chart('plateletChart',{type:'line',data:{labels:L8,datasets:[{label:'Platelets',data:[143,132,122,114,111,99,98,113],borderColor:C.warning,backgroundColor:'rgba(194,104,12,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.warning}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:80,max:180,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(150,450,'Ref: 150–450')]});
+new Chart('plateletChart',{type:'line',data:{labels:L9,datasets:[{label:'Platelets',data:[143,132,122,114,111,99,98,113,100],borderColor:C.warning,backgroundColor:'rgba(194,104,12,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.warning}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:80,max:180,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(150,450,'Ref: 150–450')]});
 
 // Liver
-new Chart('liverChart',{type:'bar',data:{labels:L4,datasets:[
-{label:'ALT',data:[81,95,72,112],backgroundColor:C.danger,borderRadius:4},
-{label:'AST',data:[73,73,62,66],backgroundColor:C.warning,borderRadius:4},
-{label:'GGT',data:[157,124,147,155],backgroundColor:C.coral,borderRadius:4},
-{label:'Alk Phos',data:[208,203,218,223],backgroundColor:C.muted,borderRadius:4}
+new Chart('liverChart',{type:'bar',data:{labels:LX,datasets:[
+{label:'ALT',data:[81,95,72,112,73],backgroundColor:C.danger,borderRadius:4},
+{label:'AST',data:[73,73,62,66,64],backgroundColor:C.warning,borderRadius:4},
+{label:'GGT',data:[157,124,147,155,119],backgroundColor:C.coral,borderRadius:4},
+{label:'Alk Phos',data:[208,203,218,223,223],backgroundColor:C.muted,borderRadius:4}
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'U/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Hb
-new Chart('hbChart',{type:'line',data:{labels:L8,datasets:[{label:'Hb',data:[133,117,132,129,137,126,119,129],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:100,max:160,title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(119,160,'Ref')]});
+new Chart('hbChart',{type:'line',data:{labels:L9,datasets:[{label:'Hb',data:[133,117,132,129,137,126,119,129,126],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:100,max:160,title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(119,160,'Ref')]});
 
 // WCC
-new Chart('wccChart',{type:'line',data:{labels:L8,datasets:[{label:'WCC',data:[6.5,9.5,6.5,4.9,7.4,6.7,7.1,6.5],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.coral}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3,max:12,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+new Chart('wccChart',{type:'line',data:{labels:L9,datasets:[{label:'WCC',data:[6.5,9.5,6.5,4.9,7.4,6.7,7.1,6.5,5.7],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.coral}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3,max:12,title:{display:true,text:'×10⁹/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // RBC
-new Chart('rbcChart',{type:'line',data:{labels:L8,datasets:[{label:'RBC',data:[4.4,3.8,4.3,4.2,4.44,4.0,3.9,4.21],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3.5,max:5.5,title:{display:true,text:'×10¹²/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+new Chart('rbcChart',{type:'line',data:{labels:L9,datasets:[{label:'RBC',data:[4.4,3.8,4.3,4.2,4.44,4.0,3.9,4.21,4.0],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:3.5,max:5.5,title:{display:true,text:'×10¹²/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // HCT
-new Chart('hctChart',{type:'line',data:{labels:L8,datasets:[{label:'HCT',data:[0.41,0.37,0.40,0.40,0.40,0.38,0.37,0.40],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.3,max:0.5,title:{display:true,text:'L/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(0.35,0.48,'Ref')]});
+new Chart('hctChart',{type:'line',data:{labels:L9,datasets:[{label:'HCT',data:[0.41,0.37,0.40,0.40,0.40,0.38,0.37,0.40,0.39],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.06)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.3,max:0.5,title:{display:true,text:'L/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(0.35,0.48,'Ref')]});
 
 // Iron
-new Chart('ironChart',{type:'line',data:{labels:L5i,datasets:[
-{label:'Ferritin (μg/L)',data:[91,51,77,49,57],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
-{label:'Iron (μmol/L)',data:[13,17,17.2,9.6,17.6],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.04)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.blue,yAxisID:'y1'},
-]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Ferritin (μg/L)'},min:20,max:110,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Iron (μmol/L)'},min:5,max:30,grid:{display:false}},x:{grid:{display:false}}}}});
+new Chart('ironChart',{type:'line',data:{labels:L6i,datasets:[
+{label:'Ferritin (μg/L)',data:[91,51,77,49,57,152],borderColor:C.coral,backgroundColor:'rgba(204,120,92,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
+{label:'Iron (μmol/L)',data:[13,17,17.2,9.6,17.6,10.9],borderColor:C.blue,backgroundColor:'rgba(59,130,246,.04)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.blue,yAxisID:'y1'},
+]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Ferritin (μg/L)'},min:20,max:175,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'Iron (μmol/L)'},min:5,max:30,grid:{display:false}},x:{grid:{display:false}}}}});
 
 // Lipids
-new Chart('lipidChart',{type:'bar',data:{labels:L4,datasets:[
-{label:'Total Chol',data:[4.6,4.7,4.6,5.2],backgroundColor:C.muted,borderRadius:4},
-{label:'HDL',data:[null,2.4,2.7,3.1],backgroundColor:C.success,borderRadius:4},
-{label:'LDL',data:[null,2.0,1.6,1.9],backgroundColor:C.blue,borderRadius:4}
+new Chart('lipidChart',{type:'bar',data:{labels:LX,datasets:[
+{label:'Total Chol',data:[4.6,4.7,4.6,5.2,4.9],backgroundColor:C.muted,borderRadius:4},
+{label:'HDL',data:[null,2.4,2.7,3.1,null],backgroundColor:C.success,borderRadius:4},
+{label:'LDL',data:[null,2.0,1.6,1.9,null],backgroundColor:C.blue,borderRadius:4}
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Trig
-new Chart('trigChart',{type:'line',data:{labels:L4,datasets:[{label:'Triglycerides',data:[1.2,0.6,0.7,0.5],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+new Chart('trigChart',{type:'line',data:{labels:LX,datasets:[{label:'Triglycerides',data:[1.2,0.6,0.7,0.5,null],borderColor:C.success,backgroundColor:'rgba(27,138,61,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.success}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:2.5,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Kidney
-new Chart('kidneyChart',{type:'line',data:{labels:L4,datasets:[
-{label:'Creatinine (μmol/L)',data:[66,77,74,72],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
-{label:'eGFR',data:[90,77,90,90],borderColor:C.success,tension:.3,pointRadius:5,pointBackgroundColor:C.success,yAxisID:'y1'},
+new Chart('kidneyChart',{type:'line',data:{labels:LX,datasets:[
+{label:'Creatinine (μmol/L)',data:[66,77,74,72,67],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral,yAxisID:'y'},
+{label:'eGFR',data:[90,77,90,90,90],borderColor:C.success,tension:.3,pointRadius:5,pointBackgroundColor:C.success,yAxisID:'y1'},
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{position:'left',title:{display:true,text:'Creat (μmol/L)'},min:50,max:90,grid:{color:C.hairline}},y1:{position:'right',title:{display:true,text:'eGFR'},min:60,max:110,grid:{display:false}},x:{grid:{display:false}}}}});
 
 // Protein
-new Chart('proteinChart',{type:'line',data:{labels:L4,datasets:[
-{label:'Total Protein',data:[65,65,66,70],borderColor:C.ink,tension:.3,pointRadius:5,pointBackgroundColor:C.ink},
-{label:'Albumin',data:[40,41,40,38],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral},
-{label:'Globulin',data:[25,24,26,32],borderColor:C.warning,tension:.3,pointRadius:5,pointBackgroundColor:C.warning},
+new Chart('proteinChart',{type:'line',data:{labels:LX,datasets:[
+{label:'Total Protein',data:[65,65,66,70,68],borderColor:C.ink,tension:.3,pointRadius:5,pointBackgroundColor:C.ink},
+{label:'Albumin',data:[40,41,40,38,41],borderColor:C.coral,tension:.3,pointRadius:5,pointBackgroundColor:C.coral},
+{label:'Globulin',data:[25,24,26,32,27],borderColor:C.warning,tension:.3,pointRadius:5,pointBackgroundColor:C.warning},
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Phosphate
-new Chart('phosChart',{type:'line',data:{labels:L4,datasets:[{label:'Phosphate',data:[0.96,1.43,1.00,1.52],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.5,max:2,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+new Chart('phosChart',{type:'line',data:{labels:LX,datasets:[{label:'Phosphate',data:[0.96,1.43,1.00,1.52,1.09],borderColor:C.danger,backgroundColor:'rgba(192,57,43,.06)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:C.danger}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0.5,max:2,title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Electrolytes
-new Chart('lytesChart',{type:'line',data:{labels:L4,datasets:[
-{label:'Sodium',data:[140,141,140,140],borderColor:C.ink,tension:0,pointRadius:4,pointBackgroundColor:C.ink},
-{label:'Potassium',data:[3.8,4.2,4.2,4.2],borderColor:C.coral,tension:0,pointRadius:4,pointBackgroundColor:C.coral},
-{label:'Chloride',data:[108,107,108,102],borderColor:C.muted,tension:0,pointRadius:4,pointBackgroundColor:C.muted}
+new Chart('lytesChart',{type:'line',data:{labels:LX,datasets:[
+{label:'Sodium',data:[140,141,140,140,141],borderColor:C.ink,tension:0,pointRadius:4,pointBackgroundColor:C.ink},
+{label:'Potassium',data:[3.8,4.2,4.2,4.2,4.1],borderColor:C.coral,tension:0,pointRadius:4,pointBackgroundColor:C.coral},
+{label:'Chloride',data:[108,107,108,102,107],borderColor:C.muted,tension:0,pointRadius:4,pointBackgroundColor:C.muted}
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Calcium
-new Chart('caChart',{type:'line',data:{labels:L4,datasets:[
-{label:'Calcium',data:[2.30,2.29,2.32,2.39],borderColor:C.coral,tension:.3,pointRadius:4,pointBackgroundColor:C.coral},
-{label:'Albumin',data:[40,41,40,38],borderColor:C.blue,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}
+new Chart('caChart',{type:'line',data:{labels:LX,datasets:[
+{label:'Calcium',data:[2.30,2.29,2.32,2.39,2.47],borderColor:C.coral,tension:.3,pointRadius:4,pointBackgroundColor:C.coral},
+{label:'Albumin',data:[40,41,40,38,41],borderColor:C.blue,tension:.3,pointRadius:4,pointBackgroundColor:C.blue}
 ]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'mmol/L / g/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
 
 // Urine
-new Chart('urineChart',{type:'bar',data:{labels:['Nov 2024','Jun 2026'],datasets:[
-{label:'Urine Albumin (mg/L)',data:[31.1,0.06],backgroundColor:[C.danger,C.success],borderRadius:4}
-]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'mg/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
+new Chart('urineChart',{type:'bar',data:{labels:['Nov 2024','Oct 2026'],datasets:[
+{label:'Albumin/Creatinine Ratio (mg/mmol)',data:[5.4,6.9],backgroundColor:[C.danger,C.warning],borderRadius:4}
+]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:9,title:{display:true,text:'mg/mmol'},grid:{color:C.hairline}},x:{grid:{display:false}}}},plugins:[refBandPlugin(0,3.5,'Ref: 0–3.5')]});
 
 // PTH
 new Chart('pthChart',{type:'bar',data:{labels:['Sep 2025','Feb 2026','Jun 2026'],datasets:[{label:'PTH',data:[6.2,2.3,5.5],backgroundColor:[C.coral,C.muted,C.coral],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:10,title:{display:true,text:'pmol/L'},grid:{color:C.hairline}},x:{grid:{display:false}}}}});
