@@ -375,6 +375,8 @@
     transition: all 0.15s;
   }
   .modal-close:hover { background: var(--surface-alt); color: var(--ink); }
+  .card-img, .modal-img { border: 0; outline: 0; }
+  .modal-img[hidden] { display: none; }
   .modal-img {
     width: 100%;
     aspect-ratio: 16/10;
@@ -564,6 +566,7 @@
     <div class="modal-handle"><div class="modal-handle-bar"></div></div>
     <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
     <img class="modal-img" id="modalImg" src="" alt="">
+    <video class="modal-img" id="modalVid" muted loop playsinline autoplay hidden></video>
     <div class="modal-content" id="modalContent"></div>
   </div>
 </div>
@@ -702,7 +705,9 @@ function render() {
     if (r.fibre_g != null) macroParts.push(`<span class="macro-pill fibre">Fb ${r.fibre_g}g</span>`);
     return `
     <div class="card" onclick="openRecipe('${r.id}')">
-      <img class="card-img" src="${r.image}" alt="${r.title}" loading="${i < 6 ? 'eager' : 'lazy'}" width="400" height="300">
+      ${r.video
+        ? `<video class="card-img" src="${r.video}" poster="${r.image}" autoplay muted loop playsinline preload="auto" aria-label="${r.title}" width="400" height="300"></video>`
+        : `<img class="card-img" src="${r.image}" alt="${r.title}" loading="${i < 6 ? 'eager' : 'lazy'}" width="400" height="300">`}
       <div class="card-body">
         <div class="card-title">${r.title}</div>
         <div class="card-source">${r.source}</div>
@@ -729,6 +734,19 @@ function openRecipe(id) {
 
   document.getElementById('modalImg').src = r.image;
   document.getElementById('modalImg').alt = r.title;
+  const modalVid = document.getElementById('modalVid');
+  if (r.video) {
+    modalVid.poster = r.image;
+    modalVid.src = r.video;
+    modalVid.hidden = false;
+    document.getElementById('modalImg').hidden = true;
+    modalVid.play().catch(() => {});
+  } else {
+    modalVid.pause();
+    modalVid.removeAttribute('src');
+    modalVid.hidden = true;
+    document.getElementById('modalImg').hidden = false;
+  }
 
   document.getElementById('modalContent').innerHTML = `
     <div class="modal-source">${r.source_url ? `<a href="${r.source_url}" target="_blank" rel="noopener">${r.source} ↗</a>` : r.source}</div>
