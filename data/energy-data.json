@@ -1,21 +1,16 @@
 {
-  "timestamp": "2026-10-30T10:58:44.197440+09:30",
-  "timestamp_display": "30 Oct 2026 \u00b7 10:58 AM",
-  "timestamp_short": "10:58:44 AM",
+  "timestamp": "2026-10-30T11:00:44.224776+09:30",
+  "timestamp_display": "30 Oct 2026 \u00b7 11:00 AM",
+  "timestamp_short": "11:00:44 AM",
   "goodwe": {},
   "amber": {
-    "current_price_c": 3.7,
-    "sell_price_c": -5.8,
+    "current_price_c": 5.0,
+    "sell_price_c": -4.6,
     "period": "solarSponge",
     "descriptor": "extremelyLow",
     "spike_status": "none",
-    "renewables": 80.197,
+    "renewables": 80.958,
     "forward_prices": [
-      {
-        "time": "11:00",
-        "price": 3.7,
-        "period": "solarSponge"
-      },
       {
         "time": "11:05",
         "price": 3.5,
@@ -100,10 +95,15 @@
         "time": "14:30",
         "price": 7.7,
         "period": "solarSponge"
+      },
+      {
+        "time": "15:00",
+        "price": 25.8,
+        "period": "peak"
       }
     ],
-    "next_peak_c": 7.9,
-    "next_peak_time": "11:55",
+    "next_peak_c": 25.8,
+    "next_peak_time": "15:00",
     "next_trough_c": 3.1,
     "next_trough_time": "11:15"
   },
