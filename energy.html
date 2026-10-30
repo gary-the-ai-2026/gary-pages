@@ -427,6 +427,7 @@
             <stop offset="0" stop-color="#3d3d3a"/><stop offset="1" stop-color="#1a1a18"/>
           </linearGradient>
           <clipPath id="clipCar"><rect x="500" y="650" width="140" height="140" rx="16"/></clipPath>
+          <clipPath id="clipPool"><rect x="500" y="40" width="140" height="140" rx="16"/></clipPath>
           <filter id="textShadow">
             <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
           </filter>
@@ -454,6 +455,10 @@
           <rect x="496" y="646" width="148" height="148" rx="18" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow" id="nodeCarGlow"/>
           <rect x="500" y="650" width="140" height="140" rx="16" fill="#ffffff" stroke="#cc785c" stroke-width="2" class="flow-node-bg"/>
         </g>
+        <g id="nodePoolBg_group">
+          <rect x="496" y="36" width="148" height="148" rx="18" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow" id="nodePoolGlow"/>
+          <rect x="500" y="40" width="140" height="140" rx="16" fill="#ffffff" stroke="#cc785c" stroke-width="2" class="flow-node-bg"/>
+        </g>
         <!-- ═══════════ FLOW LINES ═══════════ -->
         <path id="flowSolarHome" class="flow-line" d="M435,140 C470,150 455,305 525,315"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
@@ -469,6 +474,8 @@
                stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
         <path id="flowHomeCar" class="flow-line idle" d="M590,525 L590,648"
               stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrowCar)"/>
+        <path id="flowHomePool" class="flow-line idle" d="M590,315 L590,182"
+              stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrowCar)"/>
 
         <!-- Flow amount labels -->
         <text id="flowLabelSH" class="flow-label idle" x="475" y="200" fill="#e8a838">--</text>
@@ -478,6 +485,7 @@
         <text id="flowLabelSG" class="flow-label idle" x="190" y="195" fill="#e8a838">--</text>
         <text id="flowLabelGB" class="flow-label idle" x="160" y="595" fill="#5b8cb8">--</text>
         <text id="flowLabelHC" class="flow-label idle" x="540" y="598" fill="#cc785c">--</text>
+        <text id="flowLabelHP" class="flow-label idle" x="540" y="262" fill="#cc785c">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS ═══════════ -->
         <g id="nodeSolar">
@@ -526,8 +534,52 @@
           <text class="flow-node-lbl" x="570" y="766" style="font-size:13px">TESLA</text>
           <text class="flow-node-sub" x="570" y="782" style="font-size:11px" id="flowCarSub">--</text>
         </g>
+        <g id="nodePool">
+          <rect x="500" y="40" width="140" height="140" fill="url(#carNodeFill)" clip-path="url(#clipPool)"/>
+          <g fill="none" stroke="#faf9f5" stroke-width="2" stroke-linecap="round" opacity="0.55">
+            <path d="M542,80 q7,-6 14,0 t14,0 t14,0 t14,0"/>
+            <path d="M542,90 q7,-6 14,0 t14,0 t14,0 t14,0"/>
+          </g>
+          <text class="flow-node-val" x="570" y="127" style="font-size:32px" filter="url(#textShadow)" id="flowPoolVal">--</text>
+          <rect x="500" y="140" width="140" height="40" fill="#1a1a18" opacity="0.75" clip-path="url(#clipPool)"/>
+          <text class="flow-node-lbl" x="570" y="156" style="font-size:13px">POOL HEATER</text>
+          <text class="flow-node-sub" x="570" y="172" style="font-size:11px" id="flowPoolSub">--</text>
+        </g>
       </svg>
     </div>
+    <!-- Pool heater (Kasa HS110, read-only → data/pool-heater.json, ~2 min) -->
+    <div class="card-cream" id="poolCard">
+      <div class="tesla-head">
+        <div class="section-label">Pool Heater</div>
+        <span class="tesla-pill" id="phPill">--</span>
+      </div>
+      <div class="tesla-grid">
+        <div class="ts-cell">
+          <div class="ts-lbl">Drawing now</div>
+          <div class="ts-val coral" id="phKw">--</div>
+          <div class="ts-sub" id="phKwSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Today</div>
+          <div class="ts-val" id="phToday">--</div>
+          <div class="ts-sub" id="phTodaySub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">This week</div>
+          <div class="ts-val" id="phWeek">--</div>
+          <div class="ts-sub" id="phWeekSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">This month</div>
+          <div class="ts-val" id="phMonth">--</div>
+          <div class="ts-sub" id="phMonthSub">--</div>
+        </div>
+      </div>
+      <div class="ts-sub-label">Last 7 days</div>
+      <div id="phDays"><div class="ts-empty">Loading…</div></div>
+      <div class="tesla-foot" id="phFoot">Loading pool heater data…</div>
+    </div>
+
     <!-- Live Power Widgets -->
     <div class="metrics-row">
       <div class="metric-card card-cream solar-card">
@@ -1789,6 +1841,59 @@ async function openSocModal() {
   if (tabBtn) tabBtn.addEventListener('click', () => { if (summary) setTimeout(() => drawHealth((summary.health || {}).series || []), 30); else fetchSummary(); window.scrollTo({ top: 0 }); });
   const openBtn = $('tsOpenTab');
   if (openBtn && tabBtn) openBtn.addEventListener('click', () => tabBtn.click());
+})();
+</script>
+<script>
+// ═══════════════ POOL HEATER (Kasa HS110 → data/pool-heater.json) ═══════════════
+(function () {
+  const URL_ = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/data/data/pool-heater.json';
+  const TZ = 'Australia/Adelaide';
+  const $ = (id) => document.getElementById(id);
+  const put = (id, v) => { const el = $(id); if (el && el.textContent !== v) el.textContent = v; };
+  const esc = (x) => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const money = (v) => v == null ? '--' : '$' + Number(v).toFixed(2);
+  const kwh = (v) => v == null ? '--' : Number(v).toFixed(1) + ' kWh';
+  const dayLbl = (ymd) => { const [y, m, d] = ymd.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', timeZone: 'UTC' }); };
+  const costTxt = (o) => o.cost == null ? 'cost pending' : (o.est ? '≈ ' : '') + money(o.cost);
+  function render(p) {
+    const ageMin = (Date.now() - new Date(p.updated).getTime()) / 60000;
+    const stale = ageMin > 10 || p.stale;
+    const kw = (!stale && p.on) ? (p.power_w || 0) / 1000 : 0;
+    const drawing = kw > 0.01;
+    const line = $('flowHomePool'), lbl = $('flowLabelHP'), glow = $('nodePoolGlow');
+    if (line) {
+      line.classList.toggle('active', drawing); line.classList.toggle('idle', !drawing);
+      lbl.classList.toggle('idle', !drawing);
+      line.setAttribute('stroke-width', drawing ? (1.5 + Math.min(kw, 5) / 5 * 3.5).toFixed(1) : '1.5');
+      if (drawing) lbl.textContent = kw.toFixed(1) + ' kW';
+      if (glow) glow.style.opacity = drawing ? '1' : '';
+      put('flowPoolVal', drawing ? kw.toFixed(1) : (stale ? '--' : (p.on ? '0.0' : 'OFF')));
+      put('flowPoolSub', stale ? 'data delayed' : (p.on ? (drawing ? 'kW · on' : 'on · idle') : 'off · 0 kW'));
+    }
+    const pill = $('phPill');
+    pill.textContent = stale ? 'Delayed' : (p.on ? (drawing ? 'On · heating' : 'On · idle') : 'Off');
+    pill.classList.toggle('on', !stale && drawing);
+    put('phKw', stale ? '--' : (drawing ? kw.toFixed(2) + ' kW' : '0 kW'));
+    put('phKwSub', stale ? 'data delayed' : (p.power_w != null ? Math.round(drawing ? p.power_w : 0) + ' W' : '--') + (p.price_c != null ? ' · ' + Number(p.price_c).toFixed(1) + '¢/kWh now' : ''));
+    const t = p.today || {}, w = p.week || {}, m = p.month || {};
+    put('phToday', kwh(t.kwh));
+    put('phTodaySub', (t.cost_est ? '≈ ' : '') + money(t.cost) + ' at Amber price');
+    put('phWeek', kwh(w.kwh));
+    put('phWeekSub', costTxt(w) + ' · since Mon');
+    put('phMonth', kwh(m.kwh));
+    put('phMonthSub', costTxt(m));
+    const days = (p.days || []).slice(-7);
+    const mx = Math.max(...days.map(d => d.kwh || 0), 0.001);
+    $('phDays').innerHTML = days.length ? days.map(d => '<div class="bar-row"><span class="bar-time ts-wk">' + esc(dayLbl(d.date)) + '</span><span class="bar-track"><span class="bar-fill" style="width:' + Math.max(((d.kwh || 0) / mx) * 100, 3) + '%;background:var(--coral)"> </span></span><span class="bar-price ts-amt">' + esc(Number(d.kwh || 0).toFixed(1) + ' kWh' + (d.cost != null ? ' · ' + (d.est ? '≈' : '') + money(d.cost) : '')) + '</span></div>').join('') : '<div class="ts-empty">No data yet — fills in over time.</div>';
+    const upd = new Date(p.updated).toLocaleTimeString('en-AU', { timeZone: TZ, hour: 'numeric', minute: '2-digit' });
+    put('phFoot', 'Smart plug energy meter · updated ' + upd + ' · costs at Amber price as if all from grid; ≈ = estimated from the day\'s average price');
+  }
+  async function load() {
+    try { const r = await fetch(URL_ + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(r.status); render(await r.json()); }
+    catch (e) { console.warn('pool heater', e.message); put('phFoot', 'Pool heater data unavailable — retrying…'); }
+  }
+  load(); setInterval(load, 30000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') load(); });
 })();
 </script>
 </body>
