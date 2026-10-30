@@ -1,5 +1,5 @@
 {
- "updated":"2026-10-31T10:22:52+10:30",
+ "updated":"2026-10-31T10:24:52+10:30",
  "car":{
   "model":"Model 3 RWD"
  },
@@ -17,12 +17,12 @@
   "drive_hours":3.6,
   "wh_km":139,
   "sessions":6,
-  "charge_kwh":22.7,
-  "cost_amber":1.9,
-  "cost_amber_kwh":22.7,
+  "charge_kwh":22.76,
+  "cost_amber":1.91,
+  "cost_amber_kwh":22.76,
   "c_per_kwh":8.4,
-  "solar_share":0.32,
-  "solar_tracked_sessions":1,
+  "solar_share":0.319,
+  "solar_tracked_sessions":2,
   "odometer_km":234.0
  },
  "sessions":[
@@ -31,15 +31,20 @@
    "start":"2026-10-31T10:01:30+10:30",
    "end":null,
    "active":true,
-   "minutes":21,
-   "kwh":0.02,
+   "minutes":23,
+   "kwh":0.08,
    "kwh_from_wall":null,
    "pct_start":83,
-   "pct_end":84,
-   "avg_kw":0.06,
+   "pct_end":85,
+   "avg_kw":0.21,
    "max_kw":2,
    "dc":false,
-   "cost_amber":0.0
+   "cost_amber":0.01,
+   "solar_share":0.26,
+   "battery_share":0.74,
+   "grid_share":0.0,
+   "solar_kwh":0.02,
+   "cost_grid_est":0.0
   },
   {
    "id":7,
@@ -128,10 +133,10 @@
    "km":77.5,
    "drives":23,
    "wh_km":139,
-   "charge_kwh":22.7,
+   "charge_kwh":22.76,
    "sessions":6,
-   "cost_amber":1.9,
-   "solar_share":0.32
+   "cost_amber":1.91,
+   "solar_share":0.319
   }
  ],
  "months":[
@@ -140,10 +145,10 @@
    "km":77.5,
    "drives":23,
    "wh_km":139,
-   "charge_kwh":22.7,
+   "charge_kwh":22.76,
    "sessions":6,
-   "cost_amber":1.9,
-   "solar_share":0.32
+   "cost_amber":1.91,
+   "solar_share":0.319
   }
  ],
  "drives_recent":[
