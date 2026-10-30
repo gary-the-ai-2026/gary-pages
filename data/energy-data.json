@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-10-31T09:08:47.494464+10:30",
-  "timestamp_display": "31 Oct 2026 \u00b7 9:08 AM",
-  "timestamp_short": "9:08:47 AM",
+  "timestamp": "2026-10-31T09:10:47.423897+10:30",
+  "timestamp_display": "31 Oct 2026 \u00b7 9:10 AM",
+  "timestamp_short": "9:10:47 AM",
   "goodwe": {
-    "grid_power_w": 161,
+    "grid_power_w": 202,
     "grid_direction": "Exporting",
-    "inverter_temp_c": 41.0,
-    "battery_power_w": -155,
-    "battery_mode": "Charge",
+    "inverter_temp_c": 41.7,
+    "battery_power_w": -320,
+    "battery_mode": "Standby",
     "lifetime_solar_kwh": 3720.3,
     "today_solar_kwh": 1.2,
     "today_export_kwh": 2.2,
@@ -17,29 +17,24 @@
     "today_bat_charge_kwh": 0.0,
     "lifetime_bat_discharge_kwh": 1124.1,
     "today_bat_discharge_kwh": 2.1,
-    "home_consumption_w": 749,
+    "home_consumption_w": 695,
     "lifetime_export_kwh": 776.6,
     "lifetime_import_kwh": 79.2,
-    "battery_temp_c": 27.1,
+    "battery_temp_c": 27.0,
     "battery_soc_pct": 78,
     "battery_soh_pct": 100,
-    "solar_now_w": 1075,
+    "solar_now_w": 1265,
     "battery_flow": "charging",
     "grid_flow": "exporting"
   },
   "amber": {
     "current_price_c": 26.8,
-    "sell_price_c": -0.8,
+    "sell_price_c": -0.9,
     "period": "peak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 109.88199999999999,
+    "renewables": 103.996,
     "forward_prices": [
-      {
-        "time": "09:10",
-        "price": 26.8,
-        "period": "peak"
-      },
       {
         "time": "09:15",
         "price": 26.8,
@@ -122,7 +117,7 @@
       }
     ],
     "next_peak_c": 26.8,
-    "next_peak_time": "09:10",
+    "next_peak_time": "09:15",
     "next_trough_c": 0.4,
     "next_trough_time": "13:00"
   },
@@ -131,7 +126,7 @@
     "load_kwh": 2.1,
     "import_kwh": 0.0,
     "export_kwh": 2.2,
-    "grid_export_kwh": 0.99,
+    "grid_export_kwh": 1.0,
     "grid_import_kwh": 40.82,
     "grid_import_cost_dollars": 7.14,
     "grid_export_revenue_dollars": 0.02,

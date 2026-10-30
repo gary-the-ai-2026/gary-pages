@@ -1,5 +1,5 @@
 {
- "updated":"2026-10-31T09:08:52+10:30",
+ "updated":"2026-10-31T09:10:52+10:30",
  "car":{
   "model":"Model 3 RWD"
  },
@@ -16,7 +16,7 @@
   "km":77.5,
   "drive_hours":3.6,
   "wh_km":139,
-  "sessions":5,
+  "sessions":6,
   "charge_kwh":22.68,
   "cost_amber":1.9,
   "cost_amber_kwh":22.68,
@@ -26,6 +26,21 @@
   "odometer_km":234.0
  },
  "sessions":[
+  {
+   "id":12,
+   "start":"2026-10-31T09:10:23+10:30",
+   "end":null,
+   "active":true,
+   "minutes":0,
+   "kwh":0.0,
+   "kwh_from_wall":null,
+   "pct_start":84,
+   "pct_end":84,
+   "avg_kw":null,
+   "max_kw":1,
+   "dc":false,
+   "cost_amber":null
+  },
   {
    "id":7,
    "start":"2026-10-30T13:03:38+10:30",
@@ -114,7 +129,7 @@
    "drives":23,
    "wh_km":139,
    "charge_kwh":22.68,
-   "sessions":5,
+   "sessions":6,
    "cost_amber":1.9,
    "solar_share":0.32
   }
@@ -126,7 +141,7 @@
    "drives":23,
    "wh_km":139,
    "charge_kwh":22.68,
-   "sessions":5,
+   "sessions":6,
    "cost_amber":1.9,
    "solar_share":0.32
   }
@@ -218,8 +233,8 @@
   }
  ],
  "health":{
-  "est_range_100_km":489.1,
-  "est_capacity_kwh":60.6,
+  "est_range_100_km":491.6,
+  "est_capacity_kwh":61.0,
   "series":[
    {
     "date":"2026-10-28",
@@ -235,7 +250,7 @@
    },
    {
     "date":"2026-10-31",
-    "range_100_km":489.1
+    "range_100_km":491.6
    }
   ]
  },
