@@ -1,21 +1,29 @@
 {
- "updated":"2026-10-30T18:30:50+10:30",
- "data_age_s":2936,
- "status":"online",
- "charging":false,
- "power_kw":0.0,
- "voltage":null,
- "current_a":null,
- "phases":null,
+ "updated":"2026-10-30T18:32:51+10:30",
+ "data_age_s":3,
+ "status":"charging",
+ "charging":true,
+ "power_kw":0.24,
+ "voltage":241,
+ "current_a":1,
+ "phases":1,
  "dc":false,
  "battery_pct":84,
- "battery_at":"2026-10-30T17:41:54+10:30",
- "range_km":414,
+ "battery_at":"2026-10-30T18:32:48+10:30",
+ "range_km":413,
  "charge_limit_pct":null,
  "time_to_full_min":null,
  "est_minutes_to_target":null,
  "est_target_pct":null,
- "session":null,
+ "session":{
+  "start":"2026-10-30T18:31:09+10:30",
+  "minutes":2,
+  "kwh":0.0,
+  "pct_start":84,
+  "cost_amber":null,
+  "solar_share":null,
+  "cost_grid_est":null
+ },
  "last_session":{
   "end":"2026-10-29T11:01:04+10:30",
   "kwh":3.22,
@@ -23,6 +31,10 @@
   "pct_end":67,
   "cost_amber":0.31
  },
- "split_now":null,
- "price_c":null
+ "split_now":{
+  "solar":1.0,
+  "grid":0.0,
+  "battery":0.0
+ },
+ "price_c":37.7
 }
