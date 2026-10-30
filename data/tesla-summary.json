@@ -1,5 +1,5 @@
 {
- "updated":"2026-10-31T08:38:52+10:30",
+ "updated":"2026-10-31T08:40:52+10:30",
  "car":{
   "model":"Model 3 RWD"
  },
@@ -16,7 +16,7 @@
   "km":77.5,
   "drive_hours":3.6,
   "wh_km":139,
-  "sessions":6,
+  "sessions":5,
   "charge_kwh":22.68,
   "cost_amber":1.9,
   "cost_amber_kwh":22.68,
@@ -26,21 +26,6 @@
   "odometer_km":234.0
  },
  "sessions":[
-  {
-   "id":11,
-   "start":"2026-10-31T08:38:34+10:30",
-   "end":null,
-   "active":true,
-   "minutes":0,
-   "kwh":0.0,
-   "kwh_from_wall":null,
-   "pct_start":84,
-   "pct_end":84,
-   "avg_kw":null,
-   "max_kw":1,
-   "dc":false,
-   "cost_amber":null
-  },
   {
    "id":7,
    "start":"2026-10-30T13:03:38+10:30",
@@ -129,7 +114,7 @@
    "drives":23,
    "wh_km":139,
    "charge_kwh":22.68,
-   "sessions":6,
+   "sessions":5,
    "cost_amber":1.9,
    "solar_share":0.32
   }
@@ -141,7 +126,7 @@
    "drives":23,
    "wh_km":139,
    "charge_kwh":22.68,
-   "sessions":6,
+   "sessions":5,
    "cost_amber":1.9,
    "solar_share":0.32
   }
@@ -257,6 +242,13 @@
  "idle":{
   "periods":[
    {
+    "start":"2026-10-30T18:58:48+10:30",
+    "hours":13.7,
+    "km_lost":1.1,
+    "kwh":0.14,
+    "avg_w":10
+   },
+   {
     "start":"2026-10-29T17:20:44+10:30",
     "hours":14.3,
     "km_lost":2.6,
@@ -285,9 +277,9 @@
     "avg_w":48
    }
   ],
-  "hours":35.7,
-  "kwh":1.44,
-  "avg_w":40,
-  "kwh_per_day":0.97
+  "hours":49.4,
+  "kwh":1.58,
+  "avg_w":32,
+  "kwh_per_day":0.77
  }
 }
