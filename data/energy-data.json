@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-31T02:28:46.457673+10:30",
-  "timestamp_display": "31 Oct 2026 \u00b7 2:28 AM",
-  "timestamp_short": "2:28:46 AM",
+  "timestamp": "2026-10-31T02:30:46.494890+10:30",
+  "timestamp_display": "31 Oct 2026 \u00b7 2:30 AM",
+  "timestamp_short": "2:30:46 AM",
   "goodwe": {
-    "grid_power_w": 3,
+    "grid_power_w": 1,
     "grid_direction": "Idle",
-    "inverter_temp_c": 40.8,
-    "battery_power_w": 440,
+    "inverter_temp_c": 40.1,
+    "battery_power_w": 442,
     "battery_mode": "Discharge",
     "lifetime_solar_kwh": 3719.1,
     "today_solar_kwh": 0.0,
@@ -15,9 +15,9 @@
     "today_load_kwh": 0.4,
     "lifetime_bat_charge_kwh": 1253.2,
     "today_bat_charge_kwh": 0.0,
-    "lifetime_bat_discharge_kwh": 1122.5,
-    "today_bat_discharge_kwh": 0.5,
-    "home_consumption_w": 437,
+    "lifetime_bat_discharge_kwh": 1122.6,
+    "today_bat_discharge_kwh": 0.6,
+    "home_consumption_w": 441,
     "lifetime_export_kwh": 776.5,
     "lifetime_import_kwh": 79.2,
     "battery_temp_c": 29.2,
@@ -28,18 +28,13 @@
     "grid_flow": "balanced"
   },
   "amber": {
-    "current_price_c": 27.5,
-    "sell_price_c": 10.2,
+    "current_price_c": 27.7,
+    "sell_price_c": 10.4,
     "period": "offPeak",
     "descriptor": "veryLow",
     "spike_status": "none",
-    "renewables": 126.742,
+    "renewables": 126.27900000000001,
     "forward_prices": [
-      {
-        "time": "02:30",
-        "price": 26.0,
-        "period": "offPeak"
-      },
       {
         "time": "02:35",
         "price": 25.6,
@@ -124,6 +119,11 @@
         "time": "06:00",
         "price": 26.9,
         "period": "peak"
+      },
+      {
+        "time": "06:30",
+        "price": 26.9,
+        "period": "peak"
       }
     ],
     "next_peak_c": 26.9,
@@ -141,7 +141,7 @@
     "grid_import_cost_dollars": 7.14,
     "grid_export_revenue_dollars": 0.02,
     "battery_charge_kwh": 0.0,
-    "battery_discharge_kwh": 0.5
+    "battery_discharge_kwh": 0.6
   },
   "yesterday": {
     "solar_kwh": 34.7,
