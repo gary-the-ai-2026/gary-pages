@@ -212,6 +212,39 @@
   .flow-label.idle { display: none; }
   @keyframes flowDash { to { stroke-dashoffset: -20; } }
 
+  /* ═══════════════ TESLA (added 30 Oct 2026) ═══════════════ */
+  .tesla-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: var(--space-sm); }
+  .tesla-head .section-label { margin-bottom: 0; }
+  .tesla-pill { font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--canvas); border: 1px solid var(--hairline); color: var(--muted); white-space: nowrap; }
+  .tesla-pill.on { background: var(--coral); border-color: var(--coral); color: #fff; }
+  .tesla-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .ts-cell { background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-md); padding: var(--space-sm); min-width: 0; }
+  .ts-cell .ts-lbl { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+  .ts-cell .ts-val { font-family: var(--font-mono); font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink); line-height: 1.1; }
+  .ts-cell .ts-val.coral { color: var(--coral); }
+  .ts-cell .ts-val small { font-size: 11px; color: var(--muted); font-weight: 500; margin-left: 2px; }
+  .ts-cell .ts-sub { font-size: 10px; color: var(--muted-soft); margin-top: 3px; }
+  .ts-soc { position: relative; height: 5px; background: var(--surface-strong); border-radius: 3px; margin-top: 6px; overflow: visible; }
+  .ts-soc .ts-soc-fill { height: 100%; background: var(--coral); border-radius: 3px; transition: width 0.6s ease; }
+  .ts-soc .ts-soc-lim { position: absolute; top: -3px; width: 2px; height: 11px; background: var(--ink); border-radius: 1px; display: none; }
+  .tesla-foot { font-family: var(--font-mono); font-size: 10px; color: var(--muted-soft); margin-top: var(--space-sm); line-height: 1.5; }
+  .ts-sub-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: var(--space-md) 0 6px; }
+  .ts-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .ts-table th { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); text-align: right; padding: 4px 4px; border-bottom: 1px solid var(--hairline); }
+  .ts-table th:first-child, .ts-table td:first-child { text-align: left; }
+  .ts-table td { font-family: var(--font-mono); font-size: 11px; color: var(--body); text-align: right; padding: 5px 4px; border-bottom: 1px solid var(--hairline-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ts-table tr:last-child td { border-bottom: none; }
+  .ts-table td.dim { color: var(--muted-soft); }
+  .ts-empty { padding: 10px; text-align: center; color: var(--muted); font-size: 12px; }
+  .ts-link { display: inline-block; margin-top: var(--space-sm); font-size: 12px; font-weight: 500; color: var(--coral); background: none; border: none; padding: 0; cursor: pointer; font-family: var(--font-body); }
+  .ts-title { font-family: var(--font-display); font-size: 30px; font-weight: 400; line-height: 1.1; color: var(--ink); }
+  .ts-title span { color: var(--muted); font-style: italic; }
+  .ts-meta { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: var(--font-mono); }
+  .ts-chart { position: relative; height: 170px; width: 100%; overflow: hidden; }
+  .ts-chart canvas { max-width: 100%; }
+  .bar-row .bar-time.ts-wk { width: 46px; }
+  .bar-row .bar-price.ts-amt { width: 118px; }
+  @media (min-width: 560px) { .tesla-grid.four { grid-template-columns: repeat(4, 1fr); } }
   /* ═══════════════ CALENDAR ═══════════════ */
   .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
   .cal-header .cal-month { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
@@ -387,6 +420,13 @@
           <clipPath id="clipGrid"><rect x="30" y="315" width="210" height="210" rx="18"/></clipPath>
           <clipPath id="clipHome"><rect x="420" y="315" width="210" height="210" rx="18"/></clipPath>
           <clipPath id="clipBat"><rect x="225" y="595" width="210" height="210" rx="18"/></clipPath>
+          <marker id="arrowCar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 L2,5 Z" fill="#cc785c"/>
+          </marker>
+          <linearGradient id="carNodeFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3d3d3a"/><stop offset="1" stop-color="#1a1a18"/>
+          </linearGradient>
+          <clipPath id="clipCar"><rect x="500" y="650" width="140" height="140" rx="16"/></clipPath>
           <filter id="textShadow">
             <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
           </filter>
@@ -410,6 +450,10 @@
           <rect x="225" y="595" width="210" height="210" rx="18" fill="#ffffff" stroke="#4a9e6e" stroke-width="2" class="flow-node-bg"/>
         </g>
 
+        <g id="nodeCarBg_group">
+          <rect x="496" y="646" width="148" height="148" rx="18" fill="#cc785c" opacity="0.15" filter="url(#glowHome)" class="flow-node-glow" id="nodeCarGlow"/>
+          <rect x="500" y="650" width="140" height="140" rx="16" fill="#ffffff" stroke="#cc785c" stroke-width="2" class="flow-node-bg"/>
+        </g>
         <!-- ═══════════ FLOW LINES ═══════════ -->
         <path id="flowSolarHome" class="flow-line" d="M435,140 C470,150 455,305 525,315"
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
@@ -423,6 +467,8 @@
               stroke="#e8a838" marker-end="url(#arrowSolar)"/>
          <path id="flowGridBat" class="flow-line" d="M135,500 C135,570 225,620 225,650"
                stroke="#5b8cb8" marker-end="url(#arrowGrid)"/>
+        <path id="flowHomeCar" class="flow-line idle" d="M590,525 L590,648"
+              stroke="#cc785c" stroke-width="1.5" marker-end="url(#arrowCar)"/>
 
         <!-- Flow amount labels -->
         <text id="flowLabelSH" class="flow-label idle" x="475" y="200" fill="#e8a838">--</text>
@@ -431,6 +477,7 @@
         <text id="flowLabelGH" class="flow-label idle" x="285" y="412" fill="#5b8cb8">--</text>
         <text id="flowLabelSG" class="flow-label idle" x="190" y="195" fill="#e8a838">--</text>
         <text id="flowLabelGB" class="flow-label idle" x="160" y="595" fill="#5b8cb8">--</text>
+        <text id="flowLabelHC" class="flow-label idle" x="540" y="598" fill="#cc785c">--</text>
 
         <!-- ═══════════ NODE FOREGROUNDS ═══════════ -->
         <g id="nodeSolar">
@@ -468,7 +515,70 @@
           <text class="flow-node-lbl" x="330" y="772">BATTERY</text>
           <text class="flow-node-sub" x="330" y="789" id="flowBatSub">--</text>
         </g>
+        <g id="nodeCar">
+          <rect x="500" y="650" width="140" height="140" fill="url(#carNodeFill)" clip-path="url(#clipCar)"/>
+          <g fill="none" stroke="#faf9f5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity="0.55">
+            <path d="M536,694 L537,684 Q541,679 552,677 L561,670 Q566,667 576,667 L588,668 Q595,670 601,676 L606,680 Q610,683 609,694 Z"/>
+            <circle cx="550" cy="694" r="5" fill="#2b2a27"/><circle cx="595" cy="694" r="5" fill="#2b2a27"/>
+          </g>
+          <text class="flow-node-val" x="570" y="737" style="font-size:32px" filter="url(#textShadow)" id="flowCarVal">--</text>
+          <rect x="500" y="750" width="140" height="40" fill="#1a1a18" opacity="0.75" clip-path="url(#clipCar)"/>
+          <text class="flow-node-lbl" x="570" y="766" style="font-size:13px">TESLA</text>
+          <text class="flow-node-sub" x="570" y="782" style="font-size:11px" id="flowCarSub">--</text>
+        </g>
       </svg>
+    </div>
+    <!-- Tesla current charge (TeslaMate → data/tesla-live.json, ~2 min) -->
+    <div class="card-cream" id="teslaCard">
+      <div class="tesla-head">
+        <div class="section-label">Tesla · Current Charge</div>
+        <span class="tesla-pill" id="tsPill">--</span>
+      </div>
+      <div class="tesla-grid">
+        <div class="ts-cell">
+          <div class="ts-lbl">Charging</div>
+          <div class="ts-val coral" id="tsKw">--</div>
+          <div class="ts-sub" id="tsKwSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Battery</div>
+          <div class="ts-val" id="tsPct">--</div>
+          <div class="ts-soc"><div class="ts-soc-fill" id="tsPctBar" style="width:0%"></div><div class="ts-soc-lim" id="tsLimMark"></div></div>
+          <div class="ts-sub" id="tsPctSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Added this session</div>
+          <div class="ts-val" id="tsAdded">--</div>
+          <div class="ts-sub" id="tsAddedSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl" id="tsTtfLbl">Time to full</div>
+          <div class="ts-val" id="tsTtf">--</div>
+          <div class="ts-sub" id="tsTtfSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Session cost</div>
+          <div class="ts-val" id="tsCost">--</div>
+          <div class="ts-sub" id="tsCostSub">at Amber price</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Powered by now</div>
+          <div class="ts-val" id="tsSplit">--</div>
+          <div class="ts-sub" id="tsSplitSub">--</div>
+        </div>
+      </div>
+      <div class="tesla-foot" id="tsFoot">Loading Tesla data…</div>
+    </div>
+
+    <!-- Tesla charging history (data/tesla-summary.json) -->
+    <div class="card-cream" id="teslaHistCard">
+      <div class="section-label">Tesla · Charging History</div>
+      <div class="ts-sub-label" style="margin-top:0">Per week</div>
+      <div id="tsHistWeeks"><div class="ts-empty">Loading…</div></div>
+      <div class="ts-sub-label">Recent sessions</div>
+      <div id="tsHistSessions"></div>
+      <div class="insight-box" id="tsHistNote">Fills in over time.</div>
+      <button class="ts-link" id="tsOpenTab" type="button">More in the Tesla tab ▸</button>
     </div>
 
     <!-- Live Power Widgets -->
@@ -676,6 +786,70 @@
     </div>
   </div>
 
+  <!-- ═══════════════ TESLA VIEW (summaries only, no locations) ═══════════════ -->
+  <div class="view" id="view-tesla">
+    <div class="card-cream">
+      <div class="section-label">Tesla</div>
+      <div class="ts-title" id="tvTitle">Model 3 <span>RWD</span></div>
+      <div class="ts-meta" id="tvMeta">--</div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Totals</div>
+      <div class="tesla-grid four">
+        <div class="ts-cell"><div class="ts-lbl">Distance</div><div class="ts-val" id="tvKm">--</div><div class="ts-sub" id="tvKmSub">--</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Drives</div><div class="ts-val" id="tvDrives">--</div><div class="ts-sub" id="tvDrivesSub">--</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Efficiency</div><div class="ts-val coral" id="tvEff">--</div><div class="ts-sub">Wh/km · est.</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Odometer</div><div class="ts-val" id="tvOdo">--</div><div class="ts-sub">km</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Charged</div><div class="ts-val" id="tvKwh">--</div><div class="ts-sub" id="tvKwhSub">--</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Charging cost</div><div class="ts-val" id="tvCost">--</div><div class="ts-sub" id="tvCostSub">at Amber price</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Solar share</div><div class="ts-val" id="tvSolar">--</div><div class="ts-sub" id="tvSolarSub">--</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Idle drain</div><div class="ts-val" id="tvIdle">--</div><div class="ts-sub" id="tvIdleSub">--</div></div>
+      </div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Distance &amp; Efficiency</div>
+      <div class="ts-sub-label" style="margin-top:0">km per week</div>
+      <div id="tvWeekKm"></div>
+      <div class="ts-sub-label">Per month</div>
+      <div id="tvMonths"></div>
+      <div class="ts-sub-label">Recent drives</div>
+      <div id="tvDrivesList"></div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Charging Over Time</div>
+      <div class="ts-sub-label" style="margin-top:0">kWh per week</div>
+      <div id="tvWeekKwh"></div>
+      <div class="ts-sub-label">Sessions</div>
+      <div id="tvSessions"></div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Battery Health</div>
+      <div class="tesla-grid">
+        <div class="ts-cell"><div class="ts-lbl">Est. range at 100%</div><div class="ts-val" id="tvR100">--</div><div class="ts-sub">rated km</div></div>
+        <div class="ts-cell"><div class="ts-lbl">Est. usable pack</div><div class="ts-val" id="tvCap">--</div><div class="ts-sub">kWh</div></div>
+      </div>
+      <div class="ts-sub-label">Range at 100% over time</div>
+      <div class="ts-chart"><canvas id="tvHealthChart"></canvas></div>
+      <div class="insight-box" id="tvHealthNote">Trend becomes meaningful after a few months.</div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Idle Drain</div>
+      <div id="tvIdleList"></div>
+    </div>
+
+    <div class="card-cream">
+      <div class="section-label">Software</div>
+      <div id="tvUpdates"></div>
+    </div>
+
+    <div class="tesla-foot" style="text-align:center;margin-bottom:var(--space-sm)" id="tvFoot">From TeslaMate · energy &amp; distance summaries only — no locations are published.</div>
+  </div>
+
   <!-- Refresh -->
   <div class="refresh-bar"><span class="refresh-dot" id="refreshDot"></span><span id="refreshText">Loading...</span></div>
 
@@ -685,6 +859,7 @@
     <button data-view="home" class="active">Live</button>
     <button data-view="next4h">Next 4h</button>
     <button data-view="calendar">Calendar</button>
+    <button data-view="tesla">Tesla</button>
   </div>
   </div>
 </div>
@@ -1442,6 +1617,180 @@ async function openSocModal() {
   });
 }
 
+</script>
+<script>
+// ═══════════════ TESLA (TeslaMate → data/tesla-live.json + tesla-summary.json) ═══════════════
+(function () {
+  const BASE = 'https://raw.githubusercontent.com/gary-the-ai-2026/gary-pages/data/data';
+  const LIVE_URL = BASE + '/tesla-live.json';
+  const SUM_URL = BASE + '/tesla-summary.json';
+  const TZ = 'Australia/Adelaide';
+  const $ = (id) => document.getElementById(id);
+  const put = (id, v) => { const el = $(id); if (el && el.textContent !== v) el.textContent = v; };
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const num = (v, d) => (v == null || isNaN(v)) ? '--' : Number(v).toFixed(d);
+  const money = (v) => v == null ? '--' : '$' + Number(v).toFixed(2);
+  const pctS = (v) => v == null ? '--' : Math.round(v * 100) + '%';
+  const fmt = (iso, o) => iso ? new Date(iso).toLocaleString('en-AU', Object.assign({ timeZone: TZ }, o)) : '--';
+  const dShort = (iso) => fmt(iso, { day: 'numeric', month: 'short' });
+  const dTime = (iso) => fmt(iso, { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  const hm = (iso) => fmt(iso, { hour: 'numeric', minute: '2-digit' });
+  const dur = (m) => m == null ? '--' : (m >= 60 ? Math.floor(m / 60) + 'h ' + String(Math.round(m % 60)).padStart(2, '0') + 'm' : Math.round(m) + ' min');
+  const wkLabel = (ymd) => { const [y, m, d] = ymd.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', timeZone: 'UTC' }); };
+  const moLabel = (ym) => { const [y, m] = ym.split('-').map(Number); return new Date(Date.UTC(y, m - 1, 15)).toLocaleDateString('en-AU', { month: 'short', year: 'numeric', timeZone: 'UTC' }); };
+  let live = null, summary = null, healthChart = null;
+
+  function bars(rows, key, unit, amtFn, color) {
+    if (!rows.length) return '<div class="ts-empty">No data yet — fills in over time.</div>';
+    const mx = Math.max(...rows.map(r => r[key] || 0), 0.001);
+    return rows.map(r => '<div class="bar-row"><span class="bar-time ts-wk">' + esc(r.label) + '</span><span class="bar-track"><span class="bar-fill" style="width:' + Math.max(((r[key] || 0) / mx) * 100, 3) + '%;background:' + color + '"> </span></span><span class="bar-price ts-amt">' + esc(amtFn(r)) + '</span></div>').join('');
+  }
+  function table(head, rows) {
+    if (!rows.length) return '<div class="ts-empty">No data yet — fills in over time.</div>';
+    return '<table class="ts-table"><thead><tr>' + head.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+      rows.map(r => '<tr>' + r.map(c => (typeof c === 'object' && c) ? '<td class="' + c.cls + '">' + esc(c.v) + '</td>' : '<td>' + esc(c) + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+  }
+
+  // ── Live: flow node + current charge tile ──
+  function renderLive(t) {
+    const ageMin = (Date.now() - new Date(t.updated).getTime()) / 60000;
+    const stale = ageMin > 10 || t.stale;
+    const charging = t.charging && !stale;
+    const kw = charging ? (t.power_kw || 0) : 0;
+    const pct = t.battery_pct;
+
+    // Flow diagram: Home → Tesla
+    const line = $('flowHomeCar'), lbl = $('flowLabelHC'), glow = $('nodeCarGlow');
+    if (line) {
+      const on = charging && kw > 0.05;
+      line.classList.toggle('active', on); line.classList.toggle('idle', !on);
+      lbl.classList.toggle('idle', !on);
+      line.setAttribute('stroke-width', on ? (1.5 + Math.min(kw, 10) / 10 * 3.5).toFixed(1) : '1.5');
+      if (on) lbl.textContent = kw.toFixed(1) + ' kW';
+      if (glow) glow.style.opacity = on ? '1' : '';
+      put('flowCarVal', on ? kw.toFixed(1) : (pct != null ? pct + '%' : '--'));
+      put('flowCarSub', stale ? 'data delayed' : (on ? 'kW · ' + pct + '%' : (t.status || 'idle') + ' · 0 kW'));
+    }
+
+    // Tile
+    const pill = $('tsPill');
+    pill.textContent = stale ? 'Delayed' : (charging ? 'Charging' : (t.status || '--'));
+    pill.classList.toggle('on', charging);
+    put('tsKw', charging ? kw.toFixed(2) + ' kW' : '0 kW');
+    put('tsKwSub', charging ? (t.dc ? 'DC fast charge' : (t.voltage && t.current_a ? t.voltage + ' V × ' + t.current_a + ' A' + (t.phases > 1 ? ' × ' + t.phases + 'φ' : '') : 'AC')) : 'not charging');
+    put('tsPct', pct != null ? pct + '%' : '--');
+    $('tsPctBar').style.width = (pct || 0) + '%';
+    const lim = t.charge_limit_pct, mark = $('tsLimMark');
+    if (lim != null) { mark.style.display = 'block'; mark.style.left = 'calc(' + lim + '% - 1px)'; } else mark.style.display = 'none';
+    put('tsPctSub', (lim != null ? 'limit ' + lim + '%' : 'limit not reported') + (t.range_km != null ? ' · ' + t.range_km + ' km' : ''));
+    const s = t.session, last = t.last_session;
+    if (s) {
+      put('tsAdded', num(s.kwh, 2) + ' kWh');
+      put('tsAddedSub', 'since ' + hm(s.start) + ' · ' + dur(s.minutes) + (s.pct_start != null ? ' · from ' + s.pct_start + '%' : ''));
+      put('tsCost', money(s.cost_amber));
+      put('tsCostSub', 'at Amber price, as if all grid');
+    } else {
+      put('tsAdded', last ? num(last.kwh, 2) + ' kWh' : '--');
+      put('tsAddedSub', last ? 'last session · ended ' + dTime(last.end) : 'no session yet');
+      put('tsCost', last ? money(last.cost_amber) : '--');
+      put('tsCostSub', last ? 'last session, at Amber price' : 'at Amber price');
+    }
+    if (t.time_to_full_min != null) {
+      put('tsTtfLbl', 'Time to full'); put('tsTtf', dur(t.time_to_full_min)); put('tsTtfSub', 'reported by car');
+    } else if (t.est_minutes_to_target != null) {
+      put('tsTtfLbl', 'Time to ' + t.est_target_pct + '%'); put('tsTtf', '≈ ' + dur(t.est_minutes_to_target)); put('tsTtfSub', 'estimate at current rate');
+    } else {
+      put('tsTtfLbl', 'Time to full'); put('tsTtf', '--'); put('tsTtfSub', charging ? 'not available' : 'not charging');
+    }
+    const sp = t.split_now;
+    if (charging && sp) {
+      const parts = [['solar', sp.solar], ['grid', sp.grid], ['battery', sp.battery]].filter(p => p[1] > 0.01).sort((a, b) => b[1] - a[1]);
+      put('tsSplit', parts.length ? pctS(parts[0][1]) + ' ' + parts[0][0] : '--');
+      put('tsSplitSub', parts.slice(1).map(p => pctS(p[1]) + ' ' + p[0]).join(' · ') || (t.price_c != null ? 'buy ' + t.price_c.toFixed(1) + 'c/kWh' : '—'));
+    } else {
+      put('tsSplit', '--'); put('tsSplitSub', 'when charging');
+    }
+    put('tsFoot', (stale ? 'Tesla data delayed · last ' : 'Tesla updated ') + hm(t.updated) + ' ACDT · refreshes every ~2 min via TeslaMate' + (s && s.solar_share != null ? ' · session solar ' + pctS(s.solar_share) : ''));
+  }
+
+  // ── Summary: Live-tab history + Tesla tab ──
+  function renderSummary(d) {
+    const weeks = (d.weeks || []).map(w => Object.assign({ label: wkLabel(w.week) }, w));
+    const recentW = weeks.slice(-8);
+    $('tsHistWeeks').innerHTML = bars(recentW, 'charge_kwh', 'kWh', r => num(r.charge_kwh, 1) + ' kWh · ' + money(r.cost_amber), 'var(--coral)');
+    const sess = d.sessions || [];
+    $('tsHistSessions').innerHTML = table(['Start', 'kWh', '%', 'Cost', 'Solar'], sess.slice(0, 5).map(s => [
+      dTime(s.start) + (s.active ? ' •' : ''), num(s.kwh, 2), (s.pct_start != null ? s.pct_start : '?') + '→' + (s.pct_end != null ? s.pct_end : '?'),
+      money(s.cost_amber), s.solar_share != null ? pctS(s.solar_share) : { v: 'n/t', cls: 'dim' }]));
+    put('tsHistNote', 'Fills in over time — logging since ' + dShort(d.since) + '. Cost uses the Amber buy price for each half-hour the car charged. Solar share is tracked live from 30 Oct ("n/t" = not tracked). • = charging now.');
+
+    const T = d.totals || {};
+    const tParts = (d.car && d.car.model || 'Model 3').split(' ');
+    $('tvTitle').innerHTML = esc(tParts.slice(0, 2).join(' ')) + ' <span>' + esc(tParts.slice(2).join(' ')) + '</span>';
+    put('tvMeta', 'Software ' + (d.software || '--') + ' · logging since ' + dShort(d.since) + ' · updated ' + hm(d.updated) + ' ACDT');
+    put('tvKm', num(T.km, 0) + ' km'); put('tvKmSub', num(T.drive_hours, 1) + ' h driving');
+    put('tvDrives', String(T.drives != null ? T.drives : '--')); put('tvDrivesSub', T.drives ? 'avg ' + num(T.km / T.drives, 1) + ' km' : '--');
+    put('tvEff', T.wh_km != null ? String(T.wh_km) : '--');
+    put('tvOdo', T.odometer_km != null ? Number(T.odometer_km).toLocaleString('en-AU') : '--');
+    put('tvKwh', num(T.charge_kwh, 1) + ' kWh'); put('tvKwhSub', (T.sessions || 0) + ' sessions');
+    put('tvCost', money(T.cost_amber)); put('tvCostSub', T.c_per_kwh != null ? 'avg ' + T.c_per_kwh + 'c/kWh · Amber' : 'at Amber price');
+    put('tvSolar', T.solar_share != null ? pctS(T.solar_share) : '--');
+    put('tvSolarSub', T.solar_tracked_sessions ? T.solar_tracked_sessions + ' tracked session' + (T.solar_tracked_sessions > 1 ? 's' : '') : 'tracked from 30 Oct');
+    const I = d.idle || {};
+    put('tvIdle', I.avg_w != null ? I.avg_w + ' W' : '--'); put('tvIdleSub', I.kwh_per_day != null ? '≈ ' + num(I.kwh_per_day, 2) + ' kWh/day parked' : 'needs parked time');
+
+    $('tvWeekKm').innerHTML = bars(weeks.slice(-12), 'km', 'km', r => num(r.km, 0) + ' km · ' + r.drives + ' dr', 'var(--ink)');
+    $('tvMonths').innerHTML = table(['Month', 'km', 'Drives', 'Wh/km', 'kWh', 'Cost'], (d.months || []).slice().reverse().map(m => [
+      moLabel(m.month), num(m.km, 0), m.drives, m.wh_km != null ? m.wh_km : '--', num(m.charge_kwh, 1), money(m.cost_amber)]));
+    $('tvDrivesList').innerHTML = table(['When', 'km', 'Time', 'Wh/km', '°C'], (d.drives_recent || []).slice(0, 8).map(r => [
+      dTime(r.start), num(r.km, 1), dur(r.minutes), (r.wh_km != null && r.km >= 3) ? r.wh_km : { v: '--', cls: 'dim' }, r.temp_c != null ? num(r.temp_c, 0) : '--']));
+    $('tvWeekKwh').innerHTML = bars(weeks.slice(-12), 'charge_kwh', 'kWh', r => num(r.charge_kwh, 1) + ' kWh · ' + money(r.cost_amber), 'var(--coral)');
+    $('tvSessions').innerHTML = table(['Start', 'Time', 'kWh', 'Cost', 'Solar'], sess.slice(0, 15).map(s => [
+      dTime(s.start) + (s.active ? ' •' : ''), dur(s.minutes), num(s.kwh, 2), money(s.cost_amber),
+      s.solar_share != null ? pctS(s.solar_share) : { v: 'n/t', cls: 'dim' }]));
+
+    const H = d.health || {};
+    put('tvR100', H.est_range_100_km != null ? num(H.est_range_100_km, 0) + ' km' : '--');
+    put('tvCap', H.est_capacity_kwh != null ? num(H.est_capacity_kwh, 1) : '--');
+    const ser = H.series || [];
+    put('tvHealthNote', ser.length < 30 ? 'Only ' + ser.length + ' day' + (ser.length === 1 ? '' : 's') + ' of data — the degradation trend becomes meaningful after a few months. Estimate: rated range ÷ battery %.' : 'Estimated from TeslaMate rated range ÷ battery %, daily average.');
+    drawHealth(ser);
+
+    $('tvIdleList').innerHTML = table(['Parked from', 'Hours', 'km lost', 'kWh', 'avg W'], (I.periods || []).slice(0, 8).map(p => [
+      dTime(p.start), num(p.hours, 1), num(p.km_lost, 1), num(p.kwh, 2), p.avg_w])) +
+      '<div class="tesla-foot">Range lost while parked ≥ 2 h (rated km × car efficiency). Includes Sentry/cabin use; estimate.</div>';
+    $('tvUpdates').innerHTML = table(['Version', 'Installed'], (d.updates || []).map(u => [u.version, dTime(u.date)])) ||
+      '<div class="ts-empty">No updates logged yet.</div>';
+  }
+
+  function drawHealth(ser) {
+    const tab = $('view-tesla');
+    if (!tab || !tab.classList.contains('active') || typeof Chart === 'undefined') return;
+    const ctx = $('tvHealthChart').getContext('2d');
+    if (healthChart) healthChart.destroy();
+    const vals = ser.map(s => s.range_100_km);
+    const lo = Math.min(...vals, 9999), hi = Math.max(...vals, 0);
+    healthChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels: ser.map(s => wkLabel(s.date)), datasets: [{ data: vals, borderColor: '#cc785c', backgroundColor: 'rgba(204,120,92,0.08)', borderWidth: 2.5, tension: 0.3, fill: true, pointRadius: ser.length < 20 ? 3 : 0, pointBackgroundColor: '#cc785c', pointHoverRadius: 5 }] },
+      options: { responsive: true, maintainAspectRatio: false, interaction: { intersect: false, mode: 'index' }, plugins: { legend: { display: false } },
+        scales: { x: { ticks: { maxTicksLimit: 6, font: { size: 9 }, color: '#8e8b82', maxRotation: 0 }, grid: { display: false } },
+                  y: { suggestedMin: Math.floor(lo - 15), suggestedMax: Math.ceil(hi + 15), ticks: { font: { size: 10 }, color: '#8e8b82', callback: (v) => v + ' km' }, grid: { color: '#e6dfd8', drawBorder: false } } } }
+    });
+    setTimeout(() => { if (healthChart) healthChart.resize(); }, 400);
+  }
+
+  async function getJSON(url) { const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }
+  async function fetchLive() { try { live = await getJSON(LIVE_URL); renderLive(live); } catch (e) { console.warn('tesla live', e.message); put('tsFoot', 'Tesla data unavailable — retrying…'); } }
+  async function fetchSummary() { try { summary = await getJSON(SUM_URL); renderSummary(summary); } catch (e) { console.warn('tesla summary', e.message); } }
+  fetchLive(); fetchSummary();
+  setInterval(fetchLive, 30000); setInterval(fetchSummary, 120000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { fetchLive(); fetchSummary(); } });
+  const tabBtn = document.querySelector('#navGroup button[data-view="tesla"]');
+  if (tabBtn) tabBtn.addEventListener('click', () => { if (summary) setTimeout(() => drawHealth((summary.health || {}).series || []), 30); else fetchSummary(); window.scrollTo({ top: 0 }); });
+  const openBtn = $('tsOpenTab');
+  if (openBtn && tabBtn) openBtn.addEventListener('click', () => tabBtn.click());
+})();
 </script>
 </body>
 </html>
