@@ -528,59 +528,6 @@
         </g>
       </svg>
     </div>
-    <!-- Tesla current charge (TeslaMate → data/tesla-live.json, ~2 min) -->
-    <div class="card-cream" id="teslaCard">
-      <div class="tesla-head">
-        <div class="section-label">Tesla · Current Charge</div>
-        <span class="tesla-pill" id="tsPill">--</span>
-      </div>
-      <div class="tesla-grid">
-        <div class="ts-cell">
-          <div class="ts-lbl">Charging</div>
-          <div class="ts-val coral" id="tsKw">--</div>
-          <div class="ts-sub" id="tsKwSub">--</div>
-        </div>
-        <div class="ts-cell">
-          <div class="ts-lbl">Battery</div>
-          <div class="ts-val" id="tsPct">--</div>
-          <div class="ts-soc"><div class="ts-soc-fill" id="tsPctBar" style="width:0%"></div><div class="ts-soc-lim" id="tsLimMark"></div></div>
-          <div class="ts-sub" id="tsPctSub">--</div>
-        </div>
-        <div class="ts-cell">
-          <div class="ts-lbl">Added this session</div>
-          <div class="ts-val" id="tsAdded">--</div>
-          <div class="ts-sub" id="tsAddedSub">--</div>
-        </div>
-        <div class="ts-cell">
-          <div class="ts-lbl" id="tsTtfLbl">Time to full</div>
-          <div class="ts-val" id="tsTtf">--</div>
-          <div class="ts-sub" id="tsTtfSub">--</div>
-        </div>
-        <div class="ts-cell">
-          <div class="ts-lbl">Session cost</div>
-          <div class="ts-val" id="tsCost">--</div>
-          <div class="ts-sub" id="tsCostSub">at Amber price</div>
-        </div>
-        <div class="ts-cell">
-          <div class="ts-lbl">Powered by now</div>
-          <div class="ts-val" id="tsSplit">--</div>
-          <div class="ts-sub" id="tsSplitSub">--</div>
-        </div>
-      </div>
-      <div class="tesla-foot" id="tsFoot">Loading Tesla data…</div>
-    </div>
-
-    <!-- Tesla charging history (data/tesla-summary.json) -->
-    <div class="card-cream" id="teslaHistCard">
-      <div class="section-label">Tesla · Charging History</div>
-      <div class="ts-sub-label" style="margin-top:0">Per week</div>
-      <div id="tsHistWeeks"><div class="ts-empty">Loading…</div></div>
-      <div class="ts-sub-label">Recent sessions</div>
-      <div id="tsHistSessions"></div>
-      <div class="insight-box" id="tsHistNote">Fills in over time.</div>
-      <button class="ts-link" id="tsOpenTab" type="button">More in the Tesla tab ▸</button>
-    </div>
-
     <!-- Live Power Widgets -->
     <div class="metrics-row">
       <div class="metric-card card-cream solar-card">
@@ -788,6 +735,58 @@
 
   <!-- ═══════════════ TESLA VIEW (summaries only, no locations) ═══════════════ -->
   <div class="view" id="view-tesla">
+    <!-- Tesla current charge (TeslaMate → data/tesla-live.json, ~2 min) -->
+    <div class="card-cream" id="teslaCard">
+      <div class="tesla-head">
+        <div class="section-label">Tesla · Current Charge</div>
+        <span class="tesla-pill" id="tsPill">--</span>
+      </div>
+      <div class="tesla-grid">
+        <div class="ts-cell">
+          <div class="ts-lbl">Charging</div>
+          <div class="ts-val coral" id="tsKw">--</div>
+          <div class="ts-sub" id="tsKwSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Battery</div>
+          <div class="ts-val" id="tsPct">--</div>
+          <div class="ts-soc"><div class="ts-soc-fill" id="tsPctBar" style="width:0%"></div><div class="ts-soc-lim" id="tsLimMark"></div></div>
+          <div class="ts-sub" id="tsPctSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Added this session</div>
+          <div class="ts-val" id="tsAdded">--</div>
+          <div class="ts-sub" id="tsAddedSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl" id="tsTtfLbl">Time to full</div>
+          <div class="ts-val" id="tsTtf">--</div>
+          <div class="ts-sub" id="tsTtfSub">--</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Session cost</div>
+          <div class="ts-val" id="tsCost">--</div>
+          <div class="ts-sub" id="tsCostSub">at Amber price</div>
+        </div>
+        <div class="ts-cell">
+          <div class="ts-lbl">Powered by now</div>
+          <div class="ts-val" id="tsSplit">--</div>
+          <div class="ts-sub" id="tsSplitSub">--</div>
+        </div>
+      </div>
+      <div class="tesla-foot" id="tsFoot">Loading Tesla data…</div>
+    </div>
+
+    <!-- Tesla charging history (data/tesla-summary.json) -->
+    <div class="card-cream" id="teslaHistCard">
+      <div class="section-label">Tesla · Charging History</div>
+      <div class="ts-sub-label" style="margin-top:0">Per week</div>
+      <div id="tsHistWeeks"><div class="ts-empty">Loading…</div></div>
+      <div class="ts-sub-label">Recent sessions</div>
+      <div id="tsHistSessions"></div>
+      <div class="insight-box" id="tsHistNote">Fills in over time.</div>
+    </div>
+
     <div class="card-cream">
       <div class="section-label">Tesla</div>
       <div class="ts-title" id="tvTitle">Model 3 <span>RWD</span></div>
